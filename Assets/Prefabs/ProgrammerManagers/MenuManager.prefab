@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7752755045522251072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8464575449001892851}
+  - component: {fileID: 1303639106}
+  m_Layer: 0
+  m_Name: MenuManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8464575449001892851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7752755045522251072}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 921.22424, y: 729.4737, z: 29.090364}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1303639106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7752755045522251072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce89398cf6094e41988b2c2abb03ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  orderUI: {fileID: 0}
+  pauseUI: {fileID: 0}
+  debugUI: {fileID: 0}
+  orderCreatedText: {fileID: 0}
+  colourDropdown: {fileID: 0}
+  meatVegDropdown: {fileID: 0}
+  spicyInput: {fileID: 0}
+  chunkyInput: {fileID: 0}
+  colourDisplayText: {fileID: 0}
+  meatVegDisplayText: {fileID: 0}
+  spicyDisplayText: {fileID: 0}
+  chunkyDisplayText: {fileID: 0}
+  heldItemText: {fileID: 0}
+  selectedItemText: {fileID: 0}
+  selectedApplianceText: {fileID: 0}
