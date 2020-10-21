@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public enum CameraMode
 { 
     lookMode,
     handMode,
+    NEWMODE,
     pauseMode
 }
 
@@ -23,6 +25,7 @@ public class MouseLook : MonoBehaviour
     // Adjustable Values //
     // ------------------------------------------ //
     public float mouseSensitivity = 100f;
+    public float rotationSensitivity = 100f;
     public float handControlSensitivity = 100f;
     public float handZDistance = 0.7f;
     public float handYCeilingLimit = 0.0f;
@@ -38,6 +41,7 @@ public class MouseLook : MonoBehaviour
     public float heldItemPosZ = 0;
 
     public float tempThrowForce = 0;
+    public float roationLerpSpeed;
 
     // ------------------------------------------ //
 
@@ -49,11 +53,19 @@ public class MouseLook : MonoBehaviour
 
     public Transform hand;
     public Transform collisionSphere;
+    public Transform realHandCentre;
 
     public Canvas PickUpUI;
     public Canvas ApplianceUI;
-    // ------------------------------------------ //
 
+    public Canvas crosshairCanvas;
+    public Image crosshairImage;
+
+    public float xDeadZone;
+    public float yDeadZone;
+
+    public Transform randomObj;
+    // ------------------------------------------ //
 
 
     bool isHoldingItem = false;
@@ -77,6 +89,9 @@ public class MouseLook : MonoBehaviour
 
     
 
+    public float posX;
+    public float posY;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,16 +105,17 @@ public class MouseLook : MonoBehaviour
     void Update()
     {
         // Doing raycast from hand //
-        Physics.Raycast(hand.position, hand.forward * 10, out raycastFromHand);
-        Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 5, Color.blue);
+        Physics.Raycast(realHandCentre.transform.position, realHandCentre.transform.forward * 100, out raycastFromHand);
+        Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
 
         // Doing raycast from screen //
         Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 5, out raycastFromScreen, 5);
+        Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 5, Color.white);
 
         // Doing sphere check //
         collisions = Physics.OverlapSphere(collisionSphere.position, handCollisionRadius);
 
-        CameraState();
+        CameraState(); // This is the old camera state swapping thing.
 
 
         //SelectObj();
@@ -128,7 +144,7 @@ public class MouseLook : MonoBehaviour
         //    ThrowItem();
         //}
         Debug.Log(currentPlayerState.ToString());
-
+        CentreCamera();
         
        
     }
@@ -199,6 +215,7 @@ public class MouseLook : MonoBehaviour
             currentPlayerState = PlayerState.HOLDING_ITEM;
         }
     }
+
     void CameraState()
     {
         switch (currentCameraMode)
@@ -211,7 +228,7 @@ public class MouseLook : MonoBehaviour
                 }
                 break;
             case CameraMode.handMode:
-                CameraHandControl();
+                CentreCamera();
                 if (Input.GetMouseButtonUp(1))
                 {
                     currentCameraMode = CameraMode.lookMode;
@@ -225,16 +242,72 @@ public class MouseLook : MonoBehaviour
         }
     }
 
+    void CentreCamera()
+    {
+        //gameObject.transform.LookAt(heldItem);
+        if (Input.GetKey(KeyCode.G))
+        { 
+            //Vector3 xDirection = new Vector3((gameObject.transform.position.x - randomObj.transform.position.x), 0, 0);
+            //Vector3 yDirection = new Vector3(0, (gameObject.transform.position.y - randomObj.transform.position.y), 0);
+            //Vector3 zDirection = new Vector3((gameObject.transform.position.x - randomObj.transform.position.x), 0, 0);
+            
+            // PlayerBody rotation //
+            //Quaternion playerXRotationDirection = Quaternion.LookRotation(new Vector3((randomObj.transform.position.x - gameObject.transform.position.x), 0, (randomObj.transform.position.z - gameObject.transform.position.z)));
+            //playerBody.rotation = Quaternion.Lerp(playerBody.rotation, playerXRotationDirection, Time.deltaTime * roationLerpSpeed);
+
+            // Camera up and down rotation //
+            Quaternion playerYRotationDirection = Quaternion.LookRotation(new Vector3((randomObj.transform.position.y - gameObject.transform.position.y), 0, 0));
+            gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, playerYRotationDirection, Time.deltaTime * roationLerpSpeed);
+
+            // This rotation is causing the players body to rotate it's Z value so I'm gonna try stop that. //
+
+
+        }
+    }
     void CameraLook()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+            
+        //xRotation -= mouseY;
+        //xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        //posX += mouseX;
+        //posY += mouseY;
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * mouseX);
+        //crosshairImage.transform.localPosition = Mathf.Clamp(posX, -xDeadZone, xDeadZone);
+        //crosshairImage.transform.localPosition = Mathf.Clamp(posY, -yDeadZone, yDeadZone);
+
+        //crosshairImage.transform.localPosition = new Vector3(posX, posY, 0);
+        Vector3 crossHairMovement = transform.right * mouseX + transform.up * mouseY;
+        crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(raycastFromHand.point);
+
+        Vector3 handMovement = transform.right * mouseX + transform.up * mouseY;
+        hand.transform.position += handMovement * Time.deltaTime;
+        handPos = hand.transform.localPosition;
+
+        handPos.z = Mathf.Clamp(handPos.z, handZDistance, handZDistance);
+        handPos.y = Mathf.Clamp(handPos.y, handYFloorLimit, handYCeilingLimit);
+        handPos.x = Mathf.Clamp(handPos.x, handXLeftLimit, handXRightLimit);
+
+
+        hand.transform.localPosition = handPos;
+
+        if (handPos.x == handXLeftLimit || handPos.x == handXRightLimit || handPos.y == handYCeilingLimit || handPos.y == handYFloorLimit)
+        {
+            Debug.Log("Hit X Limit");
+        
+            float rotMouseX = Input.GetAxis("Mouse X") * rotationSensitivity * Time.deltaTime;
+            float rotMouseY = Input.GetAxis("Mouse Y") * rotationSensitivity * Time.deltaTime;
+        
+            xRotation -= rotMouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerBody.Rotate(Vector3.up * rotMouseX);
+        }
+
+        //transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        //playerBody.Rotate(Vector3.up * mouseX);
     }
 
     void CameraHandControl()
@@ -255,6 +328,8 @@ public class MouseLook : MonoBehaviour
 
 
         hand.transform.localPosition = handPos;
+
+      
     }
 
     void CameraPause()
