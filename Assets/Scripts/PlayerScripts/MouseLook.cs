@@ -264,7 +264,8 @@ public class MouseLook : MonoBehaviour
 
             Quaternion rotationThing = Quaternion.Euler(new Vector3(verticalRotation * (180/3.14159f), 0, 0));
             gameObject.transform.localRotation = Quaternion.Lerp(gameObject.transform.localRotation, rotationThing, Time.deltaTime * roationLerpSpeed);
-            //gameObject.transform.localRotation = rotationThing;
+            
+            
         }
     }
     void CameraLook()
@@ -305,7 +306,8 @@ public class MouseLook : MonoBehaviour
         
             xRotation -= rotMouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            //transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            gameObject.transform.Rotate(-Vector3.right * rotMouseY);
             playerBody.Rotate(Vector3.up * rotMouseX);
         }
 
