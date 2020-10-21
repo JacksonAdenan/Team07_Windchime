@@ -252,12 +252,12 @@ public class MouseLook : MonoBehaviour
             //Vector3 zDirection = new Vector3((gameObject.transform.position.x - randomObj.transform.position.x), 0, 0);
             
             // PlayerBody rotation //
-            //Quaternion playerXRotationDirection = Quaternion.LookRotation(new Vector3((randomObj.transform.position.x - gameObject.transform.position.x), 0, (randomObj.transform.position.z - gameObject.transform.position.z)));
-            //playerBody.rotation = Quaternion.Lerp(playerBody.rotation, playerXRotationDirection, Time.deltaTime * roationLerpSpeed);
+            Quaternion playerXRotationDirection = Quaternion.LookRotation(new Vector3((randomObj.transform.position.x - gameObject.transform.position.x), 0, (randomObj.transform.position.z - gameObject.transform.position.z)));
+            playerBody.rotation = Quaternion.Lerp(playerBody.rotation, playerXRotationDirection, Time.deltaTime * roationLerpSpeed);
 
             // Camera up and down rotation //
-            Quaternion playerYRotationDirection = Quaternion.LookRotation(new Vector3((randomObj.transform.position.y - gameObject.transform.position.y), 0, 0));
-            gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, playerYRotationDirection, Time.deltaTime * roationLerpSpeed);
+            //Quaternion playerYRotationDirection = Quaternion.LookRotation(new Vector3((randomObj.transform.position.y - gameObject.transform.position.y), 0, 0));
+            //gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, playerYRotationDirection, Time.deltaTime * roationLerpSpeed);
 
             // This rotation is causing the players body to rotate it's Z value so I'm gonna try stop that. //
 
