@@ -242,26 +242,29 @@ public class MouseLook : MonoBehaviour
         }
     }
 
+    
     void CentreCamera()
     {
         //gameObject.transform.LookAt(heldItem);
         if (Input.GetKey(KeyCode.G))
         { 
-            //Vector3 xDirection = new Vector3((gameObject.transform.position.x - randomObj.transform.position.x), 0, 0);
-            //Vector3 yDirection = new Vector3(0, (gameObject.transform.position.y - randomObj.transform.position.y), 0);
-            //Vector3 zDirection = new Vector3((gameObject.transform.position.x - randomObj.transform.position.x), 0, 0);
+
             
             // PlayerBody rotation //
             Quaternion playerXRotationDirection = Quaternion.LookRotation(new Vector3((randomObj.transform.position.x - gameObject.transform.position.x), 0, (randomObj.transform.position.z - gameObject.transform.position.z)));
             playerBody.rotation = Quaternion.Lerp(playerBody.rotation, playerXRotationDirection, Time.deltaTime * roationLerpSpeed);
 
             // Camera up and down rotation //
-            //Quaternion playerYRotationDirection = Quaternion.LookRotation(new Vector3((randomObj.transform.position.y - gameObject.transform.position.y), 0, 0));
-            //gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, playerYRotationDirection, Time.deltaTime * roationLerpSpeed);
+            Vector3 direction = gameObject.transform.position - randomObj.position;
+            Vector2 direction2D = new Vector2(Mathf.Sqrt(direction.x * direction.x + direction.z * direction.z), direction.y);
+            float verticalRotation = Mathf.Atan2(direction2D.y, direction2D.x);
+            
 
-            // This rotation is causing the players body to rotate it's Z value so I'm gonna try stop that. //
+            
 
-
+            Quaternion rotationThing = Quaternion.Euler(new Vector3(verticalRotation * (180/3.14159f), 0, 0));
+            gameObject.transform.localRotation = Quaternion.Lerp(gameObject.transform.localRotation, rotationThing, Time.deltaTime * roationLerpSpeed);
+            //gameObject.transform.localRotation = rotationThing;
         }
     }
     void CameraLook()
