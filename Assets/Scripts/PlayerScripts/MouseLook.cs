@@ -17,8 +17,16 @@ public enum PlayerState
     LOOKING_AT_NOTHING,
     HOLDING_ITEM,
     LOOKING_AT_ITEM,
-    LOOKING_AT_APPLIANCE
+    LOOKING_AT_APPLIANCE,
+    LOOKING_AT_SWITCH
 
+}
+
+public enum SwitchType
+{ 
+    BLENDER_BUTTON_1,
+    BLENDER_BUTTON_2,
+    ERROR
 }
 public class MouseLook : MonoBehaviour
 {
@@ -50,7 +58,7 @@ public class MouseLook : MonoBehaviour
     // ------------------------------------------ //
     public Transform playerBody;
     public Material itemSelectedMat;
-    
+    public Material switchSelectedMat;
 
     public Transform hand;
     public Transform collisionSphere;
@@ -65,7 +73,6 @@ public class MouseLook : MonoBehaviour
     public float xDeadZone;
     public float yDeadZone;
 
-    public Transform randomObj;
     // ------------------------------------------ //
 
 
@@ -75,7 +82,9 @@ public class MouseLook : MonoBehaviour
     public static Transform selectedItem;
     public static Transform selectedAppliance = null;
     public static Transform heldItem = null;
+    public Transform selectedSwitch = null;
     private Material defaultMat;
+    private Material switchDefaultMat;
     float xRotation = 0.0f;
 
     Transform insertText = null;
@@ -101,6 +110,7 @@ public class MouseLook : MonoBehaviour
     Vector3 handMovement;
     RaycastHit target;
 
+    
 
     // Start is called before the first frame update
     void Start()
@@ -165,23 +175,6 @@ public class MouseLook : MonoBehaviour
 
     void InputState()
     {
-        //if (Input.GetKeyDown(KeyCode.E) && currentPlayerState == PlayerState.LOOKING_AT_ITEM)
-        //{
-        //    PickUpItem(selectedItem);
-        //
-        //}
-        //else if (Input.GetKeyDown(KeyCode.C) && currentPlayerState == PlayerState.LOOKING_AT_ITEM)
-        //{
-        //    Debug.Log("Cutting ingredient.");
-        //}
-        //else if (Input.GetKeyDown(KeyCode.E) && currentPlayerState == PlayerState.HOLDING_ITEM)
-        //{
-        //    DropItem();
-        //}
-        //else if (Input.GetKeyDown(KeyCode.F) && currentPlayerState == PlayerState.HOLDING_ITEM)
-        //{
-        //    ThrowItem();
-        //}
         switch (currentPlayerState)
         {
             case PlayerState.LOOKING_AT_ITEM:
@@ -215,6 +208,12 @@ public class MouseLook : MonoBehaviour
                 }
                 break;
 
+            case PlayerState.LOOKING_AT_SWITCH:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log("switch pressed");
+                }
+                break;
             case PlayerState.LOOKING_AT_NOTHING:
                 break;
             case PlayerState.LOOKING_AT_APPLIANCE:
@@ -236,6 +235,10 @@ public class MouseLook : MonoBehaviour
         else if (isHoldingItem)
         {
             currentPlayerState = PlayerState.HOLDING_ITEM;
+        }
+        else if (selectedSwitch)
+        {
+            currentPlayerState = PlayerState.LOOKING_AT_SWITCH;
         }
     }
 
@@ -441,12 +444,22 @@ public class MouseLook : MonoBehaviour
 
             // This if statement is a cheap fix for a badly written overall system... FIX IT ONE DAY //
             if (!defaultMat)
-            { 
+            {
                 defaultMat = selectedItem.GetComponent<Renderer>().material;
             }
             selectedItem.GetComponent<Renderer>().material = itemSelectedMat;
         }
-        
+
+        if (IsLookingAtSwitch())
+        {
+            selectedSwitch = IsLookingAtSwitch();
+
+            if (!switchDefaultMat)
+            {
+                switchDefaultMat = selectedSwitch.GetComponent<Renderer>().material;
+            }
+            selectedSwitch.GetComponent<Renderer>().material = switchSelectedMat;
+        }
 
         else
         {
@@ -455,6 +468,12 @@ public class MouseLook : MonoBehaviour
                 selectedItem.GetComponent<Renderer>().material = defaultMat;
             }
             selectedItem = null;
+
+            if (selectedSwitch != null)
+            {
+                selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
+            }
+            selectedSwitch = null;
         }
 
     }
@@ -468,6 +487,17 @@ public class MouseLook : MonoBehaviour
                 return collisions[i].transform;
 
             }
+        }
+
+        return null;
+    }
+
+   
+    Transform IsLookingAtSwitch()
+    {
+        if (target.transform.tag == "Switch")
+        {
+            return target.transform;
         }
 
         return null;
@@ -618,6 +648,21 @@ public class MouseLook : MonoBehaviour
     }
 
     // Appliance interactions //
+
+     
+    SwitchType GetInteractableSwitch(RaycastHit target)
+    {
+        if (target.transform.tag == "BLENDER_BUTTON_1")
+        {
+            return SwitchType.BLENDER_BUTTON_1;
+        }
+        else if (target.transform.tag == "BLENDER_BUTTON_2")
+        {
+            return SwitchType.BLENDER_BUTTON_2;
+        }
+
+        return SwitchType.ERROR;
+    }
 
     void InsertItem()
     { }

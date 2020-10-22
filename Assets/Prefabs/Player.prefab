@@ -222,8 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b82deb4ee2bbb84bbf42a06e966d235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 500
-  rotationSensitivity: 75
+  mouseSensitivity: 150
+  rotationSensitivity: 50
   handControlSensitivity: 300
   handZDistance: 1.8
   handYCeilingLimit: 0.25
@@ -244,14 +244,13 @@ MonoBehaviour:
   itemSelectedMat: {fileID: 2100000, guid: cd7cbee5842fa244bab3492da2417cbf, type: 2}
   hand: {fileID: 8433573887849771258}
   collisionSphere: {fileID: 871440521}
-  realHandCentre: {fileID: 871440521}
+  realHandCentre: {fileID: 628994111965963255}
   PickUpUI: {fileID: 0}
   ApplianceUI: {fileID: 0}
   crosshairCanvas: {fileID: 0}
   crosshairImage: {fileID: 0}
   xDeadZone: 1.5
   yDeadZone: 1
-  randomObj: {fileID: 0}
   currentCameraMode: 0
   posX: 0
   posY: 0
@@ -382,7 +381,7 @@ CharacterController:
   m_Height: 2.25
   m_Radius: 0.63
   m_SlopeLimit: 1
-  m_StepOffset: 1
+  m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -400,7 +399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 6999435598105673448}
   speed: 6
-  gravity: 0
+  gravity: -9.8
   groundCheck: {fileID: 6999435599806212877}
   groundDistance: 0.4
   groundMask:

@@ -89,6 +89,8 @@ public class CookingManager : MonoBehaviour
             Debug.Log(allSoups[i].soupName);
         }
     }
-        
+     
+
+    
 
 }
