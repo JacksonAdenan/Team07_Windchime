@@ -185,7 +185,12 @@ public class MouseLook : MonoBehaviour
                     PickUpItem(selectedItem);
                     heldItemOriginalPos = heldItem.position;
                     previousHandPos = hand.position;
-                    isCentered = false;
+                    Vector3 test = heldItemOriginalPos - gameObject.transform.position;
+                    if (Vector3.Dot(test.normalized, gameObject.transform.forward) <= 0.90f)
+                    { 
+                        isCentered = false;
+                    }
+                    Debug.Log("INTIAL DOT = " + Vector3.Dot(-test, gameObject.transform.forward));
                 }
                 else if (Input.GetKeyDown(KeyCode.C))
                 {
@@ -257,9 +262,7 @@ public class MouseLook : MonoBehaviour
     
     void CentreCamera(Vector3 targetPos)
     {
-
         isCentered = false;
-
 
         // PlayerBody rotation //
         Quaternion playerXRotationDirection = Quaternion.LookRotation(new Vector3((targetPos.x - gameObject.transform.position.x), 0, (targetPos.z - gameObject.transform.position.z)));
@@ -281,14 +284,16 @@ public class MouseLook : MonoBehaviour
         // Keeping hand in place //
         hand.position = previousHandPos;
 
-        if (playerBody.rotation == playerXRotationDirection && gameObject.transform.localRotation == rotationThing)
+        // Breaking out of centering mechanic. //
+
+        float dot = Vector3.Dot(-direction.normalized, gameObject.transform.forward);
+        if (dot < 1 && dot > 0.99)
         {
             isCentered = true;
             Debug.Log("Centre finished");
         }
 
-          
-       
+        Debug.Log(dot);
     }
     void CameraLook()
     {
