@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3038186649141026918}
   - component: {fileID: 6301318825890388560}
   - component: {fileID: 310257430894634665}
+  - component: {fileID: 6896488910672364155}
   m_Layer: 0
   m_Name: Ship_Floor
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &6896488910672364155
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049867295768203893}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8809971232950105093, guid: 4ee6ce57457807e45a2eb0d8b1f0d77a, type: 3}
