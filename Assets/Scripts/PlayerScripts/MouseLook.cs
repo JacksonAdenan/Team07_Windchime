@@ -93,6 +93,9 @@ public class MouseLook : MonoBehaviour
     public float posY;
 
     Vector3 heldItemOriginalPos;
+    Vector3 previousHandPos;
+    bool isCentered = true;
+
 
     // Start is called before the first frame update
     void Start()
@@ -147,8 +150,11 @@ public class MouseLook : MonoBehaviour
         //}
         Debug.Log(currentPlayerState.ToString());
 
-        CentreCamera(heldItem.position);
-        //Debug.Log()
+        if (!isCentered)
+        {
+            CentreCamera(heldItemOriginalPos);
+        }
+ 
        
     }
 
@@ -177,7 +183,9 @@ public class MouseLook : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     PickUpItem(selectedItem);
-                    heldItemOriginalPos = new Vector3(heldItem.position.x, heldItem.position.y, heldItem.position.z);
+                    heldItemOriginalPos = heldItem.position;
+                    previousHandPos = hand.position;
+                    isCentered = false;
                 }
                 else if (Input.GetKeyDown(KeyCode.C))
                 {
@@ -247,30 +255,40 @@ public class MouseLook : MonoBehaviour
     }
 
     
-    void CentreCamera(Vector3 cachedPos)
+    void CentreCamera(Vector3 targetPos)
     {
-        //gameObject.transform.LookAt(heldItem);
-        if (Input.GetKey(KeyCode.G))
-        { 
 
-            
-            // PlayerBody rotation //
-            Quaternion playerXRotationDirection = Quaternion.LookRotation(new Vector3((randomObj.transform.position.x - gameObject.transform.position.x), 0, (randomObj.transform.position.z - gameObject.transform.position.z)));
-            playerBody.rotation = Quaternion.Lerp(playerBody.rotation, playerXRotationDirection, Time.deltaTime * roationLerpSpeed);
+        isCentered = false;
 
-            // Camera up and down rotation //
-            Vector3 direction = gameObject.transform.position - randomObj.position;
-            Vector2 direction2D = new Vector2(Mathf.Sqrt(direction.x * direction.x + direction.z * direction.z), direction.y);
-            float verticalRotation = Mathf.Atan2(direction2D.y, direction2D.x);
-            
 
-            
+        // PlayerBody rotation //
+        Quaternion playerXRotationDirection = Quaternion.LookRotation(new Vector3((targetPos.x - gameObject.transform.position.x), 0, (targetPos.z - gameObject.transform.position.z)));
+        playerBody.rotation = Quaternion.Lerp(playerBody.rotation, playerXRotationDirection, Time.deltaTime * roationLerpSpeed);
 
-            Quaternion rotationThing = Quaternion.Euler(new Vector3(verticalRotation * (180/3.14159f), 0, 0));
-            gameObject.transform.localRotation = Quaternion.Lerp(gameObject.transform.localRotation, rotationThing, Time.deltaTime * roationLerpSpeed);
-            
-            
+        // Camera up and down rotation //
+        Vector3 direction = gameObject.transform.position - targetPos;
+        Vector2 direction2D = new Vector2(Mathf.Sqrt(direction.x * direction.x + direction.z * direction.z), direction.y);
+        float verticalRotation = Mathf.Atan2(direction2D.y, direction2D.x);
+        
+
+        
+
+        Quaternion rotationThing = Quaternion.Euler(new Vector3(verticalRotation * (180/3.14159f), 0, 0));
+        gameObject.transform.localRotation = Quaternion.Lerp(gameObject.transform.localRotation, rotationThing, Time.deltaTime * roationLerpSpeed);
+
+
+
+        // Keeping hand in place //
+        hand.position = previousHandPos;
+
+        if (playerBody.rotation == playerXRotationDirection && gameObject.transform.localRotation == rotationThing)
+        {
+            isCentered = true;
+            Debug.Log("Centre finished");
         }
+
+          
+       
     }
     void CameraLook()
     {
@@ -285,10 +303,10 @@ public class MouseLook : MonoBehaviour
 
         //crosshairImage.transform.localPosition = Mathf.Clamp(posX, -xDeadZone, xDeadZone);
         //crosshairImage.transform.localPosition = Mathf.Clamp(posY, -yDeadZone, yDeadZone);
-
+        //
         //crosshairImage.transform.localPosition = new Vector3(posX, posY, 0);
-        Vector3 crossHairMovement = transform.right * mouseX + transform.up * mouseY;
-        crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(raycastFromHand.point);
+        //Vector3 crossHairMovement = transform.right * mouseX + transform.up * mouseY;
+        //crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(raycastFromHand.point);
 
         Vector3 handMovement = transform.right * mouseX + transform.up * mouseY;
         hand.transform.position += handMovement * Time.deltaTime;
