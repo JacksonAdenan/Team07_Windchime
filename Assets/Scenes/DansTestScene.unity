@@ -5702,7 +5702,7 @@ GameObject:
   - component: {fileID: 524738449}
   - component: {fileID: 524738448}
   - component: {fileID: 524738447}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: weirdBlock
   m_TagString: Item
   m_Icon: {fileID: 0}
@@ -6937,6 +6937,11 @@ PrefabInstance:
       propertyPath: crosshairImage
       value: 
       objectReference: {fileID: 1707496416}
+    - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: realHandCentre
+      value: 
+      objectReference: {fileID: 2031598047}
     - target: {fileID: 6999435598105673239, guid: 4555a5c923190204593b33d328f2b91a,
         type: 3}
       propertyPath: m_Name
@@ -16704,6 +16709,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3038186649141026918, guid: 60df15f1a253077408747c7e1d1f6357,
     type: 3}
   m_PrefabInstance: {fileID: 2018998834}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2031598047 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 628994111965963255, guid: 4555a5c923190204593b33d328f2b91a,
+    type: 3}
+  m_PrefabInstance: {fileID: 745872507}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2048799724
 PrefabInstance:

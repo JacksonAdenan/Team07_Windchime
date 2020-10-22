@@ -99,6 +99,7 @@ public class MouseLook : MonoBehaviour
     bool isCentered = true;
 
     Vector3 handMovement;
+    RaycastHit target;
 
 
     // Start is called before the first frame update
@@ -114,7 +115,7 @@ public class MouseLook : MonoBehaviour
     void Update()
     {
         // Doing raycast from hand //
-        Physics.Raycast(realHandCentre.transform.position, realHandCentre.transform.forward * 100, out raycastFromHand);
+        Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
         Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
 
         // Doing raycast from screen //
@@ -302,6 +303,7 @@ public class MouseLook : MonoBehaviour
     }
     void CameraLook()
     {
+        // Checking if the player is trying to move the mouse. If they are, cancel any camera centering going on. //
         if (previousHandMovementDir != handMovement)
         {
             isCentered = true;
@@ -321,7 +323,7 @@ public class MouseLook : MonoBehaviour
         //
         //crosshairImage.transform.localPosition = new Vector3(posX, posY, 0);
         //Vector3 crossHairMovement = transform.right * mouseX + transform.up * mouseY;
-        //crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(raycastFromHand.point);
+        crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
 
         handMovement = transform.right * mouseX + transform.up * mouseY;
         hand.transform.position += handMovement * Time.deltaTime;
@@ -505,9 +507,9 @@ public class MouseLook : MonoBehaviour
 
     void ThrowItem()
     {
-        RaycastHit target;
+        
         Vector3 throwDirection;
-        Physics.Raycast(gameObject.transform.position, gameObject.GetComponent<Camera>().transform.forward * 100, out target, 100, ~(1 << 2));
+        
         if (Physics.Raycast(gameObject.transform.position, gameObject.GetComponent<Camera>().transform.forward * 100, 100, ~(1 << 2)))
         { 
             throwDirection = (target.point - heldItem.position).normalized;
