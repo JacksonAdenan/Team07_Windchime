@@ -92,6 +92,8 @@ public class MouseLook : MonoBehaviour
     public float posX;
     public float posY;
 
+    Vector3 heldItemOriginalPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -144,8 +146,9 @@ public class MouseLook : MonoBehaviour
         //    ThrowItem();
         //}
         Debug.Log(currentPlayerState.ToString());
-        CentreCamera();
-        
+
+        CentreCamera(heldItem.position);
+        //Debug.Log()
        
     }
 
@@ -174,6 +177,7 @@ public class MouseLook : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     PickUpItem(selectedItem);
+                    heldItemOriginalPos = new Vector3(heldItem.position.x, heldItem.position.y, heldItem.position.z);
                 }
                 else if (Input.GetKeyDown(KeyCode.C))
                 {
@@ -228,7 +232,7 @@ public class MouseLook : MonoBehaviour
                 }
                 break;
             case CameraMode.handMode:
-                CentreCamera();
+
                 if (Input.GetMouseButtonUp(1))
                 {
                     currentCameraMode = CameraMode.lookMode;
@@ -243,7 +247,7 @@ public class MouseLook : MonoBehaviour
     }
 
     
-    void CentreCamera()
+    void CentreCamera(Vector3 cachedPos)
     {
         //gameObject.transform.LookAt(heldItem);
         if (Input.GetKey(KeyCode.G))
@@ -309,10 +313,7 @@ public class MouseLook : MonoBehaviour
             //transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             gameObject.transform.Rotate(-Vector3.right * rotMouseY);
             playerBody.Rotate(Vector3.up * rotMouseX);
-        }
-
-        //transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        //playerBody.Rotate(Vector3.up * mouseX);
+        }      
     }
 
     void CameraHandControl()
@@ -455,6 +456,8 @@ public class MouseLook : MonoBehaviour
 
         itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
         itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+
+      
     }
     void DropItem()
     {
