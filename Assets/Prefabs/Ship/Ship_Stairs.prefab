@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4204525192295332847}
   - component: {fileID: 5116792717321339353}
   - component: {fileID: 1458874593509211424}
+  - component: {fileID: 994353991286601414}
   m_Layer: 0
   m_Name: Ship_Stairs
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3172576878406015294, guid: 9db0d6987f50ea9408ae2e4c01c21c80, type: 3}
+  - {fileID: 2100000, guid: 09b2c9c7d8fe6c94194f33cddb790783, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &994353991286601414
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865290062322420220}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 719880622847568808, guid: 9db0d6987f50ea9408ae2e4c01c21c80, type: 3}

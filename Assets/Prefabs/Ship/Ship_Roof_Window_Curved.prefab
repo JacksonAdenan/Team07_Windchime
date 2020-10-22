@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6638768208012282404}
   - component: {fileID: 2412418937153499154}
   - component: {fileID: 8234316619925310699}
+  - component: {fileID: -2946869870365026744}
   m_Layer: 0
   m_Name: Ship_Roof_Window_Curved
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -639946176418959026, guid: 3f081335ec93e9c4bb4d5654997d6b4b, type: 3}
+  - {fileID: 2100000, guid: e7b2bf115ae5edb4d80e7f795c1f6ca2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &-2946869870365026744
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7672723478690953271}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4288697113002927799, guid: 3f081335ec93e9c4bb4d5654997d6b4b, type: 3}
