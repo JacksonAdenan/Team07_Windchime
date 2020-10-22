@@ -42,6 +42,7 @@ public class MouseLook : MonoBehaviour
 
     public float tempThrowForce = 0;
     public float roationLerpSpeed;
+    public float cameraCenteringDeadZone;
 
     // ------------------------------------------ //
 
@@ -93,8 +94,11 @@ public class MouseLook : MonoBehaviour
     public float posY;
 
     Vector3 heldItemOriginalPos;
+    Vector3 previousHandMovementDir;
     Vector3 previousHandPos;
     bool isCentered = true;
+
+    Vector3 handMovement;
 
 
     // Start is called before the first frame update
@@ -185,8 +189,9 @@ public class MouseLook : MonoBehaviour
                     PickUpItem(selectedItem);
                     heldItemOriginalPos = heldItem.position;
                     previousHandPos = hand.position;
+                    previousHandMovementDir = handMovement;
                     Vector3 test = heldItemOriginalPos - gameObject.transform.position;
-                    if (Vector3.Dot(test.normalized, gameObject.transform.forward) <= 0.90f)
+                    if (Vector3.Dot(test.normalized, gameObject.transform.forward) <= cameraCenteringDeadZone)
                     { 
                         isCentered = false;
                     }
@@ -297,6 +302,11 @@ public class MouseLook : MonoBehaviour
     }
     void CameraLook()
     {
+        if (previousHandMovementDir != handMovement)
+        {
+            isCentered = true;
+        }
+
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
             
@@ -313,7 +323,7 @@ public class MouseLook : MonoBehaviour
         //Vector3 crossHairMovement = transform.right * mouseX + transform.up * mouseY;
         //crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(raycastFromHand.point);
 
-        Vector3 handMovement = transform.right * mouseX + transform.up * mouseY;
+        handMovement = transform.right * mouseX + transform.up * mouseY;
         hand.transform.position += handMovement * Time.deltaTime;
         handPos = hand.transform.localPosition;
 

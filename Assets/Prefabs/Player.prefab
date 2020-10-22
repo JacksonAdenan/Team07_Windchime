@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 4471720074312886733}
   m_Layer: 2
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -238,7 +238,8 @@ MonoBehaviour:
   heldItemPosY: 0.4
   heldItemPosZ: 0
   tempThrowForce: 8
-  roationLerpSpeed: 3
+  roationLerpSpeed: 1.5
+  cameraCenteringDeadZone: 0.95
   playerBody: {fileID: 6999435598105673451}
   itemSelectedMat: {fileID: 2100000, guid: cd7cbee5842fa244bab3492da2417cbf, type: 2}
   hand: {fileID: 8433573887849771258}
