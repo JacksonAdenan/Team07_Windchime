@@ -24,8 +24,8 @@ public enum PlayerState
 
 public enum SwitchType
 { 
-    BLENDER_BUTTON_1,
-    BLENDER_BUTTON_2,
+    CUTTER_SWITCH_1,
+    CUTTER_SWITCH_2,
     WATER_TAP,
 
     ERROR
@@ -215,7 +215,7 @@ public class MouseLook : MonoBehaviour
                 selectedSwitchType = selectedSwitch.GetComponent<SwitchData>().type;
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log(selectedSwitchType + " pressed");
+                    ActivateSwitch(selectedSwitchType);
                 }
                 break;
             case PlayerState.LOOKING_AT_NOTHING:
@@ -486,13 +486,13 @@ public class MouseLook : MonoBehaviour
     {
         for (int i = 0; i < collisions.Length; i++)
         {
-            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" && collisions[i].gameObject)
+            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" && collisions[i].gameObject)
             {
                 return collisions[i].transform;
 
             }
         }
-
+        
         return null;
     }
 
@@ -509,7 +509,7 @@ public class MouseLook : MonoBehaviour
 
     bool IsLookingAtItem()
     {
-        if (raycastFromHand.transform != null && raycastFromHand.transform.CompareTag("Item") || raycastFromHand.transform.CompareTag("Ingredient") && selectedItem != raycastFromHand.transform && !isHoldingItem)
+        if (raycastFromHand.transform != null && raycastFromHand.transform.CompareTag("Item") || raycastFromHand.transform.CompareTag("Ingredient") || raycastFromHand.transform.CompareTag("Water") && selectedItem != raycastFromHand.transform && !isHoldingItem)
         {
             return true;
         }
@@ -532,7 +532,7 @@ public class MouseLook : MonoBehaviour
     {
         isHoldingItem = false;
 
-        heldItem.GetComponent<Rigidbody>().useGravity = true;
+        heldItem.GetComponent<Rigidbody>().useGravity = false;
         heldItem.GetComponent<Rigidbody>().isKinematic = false;
 
         heldItem.parent = null;
@@ -658,27 +658,32 @@ public class MouseLook : MonoBehaviour
     {
         if (target.transform.tag == "BLENDER_BUTTON_1")
         {
-            return SwitchType.BLENDER_BUTTON_1;
+            return SwitchType.CUTTER_SWITCH_1;
         }
         else if (target.transform.tag == "BLENDER_BUTTON_2")
         {
-            return SwitchType.BLENDER_BUTTON_2;
+            return SwitchType.CUTTER_SWITCH_2;
         }
 
         return SwitchType.ERROR;
     }
 
-    void CutterSwitch1()
+    
+
+    void ActivateSwitch(SwitchType switchType)
     {
-        Debug.Log("Cutter switch 1 activated.");
-    }
-    void CutterSwitch2()
-    {
-        Debug.Log("Cutter switch 2 activated.");
-    }
-    void WaterTapSwitch()
-    {
-        Debug.Log("Water tap switch activated.");
+        switch (switchType)
+        {
+            case SwitchType.CUTTER_SWITCH_1:
+                CookingManager.CutterSwitch1();
+                break;
+            case SwitchType.CUTTER_SWITCH_2:
+                CookingManager.CutterSwitch2();
+                break;
+            case SwitchType.WATER_TAP:
+                CookingManager.WaterTapSwitch();
+                break;
+        }
     }
 
     void InsertItem()

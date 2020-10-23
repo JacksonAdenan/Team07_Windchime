@@ -16,6 +16,12 @@ public enum CookingOrbState
     INGREDIENTS_NOWATER,
     INGREDIENTS_AND_WATER
 }
+
+public enum WaterTapState
+{ 
+    EMPTY,
+    OCCUPIED
+}
 public class CookingManager : MonoBehaviour
 {
     public static List<Ingredient> allIngridients;
@@ -40,7 +46,14 @@ public class CookingManager : MonoBehaviour
 
     public float adjustableCutterEjectionSpeed;
     public static float cutterEjectionSpeed;
-    
+
+
+    // Water tap stuff. //
+
+    public Transform adjustableWater;
+    public static Transform water;
+
+    static WaterTapState currentWaterTapState;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +77,13 @@ public class CookingManager : MonoBehaviour
         cutterEjectionSpeed = adjustableCutterEjectionSpeed;
         entryTrigger = adjustableEntryTrigger;
         exitTrigger = adjustableExitTrigger;
+
+        // Setting static value for water from inspector value. //
+        water = adjustableWater;
+
+
+        // Initialising things for the water tap. //
+        currentWaterTapState = WaterTapState.EMPTY;
     }
 
     // Update is called once per frame
@@ -158,5 +178,28 @@ public class CookingManager : MonoBehaviour
         ingredientObj.position = exitTrigger.position;
         ingredientObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
         ingredientObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
+    }
+
+    public static void CutterSwitch1()
+    {
+        Debug.Log("Cutter switch 1 activated.");
+    }
+    public static void CutterSwitch2()
+    {
+        Debug.Log("Cutter switch 2 activated.");
+    }
+    public static void WaterTapSwitch()
+    {
+        if (currentWaterTapState == WaterTapState.EMPTY)
+        {
+            Debug.Log("Water tap switch activated.");
+            Transform newWater = Object.Instantiate(water, water.position, water.rotation);
+            newWater.gameObject.SetActive(true);
+            currentWaterTapState = WaterTapState.OCCUPIED;
+        }
+        else
+        {
+            Debug.Log("Could not activate water tap switch. There is already a water on the tap.");
+        }
     }
 }
