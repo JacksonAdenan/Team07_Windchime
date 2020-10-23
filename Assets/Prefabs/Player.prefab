@@ -242,6 +242,7 @@ MonoBehaviour:
   cameraCenteringDeadZone: 0.95
   playerBody: {fileID: 6999435598105673451}
   itemSelectedMat: {fileID: 2100000, guid: cd7cbee5842fa244bab3492da2417cbf, type: 2}
+  switchSelectedMat: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
   hand: {fileID: 8433573887849771258}
   collisionSphere: {fileID: 871440521}
   realHandCentre: {fileID: 628994111965963255}
@@ -252,6 +253,7 @@ MonoBehaviour:
   xDeadZone: 1.5
   yDeadZone: 1
   currentCameraMode: 0
+  selectedSwitch: {fileID: 0}
   posX: 0
   posY: 0
 --- !u!1 &6261018140086756077
@@ -378,7 +380,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2.25
+  m_Height: 3.61
   m_Radius: 0.63
   m_SlopeLimit: 1
   m_StepOffset: 0.5
