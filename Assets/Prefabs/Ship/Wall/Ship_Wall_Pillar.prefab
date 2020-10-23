@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 183230750812890836}
   - component: {fileID: 5025131723628817809}
   - component: {fileID: 9013345685007702165}
+  - component: {fileID: -619054667424358921}
   m_Layer: 0
-  m_Name: Ship_Pillar
+  m_Name: Ship_Wall_Pillar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &-619054667424358921
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137055020585742276}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3145728182598093896, guid: 19ab7a02b0b91de4e88f19bd1d4a19b7, type: 3}

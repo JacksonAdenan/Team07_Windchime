@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1080395666774213885}
   - component: {fileID: 3342462406959012767}
   - component: {fileID: 7336506484918674604}
+  - component: {fileID: -7459646517183298129}
   m_Layer: 0
   m_Name: Ship_Wall_Half_Middle_Short
   m_TagString: Untagged
@@ -79,3 +80,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &-7459646517183298129
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6440486387292114925}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0.25, y: 0.5, z: -0.25}

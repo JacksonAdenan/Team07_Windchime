@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5643384591357967683}
   - component: {fileID: 8941173737307325465}
   - component: {fileID: 285972905478928399}
+  - component: {fileID: 3088847575439649049}
   m_Layer: 0
   m_Name: Ship_Wall_Corner_Middle_Long
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3088847575439649049
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6002370703569777253}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3290434046808505711, guid: 146e01dcf9067d54fbb400e3871410a9, type: 3}
