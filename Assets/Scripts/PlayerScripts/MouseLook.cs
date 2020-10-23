@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -16,6 +16,7 @@ public enum PlayerState
 { 
     LOOKING_AT_NOTHING,
     HOLDING_ITEM,
+    HOLDING_WATER,
     LOOKING_AT_ITEM,
     LOOKING_AT_APPLIANCE,
     LOOKING_AT_SWITCH
@@ -61,6 +62,7 @@ public class MouseLook : MonoBehaviour
     public Transform playerBody;
     public Material itemSelectedMat;
     public Material switchSelectedMat;
+    //public Material waterSelectedMat;
 
     public Transform hand;
     public Transform collisionSphere;
@@ -82,10 +84,13 @@ public class MouseLook : MonoBehaviour
     Vector3 handPos;
     public CameraMode currentCameraMode = CameraMode.lookMode;
     public static Transform selectedItem;
+    public static Transform selectedWater;
     public static Transform selectedAppliance = null;
     public static Transform heldItem = null;
+    public static Transform heldWater = null;
     public Transform selectedSwitch = null;
     private Material defaultMat;
+    //private Material defaultWaterMat;
     private Material switchDefaultMat;
     float xRotation = 0.0f;
 
@@ -183,6 +188,12 @@ public class MouseLook : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     PickUpItem(selectedItem);
+                    // Freeing up the WaterTap so the player can get more water if they want.
+                    if (selectedItem.tag == "Water")
+                    {
+                        CookingManager.currentWaterTapState = WaterTapState.EMPTY;
+                        Debug.Log("Water tap is now unoccupied.");
+                    }
                     heldItemOriginalPos = heldItem.position;
                     previousHandPos = hand.position;
                     previousHandMovementDir = handMovement;
@@ -198,7 +209,6 @@ public class MouseLook : MonoBehaviour
                     Debug.Log("Cutting ingredient.");
                 }
                 break;
-
             case PlayerState.HOLDING_ITEM:
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -306,7 +316,7 @@ public class MouseLook : MonoBehaviour
             Debug.Log("Centre finished");
         }
 
-        Debug.Log(dot);
+        
     }
     void CameraLook()
     {
@@ -457,13 +467,14 @@ public class MouseLook : MonoBehaviour
         else if (IsLookingAtSwitch())
         {
             selectedSwitch = IsLookingAtSwitch();
-        
+
             if (!switchDefaultMat)
             {
                 switchDefaultMat = selectedSwitch.GetComponent<Renderer>().material;
             }
             selectedSwitch.GetComponent<Renderer>().material = switchSelectedMat;
         }
+
 
         else
         {
@@ -486,7 +497,7 @@ public class MouseLook : MonoBehaviour
     {
         for (int i = 0; i < collisions.Length; i++)
         {
-            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" && collisions[i].gameObject)
+            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water")
             {
                 return collisions[i].transform;
 

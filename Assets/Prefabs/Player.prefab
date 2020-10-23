@@ -241,8 +241,8 @@ MonoBehaviour:
   roationLerpSpeed: 1.5
   cameraCenteringDeadZone: 0.95
   playerBody: {fileID: 6999435598105673451}
-  itemSelectedMat: {fileID: 2100000, guid: cd7cbee5842fa244bab3492da2417cbf, type: 2}
-  switchSelectedMat: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
+  itemSelectedMat: {fileID: 2100000, guid: df02464529efd1246a888be4d21503fd, type: 2}
+  switchSelectedMat: {fileID: 2100000, guid: df02464529efd1246a888be4d21503fd, type: 2}
   hand: {fileID: 4094043995585257078}
   collisionSphere: {fileID: 871440521}
   realHandCentre: {fileID: 628994111965963255}
@@ -380,7 +380,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 3.72
+  m_Height: 2.98
   m_Radius: 0.63
   m_SlopeLimit: 1
   m_StepOffset: 1

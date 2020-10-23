@@ -35,6 +35,8 @@ public class CookingManager : MonoBehaviour
     float currentChunky;
     Colour currentColour;
 
+    // Cookingorb stats and current things. //
+    public static CookingOrbState currentCookingOrbState;
     public static List<Ingredient> currentIngredients;
 
     // Triggers and stats for cutter appliance. //
@@ -53,7 +55,7 @@ public class CookingManager : MonoBehaviour
     public Transform adjustableWater;
     public static Transform water;
 
-    static WaterTapState currentWaterTapState;
+    public static WaterTapState currentWaterTapState;
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +86,9 @@ public class CookingManager : MonoBehaviour
 
         // Initialising things for the water tap. //
         currentWaterTapState = WaterTapState.EMPTY;
+
+        // Initialising cooking orb things. //
+        currentCookingOrbState = CookingOrbState.EMPTY;
     }
 
     // Update is called once per frame
