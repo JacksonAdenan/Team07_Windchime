@@ -222,10 +222,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b82deb4ee2bbb84bbf42a06e966d235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 150
+  mouseSensitivity: 300
   rotationSensitivity: 50
   handControlSensitivity: 300
-  handZDistance: 1.8
+  handZDistance: 1
   handYCeilingLimit: 0.25
   handYFloorLimit: -1
   handXLeftLimit: -1.4
@@ -452,17 +452,17 @@ PrefabInstance:
     - target: {fileID: 4094043996211344622, guid: 46ddac10418cf5e4293d37b78cb17523,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.765
+      value: 0.853
       objectReference: {fileID: 0}
     - target: {fileID: 4094043996211344622, guid: 46ddac10418cf5e4293d37b78cb17523,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.65199995
+      value: -0.653
       objectReference: {fileID: 0}
     - target: {fileID: 4094043996211344622, guid: 46ddac10418cf5e4293d37b78cb17523,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2160001
+      value: 0.815
       objectReference: {fileID: 0}
     - target: {fileID: 4094043996211344622, guid: 46ddac10418cf5e4293d37b78cb17523,
         type: 3}

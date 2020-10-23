@@ -26,6 +26,8 @@ public enum SwitchType
 { 
     BLENDER_BUTTON_1,
     BLENDER_BUTTON_2,
+    WATER_TAP,
+
     ERROR
 }
 public class MouseLook : MonoBehaviour
@@ -110,7 +112,7 @@ public class MouseLook : MonoBehaviour
     Vector3 handMovement;
     RaycastHit target;
 
-    
+    SwitchType selectedSwitchType;
 
     // Start is called before the first frame update
     void Start()
@@ -209,9 +211,11 @@ public class MouseLook : MonoBehaviour
                 break;
 
             case PlayerState.LOOKING_AT_SWITCH:
+                // Getting the type of switch the players is looking at. //
+                selectedSwitchType = selectedSwitch.GetComponent<SwitchData>().type;
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("switch pressed");
+                    Debug.Log(selectedSwitchType + " pressed");
                 }
                 break;
             case PlayerState.LOOKING_AT_NOTHING:
@@ -482,7 +486,7 @@ public class MouseLook : MonoBehaviour
     {
         for (int i = 0; i < collisions.Length; i++)
         {
-            if (collisions[i].gameObject.tag == "Item" && collisions[i].gameObject)
+            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" && collisions[i].gameObject)
             {
                 return collisions[i].transform;
 
@@ -505,7 +509,7 @@ public class MouseLook : MonoBehaviour
 
     bool IsLookingAtItem()
     {
-        if (raycastFromHand.transform != null && raycastFromHand.transform.CompareTag("Item") && selectedItem != raycastFromHand.transform && !isHoldingItem)
+        if (raycastFromHand.transform != null && raycastFromHand.transform.CompareTag("Item") || raycastFromHand.transform.CompareTag("Ingredient") && selectedItem != raycastFromHand.transform && !isHoldingItem)
         {
             return true;
         }
@@ -662,6 +666,19 @@ public class MouseLook : MonoBehaviour
         }
 
         return SwitchType.ERROR;
+    }
+
+    void CutterSwitch1()
+    {
+        Debug.Log("Cutter switch 1 activated.");
+    }
+    void CutterSwitch2()
+    {
+        Debug.Log("Cutter switch 2 activated.");
+    }
+    void WaterTapSwitch()
+    {
+        Debug.Log("Water tap switch activated.");
     }
 
     void InsertItem()

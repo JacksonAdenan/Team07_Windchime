@@ -23,17 +23,17 @@ public class Order
     { 
     }
 
-    static Soup GetSoupFromDropdown(int selected, TMP_Dropdown soupDropdown)
-    {
-        for (int i = 0; i < CookingManager.allSoups.Count; i++)
-        {
-            if (soupDropdown.options[selected].text == CookingManager.allSoups[i].soupName)
-            {
-                return CookingManager.allSoups[i];
-            }
-        }
-        return null;
-    }
+    //static Soup GetSoupFromDropdown(int selected, TMP_Dropdown soupDropdown)
+    //{
+    //    for (int i = 0; i < CookingManager.allSoups.Count; i++)
+    //    {
+    //        if (soupDropdown.options[selected].text == CookingManager.allSoups[i].soupName)
+    //        {
+    //            return CookingManager.allSoups[i];
+    //        }
+    //    }
+    //    return null;
+    //}
 
     
 }

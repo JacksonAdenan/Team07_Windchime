@@ -168,14 +168,14 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    void PopulateSoupDropdownOptions(TMP_Dropdown dropDownBox)
-    {
-        for (int i = 0; i < CookingManager.allSoups.Count; i++)
-        {
-            
-            dropDownBox.options.Add(new TMP_Dropdown.OptionData(CookingManager.allSoups[i].soupName));
-        }
-    }
+    //void PopulateSoupDropdownOptions(TMP_Dropdown dropDownBox)
+    //{
+    //    for (int i = 0; i < CookingManager.allSoups.Count; i++)
+    //    {
+    //        
+    //        dropDownBox.options.Add(new TMP_Dropdown.OptionData(CookingManager.allSoups[i].soupName));
+    //    }
+    //}
     void PopulateColourDropdownOptions(TMP_Dropdown dropDownBox)
     {
         dropDownBox.options.Add(new TMP_Dropdown.OptionData("None"));

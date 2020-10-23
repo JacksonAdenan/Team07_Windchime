@@ -7,10 +7,19 @@ using UnityEngine;
 /// gameObject allSoups which contains all the soups the designers will make. I can use GameObject.Find() but just having a reference is easier and probably faster. Perhaps I will remove the MonoBehaviour from this class
 /// if I ever make a custom .data file which could hold all the premade soups rather than reading from a gameObject in the Unity Editor.
 /// </summary>
+/// 
+
+public enum CookingOrbState
+{ 
+    EMPTY,
+    EMPTY_WATER,
+    INGREDIENTS_NOWATER,
+    INGREDIENTS_AND_WATER
+}
 public class CookingManager : MonoBehaviour
 {
     public static List<Ingredient> allIngridients;
-    public static List<Soup> allSoups;
+    
 
     public GameObject allSoupsObject;
 
@@ -22,11 +31,22 @@ public class CookingManager : MonoBehaviour
 
     public static List<Ingredient> currentIngredients;
 
+    // Triggers and stats for cutter appliance. //
+    public static Transform entryTrigger;
+    public static Transform exitTrigger;
+
+    public Transform adjustableEntryTrigger;
+    public Transform adjustableExitTrigger;
+
+    public float adjustableCutterEjectionSpeed;
+    public static float cutterEjectionSpeed;
+    
+
     // Start is called before the first frame update
     void Start()
     {
         allIngridients = new List<Ingredient>();
-        allSoups = new List<Soup>();
+  
 
         currentIngredients = new List<Ingredient>();
 
@@ -34,10 +54,16 @@ public class CookingManager : MonoBehaviour
         CreateBasicIngridients();
 
         // Reading in and creating all the soups //
-        PopulateSoupList();
+        //PopulateSoupList();
 
         // Printing out names of all soups.
-        DisplaySoups();
+        //DisplaySoups();
+
+
+        // Setting static values from non static inspector values //
+        cutterEjectionSpeed = adjustableCutterEjectionSpeed;
+        entryTrigger = adjustableEntryTrigger;
+        exitTrigger = adjustableExitTrigger;
     }
 
     // Update is called once per frame
@@ -82,21 +108,21 @@ public class CookingManager : MonoBehaviour
 
     }
 
-    void PopulateSoupList()
-    {
-        for (int i = 0; i < allSoupsObject.transform.childCount; i++)
-        {
-            allSoups.Add(CreateSoup(allSoupsObject.transform.GetChild(i)));
-        }
-    }
-
-    void DisplaySoups()
-    {
-        for (int i = 0; i < allSoups.Count; i++)
-        {
-            Debug.Log(allSoups[i].soupName);
-        }
-    }
+    //void PopulateSoupList()
+    //{
+    //    for (int i = 0; i < allSoupsObject.transform.childCount; i++)
+    //    {
+    //        allSoups.Add(CreateSoup(allSoupsObject.transform.GetChild(i)));
+    //    }
+    //}
+    //
+    //void DisplaySoups()
+    //{
+    //    for (int i = 0; i < allSoups.Count; i++)
+    //    {
+    //        Debug.Log(allSoups[i].soupName);
+    //    }
+    //}
 
     public static void AddIngredient(string ingredientName)
     {
@@ -126,4 +152,11 @@ public class CookingManager : MonoBehaviour
     //        }
     //    }
     //}
+
+    public static void Cut(Transform ingredientObj)
+    {
+        ingredientObj.position = exitTrigger.position;
+        ingredientObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        ingredientObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
+    }
 }
