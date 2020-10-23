@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 346297728786694236}
   - component: {fileID: 6902666399849233534}
   - component: {fileID: 4066442187783133486}
-  - component: {fileID: -2993015247023974594}
+  - component: {fileID: 6291102176358657127}
   m_Layer: 0
   m_Name: Ship_Wall_Corner_Middle_Mini
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &-2993015247023974594
+--- !u!64 &6291102176358657127
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

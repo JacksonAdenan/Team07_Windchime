@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8983415162665627679}
   - component: {fileID: 4309366403354508043}
   - component: {fileID: 5654954171438163203}
-  - component: {fileID: 6174363139983227313}
+  - component: {fileID: -4944785421112992175}
   m_Layer: 0
   m_Name: Ship_Wall_Divider
   m_TagString: Untagged
@@ -80,8 +80,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &6174363139983227313
-MeshCollider:
+--- !u!65 &-4944785421112992175
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -90,7 +90,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4976677972988067185, guid: fe4f8c271d10d96418e70f08534f6870, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 1.6170285, y: 2.4466357, z: 0.5009202}
+  m_Center: {x: 0.055060863, y: 1.2225103, z: -0.000000014901161}
