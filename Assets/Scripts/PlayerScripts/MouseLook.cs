@@ -228,10 +228,6 @@ public class MouseLook : MonoBehaviour
         {
             currentPlayerState = PlayerState.LOOKING_AT_ITEM;
         }
-        else if (!isHoldingItem && !selectedItem)
-        {
-            currentPlayerState = PlayerState.LOOKING_AT_NOTHING;
-        }
         else if (isHoldingItem)
         {
             currentPlayerState = PlayerState.HOLDING_ITEM;
@@ -239,6 +235,10 @@ public class MouseLook : MonoBehaviour
         else if (selectedSwitch)
         {
             currentPlayerState = PlayerState.LOOKING_AT_SWITCH;
+        }
+        else if (!isHoldingItem && !selectedItem)
+        {
+            currentPlayerState = PlayerState.LOOKING_AT_NOTHING;
         }
     }
 
@@ -450,10 +450,10 @@ public class MouseLook : MonoBehaviour
             selectedItem.GetComponent<Renderer>().material = itemSelectedMat;
         }
 
-        if (IsLookingAtSwitch())
+        else if (IsLookingAtSwitch())
         {
             selectedSwitch = IsLookingAtSwitch();
-
+        
             if (!switchDefaultMat)
             {
                 switchDefaultMat = selectedSwitch.GetComponent<Renderer>().material;

@@ -27,8 +27,8 @@ public class CookingOrb : MonoBehaviour
     void OnTriggerExit(Collider otherObj)
     {
         if (otherObj.transform.tag == "Ingredient")
-        { 
-            CookingManager.RemoveIngredient(otherObj.GetComponent<IngredientData>().name)
+        {
+            CookingManager.RemoveIngredient(otherObj.GetComponent<IngredientData>().name);
         }
     }
 }

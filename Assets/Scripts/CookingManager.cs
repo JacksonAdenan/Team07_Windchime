@@ -57,9 +57,9 @@ public class CookingManager : MonoBehaviour
         float spicyValue = soupsData.spicyValue;
         float chunkyValue = soupsData.chunkyValue;
 
-        Soup newSoup = new Soup(soupsData.soupName, spicyValue, chunkyValue, restrictedIngredient);
+        Soup newSoup = new Soup(soupsData.soupName, spicyValue, chunkyValue);
         return newSoup;
-
+        
     }
 
     public static Ingredient ConvertTextToIngredient(string textToConvert)
@@ -115,15 +115,15 @@ public class CookingManager : MonoBehaviour
             
     }
 
-    Soup Cook()
-    {
-        bool finishedCook = false;
-        while (!finishedCook)
-        {
-            for (int i = 0; i < currentIngredients.Count; i++)
-            {
-                CombineIngredient(currentIngredients[i]);
-            }
-        }
-    }
+    //Soup Cook()
+    //{
+    //    bool finishedCook = false;
+    //    while (!finishedCook)
+    //    {
+    //        for (int i = 0; i < currentIngredients.Count; i++)
+    //        {
+    //            CombineIngredient(currentIngredients[i]);
+    //        }
+    //    }
+    //}
 }
