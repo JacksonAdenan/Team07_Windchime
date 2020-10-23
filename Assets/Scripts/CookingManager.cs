@@ -9,18 +9,26 @@ using UnityEngine;
 /// </summary>
 public class CookingManager : MonoBehaviour
 {
-    List<Ingridient> allIngridients;
+    public static List<Ingredient> allIngridients;
     public static List<Soup> allSoups;
 
     public GameObject allSoupsObject;
 
+    
 
+    float currentSpicy;
+    float currentChunky;
+    Colour currentColour;
+
+    public static List<Ingredient> currentIngredients;
 
     // Start is called before the first frame update
     void Start()
     {
-        allIngridients = new List<Ingridient>();
+        allIngridients = new List<Ingredient>();
         allSoups = new List<Soup>();
+
+        currentIngredients = new List<Ingredient>();
 
         // Creating all basic ingridients //
         CreateBasicIngridients();
@@ -45,7 +53,7 @@ public class CookingManager : MonoBehaviour
     Soup CreateSoup(Transform soupFromScene)
     {
         SoupCreator soupsData = soupFromScene.GetComponent<SoupCreator>();
-        Ingridient restrictedIngredient = ConvertTextToIngredient(soupsData.restrictedIngredient);
+        Ingredient restrictedIngredient = ConvertTextToIngredient(soupsData.restrictedIngredient);
         float spicyValue = soupsData.spicyValue;
         float chunkyValue = soupsData.chunkyValue;
 
@@ -54,7 +62,7 @@ public class CookingManager : MonoBehaviour
 
     }
 
-    Ingridient ConvertTextToIngredient(string textToConvert)
+    public static Ingredient ConvertTextToIngredient(string textToConvert)
     {
         for (int i = 0; i < allIngridients.Count; i++)
         {
@@ -68,9 +76,9 @@ public class CookingManager : MonoBehaviour
 
     void CreateBasicIngridients()
     {
-        allIngridients.Add(new Ingridient("apple"));
-        allIngridients.Add(new Ingridient("banana"));
-        allIngridients.Add(new Ingridient("orange"));
+        allIngridients.Add(new Ingredient("apple"));
+        allIngridients.Add(new Ingredient("banana"));
+        allIngridients.Add(new Ingredient("orange"));
 
     }
 
@@ -89,8 +97,33 @@ public class CookingManager : MonoBehaviour
             Debug.Log(allSoups[i].soupName);
         }
     }
-     
 
-    
+    public static void AddIngredient(string ingredientName)
+    {
+        currentIngredients.Add(ConvertTextToIngredient(ingredientName));
+    }
 
+    public static void RemoveIngredient(string ingredientName)
+    {
+        currentIngredients.Remove(ConvertTextToIngredient(ingredientName));
+    }
+
+    void CombineIngredient(Ingredient ingredient)
+    {
+        currentSpicy += ingredient.spicyness;
+        currentChunky += ingredient.chunkyness;
+            
+    }
+
+    Soup Cook()
+    {
+        bool finishedCook = false;
+        while (!finishedCook)
+        {
+            for (int i = 0; i < currentIngredients.Count; i++)
+            {
+                CombineIngredient(currentIngredients[i]);
+            }
+        }
+    }
 }
