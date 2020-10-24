@@ -414,4 +414,9 @@ public class CookingManager : MonoBehaviour
     {
         hasCapsule = true;
     }
+    public static void RemoveCapsule()
+    {
+        hasCapsule = false;
+        Debug.Log("hasCapsule is now FALSE");
+    }
 }

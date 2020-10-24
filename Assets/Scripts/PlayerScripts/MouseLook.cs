@@ -240,7 +240,7 @@ public class MouseLook : MonoBehaviour
             case PlayerState.LOOKING_AT_NOTHING:
                 break;
             case PlayerState.LOOKING_AT_APPLIANCE:
-                if (selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.COOKING_ORB)
+                if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.COOKING_ORB)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -255,7 +255,7 @@ public class MouseLook : MonoBehaviour
                         }
                     }
                 }
-                else if (selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.CATCHER)
+                else if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.CATCHER)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -263,6 +263,19 @@ public class MouseLook : MonoBehaviour
                         {
                             RemoveItem();
                             CookingManager.AttachCapsule();
+                        }
+                        else if (CookingManager.hasCapsule)
+                        {
+                            Debug.Log("REMOVED CAPSULE FROM CATCHER");
+                            if (CookingManager.currentCatcherState == CatcherState.FULL_CAPSULE)
+                            {
+                                Detach(CookingManager.filledAttachedCapsule);
+                            }
+                            else
+                            {
+                                Detach(CookingManager.emptyAttachedCapsule);
+                            }
+                            CookingManager.RemoveCapsule();
                         }
                     }
                 }
@@ -512,7 +525,7 @@ public class MouseLook : MonoBehaviour
     {
         for (int i = 0; i < collisions.Length; i++)
         {
-            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion")
+            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule")
             {
                 return collisions[i].transform;
 
@@ -567,6 +580,20 @@ public class MouseLook : MonoBehaviour
 
         soupPortion.GetComponent<Rigidbody>().useGravity = false;
         soupPortion.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+    void Detach(Transform itemToPickUp)
+    {
+        Transform capsule = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
+        capsule.tag = "Capsule";
+
+        isHoldingItem = true;
+        heldItem = capsule;
+        capsule.SetParent(hand);
+        capsule.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+
+        capsule.GetComponent<Rigidbody>().useGravity = false;
+        capsule.GetComponent<Rigidbody>().isKinematic = true;
     }
     void DropItem()
     {

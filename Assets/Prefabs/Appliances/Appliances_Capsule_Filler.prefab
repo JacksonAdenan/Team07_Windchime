@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 5026324954558377178}
   m_Layer: 0
   m_Name: Appliances_Capsule_Filler
-  m_TagString: Untagged
+  m_TagString: Appliance
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,6 +168,34 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3909233067320746374, guid: 966a6ddd9dc38ab478064cf3448639b3, type: 3}
+--- !u!64 &731520728
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3267365582088450908}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!64 &1852069399
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5096083318443963669}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!64 &5046320672268062989
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -251,6 +279,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21b4e3d979691c3498ec01147a3c4759, type: 3}
+--- !u!1 &3267365582088450908 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3267365582065629416, guid: 21b4e3d979691c3498ec01147a3c4759,
+    type: 3}
+  m_PrefabInstance: {fileID: 31706036}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2206095215897147881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2206095215924556381, guid: 21b4e3d979691c3498ec01147a3c4759,
@@ -272,7 +306,7 @@ PrefabInstance:
     - target: {fileID: 5096083319909970092, guid: 7bbe8b2083e82c24f82533e93dc6949f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8134544499168772799, guid: 7bbe8b2083e82c24f82533e93dc6949f,
         type: 3}
@@ -331,6 +365,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bbe8b2083e82c24f82533e93dc6949f, type: 3}
+--- !u!1 &5096083318443963669 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5096083319909970092, guid: 7bbe8b2083e82c24f82533e93dc6949f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1487111609}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8134544500102235910 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8134544499168772799, guid: 7bbe8b2083e82c24f82533e93dc6949f,
@@ -344,6 +384,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3182678135804923442}
     m_Modifications:
+    - target: {fileID: -9138384822779237652, guid: 966a6ddd9dc38ab478064cf3448639b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Appliance
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 966a6ddd9dc38ab478064cf3448639b3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -408,6 +453,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Appliance_PillCatcher
+      objectReference: {fileID: 0}
+    - target: {fileID: -348602141123326254, guid: 966a6ddd9dc38ab478064cf3448639b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Appliance
       objectReference: {fileID: 0}
     - target: {fileID: 3014614768876417435, guid: 966a6ddd9dc38ab478064cf3448639b3,
         type: 3}
