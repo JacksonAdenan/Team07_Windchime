@@ -3359,6 +3359,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5096083318443963669, guid: f3c0aeb587c359242936a1655b772db2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3c0aeb587c359242936a1655b772db2, type: 3}
 --- !u!4 &194187224 stripped
@@ -4292,6 +4297,14 @@ PrefabInstance:
       propertyPath: adjustableWater
       value: 
       objectReference: {fileID: 248208037}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: adjustableFilledAttachedCapsule
+      value: 
+      objectReference: {fileID: 1852069398}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: adjustableEmptyAttachedCapsule
+      value: 
+      objectReference: {fileID: 731520727}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name
@@ -10527,6 +10540,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6422064198650740692, guid: 3c8dc506da5af3240bc42928dfd6811f,
     type: 3}
   m_PrefabInstance: {fileID: 731029456}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &731520727 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2206095215897147881, guid: f3c0aeb587c359242936a1655b772db2,
+    type: 3}
+  m_PrefabInstance: {fileID: 194187223}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &736591231
 PrefabInstance:
@@ -27077,6 +27096,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1040920544}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1852069398 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8134544500102235910, guid: f3c0aeb587c359242936a1655b772db2,
+    type: 3}
+  m_PrefabInstance: {fileID: 194187223}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1870326226
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27644,6 +27669,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4000996055305594242, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4000996055713155448, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
         type: 3}
       propertyPath: m_Name
@@ -27709,6 +27739,11 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 1879511741}
+    - target: {fileID: 4713568162611675760, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f94e74285cdd2ff4e9a3e09ed62a57e6, type: 3}
 --- !u!114 &1921544284 stripped

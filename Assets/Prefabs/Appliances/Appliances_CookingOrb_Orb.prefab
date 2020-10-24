@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 4638621568823658543}
   - component: {fileID: 6614572898837280291}
   - component: {fileID: 1480480337910772033}
-  - component: {fileID: 1174446349}
+  - component: {fileID: 568203839179515572}
   m_Layer: 0
   m_Name: Orb
   m_TagString: Appliance
@@ -311,7 +311,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &1174446349
+--- !u!64 &568203839179515572
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -335,6 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1438115003815529579}
   - component: {fileID: 492750544}
+  - component: {fileID: 1623317404}
   m_Layer: 0
   m_Name: Appliances_CookingOrb_Orb
   m_TagString: Appliance
@@ -379,6 +380,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1623317404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4466918368739401251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f063241fe4605e54c8a466c42f4f84aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applianceType: 0
 --- !u!1 &5307660532369094398
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +404,7 @@ GameObject:
   - component: {fileID: 7539218526734915883}
   - component: {fileID: 872233180309651557}
   - component: {fileID: 2244992070845920850}
-  - component: {fileID: 675508961}
+  - component: {fileID: 6257218498506685098}
   m_Layer: 0
   m_Name: Lid
   m_TagString: Appliance
@@ -459,7 +473,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &675508961
+--- !u!64 &6257218498506685098
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

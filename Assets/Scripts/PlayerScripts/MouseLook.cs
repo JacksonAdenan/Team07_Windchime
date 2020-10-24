@@ -240,16 +240,30 @@ public class MouseLook : MonoBehaviour
             case PlayerState.LOOKING_AT_NOTHING:
                 break;
             case PlayerState.LOOKING_AT_APPLIANCE:
-                if (Input.GetMouseButtonDown(0))
+                if (selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.COOKING_ORB)
                 {
-                    if (isHoldingItem && heldItem.tag == "Water")
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        RemoveItem();
-                        CookingManager.AddWater();
+                        if (isHoldingItem && heldItem.tag == "Water")
+                        {
+                            RemoveItem();
+                            CookingManager.AddWater();
+                        }
+                        else if (CookingManager.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+                        {
+                            CookingManager.MakeSoup();
+                        }
                     }
-                    else if (CookingManager.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+                }
+                else if (selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.CATCHER)
+                {
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        CookingManager.MakeSoup();
+                        if (isHoldingItem && heldItem.tag == "Capsule" && !CookingManager.hasCapsule)
+                        {
+                            RemoveItem();
+                            CookingManager.AttachCapsule();
+                        }
                     }
                 }
                 break;
@@ -498,7 +512,7 @@ public class MouseLook : MonoBehaviour
     {
         for (int i = 0; i < collisions.Length; i++)
         {
-            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup")
+            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion")
             {
                 return collisions[i].transform;
 

@@ -18,7 +18,7 @@ public class CatcherEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
-        if (obj.tag == "SoupPortion" && CookingManager.currentPortions.Count < 5)
+        if (obj.tag == "SoupPortion" && CookingManager.currentPortions.Count < 5 && CookingManager.currentCatcherState != CatcherState.EMPTY)
         {
             CookingManager.CatchSoup(obj.transform);
 

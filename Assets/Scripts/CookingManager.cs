@@ -27,11 +27,12 @@ public enum WaterTapState
 public enum CatcherState
 { 
     EMPTY,
+    EMPTY_CAPSULE,
     FILLED_1,
     FILLED_2,
     FILLED_3,
     FILLED_4,
-    FILLED_5
+    FULL_CAPSULE
 }
 public class CookingManager : MonoBehaviour
 {
@@ -51,6 +52,14 @@ public class CookingManager : MonoBehaviour
     // Soup catcher stats and current things. //
     public static List<Soup> currentPortions;
     public static CatcherState currentCatcherState;
+
+    public Transform adjustableEmptyAttachedCapsule;
+    public Transform adjustableFilledAttachedCapsule;
+
+    public static Transform emptyAttachedCapsule;
+    public static Transform filledAttachedCapsule;
+
+    public static bool hasCapsule;
 
     // Cookingorb stats and current things. //
     public static CookingOrbState currentCookingOrbState;
@@ -118,20 +127,36 @@ public class CookingManager : MonoBehaviour
         // Initialising catcher things. //
         currentCatcherState = CatcherState.EMPTY;
         currentPortions = new List<Soup>();
+
+        emptyAttachedCapsule = adjustableEmptyAttachedCapsule;
+        filledAttachedCapsule = adjustableFilledAttachedCapsule;
+
+        hasCapsule = true;
     }
     
     // Update is called once per frame
     void Update()
     {
+
+        // Cooking orb updates. //
         UpdateCookingOrbState();
+
+        // Catcher updates //
         UpdateCatcherState();
+        UpdateCatcherCapsule();
+
     }
 
     void UpdateCatcherState()
     {
-        if (currentPortions.Count == 0)
+        if (!hasCapsule)
         {
+            currentPortions.Clear();
             currentCatcherState = CatcherState.EMPTY;
+        }
+        else if (currentPortions.Count == 0)
+        {
+            currentCatcherState = CatcherState.EMPTY_CAPSULE;
         }
         else if (currentPortions.Count == 1)
         {
@@ -151,8 +176,28 @@ public class CookingManager : MonoBehaviour
         }
         else if (currentPortions.Count == 5)
         {
-            currentCatcherState = CatcherState.FILLED_5;
+            currentCatcherState = CatcherState.FULL_CAPSULE;
         }
+    }
+
+    void UpdateCatcherCapsule()
+    {
+        if (currentCatcherState == CatcherState.EMPTY)
+        {
+            emptyAttachedCapsule.gameObject.SetActive(false);
+            filledAttachedCapsule.gameObject.SetActive(false);
+        }
+        else if ((int)currentCatcherState >= 1 && (int)currentCatcherState < 5)
+        {
+            emptyAttachedCapsule.gameObject.SetActive(true);
+            filledAttachedCapsule.gameObject.SetActive(false);
+        }
+        else if (currentCatcherState == CatcherState.FULL_CAPSULE)
+        {
+            emptyAttachedCapsule.gameObject.SetActive(false);
+            filledAttachedCapsule.gameObject.SetActive(true);
+        }
+
     }
     void UpdateCookingOrbState()
     {
@@ -363,5 +408,10 @@ public class CookingManager : MonoBehaviour
             Debug.Log("Tried to add water to cooking orb but there is already water!");
         }
         Debug.Log(currentCookingOrbState);
+    }
+
+    public static void AttachCapsule()
+    {
+        hasCapsule = true;
     }
 }

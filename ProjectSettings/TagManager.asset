@@ -11,6 +11,7 @@ TagManager:
   - Appliance
   - Soup
   - SoupPortion
+  - Capsule
   layers:
   - Default
   - TransparentFX
