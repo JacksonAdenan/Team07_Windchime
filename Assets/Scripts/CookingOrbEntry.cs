@@ -20,11 +20,14 @@ public class CookingOrbEntry : MonoBehaviour
     {
         if (obj.tag == "Ingredient")
         {
-            CookingManager.AddIngredient(obj.GetComponent<IngredientData>().ingredientName);
+            CookingManager.AddIngredient(obj.transform);
         }
-        else if (obj.tag == "Water")
-        { 
-            
+    }
+    void OnTriggerExit(Collider obj)
+    {
+        if (obj.tag == "Ingredient")
+        {
+            CookingManager.RemoveIngredient(obj.transform);
         }
     }
 }

@@ -20,7 +20,7 @@ public class CookingOrb : MonoBehaviour
     {
         if (otherObj.transform.tag == "Ingredient")
         {
-            CookingManager.AddIngredient(otherObj.GetComponent<IngredientData>().name);
+            CookingManager.AddIngredient(otherObj.transform);
         }
     }
 
@@ -28,7 +28,7 @@ public class CookingOrb : MonoBehaviour
     {
         if (otherObj.transform.tag == "Ingredient")
         {
-            CookingManager.RemoveIngredient(otherObj.GetComponent<IngredientData>().name);
+            CookingManager.RemoveIngredient(otherObj.transform);
         }
     }
 }

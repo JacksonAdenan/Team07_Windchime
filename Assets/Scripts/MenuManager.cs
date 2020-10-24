@@ -46,6 +46,11 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI selectedItemText;
     public TextMeshProUGUI selectedApplianceText;
 
+    public TextMeshProUGUI currentCookingOrbState;
+    public TextMeshProUGUI currentIngredients;
+    List<string> currentIngredientsNames;
+    string ingredientsText = "";
+
     // Seperators for ease of access //
     Transform soupOrganiser;
     Transform orderOrganiser;
@@ -123,6 +128,9 @@ public class MenuManager : MonoBehaviour
         DisplayHeldItem();
         DisplaySelectedAppliance();
         DisplaySelectedItem();
+
+        DisplayCurrentCookingOrbState();
+        DisplayCurrentIngredients();
     }
 
     void MenuState()
@@ -256,6 +264,21 @@ public class MenuManager : MonoBehaviour
         {
             selectedApplianceText.text = "None";
         }
+    }
+
+    void DisplayCurrentCookingOrbState()
+    {
+        currentCookingOrbState.text = CookingManager.currentCookingOrbState.ToString();
+    }
+    void DisplayCurrentIngredients()
+    {
+        
+        for (int i = 0; i < CookingManager.currentIngredients.Count; i++)
+        {
+            ingredientsText = ingredientsText + CookingManager.ConvertTextToIngredient(CookingManager.currentIngredients[i].GetComponent<IngredientData>().ingredientName).name + ", ";
+        }
+        currentIngredients.text = ingredientsText;
+        ingredientsText = "";
     }
 
     void DisplayAvailableSoups(Transform parentOfUI)

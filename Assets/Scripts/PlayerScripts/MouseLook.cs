@@ -232,6 +232,18 @@ public class MouseLook : MonoBehaviour
             case PlayerState.LOOKING_AT_NOTHING:
                 break;
             case PlayerState.LOOKING_AT_APPLIANCE:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (isHoldingItem && heldItem.tag == "Water")
+                    {
+                        RemoveItem();
+                        CookingManager.AddWater();
+                    }
+                    else if (CookingManager.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+                    {
+                        CookingManager.MakeSoup();
+                    }
+                }
                 break;
 
         }
@@ -243,6 +255,10 @@ public class MouseLook : MonoBehaviour
         {
             currentPlayerState = PlayerState.LOOKING_AT_ITEM;
         }
+        else if (selectedAppliance)
+        {
+            currentPlayerState = PlayerState.LOOKING_AT_APPLIANCE;
+        }
         else if (isHoldingItem)
         {
             currentPlayerState = PlayerState.HOLDING_ITEM;
@@ -250,10 +266,6 @@ public class MouseLook : MonoBehaviour
         else if (selectedSwitch)
         {
             currentPlayerState = PlayerState.LOOKING_AT_SWITCH;
-        }
-        else if (selectedAppliance)
-        {
-            //currentPlayerState = PlayerState.LOOKING_AT_APPLIANCE;
         }
         else if (!isHoldingItem && !selectedItem)
         {
@@ -672,7 +684,16 @@ public class MouseLook : MonoBehaviour
     void InsertItem()
     { }
     void RemoveItem()
-    { }
+    {
+        isHoldingItem = false;
+
+        heldItem.GetComponent<Rigidbody>().useGravity = false;
+        heldItem.GetComponent<Rigidbody>().isKinematic = false;
+
+        heldItem.parent = null;
+        heldItem.gameObject.SetActive(false);
+        heldItem = null;
+    }
 
     void ActivateAppliance()
     { }

@@ -14,7 +14,8 @@ public enum CookingOrbState
     EMPTY,
     EMPTY_WATER,
     INGREDIENTS_NOWATER,
-    INGREDIENTS_AND_WATER
+    INGREDIENTS_AND_WATER,
+    OCCUPIED_SOUP
 }
 
 public enum WaterTapState
@@ -31,13 +32,13 @@ public class CookingManager : MonoBehaviour
 
     
 
-    float currentSpicy;
-    float currentChunky;
-    Colour currentColour;
+    public static float currentSpicy;
+    public static float currentChunky;
+    public static Colour currentColour;
 
     // Cookingorb stats and current things. //
     public static CookingOrbState currentCookingOrbState;
-    public static List<Ingredient> currentIngredients;
+    public static List<Transform> currentIngredients;
 
     // Triggers and stats for cutter appliance. //
     public static Transform entryTrigger;
@@ -63,7 +64,7 @@ public class CookingManager : MonoBehaviour
         allIngridients = new List<Ingredient>();
   
 
-        currentIngredients = new List<Ingredient>();
+        currentIngredients = new List<Transform>();
 
         // Creating all basic ingridients //
         CreateBasicIngridients();
@@ -89,12 +90,31 @@ public class CookingManager : MonoBehaviour
 
         // Initialising cooking orb things. //
         currentCookingOrbState = CookingOrbState.EMPTY;
+        currentSpicy = 0;
+        currentChunky = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateCookingOrbState();
+    }
+
+    void UpdateCookingOrbState()
+    {
+        if (currentIngredients.Count > 0 && currentCookingOrbState == CookingOrbState.EMPTY)
+        {
+            currentCookingOrbState = CookingOrbState.INGREDIENTS_NOWATER;
+        }
+        else if (currentIngredients.Count > 0 && currentCookingOrbState == CookingOrbState.EMPTY_WATER)
+        {
+            currentCookingOrbState = CookingOrbState.INGREDIENTS_AND_WATER;
+        }
+        else if (currentIngredients.Count == 0 && currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER || currentCookingOrbState == CookingOrbState.INGREDIENTS_NOWATER)
+        {
+            currentCookingOrbState = CookingOrbState.EMPTY_WATER;
+        }
+
     }
 
     /// <summary>
@@ -108,7 +128,7 @@ public class CookingManager : MonoBehaviour
         float spicyValue = soupsData.spicyValue;
         float chunkyValue = soupsData.chunkyValue;
 
-        Soup newSoup = new Soup(soupsData.soupName, spicyValue, chunkyValue);
+        Soup newSoup = new Soup(spicyValue, chunkyValue);
         return newSoup;
         
     }
@@ -149,35 +169,61 @@ public class CookingManager : MonoBehaviour
     //    }
     //}
 
-    public static void AddIngredient(string ingredientName)
+    public static void AddIngredient(Transform ingredient)
     {
-        currentIngredients.Add(ConvertTextToIngredient(ingredientName));
+        currentIngredients.Add(ingredient);
+        Debug.Log("Ingredient added to cooking orb.");
     }
 
-    public static void RemoveIngredient(string ingredientName)
+    public static void RemoveIngredient(Transform ingredient)
     {
-        currentIngredients.Remove(ConvertTextToIngredient(ingredientName));
+        currentIngredients.Remove(ingredient);
+        Debug.Log("Ingredient removed from cooking orb.");
     }
 
-    void CombineIngredient(Ingredient ingredient)
+    public static void CombineIngredient(Ingredient ingredient)
     {
         currentSpicy += ingredient.spicyness;
         currentChunky += ingredient.chunkyness;
             
     }
 
-    //Soup Cook()
-    //{
-    //    bool finishedCook = false;
-    //    while (!finishedCook)
-    //    {
-    //        for (int i = 0; i < currentIngredients.Count; i++)
-    //        {
-    //            CombineIngredient(currentIngredients[i]);
-    //        }
-    //    }
-    //}
+    public static Soup CookSoup()
+    {
+        bool finishedCook = false;
+ 
+        for (int i = 0; i < currentIngredients.Count; i++)
+        {
+            CombineIngredient(CookingManager.ConvertTextToIngredient(currentIngredients[i].GetComponent<IngredientData>().ingredientName));
+        }
+        
+        Soup newSoup = new Soup(currentSpicy, currentChunky);
+        for (int i = 0; i < currentIngredients.Count; i++)
+        {
+            newSoup.usedIngredients.Add(CookingManager.ConvertTextToIngredient(currentIngredients[i].GetComponent<IngredientData>().ingredientName));
+        }
 
+
+        // Resetting current cooking orb values to be ready for next soup
+        currentSpicy = 0;
+        currentChunky = 0;
+
+        for (int i = currentIngredients.Count - 1; i == 0; i--)
+        {
+            currentIngredients[i].gameObject.SetActive(false);
+            currentIngredients.Remove(currentIngredients[i]);
+        }
+        
+        return newSoup;
+    }
+
+    public static void MakeSoup()
+    {
+        Soup newSoup = CookSoup();
+        Debug.Log("CREATED SOUP!");
+    }
+
+       
     public static void Cut(Transform ingredientObj)
     {
         ingredientObj.position = exitTrigger.position;
@@ -206,5 +252,22 @@ public class CookingManager : MonoBehaviour
         {
             Debug.Log("Could not activate water tap switch. There is already a water on the tap.");
         }
+    }
+
+    public static void AddWater()
+    {
+        if (currentCookingOrbState == CookingOrbState.EMPTY)
+        {
+            currentCookingOrbState = CookingOrbState.EMPTY_WATER;
+        }
+        else if (currentCookingOrbState == CookingOrbState.INGREDIENTS_NOWATER)
+        {
+            currentCookingOrbState = CookingOrbState.INGREDIENTS_AND_WATER;
+        }
+        else if (currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER || currentCookingOrbState == CookingOrbState.EMPTY_WATER)
+        {
+            Debug.Log("Tried to add water to cooking orb but there is already water!");
+        }
+        Debug.Log(currentCookingOrbState);
     }
 }
