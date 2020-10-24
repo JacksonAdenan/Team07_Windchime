@@ -481,12 +481,14 @@ public class MouseLook : MonoBehaviour
             if (selectedItem != null)
             {
                 selectedItem.GetComponent<Renderer>().material = defaultMat;
+                defaultMat = null;
             }
             selectedItem = null;
 
             if (selectedSwitch != null)
             {
                 selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
+                defaultMat = null;
             }
             selectedSwitch = null;
         }
