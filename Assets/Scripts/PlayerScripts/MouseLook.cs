@@ -19,7 +19,8 @@ public enum PlayerState
     HOLDING_WATER,
     LOOKING_AT_ITEM,
     LOOKING_AT_APPLIANCE,
-    LOOKING_AT_SWITCH
+    LOOKING_AT_SWITCH,
+    ERROR
 
 }
 
@@ -250,9 +251,17 @@ public class MouseLook : MonoBehaviour
         {
             currentPlayerState = PlayerState.LOOKING_AT_SWITCH;
         }
+        else if (selectedAppliance)
+        {
+            //currentPlayerState = PlayerState.LOOKING_AT_APPLIANCE;
+        }
         else if (!isHoldingItem && !selectedItem)
         {
             currentPlayerState = PlayerState.LOOKING_AT_NOTHING;
+        }
+        else
+        {
+            currentPlayerState = PlayerState.ERROR;
         }
     }
 
@@ -329,17 +338,6 @@ public class MouseLook : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
             
-        //xRotation -= mouseY;
-        //xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        //posX += mouseX;
-        //posY += mouseY;
-
-        //crosshairImage.transform.localPosition = Mathf.Clamp(posX, -xDeadZone, xDeadZone);
-        //crosshairImage.transform.localPosition = Mathf.Clamp(posY, -yDeadZone, yDeadZone);
-        //
-        //crosshairImage.transform.localPosition = new Vector3(posX, posY, 0);
-        //Vector3 crossHairMovement = transform.right * mouseX + transform.up * mouseY;
         crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
 
         handMovement = transform.right * mouseX + transform.up * mouseY;
@@ -408,47 +406,6 @@ public class MouseLook : MonoBehaviour
         selectedItem = null;
     }
 
-    void SelectObj()
-    {
-        
-        // Item selection stuff //
-        // -------------------------------------------------------- //   
-        if (IsLookingAtItem())
-        {
-            selectedItem = raycastFromHand.transform;
-
-            defaultMat = selectedItem.GetComponent<Renderer>().material;
-            selectedItem.GetComponent<Renderer>().material = itemSelectedMat;
-           
-        }
-
-        // If the player looks away from the item //
-
-        else if (raycastFromHand.transform != selectedItem || raycastFromHand.transform == heldItem)
-        {
-            if (selectedItem != null)
-            {
-                selectedItem.GetComponent<Renderer>().material = defaultMat;
-            }
-            selectedItem = null;
-        }
-        // -------------------------------------------------------- //  
-
-        // Appliance selection stuff //
-        // -------------------------------------------------------- // 
-        if (IsLookingAtAppliance())
-        {
-            selectedAppliance = raycastFromScreen.transform;
-        }
-
-        else if (raycastFromScreen.transform != selectedAppliance)
-        {
-            selectedAppliance = null;
-        }
-
-
-    }
-
     void NewSelectObj()
     {
 
@@ -476,15 +433,31 @@ public class MouseLook : MonoBehaviour
         }
 
 
-        else
+        // Appliance selection stuff //
+        // -------------------------------------------------------- // 
+        else if (IsLookingAtAppliance())
         {
+            selectedAppliance = IsLookingAtAppliance();
+        }
+
+        
+
+
+        // Resetting ingredients/items/water //
+        if (NewIsLookingAtItem() == null)
+        { 
+
             if (selectedItem != null)
             {
                 selectedItem.GetComponent<Renderer>().material = defaultMat;
                 defaultMat = null;
             }
             selectedItem = null;
+        }
 
+        // Resetting switches //
+        if (IsLookingAtSwitch() == null)
+        { 
             if (selectedSwitch != null)
             {
                 selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
@@ -492,6 +465,12 @@ public class MouseLook : MonoBehaviour
             }
             selectedSwitch = null;
         }
+
+        if (IsLookingAtAppliance() == null)
+        { 
+            selectedAppliance = null;
+        }
+        
 
     }
 
@@ -519,16 +498,15 @@ public class MouseLook : MonoBehaviour
 
         return null;
     }
-
-    bool IsLookingAtItem()
+    Transform IsLookingAtAppliance()
     {
-        if (raycastFromHand.transform != null && raycastFromHand.transform.CompareTag("Item") || raycastFromHand.transform.CompareTag("Ingredient") || raycastFromHand.transform.CompareTag("Water") && selectedItem != raycastFromHand.transform && !isHoldingItem)
+        if (target.transform.tag == "Appliance")
         {
-            return true;
+            return target.transform;
         }
-        return false;
-    }
 
+        return null;
+    }
     void PickUpItem(Transform itemToPickUp)
     {
         isHoldingItem = true;
@@ -600,14 +578,6 @@ public class MouseLook : MonoBehaviour
         }
     }
 
-    bool IsLookingAtAppliance()
-    {
-        if (raycastFromScreen.transform != null && raycastFromScreen.transform.CompareTag("Appliance"))
-        {
-            return true;
-        }
-        return false;
-    }
 
     void DisplayApplianceIU()
     {
