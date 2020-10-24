@@ -188,12 +188,20 @@ public class MouseLook : MonoBehaviour
             case PlayerState.LOOKING_AT_ITEM:
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    PickUpItem(selectedItem);
+                    if (selectedItem.tag != "Soup")
+                    { 
+                        PickUpItem(selectedItem);
+                    }
                     // Freeing up the WaterTap so the player can get more water if they want.
                     if (selectedItem.tag == "Water")
                     {
                         CookingManager.currentWaterTapState = WaterTapState.EMPTY;
                         Debug.Log("Water tap is now unoccupied.");
+                    }
+                    if (selectedItem.tag == "Soup")
+                    {
+                        PickUpSoup(selectedItem);
+                        Debug.Log("PICKED UP SOUP");
                     }
                     heldItemOriginalPos = heldItem.position;
                     previousHandPos = hand.position;
@@ -490,7 +498,7 @@ public class MouseLook : MonoBehaviour
     {
         for (int i = 0; i < collisions.Length; i++)
         {
-            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water")
+            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup")
             {
                 return collisions[i].transform;
 
@@ -528,8 +536,23 @@ public class MouseLook : MonoBehaviour
 
         itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
         itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+    }
+    void PickUpSoup(Transform itemToPickUp)
+    {
+        // Reducing the current portions in the soup. //
+        itemToPickUp.GetComponent<SoupData>().currentPortions -= 1;
 
-      
+        Transform soupPortion = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
+        soupPortion.localScale = soupPortion.localScale / 2;
+        soupPortion.tag = "Item";
+
+        isHoldingItem = true;
+        heldItem = soupPortion;
+        soupPortion.SetParent(hand);
+        soupPortion.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+
+        soupPortion.GetComponent<Rigidbody>().useGravity = false;
+        soupPortion.GetComponent<Rigidbody>().isKinematic = true;
     }
     void DropItem()
     {

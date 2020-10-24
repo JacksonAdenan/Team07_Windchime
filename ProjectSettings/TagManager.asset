@@ -10,6 +10,7 @@ TagManager:
   - Water
   - Appliance
   - Soup
+  - SoupPortion
   layers:
   - Default
   - TransparentFX

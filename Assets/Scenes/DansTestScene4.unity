@@ -2158,6 +2158,26 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 70607944}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &138307680 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 190773265, guid: 5c60787673a29904eb8924e98b508a14,
+    type: 3}
+  m_PrefabInstance: {fileID: 320258803}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &138307681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138307680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712455f498a1e704b906395542d5ca8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxPortions: 5
+  currentPortions: 5
 --- !u!1001 &139354061
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3205,6 +3225,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6600806117417215315, guid: cc08be7c312769041bb29ea6482b2f71,
     type: 3}
   m_PrefabInstance: {fileID: 187857692}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &190773266 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 190773266, guid: 5c60787673a29904eb8924e98b508a14,
+    type: 3}
+  m_PrefabInstance: {fileID: 320258803}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &194095040
 PrefabInstance:
@@ -4286,6 +4312,10 @@ PrefabInstance:
       propertyPath: adjustableWater
       value: 
       objectReference: {fileID: 248208037}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: adjustableSoup
+      value: 
+      objectReference: {fileID: 190773266}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name
@@ -5014,6 +5044,10 @@ PrefabInstance:
     - target: {fileID: 190773265, guid: 5c60787673a29904eb8924e98b508a14, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 190773265, guid: 5c60787673a29904eb8924e98b508a14, type: 3}
+      propertyPath: m_TagString
+      value: Soup
       objectReference: {fileID: 0}
     - target: {fileID: 1438115003815529579, guid: 5c60787673a29904eb8924e98b508a14,
         type: 3}

@@ -36,9 +36,15 @@ public class CookingManager : MonoBehaviour
     public static float currentChunky;
     public static Colour currentColour;
 
+    public static Transform occupyingSoup;
+
     // Cookingorb stats and current things. //
     public static CookingOrbState currentCookingOrbState;
     public static List<Transform> currentIngredients;
+
+    public Transform adjustableSoup;
+    public static Transform soupOrb;
+
 
     // Triggers and stats for cutter appliance. //
     public static Transform entryTrigger;
@@ -84,6 +90,8 @@ public class CookingManager : MonoBehaviour
         // Setting static value for water from inspector value. //
         water = adjustableWater;
 
+        // Setting static value for soup from inspector value. //
+        soupOrb = adjustableSoup;
 
         // Initialising things for the water tap. //
         currentWaterTapState = WaterTapState.EMPTY;
@@ -102,7 +110,20 @@ public class CookingManager : MonoBehaviour
 
     void UpdateCookingOrbState()
     {
-        if (currentIngredients.Count > 0 && currentCookingOrbState == CookingOrbState.EMPTY)
+        if (occupyingSoup != null && occupyingSoup.GetComponent<SoupData>().currentPortions <= 0)
+        {
+            occupyingSoup.gameObject.SetActive(false);
+            occupyingSoup = null;
+
+            // Freeing the cooking orb. //
+            currentCookingOrbState = CookingOrbState.EMPTY;
+        }
+
+        if (occupyingSoup != null)
+        {
+            currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
+        }
+        else if (currentIngredients.Count > 0 && currentCookingOrbState == CookingOrbState.EMPTY)
         {
             currentCookingOrbState = CookingOrbState.INGREDIENTS_NOWATER;
         }
@@ -110,7 +131,7 @@ public class CookingManager : MonoBehaviour
         {
             currentCookingOrbState = CookingOrbState.INGREDIENTS_AND_WATER;
         }
-        else if (currentIngredients.Count == 0 && currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER || currentCookingOrbState == CookingOrbState.INGREDIENTS_NOWATER)
+        else if (currentIngredients.Count == 0 && currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
         {
             currentCookingOrbState = CookingOrbState.EMPTY_WATER;
         }
@@ -190,7 +211,7 @@ public class CookingManager : MonoBehaviour
 
     public static Soup CookSoup()
     {
-        bool finishedCook = false;
+        //bool finishedCook = false;
  
         for (int i = 0; i < currentIngredients.Count; i++)
         {
@@ -207,6 +228,7 @@ public class CookingManager : MonoBehaviour
         // Resetting current cooking orb values to be ready for next soup
         currentSpicy = 0;
         currentChunky = 0;
+        currentCookingOrbState = CookingOrbState.EMPTY;
 
         for (int i = currentIngredients.Count - 1; i == 0; i--)
         {
@@ -219,7 +241,26 @@ public class CookingManager : MonoBehaviour
 
     public static void MakeSoup()
     {
+
+
+        // Making the cooking orb state OCCUPIED. //
+        currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
+
         Soup newSoup = CookSoup();
+        Transform newSoupOrb = Object.Instantiate(soupOrb, soupOrb.position, soupOrb.rotation);
+        newSoupOrb.gameObject.SetActive(true);
+        SoupData newSoupsData = newSoupOrb.GetComponent<SoupData>();
+        newSoupsData.theSoup = newSoup;
+
+        // Setting max amount of "portions" of soup. The player can keep grabbing soup until they've depleted all the portions. //
+
+        // Hey get out of here! If you want to set the portion sizes do it through the inspector ! //
+
+        //newSoupsData.currentPortions = 5;
+        //newSoupsData.maxPortions = 5;
+
+        occupyingSoup = newSoupOrb;
+
         Debug.Log("CREATED SOUP!");
     }
 
