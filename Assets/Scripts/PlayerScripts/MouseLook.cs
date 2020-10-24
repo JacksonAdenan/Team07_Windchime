@@ -456,6 +456,29 @@ public class MouseLook : MonoBehaviour
     void NewSelectObj()
     {
 
+        // Resetting ingredients/items/water //
+        if (NewIsLookingAtItem() == null)
+        {
+
+            if (selectedItem != null)
+            {
+                selectedItem.GetComponent<Renderer>().material = defaultMat;
+                defaultMat = null;
+            }
+            selectedItem = null;
+        }
+
+        // This is to prevent the bug where if the player is selecting something and then instantly selects something else without having a period inbetween of not selecting something, the default material doesn't 
+        // update properly.
+        if (selectedItem != NewIsLookingAtItem())
+        {
+            if (selectedItem != null)
+            {
+                selectedItem.GetComponent<Renderer>().material = defaultMat;
+                defaultMat = null;
+            }
+        }
+
         if (NewIsLookingAtItem() && !isHoldingItem)
         {
             selectedItem = NewIsLookingAtItem();
@@ -490,17 +513,7 @@ public class MouseLook : MonoBehaviour
         
 
 
-        // Resetting ingredients/items/water //
-        if (NewIsLookingAtItem() == null)
-        { 
-
-            if (selectedItem != null)
-            {
-                selectedItem.GetComponent<Renderer>().material = defaultMat;
-                defaultMat = null;
-            }
-            selectedItem = null;
-        }
+        
 
         // Resetting switches //
         if (IsLookingAtSwitch() == null)
@@ -508,7 +521,7 @@ public class MouseLook : MonoBehaviour
             if (selectedSwitch != null)
             {
                 selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
-                defaultMat = null;
+                switchDefaultMat = null;
             }
             selectedSwitch = null;
         }
@@ -571,6 +584,13 @@ public class MouseLook : MonoBehaviour
 
         Transform soupPortion = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
         soupPortion.localScale = soupPortion.localScale / 2;
+
+        // This is really iffy but its so that when you pick up soup the material is the default rather than the selected material.
+        soupPortion.GetComponent<Renderer>().material = defaultMat;
+        // Another fix to stop the pink material glitch after picking up soup.
+        itemToPickUp.GetComponent<Renderer>().material = defaultMat;
+        selectedItem = null;
+
         soupPortion.tag = "SoupPortion";
 
         isHoldingItem = true;
