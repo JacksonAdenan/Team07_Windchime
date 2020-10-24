@@ -23,6 +23,16 @@ public enum WaterTapState
     EMPTY,
     OCCUPIED
 }
+
+public enum CatcherState
+{ 
+    EMPTY,
+    FILLED_1,
+    FILLED_2,
+    FILLED_3,
+    FILLED_4,
+    FILLED_5
+}
 public class CookingManager : MonoBehaviour
 {
     public static List<Ingredient> allIngridients;
@@ -37,6 +47,10 @@ public class CookingManager : MonoBehaviour
     public static Colour currentColour;
 
     public static Transform occupyingSoup;
+
+    // Soup catcher stats and current things. //
+    public static List<Soup> currentPortions;
+    public static CatcherState currentCatcherState;
 
     // Cookingorb stats and current things. //
     public static CookingOrbState currentCookingOrbState;
@@ -100,14 +114,46 @@ public class CookingManager : MonoBehaviour
         currentCookingOrbState = CookingOrbState.EMPTY;
         currentSpicy = 0;
         currentChunky = 0;
-    }
 
+        // Initialising catcher things. //
+        currentCatcherState = CatcherState.EMPTY;
+        currentPortions = new List<Soup>();
+    }
+    
     // Update is called once per frame
     void Update()
     {
         UpdateCookingOrbState();
+        UpdateCatcherState();
     }
 
+    void UpdateCatcherState()
+    {
+        if (currentPortions.Count == 0)
+        {
+            currentCatcherState = CatcherState.EMPTY;
+        }
+        else if (currentPortions.Count == 1)
+        {
+            currentCatcherState = CatcherState.FILLED_1;
+        }
+        else if (currentPortions.Count == 2)
+        {
+            currentCatcherState = CatcherState.FILLED_2;
+        }
+        else if (currentPortions.Count == 3)
+        {
+            currentCatcherState = CatcherState.FILLED_3;
+        }
+        else if (currentPortions.Count == 4)
+        {
+            currentCatcherState = CatcherState.FILLED_4;
+        }
+        else if (currentPortions.Count == 5)
+        {
+            currentCatcherState = CatcherState.FILLED_5;
+        }
+    }
     void UpdateCookingOrbState()
     {
         if (occupyingSoup != null && occupyingSoup.GetComponent<SoupData>().currentPortions <= 0)
@@ -207,6 +253,13 @@ public class CookingManager : MonoBehaviour
         currentSpicy += ingredient.spicyness;
         currentChunky += ingredient.chunkyness;
             
+    }
+
+    public static void CatchSoup(Transform soupToCatch)
+    {
+        currentPortions.Add(soupToCatch.GetComponent<SoupData>().theSoup);
+        soupToCatch.gameObject.SetActive(false);
+        Debug.Log("Caught a portion of soup.");
     }
 
     public static Soup CookSoup()

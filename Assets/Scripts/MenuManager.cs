@@ -51,6 +51,8 @@ public class MenuManager : MonoBehaviour
     List<string> currentIngredientsNames;
     string ingredientsText = "";
 
+    public TextMeshProUGUI currentCatcherState;
+
     // Seperators for ease of access //
     Transform soupOrganiser;
     Transform orderOrganiser;
@@ -131,6 +133,8 @@ public class MenuManager : MonoBehaviour
 
         DisplayCurrentCookingOrbState();
         DisplayCurrentIngredients();
+
+        DisplayCurrentCatcherState();
     }
 
     void MenuState()
@@ -279,6 +283,11 @@ public class MenuManager : MonoBehaviour
         }
         currentIngredients.text = ingredientsText;
         ingredientsText = "";
+    }
+
+    void DisplayCurrentCatcherState()
+    {
+        currentCatcherState.text = CookingManager.currentCatcherState.ToString();
     }
 
     void DisplayAvailableSoups(Transform parentOfUI)

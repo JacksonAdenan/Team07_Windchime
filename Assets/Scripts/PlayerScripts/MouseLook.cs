@@ -544,7 +544,7 @@ public class MouseLook : MonoBehaviour
 
         Transform soupPortion = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
         soupPortion.localScale = soupPortion.localScale / 2;
-        soupPortion.tag = "Item";
+        soupPortion.tag = "SoupPortion";
 
         isHoldingItem = true;
         heldItem = soupPortion;
