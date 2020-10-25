@@ -313,9 +313,9 @@ public class CookingManager : MonoBehaviour
 
     void CreateBasicIngridients()
     {
-        allIngridients.Add(new Ingredient("apple", 10, 25));
-        allIngridients.Add(new Ingredient("banana", 2, 5));
-        allIngridients.Add(new Ingredient("orange", 8, 14));
+        allIngridients.Add(new Ingredient("apple", 10, 25, false));
+        allIngridients.Add(new Ingredient("banana", 2, 5, false));
+        allIngridients.Add(new Ingredient("steak", 8, 14, true));
 
     }
 
@@ -383,13 +383,10 @@ public class CookingManager : MonoBehaviour
         currentChunky = 0;
         currentCookingOrbState = CookingOrbState.EMPTY;
 
-        Debug.Log("currentIngredients.Count is " + currentIngredients.Count);
         for (int i = currentIngredients.Count - 1; i > -1; i--)
         {
-            Debug.Log("=================== test ==================");
             currentIngredients[i].gameObject.SetActive(false);
             currentIngredients.Remove(currentIngredients[i]);
-            Debug.Log("Deleted ingredient from game");
         }
         
         return newSoup;
@@ -495,4 +492,24 @@ public class CookingManager : MonoBehaviour
         isLoaded = false;
         Debug.Log("Canon unloaded and removed soup data.");
     }
+
+    public static void ShootCapsule()
+    {
+        if (OrderManager.acceptedOrders.Count > 0)
+        {
+            OrderManager.CompleteOrder(canonCapsule.GetComponent<SoupData>().theSoup);
+            canonCapsule.GetComponent<SoupData>().theSoup = null;
+            isLoaded = false;
+            Debug.Log("Canon submitted order and removed soup data.");
+
+            // Display points
+            MenuManager.DisplayOrderSubmittedText();
+        }
+        else
+        {
+            Debug.Log("Tried to submit soup but you do not currently have any orders.");
+        }
+
+    }
+
 }

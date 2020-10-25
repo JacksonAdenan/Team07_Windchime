@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
+
+[Serializable]
 public class Order
 {
     public string orderName;
@@ -18,6 +21,9 @@ public class Order
         this.colourPreference = colourPreference;
         this.spicyness = spicyValue;
         this.chunkiness = chunkyValue;
+
+        noMeat = meatPreference;
+        noVeg = vegPreference;
     }
     public Order()
     { 

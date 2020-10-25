@@ -39,4 +39,30 @@ public class Soup
         this.chunkyValue = chunkyValue;
         
     }
+
+    public bool ContainsMeat()
+    {
+        for (int i = 0; i < usedIngredients.Count; i++)
+        {
+            if (usedIngredients[i].isMeat == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool ContainsVeg()
+    {
+        for (int i = 0; i < usedIngredients.Count; i++)
+        {
+            if (usedIngredients[i].isMeat == false)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -29,6 +29,9 @@ public enum SwitchType
     CUTTER_SWITCH_1,
     CUTTER_SWITCH_2,
     WATER_TAP,
+    CANON_BUTTON,
+    ORDER_ACCEPT,
+    ORDER_REJECT,
 
     ERROR
 }
@@ -265,7 +268,7 @@ public class MouseLook : MonoBehaviour
                             RemoveItem();
                             CookingManager.AttachCapsule();
                         }
-                        else if (CookingManager.hasCapsule)
+                        else if (CookingManager.hasCapsule && !isHoldingItem)
                         {
                             Debug.Log("REMOVED CAPSULE FROM CATCHER");
                             if (CookingManager.currentCatcherState == CatcherState.FULL_CAPSULE)
@@ -512,15 +515,21 @@ public class MouseLook : MonoBehaviour
             selectedItem.GetComponent<Renderer>().material = itemSelectedMat;
         }
 
+
+  
         else if (IsLookingAtSwitch())
         {
             selectedSwitch = IsLookingAtSwitch();
 
-            if (!switchDefaultMat)
-            {
-                switchDefaultMat = selectedSwitch.GetComponent<Renderer>().material;
+            // this if statement protects bug if switch doesn't have a renderer. temporary because I don't how to put renderers on UI switches. //
+            if (selectedSwitch.GetComponent<Renderer>() != null)
+            { 
+                if (!switchDefaultMat)
+                {
+                    switchDefaultMat = selectedSwitch.GetComponent<Renderer>().material;
+                }
+                selectedSwitch.GetComponent<Renderer>().material = switchSelectedMat;
             }
-            selectedSwitch.GetComponent<Renderer>().material = switchSelectedMat;
         }
 
 
@@ -531,18 +540,17 @@ public class MouseLook : MonoBehaviour
             selectedAppliance = IsLookingAtAppliance();
         }
 
-        
-
-
-        
-
         // Resetting switches //
         if (IsLookingAtSwitch() == null)
         { 
             if (selectedSwitch != null)
             {
-                selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
-                switchDefaultMat = null;
+                // This if statement protects bug if the switch doesn't have a renderer. only temporary hopefully while we have UI switches. //
+                if (selectedSwitch.GetComponent<Renderer>() != null)
+                { 
+                    selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
+                    switchDefaultMat = null;
+                }
             }
             selectedSwitch = null;
         }
@@ -862,6 +870,16 @@ public class MouseLook : MonoBehaviour
             case SwitchType.WATER_TAP:
                 CookingManager.WaterTapSwitch();
                 break;
+            case SwitchType.ORDER_ACCEPT:
+                OrderManager.AcceptOrder(OrderManager.requestedOrders[0]);
+                break;
+            case SwitchType.ORDER_REJECT:
+                OrderManager.RejectOrder();
+                break;
+            case SwitchType.CANON_BUTTON:
+                CookingManager.ShootCapsule();
+                break;
+                
         }
     }
 

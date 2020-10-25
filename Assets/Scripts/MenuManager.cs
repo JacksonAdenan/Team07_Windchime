@@ -24,8 +24,9 @@ public class MenuManager : MonoBehaviour
     public Canvas debugUI;
     
 
-
+    // Timers //
     float orderCreatedTextTimer;
+    float orderSubmittedTextTimer;
 
     // Order creation stuff //
     public TextMeshProUGUI orderCreatedText;
@@ -60,6 +61,29 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI unLoadedText;
     public TextMeshProUGUI soupStatsText;
 
+
+    public Canvas newOrderCanvas;
+    public Canvas currentOrderCanvas;
+    
+    // These are the order request text boxes //
+    public TextMeshProUGUI wantedSpicy;
+    public TextMeshProUGUI wantedChunky;
+    public TextMeshProUGUI wantedColour;
+    public TextMeshProUGUI wantedMeatVegPref;
+
+    // These are the current order text boxes //
+    public TextMeshProUGUI requestedSpicy;
+    public TextMeshProUGUI requestedChunky;
+    public TextMeshProUGUI requestedColour;
+    public TextMeshProUGUI requestedMeatVegPref;
+
+    // Score and order submission UI //
+    public TextMeshProUGUI adjustableSubmittedOrderText;
+    public TextMeshProUGUI playerPoints;
+
+    public static TextMeshProUGUI submittedOrderText;
+
+
     // Seperators for ease of access //
     Transform soupOrganiser;
     Transform orderOrganiser;
@@ -84,6 +108,11 @@ public class MenuManager : MonoBehaviour
         //chunkyDisplayText = currentOrderOrganiser.Find("chunky").GetComponent<TextMeshProUGUI>();
 
         // orderCreatedText = orderOrganiser.Find("orderCreatedText").GetComponent<TextMeshProUGUI>();
+
+        // Setting my timers to 0 safely //
+        orderSubmittedTextTimer = 0;
+
+
         orderCreatedText.gameObject.SetActive(false);
 
 
@@ -99,6 +128,9 @@ public class MenuManager : MonoBehaviour
 
         //spicyInput = orderOrganiser.Find("spicyInput").GetComponent<TMP_InputField>();
         //chunkyInput = orderOrganiser.Find("chunkyInput").GetComponent<TMP_InputField>();
+
+        // Initialising static texts to their adjustable counter parts. //
+        submittedOrderText = adjustableSubmittedOrderText;
 
         
 
@@ -121,6 +153,17 @@ public class MenuManager : MonoBehaviour
     {
         MenuState();
 
+
+        // Doing timer things //
+        if (submittedOrderText.gameObject.activeInHierarchy)
+        { 
+            orderSubmittedTextTimer += Time.deltaTime;
+            if (orderSubmittedTextTimer >= 3)
+            {
+                submittedOrderText.gameObject.SetActive(false);
+                orderCreatedTextTimer = 0;
+            }    
+        }
 
         // Making the "Order Created" text disappear after a while.
         orderCreatedTextTimer += Time.deltaTime;
@@ -146,8 +189,13 @@ public class MenuManager : MonoBehaviour
         DisplayHeldCapsuleData();
         DisplayCurrentPortionsData();
 
-        // Displaying order monitor ui stuff //
-        DisplayOrderMonitor();
+        // Displaying order/canon monitor ui stuff //
+        DisplayCanonMonitor();
+
+        DisplayOrderScreens();
+
+        // Displaying players score. //
+        DisplayPlayerPoints();
 
         
     }
@@ -218,7 +266,7 @@ public class MenuManager : MonoBehaviour
 
     public void CreateOrder()
     {
-        OrderManager.AddOrder(OrderManager.CreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
+        OrderManager.SendOrder(OrderManager.ManuallyCreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
         orderCreatedText.gameObject.SetActive(true);
         orderCreatedTextTimer = 0;
 
@@ -229,23 +277,23 @@ public class MenuManager : MonoBehaviour
     void DisplayCurrentOrder(TextMeshProUGUI colour, TextMeshProUGUI meatVeg, TextMeshProUGUI spicy, TextMeshProUGUI chunky)
     {
         //soup.text = OrderManager.currentOrders[0].mainSoup.soupName;
-        colour.text = OrderManager.currentOrders[0].colourPreference.name;
+        colour.text = OrderManager.requestedOrders[0].colourPreference.name;
 
-        if (!OrderManager.currentOrders[0].noMeat && !OrderManager.currentOrders[0].noVeg)
+        if (!OrderManager.requestedOrders[0].noMeat && !OrderManager.requestedOrders[0].noVeg)
         {
             meatVeg.text = "Meat and Veg allowed";
         }
-        else if (OrderManager.currentOrders[0].noMeat && !OrderManager.currentOrders[0].noVeg)
+        else if (OrderManager.requestedOrders[0].noMeat && !OrderManager.requestedOrders[0].noVeg)
         {
             meatVeg.text = "Meat not allowed";
         }
-        else if (OrderManager.currentOrders[0].noVeg && !OrderManager.currentOrders[0].noMeat)
+        else if (OrderManager.requestedOrders[0].noVeg && !OrderManager.requestedOrders[0].noMeat)
         {
             meatVeg.text = "Veg not allowed";
         }
 
-        spicy.text = OrderManager.currentOrders[0].spicyness.ToString();
-        chunky.text = OrderManager.currentOrders[0].chunkiness.ToString();
+        spicy.text = OrderManager.requestedOrders[0].spicyness.ToString();
+        chunky.text = OrderManager.requestedOrders[0].chunkiness.ToString();
 
     }
 
@@ -305,7 +353,7 @@ public class MenuManager : MonoBehaviour
         currentCatcherState.text = CookingManager.currentCatcherState.ToString();
     }
 
-    void DisplayOrderMonitor()
+    void DisplayCanonMonitor()
     {
         if (CookingManager.isLoaded)
         {
@@ -383,6 +431,84 @@ public class MenuManager : MonoBehaviour
         //soup3Parent.transform.Find("spicyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[2].spicyValue.ToString();
         //soup3Parent.transform.Find("chunkyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[2].chunkyValue.ToString();
         //soup3Parent.transform.Find("restrictedIngredient").GetComponent<TextMeshProUGUI>().text = "Restricted: " + CookingManager.allSoups[2].restrictedIngredient.name;
+    }
+
+    void DisplayOrderScreens()
+    {
+        if (OrderManager.currentScreenState == OrderScreenState.NEW_ORDER)
+        {
+            newOrderCanvas.gameObject.SetActive(true);
+            currentOrderCanvas.gameObject.SetActive(false);
+
+            UpdateNewOrder();
+        }
+        else if (OrderManager.currentScreenState == OrderScreenState.CURRENT_ORDER)
+        {
+            newOrderCanvas.gameObject.SetActive(false);
+            currentOrderCanvas.gameObject.SetActive(true);
+
+            UpdateCurrentOrder();
+        }
+    }
+
+    void UpdateNewOrder()
+    {
+        // This if statement is to make sure your not trying to access requestedOrders if the list is empty. //
+        if (OrderManager.requestedOrders.Count > 0)
+        { 
+            wantedChunky.text = "Chunkyness: " + OrderManager.requestedOrders[0].chunkiness.ToString();
+            wantedSpicy.text = "Spicyness: " + OrderManager.requestedOrders[0].spicyness.ToString();
+            wantedColour.text = "No colours yet.";
+
+            if (OrderManager.requestedOrders[0].noMeat == false && OrderManager.requestedOrders[0].noVeg == false)
+            {
+                wantedMeatVegPref.text = "Meat and veg allowed";
+            }
+            else if (OrderManager.requestedOrders[0].noMeat == true)
+            {
+                wantedMeatVegPref.text = "No meat";
+            }
+            else if (OrderManager.requestedOrders[0].noVeg == true)
+            {
+                wantedMeatVegPref.text = "No veg";
+            }
+        }
+    }
+
+    void UpdateCurrentOrder()
+    {
+        if (OrderManager.acceptedOrders.Count > 0)
+        {
+            Order theOrder = OrderManager.acceptedOrders[0];
+
+            requestedSpicy.text = "Spicy: " + theOrder.spicyness;
+            requestedChunky.text = "Chunky: " + theOrder.chunkiness;
+            requestedColour.text = "There are no colours yet.";
+
+
+            if (theOrder.noMeat == false && theOrder.noVeg == false)
+            {
+                requestedMeatVegPref.text = "Meat and veg allowed";
+            }
+            else if (theOrder.noMeat == true)
+            {
+                requestedMeatVegPref.text = "No meat";
+            }
+            else if (theOrder.noVeg == true)
+            {
+                requestedMeatVegPref.text = "No veg";
+            }
+        }
+    }
+
+    public void DisplayPlayerPoints()
+    {
+        playerPoints.text = "POINTS: " + ScoreManager.currentScore.ToString();
+    }
+
+    public static void DisplayOrderSubmittedText()
+    {
+        submittedOrderText.gameObject.SetActive(true);
     }
 
     
