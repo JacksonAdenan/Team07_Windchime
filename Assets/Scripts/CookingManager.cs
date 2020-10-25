@@ -57,7 +57,7 @@ public class CookingManager : MonoBehaviour
 
     // Canon stats and current things. //
     public static CanonState currentCanonState;
-    public static Transform loadedCapsule;
+    public static Soup loadedCapsule;
     public static bool isLoaded;
 
 
@@ -282,17 +282,17 @@ public class CookingManager : MonoBehaviour
     /// CreateSoup() grabs a child gameObject from the AllSoups gameObject in the scene. It then uses data stored in the gameObjects SoupCreator script to make a Soup instance.
     /// </summary>
     /// <param name="soupFromScene"></param>
-    Soup CreateSoup(Transform soupFromScene)
-    {
-        SoupCreator soupsData = soupFromScene.GetComponent<SoupCreator>();
-        Ingredient restrictedIngredient = ConvertTextToIngredient(soupsData.restrictedIngredient);
-        float spicyValue = soupsData.spicyValue;
-        float chunkyValue = soupsData.chunkyValue;
-
-        Soup newSoup = new Soup(spicyValue, chunkyValue);
-        return newSoup;
-        
-    }
+    //Soup CreateSoup(Transform soupFromScene)
+    //{
+    //    SoupCreator soupsData = soupFromScene.GetComponent<SoupCreator>();
+    //    Ingredient restrictedIngredient = ConvertTextToIngredient(soupsData.restrictedIngredient);
+    //    float spicyValue = soupsData.spicyValue;
+    //    float chunkyValue = soupsData.chunkyValue;
+    //
+    //    Soup newSoup = new Soup(spicyValue, chunkyValue);
+    //    return newSoup;
+    //    
+    //}
 
     public static Ingredient ConvertTextToIngredient(string textToConvert)
     {
@@ -364,8 +364,9 @@ public class CookingManager : MonoBehaviour
         {
             CombineIngredient(CookingManager.ConvertTextToIngredient(currentIngredients[i].GetComponent<IngredientData>().ingredientName));
         }
-        
+
         Soup newSoup = new Soup(currentSpicy, currentChunky);
+
         for (int i = 0; i < currentIngredients.Count; i++)
         {
             newSoup.usedIngredients.Add(CookingManager.ConvertTextToIngredient(currentIngredients[i].GetComponent<IngredientData>().ingredientName));
@@ -394,6 +395,7 @@ public class CookingManager : MonoBehaviour
         currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
 
         Soup newSoup = CookSoup();
+        
         Transform newSoupOrb = Object.Instantiate(soupOrb, soupOrb.position, soupOrb.rotation);
         newSoupOrb.gameObject.SetActive(true);
         SoupData newSoupsData = newSoupOrb.GetComponent<SoupData>();
@@ -408,7 +410,7 @@ public class CookingManager : MonoBehaviour
 
         occupyingSoup = newSoupOrb;
 
-        Debug.Log("CREATED SOUP!");
+        
     }
 
        
@@ -471,20 +473,12 @@ public class CookingManager : MonoBehaviour
 
     public static void LoadCanon(Soup theDataToLoad)
     {
-        // All this is mostly just checking if it has the right component. If it doesn't it makes one for it. //
-        SoupData canonsData;
+
         isLoaded = true;
-        if (canonCapsule.GetComponent<SoupData>() == null)
-        {
-            canonCapsule.gameObject.AddComponent<SoupData>();
-            canonsData = canonCapsule.GetComponent<SoupData>();
-        }
-        canonsData = canonCapsule.GetComponent<SoupData>();
 
 
         // Actual loading of soup data. //
-        canonsData.theSoup = theDataToLoad;
-
+        loadedCapsule = theDataToLoad;
         Debug.Log("Canon loaded and received data successfully.");
     }
     public static void UnloadCanon()

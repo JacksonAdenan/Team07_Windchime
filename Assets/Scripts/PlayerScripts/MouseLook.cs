@@ -635,6 +635,21 @@ public class MouseLook : MonoBehaviour
 
         soupPortion.GetComponent<Rigidbody>().useGravity = false;
         soupPortion.GetComponent<Rigidbody>().isKinematic = true;
+
+        // Manually setting held items soup data because instantiate isn't working i think. //
+        //heldItem.GetComponent<SoupData>().theSoup = itemToPickUp.GetComponent<SoupData>().theSoup;
+
+
+        if (heldItem.GetComponent<SoupData>().theSoup == null)
+        {
+            Debug.Log("THE OSUP WAS NULL ALL ALONG!!");
+        }
+        else
+        {
+            Debug.Log("THE SOUP DOES WORK SPICY : " + heldItem.GetComponent<SoupData>().theSoup.spicyValue);
+        }
+        Debug.Log("CREATED SOUP!");
+
     }
 
     void LoadCanon()
@@ -656,12 +671,13 @@ public class MouseLook : MonoBehaviour
             soupData.currentPortions = 5;
             soupData.maxPortions = 5;
 
+
             // Can only set the type of soup if the catcher contains soup. //
             if (CookingManager.currentPortions.Count > 0)
-            { 
-                soupData.theSoup = CookingManager.currentPortions[0];
+            {
+                Debug.Log("SET CAPSULES SOUP DATA");
+                capsule.gameObject.GetComponent<SoupData>().theSoup = CookingManager.currentPortions[0];
             }
-
         }
         
         // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 

@@ -53,6 +53,13 @@ public class MenuManager : MonoBehaviour
 
     public TextMeshProUGUI currentCatcherState;
 
+    public TextMeshProUGUI heldCapsuleData;
+    public TextMeshProUGUI currentPortionsData;
+
+    // Order monitor display stuff //
+    public TextMeshProUGUI unLoadedText;
+    public TextMeshProUGUI soupStatsText;
+
     // Seperators for ease of access //
     Transform soupOrganiser;
     Transform orderOrganiser;
@@ -135,6 +142,14 @@ public class MenuManager : MonoBehaviour
         DisplayCurrentIngredients();
 
         DisplayCurrentCatcherState();
+
+        DisplayHeldCapsuleData();
+        DisplayCurrentPortionsData();
+
+        // Displaying order monitor ui stuff //
+        DisplayOrderMonitor();
+
+        
     }
 
     void MenuState()
@@ -288,6 +303,61 @@ public class MenuManager : MonoBehaviour
     void DisplayCurrentCatcherState()
     {
         currentCatcherState.text = CookingManager.currentCatcherState.ToString();
+    }
+
+    void DisplayOrderMonitor()
+    {
+        if (CookingManager.isLoaded)
+        {
+            unLoadedText.gameObject.SetActive(false);
+            soupStatsText.gameObject.SetActive(true);
+            //Soup soupData = CookingManager.loadedCapsule;
+            if (CookingManager.loadedCapsule == null)
+            {
+                soupStatsText.text = "NULL soup.";
+            }
+            else
+            {
+                soupStatsText.text = "Soup is " + CookingManager.loadedCapsule.spicyValue + " spicy and " + CookingManager.loadedCapsule.chunkyValue + " chunky.";
+            }
+            //soupStatsText.text = "Soup is: " + soupData.spicyValue + " spicy and " + soupData.chunkyValue + " chunky.";
+        }
+        else if (!CookingManager.isLoaded)
+        {
+            unLoadedText.gameObject.SetActive(true);
+            soupStatsText.gameObject.SetActive(false);
+        }
+    }
+
+    void DisplayHeldCapsuleData()
+    {
+        if (MouseLook.heldItem && MouseLook.heldItem.tag == "Capsule")
+        {
+            if (MouseLook.heldItem.GetComponent<SoupData>().theSoup == null)
+            {
+                heldCapsuleData.text = "This is soup is null.";
+            }
+            else
+            {
+                heldCapsuleData.text = "This soup is NOT null.";
+            }
+        }
+    }
+
+    void DisplayCurrentPortionsData()
+    {
+        if (CookingManager.currentPortions.Count > 0 && CookingManager.currentPortions[0] == null)
+        {
+            currentPortionsData.text = "Portion is null.";
+        }
+        else if (CookingManager.currentPortions.Count > 0 && CookingManager.currentPortions[0] != null)
+        {
+            currentPortionsData.text = "Portion is NOT null!";
+        }
+        else if (CookingManager.currentPortions.Count == 0)
+        {
+            currentPortionsData.text = "there are no portions.";
+        }
     }
 
     void DisplayAvailableSoups(Transform parentOfUI)
