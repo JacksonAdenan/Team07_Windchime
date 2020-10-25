@@ -32,6 +32,7 @@ public enum SwitchType
     CANON_BUTTON,
     ORDER_ACCEPT,
     ORDER_REJECT,
+    BLENDER_BUTTON,
 
     ERROR
 }
@@ -283,6 +284,25 @@ public class MouseLook : MonoBehaviour
 
                             // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
                             CookingManager.RemoveCapsule();
+                        }
+                    }
+                }
+                else if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.BLENDER)
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (isHoldingItem && heldItem.tag == "InteractableBlenderCover" && CookingManager.currentBlenderState == BlenderState.NOT_COVERED)
+                        {
+                            RemoveItem();
+                            CookingManager.AttachBlenderCover();
+                        }
+                        else if (CookingManager.currentBlenderState == BlenderState.COVERED && !isHoldingItem)
+                        {
+                            Debug.Log("REMOVED BLENDER COVER");
+                            DetachBlenderCover(CookingManager.blenderCover);
+      
+                            // REMEMBER TO RUN REMOVE BLENDER COVER FUNCTION TO SET THE APPROPRIATE VALUE ON THE BLENDER. //
+                            CookingManager.RemoveBlenderCover();
                         }
                     }
                 }
@@ -567,7 +587,7 @@ public class MouseLook : MonoBehaviour
     {
         for (int i = 0; i < collisions.Length; i++)
         {
-            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule")
+            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule" || collisions[i].gameObject.tag == "InteractableBlenderCover")
             {
                
                 return collisions[i].transform;
@@ -703,6 +723,26 @@ public class MouseLook : MonoBehaviour
 
         capsule.GetComponent<Rigidbody>().useGravity = false;
         capsule.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+    void DetachBlenderCover(Transform itemToPickUp)
+    {
+        Transform blenderCover = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
+        blenderCover.tag = "InteractableBlenderCover";
+
+        // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
+        for (int i = 0; i < blenderCover.childCount; i++)
+        {
+            blenderCover.GetChild(0).tag = "InteractableBlenderCover";
+        }
+
+        isHoldingItem = true;
+        heldItem = blenderCover;
+        blenderCover.SetParent(hand);
+        blenderCover.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+
+        blenderCover.GetComponent<Rigidbody>().useGravity = false;
+        blenderCover.GetComponent<Rigidbody>().isKinematic = true;
     }
     void DropItem()
     {

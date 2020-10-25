@@ -13,6 +13,8 @@ TagManager:
   - SoupPortion
   - Capsule
   - CatcherCapsule
+  - BlenderCover
+  - InteractableBlenderCover
   layers:
   - Default
   - TransparentFX

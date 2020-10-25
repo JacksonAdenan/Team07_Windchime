@@ -40,6 +40,12 @@ public enum CanonState
     EMPTY,
     LOADED
 }
+
+public enum BlenderState
+{ 
+    NOT_COVERED,
+    COVERED
+}
 public class CookingManager : MonoBehaviour
 {
     public static List<Ingredient> allIngridients;
@@ -86,6 +92,21 @@ public class CookingManager : MonoBehaviour
     public static Transform soupOrb;
 
 
+    // Triggers and stats for blender appliance. //
+    public static BlenderState currentBlenderState;
+    public static List<Transform> currentBlenderIngredients;
+
+    //public static Transform blenderEntryTrigger;
+    //public static Transform blenderExitTrigger;
+
+    //public Transform adjustableBlenderEntryTrigger;
+    //public Transform adjustableBlenderExitTrigger;
+
+    // This transform is just used to show if the blender is covered or not. //
+    public static Transform blenderCover;
+    public Transform adjustableBlenderCover;
+
+
     // Triggers and stats for cutter appliance. //
     public static Transform entryTrigger;
     public static Transform exitTrigger;
@@ -111,6 +132,8 @@ public class CookingManager : MonoBehaviour
   
 
         currentIngredients = new List<Transform>();
+
+        
 
         // Creating all basic ingridients //
         CreateBasicIngridients();
@@ -154,6 +177,16 @@ public class CookingManager : MonoBehaviour
         currentCanonState = CanonState.EMPTY;
         isLoaded = false;
 
+        // Initialising blender things. //
+        currentBlenderIngredients = new List<Transform>();
+        currentBlenderState = BlenderState.COVERED;
+        blenderCover = adjustableBlenderCover;
+        
+        //blenderEntryTrigger = adjustableBlenderEntryTrigger;
+        //blenderExitTrigger = adjustableBlenderExitTrigger;
+
+
+
         // Giving the capsules soup data components because i'm gonna use them to store information. //
         if (adjustableCanonCapsule.GetComponent<SoupData>() == null)
         { 
@@ -176,8 +209,24 @@ public class CookingManager : MonoBehaviour
         // Canon updates //
         UpdateCanonState();
         UpdateCanonCapsule();
+
+        // Blender updates // 
+        UpdateBlenderCover();
     }
 
+
+    void UpdateBlenderCover()
+    {
+        switch (currentBlenderState)
+        {
+            case BlenderState.COVERED:
+                blenderCover.gameObject.SetActive(true);
+                break;
+            case BlenderState.NOT_COVERED:
+                blenderCover.gameObject.SetActive(false);
+                break;
+        }
+    }
     void UpdateCanonCapsule()
     {
         switch (currentCanonState)
@@ -361,6 +410,17 @@ public class CookingManager : MonoBehaviour
         Debug.Log("Caught a portion of soup.");
     }
 
+    public static void AddIngredientToBlender(Transform ingredientToCatch)
+    {
+        currentBlenderIngredients.Add(ingredientToCatch);
+        Debug.Log("Ingredient added to blender.");
+    }
+    public static void RemoveIngredientFromBlender(Transform ingredientToRemove)
+    {
+        currentBlenderIngredients.Remove(ingredientToRemove);
+        Debug.Log("Ingredient removed from blender.");
+    }
+
     public static Soup CookSoup()
     {
         //bool finishedCook = false;
@@ -466,6 +526,14 @@ public class CookingManager : MonoBehaviour
         Debug.Log(currentCookingOrbState);
     }
 
+    public static void AttachBlenderCover()
+    {
+        currentBlenderState = BlenderState.COVERED;
+    }
+    public static void RemoveBlenderCover()
+    {
+        currentBlenderState = BlenderState.NOT_COVERED;
+    }
     public static void AttachCapsule()
     {
         hasCapsule = true;
