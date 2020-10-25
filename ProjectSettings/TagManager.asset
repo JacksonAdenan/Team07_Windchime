@@ -12,6 +12,7 @@ TagManager:
   - Soup
   - SoupPortion
   - Capsule
+  - CatcherCapsule
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,7 @@ public enum ApplianceType
 { 
     COOKING_ORB,
     CATCHER,
+    CANON
 }
 public class ApplianceData : MonoBehaviour
 {

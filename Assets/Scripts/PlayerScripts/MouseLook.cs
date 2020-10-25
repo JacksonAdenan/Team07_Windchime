@@ -261,6 +261,7 @@ public class MouseLook : MonoBehaviour
                     {
                         if (isHoldingItem && heldItem.tag == "Capsule" && !CookingManager.hasCapsule)
                         {
+                            
                             RemoveItem();
                             CookingManager.AttachCapsule();
                         }
@@ -275,7 +276,25 @@ public class MouseLook : MonoBehaviour
                             {
                                 Detach(CookingManager.emptyAttachedCapsule);
                             }
+
+
+                            // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
                             CookingManager.RemoveCapsule();
+                        }
+                    }
+                }
+                else if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.CANON)
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (isHoldingItem && heldItem.tag == "Capsule" && !CookingManager.isLoaded)
+                        {
+                            CookingManager.LoadCanon(heldItem.GetComponent<SoupData>().theSoup);
+                            RemoveItem();
+                        }
+                        else if (CookingManager.isLoaded)
+                        {
+                            Debug.Log("Tried to unload the canon but that feature doesn't exist yet.");
                         }
                     }
                 }
@@ -540,6 +559,7 @@ public class MouseLook : MonoBehaviour
         {
             if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule")
             {
+               
                 return collisions[i].transform;
 
             }
@@ -570,12 +590,27 @@ public class MouseLook : MonoBehaviour
     void PickUpItem(Transform itemToPickUp)
     {
         isHoldingItem = true;
-        heldItem = itemToPickUp;
-        itemToPickUp.SetParent(hand);
-        itemToPickUp.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+        if (itemToPickUp.parent != null)
+        {
+            heldItem = itemToPickUp.parent;
+            heldItem.SetParent(hand);
+            heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
 
-        itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
-        itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+
+            // this is the parent it doesnt have these things !. So i have to get the children.//
+            heldItem.GetComponent<Rigidbody>().useGravity = false;
+            heldItem.GetComponent<Rigidbody>().isKinematic = true;
+        }
+        else
+        { 
+            heldItem = itemToPickUp;
+            itemToPickUp.SetParent(hand);
+            itemToPickUp.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+
+            itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
+            itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+        }
+        
     }
     void PickUpSoup(Transform itemToPickUp)
     {
@@ -602,10 +637,38 @@ public class MouseLook : MonoBehaviour
         soupPortion.GetComponent<Rigidbody>().isKinematic = true;
     }
 
+    void LoadCanon()
+    { 
+        
+    }
     void Detach(Transform itemToPickUp)
     {
         Transform capsule = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
         capsule.tag = "Capsule";
+
+        // Giving the capsule appropriate soup data. //
+        if (capsule.GetComponent<SoupData>() == null)
+        {
+            capsule.gameObject.AddComponent<SoupData>();
+            SoupData soupData = capsule.GetComponent<SoupData>();
+
+            // Just set current portions and max portions to 5. Doesn't really matter just yet. //
+            soupData.currentPortions = 5;
+            soupData.maxPortions = 5;
+
+            // Can only set the type of soup if the catcher contains soup. //
+            if (CookingManager.currentPortions.Count > 0)
+            { 
+                soupData.theSoup = CookingManager.currentPortions[0];
+            }
+
+        }
+        
+        // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
+        for (int i = 0; i < capsule.childCount; i++)
+        {
+            capsule.GetChild(0).tag = "Capsule";
+        }
 
         isHoldingItem = true;
         heldItem = capsule;
@@ -619,11 +682,30 @@ public class MouseLook : MonoBehaviour
     {
         isHoldingItem = false;
 
-        heldItem.GetComponent<Rigidbody>().useGravity = false;
-        heldItem.GetComponent<Rigidbody>().isKinematic = false;
+        // Have to write exception code for capsules since they have children >:( //
+        if (heldItem.tag == "Capsule")
+        {
+            //heldItem.GetChild(0).GetComponent<Rigidbody>().useGravity = false;
+            //heldItem.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
 
-        heldItem.parent = null;
-        heldItem = null;
+            // ^ This is commented out for now because although the children have the mesh collider, the parent prefab still has the rigidbody. Hopefully works? //
+
+            heldItem.GetComponent<Rigidbody>().useGravity = false;
+            heldItem.GetComponent<Rigidbody>().isKinematic = false;
+
+            heldItem.parent = null;
+            heldItem = null;
+        }
+        else
+        { 
+            heldItem.GetComponent<Rigidbody>().useGravity = false;
+            heldItem.GetComponent<Rigidbody>().isKinematic = false;
+
+            heldItem.parent = null;
+            heldItem = null;
+        
+        }
+        
     }
 
     void ThrowItem()

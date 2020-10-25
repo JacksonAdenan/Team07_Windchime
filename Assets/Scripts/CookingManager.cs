@@ -34,6 +34,12 @@ public enum CatcherState
     FILLED_4,
     FULL_CAPSULE
 }
+
+public enum CanonState
+{ 
+    EMPTY,
+    LOADED
+}
 public class CookingManager : MonoBehaviour
 {
     public static List<Ingredient> allIngridients;
@@ -48,6 +54,17 @@ public class CookingManager : MonoBehaviour
     public static Colour currentColour;
 
     public static Transform occupyingSoup;
+
+    // Canon stats and current things. //
+    public static CanonState currentCanonState;
+    public static Transform loadedCapsule;
+    public static bool isLoaded;
+
+
+    // These transforms of capsules are just like a thing to show if the canon is loaded or not. They aren't really a part of the game. //
+    public Transform adjustableCanonCapsule;
+    public static Transform canonCapsule;
+
 
     // Soup catcher stats and current things. //
     public static List<Soup> currentPortions;
@@ -132,6 +149,12 @@ public class CookingManager : MonoBehaviour
         filledAttachedCapsule = adjustableFilledAttachedCapsule;
 
         hasCapsule = true;
+
+        // Initialising canon things. //
+        currentCanonState = CanonState.EMPTY;
+        isLoaded = false;
+
+        canonCapsule = adjustableCanonCapsule;
     }
     
     // Update is called once per frame
@@ -145,8 +168,34 @@ public class CookingManager : MonoBehaviour
         UpdateCatcherState();
         UpdateCatcherCapsule();
 
+        // Canon updates //
+        UpdateCanonState();
+        UpdateCanonCapsule();
     }
 
+    void UpdateCanonCapsule()
+    {
+        switch (currentCanonState)
+        {
+            case CanonState.EMPTY:
+                canonCapsule.gameObject.SetActive(false);
+                break;
+            case CanonState.LOADED:
+                canonCapsule.gameObject.SetActive(true);
+                break;
+        }
+    }
+    void UpdateCanonState()
+    {
+        if (!isLoaded)
+        {
+            currentCanonState = CanonState.EMPTY;
+        }
+        else
+        {
+            currentCanonState = CanonState.LOADED;
+        }
+    }
     void UpdateCatcherState()
     {
         if (!hasCapsule)
@@ -418,5 +467,28 @@ public class CookingManager : MonoBehaviour
     {
         hasCapsule = false;
         Debug.Log("hasCapsule is now FALSE");
+    }
+
+    public static void LoadCanon(Soup theDataToLoad)
+    {
+        // All this is mostly just checking if it has the right component. If it doesn't it makes one for it. //
+        SoupData canonsData;
+        isLoaded = true;
+        if (canonCapsule.GetComponent<SoupData>() == null)
+        {
+            canonCapsule.gameObject.AddComponent<SoupData>();
+            canonsData = canonCapsule.GetComponent<SoupData>();
+        }
+        canonsData = canonCapsule.GetComponent<SoupData>();
+
+
+        // Actual loading of soup data. //
+        canonsData.theSoup = theDataToLoad;
+
+        Debug.Log("Canon loaded and received data successfully.");
+    }
+    public static void UnloadCanon()
+    {
+        isLoaded = false;
     }
 }
