@@ -311,16 +311,16 @@ public class MenuManager : MonoBehaviour
         {
             unLoadedText.gameObject.SetActive(false);
             soupStatsText.gameObject.SetActive(true);
-            //Soup soupData = CookingManager.loadedCapsule;
-            if (CookingManager.loadedCapsule == null)
+            Soup soupData = CookingManager.canonCapsule.GetComponent<SoupData>().theSoup;
+            if (CookingManager.canonCapsule.GetComponent<SoupData>().theSoup == null)
             {
                 soupStatsText.text = "NULL soup.";
             }
             else
             {
-                soupStatsText.text = "Soup is " + CookingManager.loadedCapsule.spicyValue + " spicy and " + CookingManager.loadedCapsule.chunkyValue + " chunky.";
+                soupStatsText.text = "Soup is " + soupData.spicyValue + " spicy and " + soupData.chunkyValue + " chunky.";
             }
-            //soupStatsText.text = "Soup is: " + soupData.spicyValue + " spicy and " + soupData.chunkyValue + " chunky.";
+
         }
         else if (!CookingManager.isLoaded)
         {

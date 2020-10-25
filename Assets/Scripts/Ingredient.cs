@@ -11,9 +11,11 @@ public class Ingredient
     Colour colour;
 
     public Transform prefab;
-    public Ingredient(string name)
+    public Ingredient(string name, float spicy, float chunky)
     {
         this.name = name;
+        spicyness = spicy;
+        chunkyness = chunky;
     }
 
 }

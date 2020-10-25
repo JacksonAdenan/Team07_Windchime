@@ -57,7 +57,7 @@ public class CookingManager : MonoBehaviour
 
     // Canon stats and current things. //
     public static CanonState currentCanonState;
-    public static Soup loadedCapsule;
+    //public static Soup loadedCapsule;
     public static bool isLoaded;
 
 
@@ -154,6 +154,11 @@ public class CookingManager : MonoBehaviour
         currentCanonState = CanonState.EMPTY;
         isLoaded = false;
 
+        // Giving the capsules soup data components because i'm gonna use them to store information. //
+        if (adjustableCanonCapsule.GetComponent<SoupData>() == null)
+        { 
+            adjustableCanonCapsule.gameObject.AddComponent<SoupData>();
+        }
         canonCapsule = adjustableCanonCapsule;
     }
     
@@ -308,9 +313,9 @@ public class CookingManager : MonoBehaviour
 
     void CreateBasicIngridients()
     {
-        allIngridients.Add(new Ingredient("apple"));
-        allIngridients.Add(new Ingredient("banana"));
-        allIngridients.Add(new Ingredient("orange"));
+        allIngridients.Add(new Ingredient("apple", 10, 25));
+        allIngridients.Add(new Ingredient("banana", 2, 5));
+        allIngridients.Add(new Ingredient("orange", 8, 14));
 
     }
 
@@ -378,10 +383,13 @@ public class CookingManager : MonoBehaviour
         currentChunky = 0;
         currentCookingOrbState = CookingOrbState.EMPTY;
 
-        for (int i = currentIngredients.Count - 1; i == 0; i--)
+        Debug.Log("currentIngredients.Count is " + currentIngredients.Count);
+        for (int i = currentIngredients.Count - 1; i > -1; i--)
         {
+            Debug.Log("=================== test ==================");
             currentIngredients[i].gameObject.SetActive(false);
             currentIngredients.Remove(currentIngredients[i]);
+            Debug.Log("Deleted ingredient from game");
         }
         
         return newSoup;
@@ -478,11 +486,13 @@ public class CookingManager : MonoBehaviour
 
 
         // Actual loading of soup data. //
-        loadedCapsule = theDataToLoad;
+        canonCapsule.GetComponent<SoupData>().theSoup = theDataToLoad;
         Debug.Log("Canon loaded and received data successfully.");
     }
     public static void UnloadCanon()
     {
+        canonCapsule.GetComponent<SoupData>().theSoup = null;
         isLoaded = false;
+        Debug.Log("Canon unloaded and removed soup data.");
     }
 }

@@ -294,7 +294,9 @@ public class MouseLook : MonoBehaviour
                         }
                         else if (CookingManager.isLoaded)
                         {
-                            Debug.Log("Tried to unload the canon but that feature doesn't exist yet.");
+                            Detach(CookingManager.canonCapsule);
+                            CookingManager.UnloadCanon();
+                            //Debug.Log("Tried to unload the canon but that feature doesn't exist yet.");
                         }
                     }
                 }
