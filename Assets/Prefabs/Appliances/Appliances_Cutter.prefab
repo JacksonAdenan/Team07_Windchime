@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4471777247477741889}
   m_Layer: 0
-  m_Name: Appliance_Cutter
+  m_Name: Appliances_Cutter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,6 +38,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4471777247477741889}
     m_Modifications:
+    - target: {fileID: -9138384822779237652, guid: 2f387bffd1210864d8e3589480126387,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 2f387bffd1210864d8e3589480126387,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -93,6 +98,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3202742794738357884, guid: 2f387bffd1210864d8e3589480126387,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: -2724548548600040549, guid: 2f387bffd1210864d8e3589480126387,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: -2678173041732897299, guid: 2f387bffd1210864d8e3589480126387,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: -2271911505176160813, guid: 2f387bffd1210864d8e3589480126387,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -107,6 +127,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Appliance_Cutter
+      objectReference: {fileID: 0}
+    - target: {fileID: 480211428090055953, guid: 2f387bffd1210864d8e3589480126387,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 1882938062297403310, guid: 2f387bffd1210864d8e3589480126387,
         type: 3}
@@ -128,6 +153,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 84019251ff601f349b26697739d44903, type: 2}
+    - target: {fileID: 5205421966111548107, guid: 2f387bffd1210864d8e3589480126387,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878836334533633219, guid: 2f387bffd1210864d8e3589480126387,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6957339817753043533, guid: 2f387bffd1210864d8e3589480126387,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 8344799912323261931, guid: 2f387bffd1210864d8e3589480126387,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
