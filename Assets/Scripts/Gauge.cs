@@ -37,4 +37,13 @@ public class Gauge : MonoBehaviour
         currentAmount -= decrementAmount;
     }
 
+    public bool IsAboveHalf()
+    {
+        if (currentAmount > gaugeCap / 2)
+        {
+            return true;
+        }
+        return false;
+    }
+
 }

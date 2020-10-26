@@ -219,7 +219,7 @@ public class MenuManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.P))
                 {
                     currentState = global::MenuState.none;
-                    playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.lookMode;
+                    playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
                     Cursor.lockState = CursorLockMode.Locked;
                 }
                 break;
@@ -230,7 +230,7 @@ public class MenuManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.O))
                 {
                     currentState = global::MenuState.none;
-                    playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.lookMode;
+                    playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
                     Cursor.lockState = CursorLockMode.Locked;
                 }
                 break;

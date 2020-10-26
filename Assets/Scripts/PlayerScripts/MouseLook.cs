@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,8 @@ using UnityEngine.UI;
 
 public enum CameraMode
 { 
-    lookMode,
-    handMode,
+    FPS_CONTROL,
+    HAND_CONTROL,
     NEWMODE,
     pauseMode
 }
@@ -38,6 +39,10 @@ public enum SwitchType
 }
 public class MouseLook : MonoBehaviour
 {
+    // Constants //
+    const float INTERACT_DISTANCE = 2;
+
+
     // Adjustable Values //
     // ------------------------------------------ //
     public float mouseSensitivity = 100f;
@@ -69,6 +74,7 @@ public class MouseLook : MonoBehaviour
     public Material switchSelectedMat;
     //public Material waterSelectedMat;
 
+    public Vector3 handFPSPos;
     public Transform hand;
     public Transform collisionSphere;
     public Transform realHandCentre;
@@ -87,7 +93,7 @@ public class MouseLook : MonoBehaviour
 
     bool isHoldingItem = false;
     Vector3 handPos;
-    public CameraMode currentCameraMode = CameraMode.lookMode;
+    public CameraMode currentCameraMode = CameraMode.FPS_CONTROL;
     public static Transform selectedItem;
     public static Transform selectedWater;
     public static Transform selectedAppliance = null;
@@ -136,13 +142,16 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Doing raycast from hand //
-        Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
-        Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
+        //// Doing raycast from hand //
+        //Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
+        //Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
+        //
+        //// Doing raycast from screen //
+        //Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 5, out raycastFromScreen, 5);
+        //Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 5, Color.white);
 
-        // Doing raycast from screen //
-        Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 5, out raycastFromScreen, 5);
-        Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 5, Color.white);
+        // Raycast code is now controlled by this. //
+        CalculateTarget();
 
         // Doing sphere check //
         collisions = Physics.OverlapSphere(collisionSphere.position, handCollisionRadius);
@@ -364,18 +373,18 @@ public class MouseLook : MonoBehaviour
     {
         switch (currentCameraMode)
         {
-            case CameraMode.lookMode:
+            case CameraMode.FPS_CONTROL:
                 CameraLook();
-                if (Input.GetMouseButton(1))
+                if (Input.GetMouseButtonDown(1))
                 {
-                    currentCameraMode = CameraMode.handMode;
+                    currentCameraMode = CameraMode.HAND_CONTROL;
                 }
                 break;
-            case CameraMode.handMode:
-
-                if (Input.GetMouseButtonUp(1))
+            case CameraMode.HAND_CONTROL:
+                CameraLookFPS();
+                if (Input.GetMouseButtonDown(1))
                 {
-                    currentCameraMode = CameraMode.lookMode;
+                    currentCameraMode = CameraMode.FPS_CONTROL;
                 }
                 break;
             case CameraMode.pauseMode:
@@ -436,7 +445,7 @@ public class MouseLook : MonoBehaviour
         // Old crosshair placement code. I'm gonna try implement a new way which will be smoother and wont break if the player isn't looking at anything.
         crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
 
-        //Vector3 crosshairDir = realHandCentre.position + realHandCentre.forward * (target.point - realHandCentre.position);
+        //Vector3 crosshairDir = realHandCentre.position + realHandCentre.forward * (5);
         //Debug.DrawLine(realHandCentre.position, crosshairDir, Color.red, 1);
         //crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(crosshairDir);
 
@@ -466,26 +475,25 @@ public class MouseLook : MonoBehaviour
         }      
     }
 
-    void CameraHandControl()
+    void CameraLookFPS()
     {
+        // Old crosshair placement code. I'm gonna try implement a new way which will be smoother and wont break if the player isn't looking at anything.
+        crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
+
         float mouseX = Input.GetAxis("Mouse X") * handControlSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * handControlSensitivity * Time.deltaTime;
 
-        Vector3 handMovement = transform.right * mouseX + transform.up * mouseY;
 
+        float rotMouseX = Input.GetAxis("Mouse X") * rotationSensitivity * Time.deltaTime;
+        float rotMouseY = Input.GetAxis("Mouse Y") * rotationSensitivity * Time.deltaTime;
 
-        hand.transform.position += handMovement * Time.deltaTime;
+        hand.localPosition = handFPSPos;
 
-        handPos = hand.transform.localPosition;
-        
-        handPos.z = Mathf.Clamp(handPos.z, handZDistance, handZDistance);
-        handPos.y = Mathf.Clamp(handPos.y, handYFloorLimit, handYCeilingLimit);
-        handPos.x = Mathf.Clamp(handPos.x, handXLeftLimit, handXRightLimit);
+        xRotation -= rotMouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        gameObject.transform.Rotate(-Vector3.right * rotMouseY);
+        playerBody.Rotate(Vector3.up * rotMouseX);
 
-
-        hand.transform.localPosition = handPos;
-
-      
     }
 
     void CameraPause()
@@ -594,23 +602,32 @@ public class MouseLook : MonoBehaviour
 
     Transform NewIsLookingAtItem()
     {
-        for (int i = 0; i < collisions.Length; i++)
-        {
-            if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule" || collisions[i].gameObject.tag == "InteractableBlenderCover")
-            {
-               
-                return collisions[i].transform;
+        //for (int i = 0; i < collisions.Length; i++)
+        //{
+        //    if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule" || collisions[i].gameObject.tag == "InteractableBlenderCover")
+        //    {
+        //       
+        //        return collisions[i].transform;
+        //
+        //    }
+        //}
+        //
+        //return null;
 
-            }
+        if (target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+        {
+
+            return target.transform;
+
         }
-        
+
         return null;
     }
 
    
     Transform IsLookingAtSwitch()
     {
-        if (target.transform.tag == "Switch")
+        if (target.transform.tag == "Switch" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
         {
             return target.transform;
         }
@@ -962,5 +979,23 @@ public class MouseLook : MonoBehaviour
 
     void ActivateAppliance()
     { }
+
+    void CalculateTarget()
+    {
+        if (currentCameraMode == CameraMode.FPS_CONTROL)
+        {
+            // Doing raycast from hand //
+            Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
+            Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
+
+            
+        }
+        else if (currentCameraMode == CameraMode.HAND_CONTROL)
+        {
+            // Doing raycast from screen //
+            Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 5);
+            Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.white);
+        }
+    }
 
 }

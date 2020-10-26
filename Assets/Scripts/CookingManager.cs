@@ -118,6 +118,10 @@ public class CookingManager : MonoBehaviour
     public float adjustableCutterEjectionSpeed;
     public static float cutterEjectionSpeed;
 
+    // Cutter gauges //
+    //public Transform cutterGauge1;
+    //public Transform cutterGauge2;
+
 
     // Water tap stuff. //
 
