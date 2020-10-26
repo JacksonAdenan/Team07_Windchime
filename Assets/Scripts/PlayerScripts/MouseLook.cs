@@ -614,7 +614,7 @@ public class MouseLook : MonoBehaviour
         //
         //return null;
 
-        if (target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+        if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
         {
 
             return target.transform;
@@ -636,7 +636,7 @@ public class MouseLook : MonoBehaviour
     }
     Transform IsLookingAtAppliance()
     {
-        if (target.transform.tag == "Appliance")
+        if (target.transform.tag == "Appliance" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
         {
             return target.transform;
         }
@@ -993,7 +993,7 @@ public class MouseLook : MonoBehaviour
         else if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
             // Doing raycast from screen //
-            Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 5);
+            Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~(1 << 2));
             Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.white);
         }
     }
