@@ -193,16 +193,19 @@ public class MouseLook : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     if (selectedItem.tag != "Soup")
-                    { 
+                    {
+                        // If the thing they want to pick up is a water. //
+                        // Freeing up the WaterTap so the player can get more water if they want.
+                        if (selectedItem.tag == "Water")
+                        {
+                            CookingManager.currentWaterTapState = WaterTapState.EMPTY;
+                            Debug.Log("Water tap is now unoccupied.");
+                        }
+
                         PickUpItem(selectedItem);
                     }
-                    // Freeing up the WaterTap so the player can get more water if they want.
-                    if (selectedItem.tag == "Water")
-                    {
-                        CookingManager.currentWaterTapState = WaterTapState.EMPTY;
-                        Debug.Log("Water tap is now unoccupied.");
-                    }
-                    if (selectedItem.tag == "Soup")
+                    
+                    else if (selectedItem.tag == "Soup")
                     {
                         PickUpSoup(selectedItem);
                         Debug.Log("PICKED UP SOUP");
@@ -341,6 +344,7 @@ public class MouseLook : MonoBehaviour
         else if (isHoldingItem)
         {
             currentPlayerState = PlayerState.HOLDING_ITEM;
+            
         }
         else if (selectedSwitch)
         {
@@ -619,9 +623,14 @@ public class MouseLook : MonoBehaviour
     }
     void PickUpItem(Transform itemToPickUp)
     {
+        // Stopping the selection if your holding an item //
+        itemToPickUp.GetComponent<Renderer>().material = defaultMat;
+        selectedItem = null;
+
         isHoldingItem = true;
         if (itemToPickUp.parent != null)
         {
+          
             heldItem = itemToPickUp.parent;
             heldItem.SetParent(hand);
             heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
@@ -629,7 +638,7 @@ public class MouseLook : MonoBehaviour
 
             // this is the parent it doesnt have these things !. So i have to get the children.//
             heldItem.GetComponent<Rigidbody>().useGravity = false;
-            heldItem.GetComponent<Rigidbody>().isKinematic = true;
+            heldItem.GetComponent<Rigidbody>().isKinematic = true;          
         }
         else
         { 
