@@ -20,14 +20,22 @@ public class CookingOrbEntry : MonoBehaviour
     {
         if (obj.tag == "Ingredient")
         {
-            CookingManager.AddIngredient(obj.transform);
+            CookingManager.TrackIngredient(obj.transform);
         }
     }
     void OnTriggerExit(Collider obj)
     {
         if (obj.tag == "Ingredient")
         {
-            CookingManager.RemoveIngredient(obj.transform);
+            if (CookingManager.currentCookingOrbState == CookingOrbState.EMPTY || CookingManager.currentCookingOrbState == CookingOrbState.INGREDIENTS_NOWATER)
+            {
+                CookingManager.StopTrackingIngredient(obj.transform);
+            }
+            else if (CookingManager.currentCookingOrbState == CookingOrbState.EMPTY_WATER || CookingManager.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+            {
+                CookingManager.RemoveIngredient(obj.transform);
+            }
         }
     }
+    
 }

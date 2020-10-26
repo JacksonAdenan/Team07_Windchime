@@ -87,6 +87,7 @@ public class CookingManager : MonoBehaviour
     // Cookingorb stats and current things. //
     public static CookingOrbState currentCookingOrbState;
     public static List<Transform> currentIngredients;
+    public static List<Transform> currentlyTrackedIngredients;
 
     public Transform adjustableSoup;
     public static Transform soupOrb;
@@ -132,7 +133,7 @@ public class CookingManager : MonoBehaviour
   
 
         currentIngredients = new List<Transform>();
-
+        currentlyTrackedIngredients = new List<Transform>();
         
 
         // Creating all basic ingridients //
@@ -212,6 +213,13 @@ public class CookingManager : MonoBehaviour
 
         // Blender updates // 
         UpdateBlenderCover();
+
+
+        // Adding tracked ingredients to the cooking orb. //
+        if (currentCookingOrbState == CookingOrbState.EMPTY_WATER || currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+        {
+            AddTrackedIngredients();
+        }
     }
 
 
@@ -384,6 +392,34 @@ public class CookingManager : MonoBehaviour
     //    }
     //}
 
+       
+    // To be able to check if there is anything currently being tracked by the cooking orb.
+    public static bool IsTracking()
+    {
+        if (currentlyTrackedIngredients.Count > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    public static void AddTrackedIngredients()
+    {
+        for (int i = currentlyTrackedIngredients.Count - 1; i > -1; i--)
+        {
+            currentIngredients.Add(currentlyTrackedIngredients[i]);
+            currentlyTrackedIngredients.Remove(currentlyTrackedIngredients[i]);
+        }
+    }
+    public static void TrackIngredient(Transform ingredientToTrack)
+    {
+        currentlyTrackedIngredients.Add(ingredientToTrack);
+        Debug.Log("Ingredient being tracked by cooking orb.");
+    }
+    public static void StopTrackingIngredient(Transform ingredientToTrack)
+    {
+        currentlyTrackedIngredients.Remove(ingredientToTrack);
+        Debug.Log("Ingredient stopped being tracked by cooking orb.");
+    }
     public static void AddIngredient(Transform ingredient)
     {
         currentIngredients.Add(ingredient);
