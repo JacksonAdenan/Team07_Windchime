@@ -88,6 +88,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2321814505775877491, guid: 0c4de2b7a1eba9a458d88d0b99474967, type: 3}
+--- !u!114 &540767739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879598890965119752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8191ff5ba031f8e4e8641ef978a349cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 3
 --- !u!114 &193127016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +121,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1726525754225699995}
     m_Modifications:
+    - target: {fileID: 810208523, guid: 21b4e3d979691c3498ec01147a3c4759, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2206095215924556381, guid: 21b4e3d979691c3498ec01147a3c4759,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -178,7 +195,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: CatcherCapsule
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 603703294, guid: 21b4e3d979691c3498ec01147a3c4759, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 21b4e3d979691c3498ec01147a3c4759, type: 3}
 --- !u!4 &2206095216928368785 stripped
 Transform:
@@ -296,7 +314,7 @@ PrefabInstance:
     - target: {fileID: 4896909105071083238, guid: 0c4de2b7a1eba9a458d88d0b99474967,
         type: 3}
       propertyPath: m_TagString
-      value: Appliance
+      value: Switch
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c4de2b7a1eba9a458d88d0b99474967, type: 3}

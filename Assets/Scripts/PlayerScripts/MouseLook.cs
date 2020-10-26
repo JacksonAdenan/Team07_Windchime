@@ -432,8 +432,12 @@ public class MouseLook : MonoBehaviour
 
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-            
-        crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
+
+        // Old crosshair placement code. I'm gonna try implement a new way which will be smoother and wont break if the player isn't looking at anything.
+        //crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
+
+        Vector3 crosshairDir = realHandCentre.forward * 5;
+        crosshairImage.transform.position = new Vector3(crosshairDir.x, crosshairDir.y, 0);
 
         handMovement = transform.right * mouseX + transform.up * mouseY;
         hand.transform.position += handMovement * Time.deltaTime;

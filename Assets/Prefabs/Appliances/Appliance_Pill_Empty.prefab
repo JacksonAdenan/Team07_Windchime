@@ -61,6 +61,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712455f498a1e704b906395542d5ca8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theSoup:
+    spicyValue: 2
+    chunkyValue: 2
+    usedIngredients: []
+    isSpicy: 0
+    isChunky: 0
   maxPortions: 0
   currentPortions: 0
 --- !u!1 &8680422417403884908

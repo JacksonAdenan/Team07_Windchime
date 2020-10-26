@@ -48,6 +48,9 @@ MonoBehaviour:
   adjustableEmptyAttachedCapsule: {fileID: 0}
   adjustableFilledAttachedCapsule: {fileID: 0}
   adjustableSoup: {fileID: 0}
+  adjustableBlenderEntryTrigger: {fileID: 0}
+  adjustableBlenderSpawnPoint: {fileID: 0}
+  adjustableBlenderCover: {fileID: 0}
   adjustableEntryTrigger: {fileID: 0}
   adjustableExitTrigger: {fileID: 0}
   adjustableCutterEjectionSpeed: 10
