@@ -5678,7 +5678,7 @@ PrefabInstance:
     - target: {fileID: 1438115003815529579, guid: 5c60787673a29904eb8924e98b508a14,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.75
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1438115003815529579, guid: 5c60787673a29904eb8924e98b508a14,
         type: 3}
@@ -6321,6 +6321,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 2061273574135870816, guid: fb554eee80d3fa3419320a9c67fccb54,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061273574135870816, guid: fb554eee80d3fa3419320a9c67fccb54,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061273574135870816, guid: fb554eee80d3fa3419320a9c67fccb54,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.625
+      objectReference: {fileID: 0}
     - target: {fileID: 3394970896985125816, guid: fb554eee80d3fa3419320a9c67fccb54,
         type: 3}
       propertyPath: m_Name
@@ -6330,7 +6345,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: fb554eee80d3fa3419320a9c67fccb54, type: 3}
 --- !u!4 &357150353 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1821149506570322347, guid: fb554eee80d3fa3419320a9c67fccb54,
+  m_CorrespondingSourceObject: {fileID: 2061273574135870816, guid: fb554eee80d3fa3419320a9c67fccb54,
     type: 3}
   m_PrefabInstance: {fileID: 357150352}
   m_PrefabAsset: {fileID: 0}
@@ -20030,6 +20045,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4199344622241373684, guid: 66d51ece12e72e04fa4c1c2f00bc6c5b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4555745638501067914, guid: 66d51ece12e72e04fa4c1c2f00bc6c5b,
         type: 3}
