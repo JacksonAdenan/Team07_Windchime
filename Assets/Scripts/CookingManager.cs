@@ -96,11 +96,11 @@ public class CookingManager : MonoBehaviour
     public static BlenderState currentBlenderState;
     public static List<Transform> currentBlenderIngredients;
 
-    //public static Transform blenderEntryTrigger;
-    //public static Transform blenderExitTrigger;
+    public static Transform blenderEntryTrigger;
+    public static Transform blenderSpawnPoint;
 
-    //public Transform adjustableBlenderEntryTrigger;
-    //public Transform adjustableBlenderExitTrigger;
+    public Transform adjustableBlenderEntryTrigger;
+    public Transform adjustableBlenderSpawnPoint;
 
     // This transform is just used to show if the blender is covered or not. //
     public static Transform blenderCover;
@@ -182,8 +182,8 @@ public class CookingManager : MonoBehaviour
         currentBlenderState = BlenderState.COVERED;
         blenderCover = adjustableBlenderCover;
         
-        //blenderEntryTrigger = adjustableBlenderEntryTrigger;
-        //blenderExitTrigger = adjustableBlenderExitTrigger;
+        blenderEntryTrigger = adjustableBlenderEntryTrigger;
+        blenderSpawnPoint = adjustableBlenderSpawnPoint;
 
 
 
@@ -577,6 +577,77 @@ public class CookingManager : MonoBehaviour
         {
             Debug.Log("Tried to submit soup but you do not currently have any orders.");
         }
+
+    }
+    public static void PopBlenderCover()
+    {
+        Transform poppedBlenderCover = Instantiate(blenderCover, blenderCover.position, blenderCover.rotation);
+        poppedBlenderCover.tag = "InteractableBlenderCover";
+
+        // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
+        for (int i = 0; i < poppedBlenderCover.childCount; i++)
+        {
+            poppedBlenderCover.GetChild(0).tag = "InteractableBlenderCover";
+        }
+       
+       
+
+        // TEMPORARY FIX ME //
+        // Because the mesh on the blender isn't working properly, we can't put a mesh collider on it. This means we have to use a box collider and set it to be a trigger so that ingredients can
+        // be inside of it.
+
+        poppedBlenderCover.GetComponent<BoxCollider>().isTrigger = false;
+
+        // Adding upwards force to "pop" the cover //
+        poppedBlenderCover.GetComponent<Rigidbody>().isKinematic = false;
+        poppedBlenderCover.GetComponent<Rigidbody>().AddForce(Vector3.up * 50);
+    }
+    public static void ActivateBlender()
+    {
+        if (currentBlenderState == BlenderState.COVERED)
+        {
+            Debug.Log("Blender activated");
+            for (int i = currentBlenderIngredients.Count - 1; i > -1; i--)
+            {
+                // Spawn a blended thingy in its place. //
+                SpawnBlendedIngredient(currentBlenderIngredients[i]);
+
+
+                currentBlenderIngredients[i].gameObject.SetActive(false);
+                currentBlenderIngredients.Remove(currentBlenderIngredients[i]);
+
+            }
+
+
+            RemoveBlenderCover();
+            PopBlenderCover();
+        }
+        else
+        {
+            Debug.Log("Blender could not be activated. Please put the cover on.");
+        }
+    }
+
+    public static void SpawnBlendedIngredient(Transform oldIngredient)
+    {
+        IngredientData dataToTransfer = oldIngredient.GetComponent<IngredientData>();
+        Transform newBlendedThing = Object.Instantiate(soupOrb, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
+
+        // Incase the soupOrb we are copying isnt active. //
+        newBlendedThing.gameObject.SetActive(true);
+
+        newBlendedThing.localScale /= 2;
+
+        newBlendedThing.position = blenderSpawnPoint.position;
+
+        // Just because we don't have any art for blended foods, ill make the soup orb a blended ingredient by changing the tag and adding a IngredientData script. //
+        newBlendedThing.gameObject.AddComponent<IngredientData>();
+        newBlendedThing.gameObject.GetComponent<IngredientData>().ingredientName = dataToTransfer.ingredientName;
+        newBlendedThing.tag = "Ingredient";
+        newBlendedThing.GetComponent<Rigidbody>().isKinematic = false;
+
+        // Because its instantiating the soup thing we have to remove its soup data script. //
+        Destroy(newBlendedThing.GetComponent<SoupData>());
 
     }
 

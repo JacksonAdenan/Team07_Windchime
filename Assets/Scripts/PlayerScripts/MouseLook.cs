@@ -743,6 +743,12 @@ public class MouseLook : MonoBehaviour
 
         blenderCover.GetComponent<Rigidbody>().useGravity = false;
         blenderCover.GetComponent<Rigidbody>().isKinematic = true;
+
+        // TEMPORARY FIX ME //
+        // Because the mesh on the blender isn't working properly, we can't put a mesh collider on it. This means we have to use a box collider and set it to be a trigger so that ingredients can
+        // be inside of it.
+
+        blenderCover.GetComponent<BoxCollider>().isTrigger = false;
     }
     void DropItem()
     {
@@ -918,6 +924,9 @@ public class MouseLook : MonoBehaviour
                 break;
             case SwitchType.CANON_BUTTON:
                 CookingManager.ShootCapsule();
+                break;
+            case SwitchType.BLENDER_BUTTON:
+                CookingManager.ActivateBlender();
                 break;
                 
         }

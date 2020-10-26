@@ -57,6 +57,10 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI heldCapsuleData;
     public TextMeshProUGUI currentPortionsData;
 
+    public TextMeshProUGUI currentBlenderState;
+    public TextMeshProUGUI currentBlenderIngredients;
+    string blenderIngredientsText = "";
+
     // Order monitor display stuff //
     public TextMeshProUGUI unLoadedText;
     public TextMeshProUGUI soupStatsText;
@@ -188,6 +192,10 @@ public class MenuManager : MonoBehaviour
 
         DisplayHeldCapsuleData();
         DisplayCurrentPortionsData();
+
+        DisplayBlenderIngredients();
+        DisplayBlenderState();
+
 
         // Displaying order/canon monitor ui stuff //
         DisplayCanonMonitor();
@@ -509,6 +517,20 @@ public class MenuManager : MonoBehaviour
     public static void DisplayOrderSubmittedText()
     {
         submittedOrderText.gameObject.SetActive(true);
+    }
+
+    public void DisplayBlenderState()
+    {
+        currentBlenderState.text = CookingManager.currentBlenderState.ToString();
+    }
+    public void DisplayBlenderIngredients()
+    {
+        for (int i = 0; i < CookingManager.currentBlenderIngredients.Count; i++)
+        {
+            blenderIngredientsText = blenderIngredientsText + CookingManager.ConvertTextToIngredient(CookingManager.currentBlenderIngredients[i].GetComponent<IngredientData>().ingredientName).name + ", ";
+        }
+        currentBlenderIngredients.text = blenderIngredientsText;
+        blenderIngredientsText = "";
     }
 
     
