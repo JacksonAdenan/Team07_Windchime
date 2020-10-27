@@ -62,8 +62,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   theSoup:
-    spicyValue: 2
-    chunkyValue: 2
+    spicyValue: 0
+    chunkyValue: 0
     usedIngredients: []
     isSpicy: 0
     isChunky: 0
@@ -80,7 +80,6 @@ GameObject:
   - component: {fileID: 6026542409649953175}
   - component: {fileID: 9170884492698371338}
   - component: {fileID: 624444778414736916}
-  - component: {fileID: 1501672292}
   - component: {fileID: 603703294}
   m_Layer: 0
   m_Name: Pill
@@ -150,20 +149,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &1501672292
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8680422417403884908}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5485895480588659160, guid: e63d27a4380c39047a6ff167a203a650, type: 3}
 --- !u!64 &603703294
 MeshCollider:
   m_ObjectHideFlags: 0

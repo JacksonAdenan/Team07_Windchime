@@ -522,7 +522,7 @@ public class MouseLook : MonoBehaviour
         handAcceleration = Mathf.Clamp(handAcceleration, -0.05f, 0.05f);
         handVelocity += (handAcceleration) * Time.deltaTime;
         
-        Debug.Log(mouseX);
+        
         
    
 
@@ -534,18 +534,12 @@ public class MouseLook : MonoBehaviour
         }
         else
         {
-
-            Debug.Log("zeroed acceleration.");
-            //handVelocity -= 0.05f;
             hand.localPosition = new Vector3(Mathf.Lerp(hand.localPosition.x, handFPSPos.x, 0.05f), hand.localPosition.y, hand.localPosition.z);
             accelerationTimer = 0;
             handVelocity = 0;
-
-            
-            
-           
+   
         }
-        //ReduceAcceleration(ref handAcceleration);
+
     }
 
     void ReduceAcceleration(ref float acceleration)
@@ -673,8 +667,14 @@ public class MouseLook : MonoBehaviour
 
         if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
         {
-
-            return target.transform;
+            if (target.transform.childCount > 0)
+            {
+                return target.transform.GetChild(0);
+            }
+            else
+            {
+                return target.transform;
+            }
 
         }
 
