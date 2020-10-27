@@ -6532,6 +6532,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 357150352}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &359298408 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4000996055517017509, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 514300331}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &363710162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10060,7 +10072,7 @@ PrefabInstance:
     - target: {fileID: 4000996055305594254, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4000996055713155448, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
         type: 3}
@@ -22301,6 +22313,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1189290517}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &1191265903 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 4000996055305594253, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 514300331}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1194575795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31066,6 +31084,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3156807195822029052, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
         type: 3}
       propertyPath: PickUpUI
@@ -31091,6 +31114,16 @@ PrefabInstance:
       propertyPath: handFPSPos.y
       value: -0.31
       objectReference: {fileID: 0}
+    - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: crosshairCanvas
+      value: 
+      objectReference: {fileID: 1191265903}
+    - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: crosshairImage
+      value: 
+      objectReference: {fileID: 359298408}
     - target: {fileID: 6999435598105673239, guid: 4555a5c923190204593b33d328f2b91a,
         type: 3}
       propertyPath: m_Name

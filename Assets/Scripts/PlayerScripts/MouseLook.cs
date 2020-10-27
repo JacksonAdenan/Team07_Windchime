@@ -130,6 +130,12 @@ public class MouseLook : MonoBehaviour
 
     SwitchType selectedSwitchType;
 
+
+    // Hand swaying stuff. //
+    float handVelocity = 0;
+    float handAcceleration = 0;
+    float accelerationTimer = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -190,6 +196,16 @@ public class MouseLook : MonoBehaviour
         {
             CentreCamera(heldItemOriginalPos);
         }
+
+
+
+        // Acceleration timer counting. //
+        accelerationTimer += Time.deltaTime;
+
+        
+
+           
+        
  
        
     }
@@ -378,6 +394,9 @@ public class MouseLook : MonoBehaviour
                 if (Input.GetMouseButtonDown(1))
                 {
                     currentCameraMode = CameraMode.HAND_CONTROL;
+
+                    // Setting the hand to the correct position. //
+                    hand.localPosition = handFPSPos;
                 }
                 break;
             case CameraMode.HAND_CONTROL:
@@ -487,13 +506,51 @@ public class MouseLook : MonoBehaviour
         float rotMouseX = Input.GetAxis("Mouse X") * rotationSensitivity * Time.deltaTime;
         float rotMouseY = Input.GetAxis("Mouse Y") * rotationSensitivity * Time.deltaTime;
 
-        hand.localPosition = handFPSPos;
+        
 
         xRotation -= rotMouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         gameObject.transform.Rotate(-Vector3.right * rotMouseY);
         playerBody.Rotate(Vector3.up * rotMouseX);
 
+
+        // Hand swaying in the direction of the camera turn. //
+
+        
+
+        handAcceleration = mouseX;
+        handAcceleration = Mathf.Clamp(handAcceleration, -0.05f, 0.05f);
+        handVelocity += (handAcceleration) * Time.deltaTime;
+        
+        Debug.Log(mouseX);
+        
+   
+
+        if (handAcceleration != 0)
+        {
+            float newHandX = hand.localPosition.x + handVelocity;
+            newHandX = Mathf.Clamp(newHandX, handFPSPos.x - 0.3f, handFPSPos.x + 0.3f);
+            hand.localPosition = new Vector3(newHandX, hand.localPosition.y, hand.localPosition.z);
+        }
+        else
+        {
+
+            Debug.Log("zeroed acceleration.");
+            //handVelocity -= 0.05f;
+            hand.localPosition = new Vector3(Mathf.Lerp(hand.localPosition.x, handFPSPos.x, 0.05f), hand.localPosition.y, hand.localPosition.z);
+            accelerationTimer = 0;
+            handVelocity = 0;
+
+            
+            
+           
+        }
+        //ReduceAcceleration(ref handAcceleration);
+    }
+
+    void ReduceAcceleration(ref float acceleration)
+    {
+        
     }
 
     void CameraPause()
@@ -984,6 +1041,7 @@ public class MouseLook : MonoBehaviour
     {
         if (currentCameraMode == CameraMode.FPS_CONTROL)
         {
+            Debug.Log("Raycast from hand");
             // Doing raycast from hand //
             Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
             Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
@@ -992,6 +1050,7 @@ public class MouseLook : MonoBehaviour
         }
         else if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
+            Debug.Log("Raycast from screen.");
             // Doing raycast from screen //
             Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~(1 << 2));
             Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.white);
