@@ -40,7 +40,7 @@ public enum SwitchType
 public class MouseLook : MonoBehaviour
 {
     // Constants //
-    const float INTERACT_DISTANCE = 50;
+    const float INTERACT_DISTANCE = 2;
 
 
     // Adjustable Values //
@@ -745,6 +745,7 @@ public class MouseLook : MonoBehaviour
         // Another fix to stop the pink material glitch after picking up soup.
         itemToPickUp.GetComponent<Renderer>().material = defaultMat;
         selectedItem = null;
+        defaultMat = null;
 
         soupPortion.tag = "SoupPortion";
 

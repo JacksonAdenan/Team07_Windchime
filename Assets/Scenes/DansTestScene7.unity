@@ -5696,6 +5696,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 615060685}
     m_Modifications:
+    - target: {fileID: 190773265, guid: 5c60787673a29904eb8924e98b508a14, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 726102753, guid: 5c60787673a29904eb8924e98b508a14, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 568203839179515572, guid: 5c60787673a29904eb8924e98b508a14,
         type: 3}
       propertyPath: m_Convex
