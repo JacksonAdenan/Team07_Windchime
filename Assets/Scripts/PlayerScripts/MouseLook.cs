@@ -100,7 +100,7 @@ public class MouseLook : MonoBehaviour
     public static Transform heldItem = null;
     public static Transform heldWater = null;
     public Transform selectedSwitch = null;
-    private Material defaultMat;
+    public Material defaultMat;
     //private Material defaultWaterMat;
     private Material switchDefaultMat;
     float xRotation = 0.0f;
@@ -594,7 +594,7 @@ public class MouseLook : MonoBehaviour
         if (NewIsLookingAtItem() && !isHoldingItem)
         {
             selectedItem = NewIsLookingAtItem();
-
+            
             // This if statement is a cheap fix for a badly written overall system... FIX IT ONE DAY //
             if (!defaultMat)
             {
@@ -705,6 +705,7 @@ public class MouseLook : MonoBehaviour
         // Stopping the selection if your holding an item //
         itemToPickUp.GetComponent<Renderer>().material = defaultMat;
         selectedItem = null;
+        defaultMat = null;
 
         isHoldingItem = true;
         if (itemToPickUp.parent != null)

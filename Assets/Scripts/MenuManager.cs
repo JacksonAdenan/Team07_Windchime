@@ -61,6 +61,8 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI currentBlenderIngredients;
     string blenderIngredientsText = "";
 
+    public TextMeshProUGUI defaultMaterial;
+
     // Order monitor display stuff //
     public TextMeshProUGUI unLoadedText;
     public TextMeshProUGUI soupStatsText;
@@ -195,6 +197,8 @@ public class MenuManager : MonoBehaviour
 
         DisplayBlenderIngredients();
         DisplayBlenderState();
+
+        DisplayDefaultMaterial();
 
 
         // Displaying order/canon monitor ui stuff //
@@ -531,6 +535,18 @@ public class MenuManager : MonoBehaviour
         }
         currentBlenderIngredients.text = blenderIngredientsText;
         blenderIngredientsText = "";
+    }
+
+    public void DisplayDefaultMaterial()
+    {
+        if (playerCamera.GetComponent<MouseLook>().defaultMat != null)
+        {
+            defaultMaterial.text = playerCamera.GetComponent<MouseLook>().defaultMat.ToString();
+        }
+        else
+        {
+            defaultMaterial.text = "NULL";
+        }
     }
 
     
