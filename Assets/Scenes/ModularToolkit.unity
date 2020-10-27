@@ -56,7 +56,7 @@ LightmapSettings:
   m_LightmapEditorSettings:
     serializedVersion: 12
     m_Resolution: 2
-    m_BakeResolution: 512
+    m_BakeResolution: 256
     m_AtlasSize: 256
     m_AO: 0
     m_AOMaxDistance: 1
@@ -75,7 +75,7 @@ LightmapSettings:
     m_MixedBakeMode: 0
     m_BakeBackend: 2
     m_PVRSampling: 1
-    m_PVRDirectSampleCount: 1024
+    m_PVRDirectSampleCount: 512
     m_PVRSampleCount: 512
     m_PVRBounces: 1
     m_PVREnvironmentSampleCount: 512
@@ -13665,6 +13665,31 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6999435600160748223, guid: 4555a5c923190204593b33d328f2b91a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4555a5c923190204593b33d328f2b91a, type: 3}
+--- !u!1 &745872508 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6999435598105673239, guid: 4555a5c923190204593b33d328f2b91a,
+    type: 3}
+  m_PrefabInstance: {fileID: 745872507}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &745872509
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745872508}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7d8433d07f48b5344810b393a56d3a07, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &750242631
 PrefabInstance:
   m_ObjectHideFlags: 0
