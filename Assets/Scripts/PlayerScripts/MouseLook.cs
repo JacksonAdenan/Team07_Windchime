@@ -362,6 +362,8 @@ public class MouseLook : MonoBehaviour
         if (!isHoldingItem && selectedItem)
         {
             currentPlayerState = PlayerState.LOOKING_AT_ITEM;
+            //hand.transform.GetChild(0).GetComponent<Animator>().
+            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (selectedAppliance)
         {
