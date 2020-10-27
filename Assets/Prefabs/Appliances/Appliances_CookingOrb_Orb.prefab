@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 726102756}
   - component: {fileID: 726102755}
   - component: {fileID: 726102758}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EntryTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}

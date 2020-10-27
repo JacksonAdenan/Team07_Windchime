@@ -291,6 +291,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3675734133209212720, guid: 0c4de2b7a1eba9a458d88d0b99474967,
+        type: 3}
+      propertyPath: m_TagString
+      value: Appliance
+      objectReference: {fileID: 0}
     - target: {fileID: -2234566218187586468, guid: 0c4de2b7a1eba9a458d88d0b99474967,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
