@@ -38,6 +38,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2487690375861066262}
     m_Modifications:
+    - target: {fileID: -9138384822779237652, guid: 281308633cd174549ba4cc05086699c2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 281308633cd174549ba4cc05086699c2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -93,10 +98,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1383593320366717910, guid: 281308633cd174549ba4cc05086699c2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 281308633cd174549ba4cc05086699c2,
         type: 3}
       propertyPath: m_Name
       value: Appliances_Water_Cooler
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178992385620995121, guid: 281308633cd174549ba4cc05086699c2,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2720616494236145761, guid: 281308633cd174549ba4cc05086699c2,
         type: 3}
