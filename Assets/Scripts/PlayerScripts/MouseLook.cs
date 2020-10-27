@@ -93,7 +93,7 @@ public class MouseLook : MonoBehaviour
 
     bool isHoldingItem = false;
     Vector3 handPos;
-    public CameraMode currentCameraMode = CameraMode.FPS_CONTROL;
+    public CameraMode currentCameraMode = CameraMode.HAND_CONTROL;
     public static Transform selectedItem;
     public static Transform selectedWater;
     public static Transform selectedAppliance = null;
@@ -235,6 +235,7 @@ public class MouseLook : MonoBehaviour
                         PickUpSoup(selectedItem);
                         Debug.Log("PICKED UP SOUP");
                     }
+
                     heldItemOriginalPos = heldItem.position;
                     previousHandPos = hand.position;
                     previousHandMovementDir = handMovement;
@@ -389,21 +390,21 @@ public class MouseLook : MonoBehaviour
     {
         switch (currentCameraMode)
         {
-            case CameraMode.FPS_CONTROL:
-                CameraLook();
+            case CameraMode.HAND_CONTROL:
+                CameraLook();  
                 if (Input.GetMouseButtonDown(1))
                 {
-                    currentCameraMode = CameraMode.HAND_CONTROL;
+                    currentCameraMode = CameraMode.FPS_CONTROL;
 
                     // Setting the hand to the correct position. //
                     hand.localPosition = handFPSPos;
                 }
                 break;
-            case CameraMode.HAND_CONTROL:
+            case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
                 if (Input.GetMouseButtonDown(1))
                 {
-                    currentCameraMode = CameraMode.FPS_CONTROL;
+                    currentCameraMode = CameraMode.HAND_CONTROL;
                 }
                 break;
             case CameraMode.pauseMode:
@@ -1040,7 +1041,7 @@ public class MouseLook : MonoBehaviour
 
     void CalculateTarget()
     {
-        if (currentCameraMode == CameraMode.FPS_CONTROL)
+        if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
             Debug.Log("Raycast from hand");
             // Doing raycast from hand //
@@ -1049,7 +1050,7 @@ public class MouseLook : MonoBehaviour
 
             
         }
-        else if (currentCameraMode == CameraMode.HAND_CONTROL)
+        else if (currentCameraMode == CameraMode.FPS_CONTROL)
         {
             Debug.Log("Raycast from screen.");
             // Doing raycast from screen //

@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 4115980443354422018}
   - component: {fileID: 4061165823973880639}
   - component: {fileID: 1285680114}
-  - component: {fileID: 1285680112}
+  - component: {fileID: 3416818193866575684}
   m_Layer: 0
   m_Name: Jar
   m_TagString: Appliance
@@ -343,7 +343,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &1285680112
+--- !u!65 &3416818193866575684
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

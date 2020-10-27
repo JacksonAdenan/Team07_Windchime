@@ -93,6 +93,36 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &1329544794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1329544795}
+  m_Layer: 2
+  m_Name: handFPSPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1329544795
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329544794}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.591, y: -0.026, z: 2.33}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5899664984352078732}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5780487290354451872
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,6 +156,7 @@ Transform:
   m_Children:
   - {fileID: 4094043995585257078}
   - {fileID: 3156807195822029040}
+  - {fileID: 1329544795}
   m_Father: {fileID: 6999435598105673451}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -244,17 +275,19 @@ MonoBehaviour:
   playerBody: {fileID: 6999435598105673451}
   itemSelectedMat: {fileID: 2100000, guid: df02464529efd1246a888be4d21503fd, type: 2}
   switchSelectedMat: {fileID: 2100000, guid: df02464529efd1246a888be4d21503fd, type: 2}
+  handFPSPos: {x: 0.5, y: -0.31, z: 1}
   hand: {fileID: 4094043995585257078}
   collisionSphere: {fileID: 871440521}
   realHandCentre: {fileID: 628994111965963255}
   PickUpUI: {fileID: 0}
   ApplianceUI: {fileID: 0}
-  crosshairCanvas: {fileID: 3156807195822029055}
-  crosshairImage: {fileID: 3156807195760290007}
+  crosshairCanvas: {fileID: 0}
+  crosshairImage: {fileID: 0}
   xDeadZone: 1.5
   yDeadZone: 1
-  currentCameraMode: 0
+  currentCameraMode: 1
   selectedSwitch: {fileID: 0}
+  defaultMat: {fileID: 0}
   posX: 0
   posY: 0
 --- !u!1 &6261018140086756077
@@ -450,6 +483,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crosshair
       objectReference: {fileID: 0}
+    - target: {fileID: 3156807196045948981, guid: f80624a19e268f04184ba9bec777e31a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3156807196045948985, guid: f80624a19e268f04184ba9bec777e31a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -563,24 +601,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 334053577}
   m_PrefabAsset: {fileID: 0}
---- !u!223 &3156807195822029055 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 3156807196045948982, guid: f80624a19e268f04184ba9bec777e31a,
-    type: 3}
-  m_PrefabInstance: {fileID: 334053577}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3156807195760290007 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3156807195972675614, guid: f80624a19e268f04184ba9bec777e31a,
-    type: 3}
-  m_PrefabInstance: {fileID: 334053577}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1800497816
 PrefabInstance:
   m_ObjectHideFlags: 0
