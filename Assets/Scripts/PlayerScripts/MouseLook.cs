@@ -40,7 +40,7 @@ public enum SwitchType
 public class MouseLook : MonoBehaviour
 {
     // Constants //
-    const float INTERACT_DISTANCE = 2;
+    const float INTERACT_DISTANCE = 50;
 
 
     // Adjustable Values //
