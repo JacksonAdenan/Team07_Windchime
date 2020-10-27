@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4555745638501067914}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -123,6 +123,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1665050940659639646, guid: 7cb4a3c890c058b4d8fc5c741a198c57,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3014614768876417435, guid: 7cb4a3c890c058b4d8fc5c741a198c57,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -138,6 +143,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 988a9cad2389fe64f9b306650eb8c910, type: 2}
+    - target: {fileID: 8717893449199680150, guid: 3dc21566f6a03e84c8081f417790c17a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cb4a3c890c058b4d8fc5c741a198c57, type: 3}
 --- !u!4 &7504921553663939504 stripped

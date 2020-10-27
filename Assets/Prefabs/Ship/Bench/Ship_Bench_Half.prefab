@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3631900288496290975}
   - component: {fileID: 5709469964700415657}
   - component: {fileID: 2017777308574747216}
+  - component: {fileID: 7161970902259210880}
   m_Layer: 0
   m_Name: Ship_Bench_Half
   m_TagString: Untagged
@@ -79,3 +80,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &7161970902259210880
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 305193406209146508}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3174733443846585064, guid: 8e913739ad35f6740b7dfd81303a49c8, type: 3}

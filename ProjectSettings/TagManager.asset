@@ -5,6 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Item
+  - Switch
+  - Ingredient
+  - Water
+  - Appliance
+  - Soup
+  - SoupPortion
+  - Capsule
+  - CatcherCapsule
+  - BlenderCover
+  - InteractableBlenderCover
   layers:
   - Default
   - TransparentFX
