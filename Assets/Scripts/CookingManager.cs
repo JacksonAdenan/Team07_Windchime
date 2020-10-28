@@ -15,7 +15,8 @@ public enum CookingOrbState
     EMPTY_WATER,
     INGREDIENTS_NOWATER,
     INGREDIENTS_AND_WATER,
-    OCCUPIED_SOUP
+    OCCUPIED_SOUP,
+    COOKING
 }
 
 public enum WaterTapState
@@ -61,6 +62,12 @@ public class CookingManager : MonoBehaviour
 
     public static Transform occupyingSoup;
 
+
+    // Appliance prefabs //
+    public Transform cookingOrb;
+    public Transform canon;
+    public Transform blender;
+
     // Canon stats and current things. //
     public static CanonState currentCanonState;
     //public static Soup loadedCapsule;
@@ -89,6 +96,8 @@ public class CookingManager : MonoBehaviour
     public static List<Transform> currentIngredients;
     public static List<Transform> currentlyTrackedIngredients;
 
+    public float cookingTimer = 0;
+
     public Transform adjustableSoup;
     public static Transform soupOrb;
 
@@ -109,6 +118,18 @@ public class CookingManager : MonoBehaviour
 
 
     // Triggers and stats for cutter appliance. //
+
+    public SkinnedMeshRenderer cutterSkinnedMesh;
+    private Mesh cutterMesh;
+
+    private int cutterBlendShapeCount;
+
+    public static Transform cutterGauge1;
+    public static Transform cutterGauge2;
+
+    public Transform adjustableCutterGauge1;
+    public Transform adjustableCutterGauge2;
+
     public static Transform entryTrigger;
     public static Transform exitTrigger;
 
@@ -155,11 +176,19 @@ public class CookingManager : MonoBehaviour
         entryTrigger = adjustableEntryTrigger;
         exitTrigger = adjustableExitTrigger;
 
+        cutterGauge1 = adjustableCutterGauge1;
+        cutterGauge2 = adjustableCutterGauge2;
+
         // Setting static value for water from inspector value. //
         water = adjustableWater;
 
         // Setting static value for soup from inspector value. //
         soupOrb = adjustableSoup;
+
+        // Setting cutter mesh and animation. //
+        cutterMesh = cutterSkinnedMesh.sharedMesh;
+        
+
 
         // Initialising things for the water tap. //
         currentWaterTapState = WaterTapState.EMPTY;
@@ -224,6 +253,23 @@ public class CookingManager : MonoBehaviour
         {
             AddTrackedIngredients();
         }
+
+        // Doing cooking timer. //
+        if (currentCookingOrbState == CookingOrbState.COOKING)
+        {
+            cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+            cookingTimer += Time.deltaTime;
+            if (cookingTimer >= 3)
+            {
+                currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
+                occupyingSoup.gameObject.SetActive(true);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+            }
+        }
+
+
+
+        cutterSkinnedMesh.SetBlendShapeWeight(0, cutterGauge1.GetComponent<Gauge>().currentAmount);
     }
 
 
@@ -245,9 +291,12 @@ public class CookingManager : MonoBehaviour
         {
             case CanonState.EMPTY:
                 canonCapsule.gameObject.SetActive(false);
+                canon.GetComponent<Animator>().SetBool("IsOpen", true);
+
                 break;
             case CanonState.LOADED:
                 canonCapsule.gameObject.SetActive(true);
+                canon.GetComponent<Animator>().SetBool("IsOpen", false);
                 break;
         }
     }
@@ -325,10 +374,13 @@ public class CookingManager : MonoBehaviour
             currentCookingOrbState = CookingOrbState.EMPTY;
         }
 
-        if (occupyingSoup != null)
-        {
-            currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
-        }
+        // Commented this out because I'm adding a cooking timer mechanic. At the end of the timer, the cooking orb state will be swapped to OCCUPIED_SOUP.
+
+        //if (occupyingSoup != null)
+        //{
+        //    currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
+        //
+        //}
         else if (currentIngredients.Count > 0 && currentCookingOrbState == CookingOrbState.EMPTY)
         {
             currentCookingOrbState = CookingOrbState.INGREDIENTS_NOWATER;
@@ -481,7 +533,7 @@ public class CookingManager : MonoBehaviour
         // Resetting current cooking orb values to be ready for next soup
         currentSpicy = 0;
         currentChunky = 0;
-        currentCookingOrbState = CookingOrbState.EMPTY;
+        //currentCookingOrbState = CookingOrbState.EMPTY;
 
         for (int i = currentIngredients.Count - 1; i > -1; i--)
         {
@@ -497,13 +549,17 @@ public class CookingManager : MonoBehaviour
 
 
         // Making the cooking orb state OCCUPIED. //
-        currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
+        currentCookingOrbState = CookingOrbState.COOKING;
 
         Soup newSoup = CookSoup();
         
         Transform newSoupOrb = Object.Instantiate(soupOrb, soupOrb.position, soupOrb.rotation);
-        newSoupOrb.gameObject.SetActive(true);
+
+        // The setting active is moved to the State Machine because of the added cooking timer mechanic. //
+        //newSoupOrb.gameObject.SetActive(true);
+
         SoupData newSoupsData = newSoupOrb.GetComponent<SoupData>();
+
         newSoupsData.theSoup = newSoup;
 
         // Setting max amount of "portions" of soup. The player can keep grabbing soup until they've depleted all the portions. //
@@ -529,10 +585,12 @@ public class CookingManager : MonoBehaviour
     public static void CutterSwitch1()
     {
         Debug.Log("Cutter switch 1 activated.");
+        cutterGauge1.GetComponent<Gauge>().Increase();
     }
     public static void CutterSwitch2()
     {
         Debug.Log("Cutter switch 2 activated.");
+        cutterGauge2.GetComponent<Gauge>().Increase();
     }
     public static void WaterTapSwitch()
     {

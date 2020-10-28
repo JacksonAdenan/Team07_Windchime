@@ -21,16 +21,20 @@ public class Gauge : MonoBehaviour
     void Update()
     {
         gaugeTimer += Time.deltaTime;
-        if (gaugeTimer == decrementSpeedSeconds)
+        if (gaugeTimer >= decrementSpeedSeconds)
         {
             gaugeTimer = 0;
             GaugeDecrease();
         }
     }
 
-    void Increase()
+    public void Increase()
     {
-        currentAmount += incrementAmount;
+        if ((currentAmount + incrementAmount) < gaugeCap)
+        { 
+            currentAmount += incrementAmount;
+            Debug.Log("Gauge increased. Current amount: " + currentAmount);
+        }
     }
     void GaugeDecrease()
     {
