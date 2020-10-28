@@ -1,26 +1,68 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+[Serializable]
 public class Soup
 {
-    public string soupName;
     public float spicyValue;
     public float chunkyValue;
-    public Ingridient restrictedIngredient;
+    //public Ingredient restrictedIngredient;
     
+
+
     public Colour colour;
 
+    public List<Ingredient> usedIngredients;
 
 
     // Remove these at some point. //
     public bool isSpicy;
     public bool isChunky;
-    public Soup(string name, float spicyValue, float chunkyValue, Ingridient restrictedIngredient)
+
+    void Start()
     {
-        soupName = name;
+        usedIngredients = new List<Ingredient>();
+    }
+    //public void SetSoup(float spicyValue, float chunkyValue)
+    //{
+    //    this.spicyValue = spicyValue;
+    //    this.chunkyValue = chunkyValue;
+    //}
+    public Soup(float spicyValue, float chunkyValue)
+    {
+        usedIngredients = new List<Ingredient>();
+    
+    
         this.spicyValue = spicyValue;
         this.chunkyValue = chunkyValue;
-        this.restrictedIngredient = restrictedIngredient;
+        
+    }
+
+    public bool ContainsMeat()
+    {
+        for (int i = 0; i < usedIngredients.Count; i++)
+        {
+            if (usedIngredients[i].isMeat == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool ContainsVeg()
+    {
+        for (int i = 0; i < usedIngredients.Count; i++)
+        {
+            if (usedIngredients[i].isMeat == false)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

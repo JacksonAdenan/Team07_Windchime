@@ -24,8 +24,9 @@ public class MenuManager : MonoBehaviour
     public Canvas debugUI;
     
 
-
+    // Timers //
     float orderCreatedTextTimer;
+    float orderSubmittedTextTimer;
 
     // Order creation stuff //
     public TextMeshProUGUI orderCreatedText;
@@ -45,6 +46,49 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI heldItemText;
     public TextMeshProUGUI selectedItemText;
     public TextMeshProUGUI selectedApplianceText;
+
+    public TextMeshProUGUI currentCookingOrbState;
+    public TextMeshProUGUI currentIngredients;
+    List<string> currentIngredientsNames;
+    string ingredientsText = "";
+
+    public TextMeshProUGUI currentCatcherState;
+
+    public TextMeshProUGUI heldCapsuleData;
+    public TextMeshProUGUI currentPortionsData;
+
+    public TextMeshProUGUI currentBlenderState;
+    public TextMeshProUGUI currentBlenderIngredients;
+    string blenderIngredientsText = "";
+
+    public TextMeshProUGUI defaultMaterial;
+
+    // Order monitor display stuff //
+    public TextMeshProUGUI unLoadedText;
+    public TextMeshProUGUI soupStatsText;
+
+
+    public Canvas newOrderCanvas;
+    public Canvas currentOrderCanvas;
+    
+    // These are the order request text boxes //
+    public TextMeshProUGUI wantedSpicy;
+    public TextMeshProUGUI wantedChunky;
+    public TextMeshProUGUI wantedColour;
+    public TextMeshProUGUI wantedMeatVegPref;
+
+    // These are the current order text boxes //
+    public TextMeshProUGUI requestedSpicy;
+    public TextMeshProUGUI requestedChunky;
+    public TextMeshProUGUI requestedColour;
+    public TextMeshProUGUI requestedMeatVegPref;
+
+    // Score and order submission UI //
+    public TextMeshProUGUI adjustableSubmittedOrderText;
+    public TextMeshProUGUI playerPoints;
+
+    public static TextMeshProUGUI submittedOrderText;
+
 
     // Seperators for ease of access //
     Transform soupOrganiser;
@@ -70,6 +114,11 @@ public class MenuManager : MonoBehaviour
         //chunkyDisplayText = currentOrderOrganiser.Find("chunky").GetComponent<TextMeshProUGUI>();
 
         // orderCreatedText = orderOrganiser.Find("orderCreatedText").GetComponent<TextMeshProUGUI>();
+
+        // Setting my timers to 0 safely //
+        orderSubmittedTextTimer = 0;
+
+
         orderCreatedText.gameObject.SetActive(false);
 
 
@@ -85,6 +134,9 @@ public class MenuManager : MonoBehaviour
 
         //spicyInput = orderOrganiser.Find("spicyInput").GetComponent<TMP_InputField>();
         //chunkyInput = orderOrganiser.Find("chunkyInput").GetComponent<TMP_InputField>();
+
+        // Initialising static texts to their adjustable counter parts. //
+        submittedOrderText = adjustableSubmittedOrderText;
 
         
 
@@ -108,6 +160,17 @@ public class MenuManager : MonoBehaviour
         MenuState();
 
 
+        // Doing timer things //
+        if (submittedOrderText.gameObject.activeInHierarchy)
+        { 
+            orderSubmittedTextTimer += Time.deltaTime;
+            if (orderSubmittedTextTimer >= 3)
+            {
+                submittedOrderText.gameObject.SetActive(false);
+                orderCreatedTextTimer = 0;
+            }    
+        }
+
         // Making the "Order Created" text disappear after a while.
         orderCreatedTextTimer += Time.deltaTime;
 
@@ -123,6 +186,30 @@ public class MenuManager : MonoBehaviour
         DisplayHeldItem();
         DisplaySelectedAppliance();
         DisplaySelectedItem();
+
+        DisplayCurrentCookingOrbState();
+        DisplayCurrentIngredients();
+
+        DisplayCurrentCatcherState();
+
+        DisplayHeldCapsuleData();
+        DisplayCurrentPortionsData();
+
+        DisplayBlenderIngredients();
+        DisplayBlenderState();
+
+        DisplayDefaultMaterial();
+
+
+        // Displaying order/canon monitor ui stuff //
+        DisplayCanonMonitor();
+
+        DisplayOrderScreens();
+
+        // Displaying players score. //
+        DisplayPlayerPoints();
+
+        
     }
 
     void MenuState()
@@ -136,7 +223,7 @@ public class MenuManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.P))
                 {
                     currentState = global::MenuState.none;
-                    playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.lookMode;
+                    playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
                     Cursor.lockState = CursorLockMode.Locked;
                 }
                 break;
@@ -147,7 +234,7 @@ public class MenuManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.O))
                 {
                     currentState = global::MenuState.none;
-                    playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.lookMode;
+                    playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
                     Cursor.lockState = CursorLockMode.Locked;
                 }
                 break;
@@ -168,14 +255,14 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    void PopulateSoupDropdownOptions(TMP_Dropdown dropDownBox)
-    {
-        for (int i = 0; i < CookingManager.allSoups.Count; i++)
-        {
-            
-            dropDownBox.options.Add(new TMP_Dropdown.OptionData(CookingManager.allSoups[i].soupName));
-        }
-    }
+    //void PopulateSoupDropdownOptions(TMP_Dropdown dropDownBox)
+    //{
+    //    for (int i = 0; i < CookingManager.allSoups.Count; i++)
+    //    {
+    //        
+    //        dropDownBox.options.Add(new TMP_Dropdown.OptionData(CookingManager.allSoups[i].soupName));
+    //    }
+    //}
     void PopulateColourDropdownOptions(TMP_Dropdown dropDownBox)
     {
         dropDownBox.options.Add(new TMP_Dropdown.OptionData("None"));
@@ -191,7 +278,7 @@ public class MenuManager : MonoBehaviour
 
     public void CreateOrder()
     {
-        OrderManager.AddOrder(OrderManager.CreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
+        OrderManager.SendOrder(OrderManager.ManuallyCreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
         orderCreatedText.gameObject.SetActive(true);
         orderCreatedTextTimer = 0;
 
@@ -202,23 +289,23 @@ public class MenuManager : MonoBehaviour
     void DisplayCurrentOrder(TextMeshProUGUI colour, TextMeshProUGUI meatVeg, TextMeshProUGUI spicy, TextMeshProUGUI chunky)
     {
         //soup.text = OrderManager.currentOrders[0].mainSoup.soupName;
-        colour.text = OrderManager.currentOrders[0].colourPreference.name;
+        colour.text = OrderManager.requestedOrders[0].colourPreference.name;
 
-        if (!OrderManager.currentOrders[0].noMeat && !OrderManager.currentOrders[0].noVeg)
+        if (!OrderManager.requestedOrders[0].noMeat && !OrderManager.requestedOrders[0].noVeg)
         {
             meatVeg.text = "Meat and Veg allowed";
         }
-        else if (OrderManager.currentOrders[0].noMeat && !OrderManager.currentOrders[0].noVeg)
+        else if (OrderManager.requestedOrders[0].noMeat && !OrderManager.requestedOrders[0].noVeg)
         {
             meatVeg.text = "Meat not allowed";
         }
-        else if (OrderManager.currentOrders[0].noVeg && !OrderManager.currentOrders[0].noMeat)
+        else if (OrderManager.requestedOrders[0].noVeg && !OrderManager.requestedOrders[0].noMeat)
         {
             meatVeg.text = "Veg not allowed";
         }
 
-        spicy.text = OrderManager.currentOrders[0].spicyness.ToString();
-        chunky.text = OrderManager.currentOrders[0].chunkiness.ToString();
+        spicy.text = OrderManager.requestedOrders[0].spicyness.ToString();
+        chunky.text = OrderManager.requestedOrders[0].chunkiness.ToString();
 
     }
 
@@ -258,6 +345,81 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    void DisplayCurrentCookingOrbState()
+    {
+        currentCookingOrbState.text = CookingManager.currentCookingOrbState.ToString();
+    }
+    void DisplayCurrentIngredients()
+    {
+        
+        for (int i = 0; i < CookingManager.currentIngredients.Count; i++)
+        {
+            ingredientsText = ingredientsText + CookingManager.ConvertTextToIngredient(CookingManager.currentIngredients[i].GetComponent<IngredientData>().ingredientName).name + ", ";
+        }
+        currentIngredients.text = ingredientsText;
+        ingredientsText = "";
+    }
+
+    void DisplayCurrentCatcherState()
+    {
+        currentCatcherState.text = CookingManager.currentCatcherState.ToString();
+    }
+
+    void DisplayCanonMonitor()
+    {
+        if (CookingManager.isLoaded)
+        {
+            unLoadedText.gameObject.SetActive(false);
+            soupStatsText.gameObject.SetActive(true);
+            Soup soupData = CookingManager.canonCapsule.GetComponent<SoupData>().theSoup;
+            if (CookingManager.canonCapsule.GetComponent<SoupData>().theSoup == null)
+            {
+                soupStatsText.text = "NULL soup.";
+            }
+            else
+            {
+                soupStatsText.text = "Soup is " + soupData.spicyValue + " spicy and " + soupData.chunkyValue + " chunky.";
+            }
+
+        }
+        else if (!CookingManager.isLoaded)
+        {
+            unLoadedText.gameObject.SetActive(true);
+            soupStatsText.gameObject.SetActive(false);
+        }
+    }
+
+    void DisplayHeldCapsuleData()
+    {
+        if (MouseLook.heldItem && MouseLook.heldItem.tag == "Capsule")
+        {
+            if (MouseLook.heldItem.GetComponent<SoupData>().theSoup == null)
+            {
+                heldCapsuleData.text = "This is soup is null.";
+            }
+            else
+            {
+                heldCapsuleData.text = "This soup is NOT null.";
+            }
+        }
+    }
+
+    void DisplayCurrentPortionsData()
+    {
+        if (CookingManager.currentPortions.Count > 0 && CookingManager.currentPortions[0] == null)
+        {
+            currentPortionsData.text = "Portion is null.";
+        }
+        else if (CookingManager.currentPortions.Count > 0 && CookingManager.currentPortions[0] != null)
+        {
+            currentPortionsData.text = "Portion is NOT null!";
+        }
+        else if (CookingManager.currentPortions.Count == 0)
+        {
+            currentPortionsData.text = "there are no portions.";
+        }
+    }
+
     void DisplayAvailableSoups(Transform parentOfUI)
     {
         //// Setting all the soup titles. These will be stored to make finding their children easier. //
@@ -281,6 +443,110 @@ public class MenuManager : MonoBehaviour
         //soup3Parent.transform.Find("spicyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[2].spicyValue.ToString();
         //soup3Parent.transform.Find("chunkyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[2].chunkyValue.ToString();
         //soup3Parent.transform.Find("restrictedIngredient").GetComponent<TextMeshProUGUI>().text = "Restricted: " + CookingManager.allSoups[2].restrictedIngredient.name;
+    }
+
+    void DisplayOrderScreens()
+    {
+        if (OrderManager.currentScreenState == OrderScreenState.NEW_ORDER)
+        {
+            newOrderCanvas.gameObject.SetActive(true);
+            currentOrderCanvas.gameObject.SetActive(false);
+
+            UpdateNewOrder();
+        }
+        else if (OrderManager.currentScreenState == OrderScreenState.CURRENT_ORDER)
+        {
+            newOrderCanvas.gameObject.SetActive(false);
+            currentOrderCanvas.gameObject.SetActive(true);
+
+            UpdateCurrentOrder();
+        }
+    }
+
+    void UpdateNewOrder()
+    {
+        // This if statement is to make sure your not trying to access requestedOrders if the list is empty. //
+        if (OrderManager.requestedOrders.Count > 0)
+        { 
+            wantedChunky.text = "Chunkyness: " + OrderManager.requestedOrders[0].chunkiness.ToString();
+            wantedSpicy.text = "Spicyness: " + OrderManager.requestedOrders[0].spicyness.ToString();
+            wantedColour.text = "No colours yet.";
+
+            if (OrderManager.requestedOrders[0].noMeat == false && OrderManager.requestedOrders[0].noVeg == false)
+            {
+                wantedMeatVegPref.text = "Meat and veg allowed";
+            }
+            else if (OrderManager.requestedOrders[0].noMeat == true)
+            {
+                wantedMeatVegPref.text = "No meat";
+            }
+            else if (OrderManager.requestedOrders[0].noVeg == true)
+            {
+                wantedMeatVegPref.text = "No veg";
+            }
+        }
+    }
+
+    void UpdateCurrentOrder()
+    {
+        if (OrderManager.acceptedOrders.Count > 0)
+        {
+            Order theOrder = OrderManager.acceptedOrders[0];
+
+            requestedSpicy.text = "Spicy: " + theOrder.spicyness;
+            requestedChunky.text = "Chunky: " + theOrder.chunkiness;
+            requestedColour.text = "There are no colours yet.";
+
+
+            if (theOrder.noMeat == false && theOrder.noVeg == false)
+            {
+                requestedMeatVegPref.text = "Meat and veg allowed";
+            }
+            else if (theOrder.noMeat == true)
+            {
+                requestedMeatVegPref.text = "No meat";
+            }
+            else if (theOrder.noVeg == true)
+            {
+                requestedMeatVegPref.text = "No veg";
+            }
+        }
+    }
+
+    public void DisplayPlayerPoints()
+    {
+        playerPoints.text = "POINTS: " + ScoreManager.currentScore.ToString();
+    }
+
+    public static void DisplayOrderSubmittedText()
+    {
+        submittedOrderText.gameObject.SetActive(true);
+    }
+
+    public void DisplayBlenderState()
+    {
+        currentBlenderState.text = CookingManager.currentBlenderState.ToString();
+    }
+    public void DisplayBlenderIngredients()
+    {
+        for (int i = 0; i < CookingManager.currentBlenderIngredients.Count; i++)
+        {
+            blenderIngredientsText = blenderIngredientsText + CookingManager.ConvertTextToIngredient(CookingManager.currentBlenderIngredients[i].GetComponent<IngredientData>().ingredientName).name + ", ";
+        }
+        currentBlenderIngredients.text = blenderIngredientsText;
+        blenderIngredientsText = "";
+    }
+
+    public void DisplayDefaultMaterial()
+    {
+        if (playerCamera.GetComponent<MouseLook>().defaultMat != null)
+        {
+            defaultMaterial.text = playerCamera.GetComponent<MouseLook>().defaultMat.ToString();
+        }
+        else
+        {
+            defaultMaterial.text = "NULL";
+        }
     }
 
     
