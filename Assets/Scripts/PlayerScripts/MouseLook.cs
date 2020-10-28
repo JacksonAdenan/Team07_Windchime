@@ -34,6 +34,7 @@ public enum SwitchType
     ORDER_ACCEPT,
     ORDER_REJECT,
     BLENDER_BUTTON,
+    ITEM_SPAWNER,
 
     ERROR
 }
@@ -1026,6 +1027,9 @@ public class MouseLook : MonoBehaviour
                 break;
             case SwitchType.BLENDER_BUTTON:
                 CookingManager.ActivateBlender();
+                break;
+            case SwitchType.ITEM_SPAWNER:
+                CookingManager.SpawnIngredient();
                 break;
                 
         }

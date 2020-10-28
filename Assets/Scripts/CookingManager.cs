@@ -49,8 +49,11 @@ public enum BlenderState
 }
 public class CookingManager : MonoBehaviour
 {
+    public Transform adjustablePlayerCamera;
+    public static Transform playerCamera;
+
     public static List<Ingredient> allIngridients;
-    
+    public List<Ingredient> adjustableAllIngredients = new List<Ingredient>();
 
     public GameObject allSoupsObject;
 
@@ -139,9 +142,9 @@ public class CookingManager : MonoBehaviour
     public float adjustableCutterEjectionSpeed;
     public static float cutterEjectionSpeed;
 
-    // Cutter gauges //
-    //public Transform cutterGauge1;
-    //public Transform cutterGauge2;
+    // Item fabricator stuff. //
+    public Transform adjustableItemSpawnPoint;
+    public static Transform itemSpawnPoint;
 
 
     // Water tap stuff. //
@@ -154,15 +157,20 @@ public class CookingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        playerCamera = adjustablePlayerCamera;
+
         allIngridients = new List<Ingredient>();
   
 
         currentIngredients = new List<Transform>();
         currentlyTrackedIngredients = new List<Transform>();
-        
+
 
         // Creating all basic ingridients //
-        CreateBasicIngridients();
+        //CreateBasicIngridients();
+        // New way of creating all ingredients. //
+        CopyOverCreatedIngredients();
 
         // Reading in and creating all the soups //
         //PopulateSoupList();
@@ -178,6 +186,9 @@ public class CookingManager : MonoBehaviour
 
         cutterGauge1 = adjustableCutterGauge1;
         cutterGauge2 = adjustableCutterGauge2;
+
+        // Setting up item fabricator static values. //
+        itemSpawnPoint = adjustableItemSpawnPoint;
 
         // Setting static value for water from inspector value. //
         water = adjustableWater;
@@ -426,6 +437,10 @@ public class CookingManager : MonoBehaviour
         return null;
     }
 
+    public void CopyOverCreatedIngredients()
+    {
+        allIngridients = adjustableAllIngredients;
+    }
     void CreateBasicIngridients()
     {
         allIngridients.Add(new Ingredient("apple", 10, 25, false));
@@ -577,11 +592,42 @@ public class CookingManager : MonoBehaviour
     }
 
        
-    public static void Cut(Transform ingredientObj)
+    public static void Cut(Transform ingredientObj, Vector3 _pos, Transform victim)
     {
-        ingredientObj.position = exitTrigger.position;
-        ingredientObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        ingredientObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
+        //ingredientObj.position = exitTrigger.position;
+
+
+        Vector3 pos = new Vector3(_pos.x, victim.position.y, victim.position.z);
+        Vector3 victimScale = victim.localScale;
+
+
+        Vector3 leftPoint = victim.position - Vector3.right * victimScale.x / 2;
+        Vector3 rightPoint = victim.position + Vector3.right * victimScale.x / 2;
+        Material mat = victim.GetComponent<MeshRenderer>().material;
+        victim.gameObject.SetActive(false);
+
+
+        Transform rightSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
+        rightSideObj.gameObject.SetActive(true);
+        //rightSideObj.transform.position = (rightPoint + pos) / 2;
+        float rightwidth = Vector3.Distance(pos, rightPoint);
+        rightSideObj.transform.localScale = new Vector3(rightwidth, victimScale.y, victimScale.z);
+
+        rightSideObj.GetComponent<MeshRenderer>().material = mat;
+
+        Transform leftSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
+        leftSideObj.gameObject.SetActive(true);
+        //leftSideObj.transform.position = (leftPoint + pos) / 2;
+        float leftwidth = Vector3.Distance(pos, leftPoint);
+        leftSideObj.transform.localScale = new Vector3(leftwidth, victimScale.y, victimScale.z);
+
+        leftSideObj.GetComponent<MeshRenderer>().material = mat;
+
+        leftSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        leftSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
+
+        rightSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        rightSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
     }
 
     public static void CutterSwitch1()
@@ -749,6 +795,13 @@ public class CookingManager : MonoBehaviour
         // Because its instantiating the soup thing we have to remove its soup data script. //
         Destroy(newBlendedThing.GetComponent<SoupData>());
 
+    }
+
+    public static void SpawnIngredient()
+    {
+        string ingredientName = playerCamera.GetComponent<MouseLook>().selectedSwitch.GetComponent<IngredientData>().ingredientName;
+        Ingredient ingredientToSpawn = ConvertTextToIngredient(ingredientName);
+        Instantiate(ingredientToSpawn.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);
     }
 
 }
