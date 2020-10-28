@@ -38,7 +38,10 @@ public class Gauge : MonoBehaviour
     }
     void GaugeDecrease()
     {
-        currentAmount -= decrementAmount;
+        if ((currentAmount - decrementAmount) > 0)
+        { 
+            currentAmount -= decrementAmount;
+        }
     }
 
     public bool IsAboveHalf()

@@ -270,6 +270,8 @@ public class CookingManager : MonoBehaviour
 
 
         cutterSkinnedMesh.SetBlendShapeWeight(0, cutterGauge1.GetComponent<Gauge>().currentAmount);
+
+        cutterSkinnedMesh.SetBlendShapeWeight(1, cutterGauge2.GetComponent<Gauge>().currentAmount);
     }
 
 

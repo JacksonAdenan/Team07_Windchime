@@ -29623,7 +29623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   incrementAmount: 10
-  decrementAmount: 1
+  decrementAmount: 0.5
   decrementSpeedSeconds: 0.05
   currentAmount: 0
   gaugeCap: 100
@@ -34638,10 +34638,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   incrementAmount: 10
-  decrementAmount: 0
-  decrementSpeedSeconds: 0
+  decrementAmount: 0.5
+  decrementSpeedSeconds: 0.05
   currentAmount: 0
-  gaugeCap: 0
+  gaugeCap: 100
 --- !u!64 &1904794745
 MeshCollider:
   m_ObjectHideFlags: 0
