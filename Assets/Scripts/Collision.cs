@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CutterEntry : MonoBehaviour
+public class Collision : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -16,12 +16,9 @@ public class CutterEntry : MonoBehaviour
         
     }
 
-    void OnTriggerEnter(Collider otherObj)
+    private void OnCollisionEnter(UnityEngine.Collision collision)
     {
-        if (otherObj.tag == "Ingredient")
-        {
-            CookingManager.Cut(otherObj.transform);
-            Debug.Log("Cutter entry trigger activated.");
-        }
+        //CubeCut.Cut(collision.transform, transform.position);
+        SphereCut.Cut(collision.transform, transform.position);
     }
 }

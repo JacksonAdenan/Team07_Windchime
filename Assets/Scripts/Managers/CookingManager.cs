@@ -15,7 +15,8 @@ public enum CookingOrbState
     EMPTY_WATER,
     INGREDIENTS_NOWATER,
     INGREDIENTS_AND_WATER,
-    OCCUPIED_SOUP
+    OCCUPIED_SOUP,
+    COOKING
 }
 
 public enum WaterTapState
@@ -48,8 +49,11 @@ public enum BlenderState
 }
 public class CookingManager : MonoBehaviour
 {
-    public static List<Ingredient> allIngridients;
-    
+    public Transform adjustablePlayerCamera;
+    public static Transform playerCamera;
+
+    //public static List<Ingredient> allIngridients;
+    //public List<Ingredient> adjustableAllIngredients = new List<Ingredient>();
 
     public GameObject allSoupsObject;
 
@@ -60,6 +64,14 @@ public class CookingManager : MonoBehaviour
     public static Colour currentColour;
 
     public static Transform occupyingSoup;
+
+
+    public Slicer theSlicer;
+
+    // Appliance prefabs //
+    public Transform cookingOrb;
+    public Transform canon;
+    public Transform blender;
 
     // Canon stats and current things. //
     public static CanonState currentCanonState;
@@ -89,6 +101,8 @@ public class CookingManager : MonoBehaviour
     public static List<Transform> currentIngredients;
     public static List<Transform> currentlyTrackedIngredients;
 
+    public float cookingTimer = 0;
+
     public Transform adjustableSoup;
     public static Transform soupOrb;
 
@@ -107,20 +121,9 @@ public class CookingManager : MonoBehaviour
     public static Transform blenderCover;
     public Transform adjustableBlenderCover;
 
-
-    // Triggers and stats for cutter appliance. //
-    public static Transform entryTrigger;
-    public static Transform exitTrigger;
-
-    public Transform adjustableEntryTrigger;
-    public Transform adjustableExitTrigger;
-
-    public float adjustableCutterEjectionSpeed;
-    public static float cutterEjectionSpeed;
-
-    // Cutter gauges //
-    //public Transform cutterGauge1;
-    //public Transform cutterGauge2;
+    // Item fabricator stuff. //
+    public Transform adjustableItemSpawnPoint;
+    public static Transform itemSpawnPoint;
 
 
     // Water tap stuff. //
@@ -133,33 +136,28 @@ public class CookingManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        allIngridients = new List<Ingredient>();
+
+        playerCamera = adjustablePlayerCamera;
+
+        //allIngridients = new List<Ingredient>();
   
 
         currentIngredients = new List<Transform>();
         currentlyTrackedIngredients = new List<Transform>();
-        
 
-        // Creating all basic ingridients //
-        CreateBasicIngridients();
-
-        // Reading in and creating all the soups //
-        //PopulateSoupList();
-
-        // Printing out names of all soups.
-        //DisplaySoups();
-
-
-        // Setting static values from non static inspector values //
-        cutterEjectionSpeed = adjustableCutterEjectionSpeed;
-        entryTrigger = adjustableEntryTrigger;
-        exitTrigger = adjustableExitTrigger;
+        // Setting up item fabricator static values. //
+        itemSpawnPoint = adjustableItemSpawnPoint;
 
         // Setting static value for water from inspector value. //
         water = adjustableWater;
 
         // Setting static value for soup from inspector value. //
         soupOrb = adjustableSoup;
+
+        // Setting cutter mesh and animation. //
+        //cutterMesh = cutterSkinnedMesh.sharedMesh;
+        
+
 
         // Initialising things for the water tap. //
         currentWaterTapState = WaterTapState.EMPTY;
@@ -198,6 +196,10 @@ public class CookingManager : MonoBehaviour
             adjustableCanonCapsule.gameObject.AddComponent<SoupData>();
         }
         canonCapsule = adjustableCanonCapsule;
+
+
+        // Slicer Start. //
+        theSlicer.SlicerStart();
     }
     
     // Update is called once per frame
@@ -224,6 +226,21 @@ public class CookingManager : MonoBehaviour
         {
             AddTrackedIngredients();
         }
+
+        // Doing cooking timer. //
+        if (currentCookingOrbState == CookingOrbState.COOKING)
+        {
+            cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+            cookingTimer += Time.deltaTime;
+            if (cookingTimer >= 3)
+            {
+                currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
+                occupyingSoup.gameObject.SetActive(true);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+            }
+        }
+        // Slicer Updates. //
+        theSlicer.SlicerUpdate();
     }
 
 
@@ -245,9 +262,12 @@ public class CookingManager : MonoBehaviour
         {
             case CanonState.EMPTY:
                 canonCapsule.gameObject.SetActive(false);
+                canon.GetComponent<Animator>().SetBool("IsOpen", true);
+
                 break;
             case CanonState.LOADED:
                 canonCapsule.gameObject.SetActive(true);
+                canon.GetComponent<Animator>().SetBool("IsOpen", false);
                 break;
         }
     }
@@ -325,10 +345,13 @@ public class CookingManager : MonoBehaviour
             currentCookingOrbState = CookingOrbState.EMPTY;
         }
 
-        if (occupyingSoup != null)
-        {
-            currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
-        }
+        // Commented this out because I'm adding a cooking timer mechanic. At the end of the timer, the cooking orb state will be swapped to OCCUPIED_SOUP.
+
+        //if (occupyingSoup != null)
+        //{
+        //    currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
+        //
+        //}
         else if (currentIngredients.Count > 0 && currentCookingOrbState == CookingOrbState.EMPTY)
         {
             currentCookingOrbState = CookingOrbState.INGREDIENTS_NOWATER;
@@ -348,55 +371,29 @@ public class CookingManager : MonoBehaviour
     /// CreateSoup() grabs a child gameObject from the AllSoups gameObject in the scene. It then uses data stored in the gameObjects SoupCreator script to make a Soup instance.
     /// </summary>
     /// <param name="soupFromScene"></param>
-    //Soup CreateSoup(Transform soupFromScene)
+
+
+    // --------------------------------------- PREVIOUS WAY OF HANDLING INGREDIENTS --------------------------------------- //
+
+    //public static Ingredient ConvertTextToIngredient(string textToConvert)
     //{
-    //    SoupCreator soupsData = soupFromScene.GetComponent<SoupCreator>();
-    //    Ingredient restrictedIngredient = ConvertTextToIngredient(soupsData.restrictedIngredient);
-    //    float spicyValue = soupsData.spicyValue;
-    //    float chunkyValue = soupsData.chunkyValue;
-    //
-    //    Soup newSoup = new Soup(spicyValue, chunkyValue);
-    //    return newSoup;
-    //    
-    //}
-
-    public static Ingredient ConvertTextToIngredient(string textToConvert)
-    {
-        for (int i = 0; i < allIngridients.Count; i++)
-        {
-            if (allIngridients[i].name == textToConvert)
-            {
-                return allIngridients[i]; 
-            }
-        }
-        return null;
-    }
-
-    void CreateBasicIngridients()
-    {
-        allIngridients.Add(new Ingredient("apple", 10, 25, false));
-        allIngridients.Add(new Ingredient("banana", 2, 5, false));
-        allIngridients.Add(new Ingredient("steak", 8, 14, true));
-
-    }
-
-    //void PopulateSoupList()
-    //{
-    //    for (int i = 0; i < allSoupsObject.transform.childCount; i++)
+    //    for (int i = 0; i < allIngridients.Count; i++)
     //    {
-    //        allSoups.Add(CreateSoup(allSoupsObject.transform.GetChild(i)));
+    //        if (allIngridients[i].name == textToConvert)
+    //        {
+    //            return allIngridients[i]; 
+    //        }
     //    }
+    //    return null;
     //}
     //
-    //void DisplaySoups()
+    //public void CopyOverCreatedIngredients()
     //{
-    //    for (int i = 0; i < allSoups.Count; i++)
-    //    {
-    //        Debug.Log(allSoups[i].soupName);
-    //    }
+    //    allIngridients = adjustableAllIngredients;
     //}
 
-       
+    // -------------------------------------------------------------------------------------------------------------------- //
+
     // To be able to check if there is anything currently being tracked by the cooking orb.
     public static bool IsTracking()
     {
@@ -467,21 +464,21 @@ public class CookingManager : MonoBehaviour
  
         for (int i = 0; i < currentIngredients.Count; i++)
         {
-            CombineIngredient(CookingManager.ConvertTextToIngredient(currentIngredients[i].GetComponent<IngredientData>().ingredientName));
+            CombineIngredient(currentIngredients[i].GetComponent<Ingredient>());
         }
 
         Soup newSoup = new Soup(currentSpicy, currentChunky);
 
         for (int i = 0; i < currentIngredients.Count; i++)
         {
-            newSoup.usedIngredients.Add(CookingManager.ConvertTextToIngredient(currentIngredients[i].GetComponent<IngredientData>().ingredientName));
+            newSoup.usedIngredients.Add(currentIngredients[i].GetComponent<Ingredient>());
         }
 
 
         // Resetting current cooking orb values to be ready for next soup
         currentSpicy = 0;
         currentChunky = 0;
-        currentCookingOrbState = CookingOrbState.EMPTY;
+        //currentCookingOrbState = CookingOrbState.EMPTY;
 
         for (int i = currentIngredients.Count - 1; i > -1; i--)
         {
@@ -497,13 +494,17 @@ public class CookingManager : MonoBehaviour
 
 
         // Making the cooking orb state OCCUPIED. //
-        currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
+        currentCookingOrbState = CookingOrbState.COOKING;
 
         Soup newSoup = CookSoup();
         
         Transform newSoupOrb = Object.Instantiate(soupOrb, soupOrb.position, soupOrb.rotation);
-        newSoupOrb.gameObject.SetActive(true);
+
+        // The setting active is moved to the State Machine because of the added cooking timer mechanic. //
+        //newSoupOrb.gameObject.SetActive(true);
+
         SoupData newSoupsData = newSoupOrb.GetComponent<SoupData>();
+
         newSoupsData.theSoup = newSoup;
 
         // Setting max amount of "portions" of soup. The player can keep grabbing soup until they've depleted all the portions. //
@@ -516,23 +517,6 @@ public class CookingManager : MonoBehaviour
         occupyingSoup = newSoupOrb;
 
         
-    }
-
-       
-    public static void Cut(Transform ingredientObj)
-    {
-        ingredientObj.position = exitTrigger.position;
-        ingredientObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        ingredientObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
-    }
-
-    public static void CutterSwitch1()
-    {
-        Debug.Log("Cutter switch 1 activated.");
-    }
-    public static void CutterSwitch2()
-    {
-        Debug.Log("Cutter switch 2 activated.");
     }
     public static void WaterTapSwitch()
     {
@@ -670,7 +654,7 @@ public class CookingManager : MonoBehaviour
 
     public static void SpawnBlendedIngredient(Transform oldIngredient)
     {
-        IngredientData dataToTransfer = oldIngredient.GetComponent<IngredientData>();
+        Ingredient dataToTransfer = oldIngredient.GetComponent<Ingredient>();
         Transform newBlendedThing = Object.Instantiate(soupOrb, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
 
         // Incase the soupOrb we are copying isnt active. //
@@ -681,14 +665,20 @@ public class CookingManager : MonoBehaviour
         newBlendedThing.position = blenderSpawnPoint.position;
 
         // Just because we don't have any art for blended foods, ill make the soup orb a blended ingredient by changing the tag and adding a IngredientData script. //
-        newBlendedThing.gameObject.AddComponent<IngredientData>();
-        newBlendedThing.gameObject.GetComponent<IngredientData>().ingredientName = dataToTransfer.ingredientName;
+        newBlendedThing.gameObject.AddComponent<Ingredient>();
+        newBlendedThing.gameObject.GetComponent<Ingredient>().Copy(dataToTransfer);
         newBlendedThing.tag = "Ingredient";
         newBlendedThing.GetComponent<Rigidbody>().isKinematic = false;
 
         // Because its instantiating the soup thing we have to remove its soup data script. //
         Destroy(newBlendedThing.GetComponent<SoupData>());
 
+    }
+
+    public static void SpawnIngredient()
+    {
+        Ingredient ingredient = playerCamera.GetComponent<MouseLook>().selectedSwitch.GetComponent<Ingredient>();
+        Instantiate(ingredient.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);
     }
 
 }

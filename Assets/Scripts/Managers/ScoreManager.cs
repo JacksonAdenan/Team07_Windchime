@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class IngredientData : MonoBehaviour
+public class ScoreManager : MonoBehaviour
 {
-    public string ingredientName;
+    public static int currentScore;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentScore = 0;
     }
 
     // Update is called once per frame
@@ -16,4 +18,5 @@ public class IngredientData : MonoBehaviour
     {
         
     }
+    
 }

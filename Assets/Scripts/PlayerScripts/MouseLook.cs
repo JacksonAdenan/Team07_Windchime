@@ -34,6 +34,7 @@ public enum SwitchType
     ORDER_ACCEPT,
     ORDER_REJECT,
     BLENDER_BUTTON,
+    ITEM_SPAWNER,
 
     ERROR
 }
@@ -41,6 +42,9 @@ public class MouseLook : MonoBehaviour
 {
     // Constants //
     const float INTERACT_DISTANCE = 2;
+
+    // Singleton hehe. //
+    GameManager gameManager;
 
 
     // Adjustable Values //
@@ -136,6 +140,10 @@ public class MouseLook : MonoBehaviour
     float handAcceleration = 0;
     float accelerationTimer = 0;
 
+
+    // Manager references. //
+    public CookingManager theCookingManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -148,6 +156,10 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Singleton hehe. //
+        gameManager = GameManager.GetInstance();
+
+
         //// Doing raycast from hand //
         //Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
         //Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
@@ -163,10 +175,7 @@ public class MouseLook : MonoBehaviour
         collisions = Physics.OverlapSphere(collisionSphere.position, handCollisionRadius);
 
         CameraState(); // This is the old camera state swapping thing.
-
-
-        //SelectObj();
-        
+   
         DisplayPickupUI();
         DisplayApplianceIU();
 
@@ -174,22 +183,7 @@ public class MouseLook : MonoBehaviour
 
         UpdatePlayerState();
         InputState();
-        //if (Input.GetKeyDown(KeyCode.E) && !isHoldingItem && selectedItem)
-        //{
-        //    PickUpItem(selectedItem);
-        //}
-        //else if (Input.GetKeyDown(KeyCode.C) && !isHoldingItem && selectedItem)
-        //{
-        //    Debug.Log("Cutting ingredient.");
-        //}
-        //else if (Input.GetKeyDown(KeyCode.E) && isHoldingItem)
-        //{
-        //    DropItem();
-        //}
-        //else if (Input.GetKeyDown(KeyCode.F) && isHoldingItem)
-        //{
-        //    ThrowItem();
-        //}
+ 
         Debug.Log(currentPlayerState.ToString());
 
         if (!isCentered)
@@ -202,12 +196,14 @@ public class MouseLook : MonoBehaviour
         // Acceleration timer counting. //
         accelerationTimer += Time.deltaTime;
 
-        
 
-           
-        
- 
-       
+
+        //  Very sketchy restart system. //
+        if (Input.GetKeyDown(KeyCode.R) && gameManager.currentGameState == GameState.GAMEOVER)
+        {
+            gameManager.RestartGame();
+        }
+
     }
 
     void InputState()
@@ -362,23 +358,31 @@ public class MouseLook : MonoBehaviour
         if (!isHoldingItem && selectedItem)
         {
             currentPlayerState = PlayerState.LOOKING_AT_ITEM;
+            //hand.transform.GetChild(0).GetComponent<Animator>().
+            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (selectedAppliance)
         {
             currentPlayerState = PlayerState.LOOKING_AT_APPLIANCE;
+            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (isHoldingItem)
         {
             currentPlayerState = PlayerState.HOLDING_ITEM;
-            
+            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsGrabbing", true);
+            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", false);
+
         }
         else if (selectedSwitch)
         {
             currentPlayerState = PlayerState.LOOKING_AT_SWITCH;
+            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (!isHoldingItem && !selectedItem)
         {
             currentPlayerState = PlayerState.LOOKING_AT_NOTHING;
+            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", false);
+            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsGrabbing", false);
         }
         else
         {
@@ -999,10 +1003,10 @@ public class MouseLook : MonoBehaviour
         switch (switchType)
         {
             case SwitchType.CUTTER_SWITCH_1:
-                CookingManager.CutterSwitch1();
+                theCookingManager.theSlicer.CutterSwitch1();
                 break;
             case SwitchType.CUTTER_SWITCH_2:
-                CookingManager.CutterSwitch2();
+                theCookingManager.theSlicer.CutterSwitch2();
                 break;
             case SwitchType.WATER_TAP:
                 CookingManager.WaterTapSwitch();
@@ -1018,6 +1022,9 @@ public class MouseLook : MonoBehaviour
                 break;
             case SwitchType.BLENDER_BUTTON:
                 CookingManager.ActivateBlender();
+                break;
+            case SwitchType.ITEM_SPAWNER:
+                CookingManager.SpawnIngredient();
                 break;
                 
         }

@@ -43,15 +43,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fa3f2b6aea4724cada86c6bb2d83ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  adjustablePlayerCamera: {fileID: 0}
   allSoupsObject: {fileID: 0}
+  theSlicer:
+    cutterSkinnedMesh: {fileID: 0}
+    cutterGauge1: {fileID: 0}
+    cutterGauge2: {fileID: 0}
+    entryTrigger: {fileID: 0}
+    exitTrigger: {fileID: 0}
+    cutterEjectionSpeed: 15
+  cookingOrb: {fileID: 0}
+  canon: {fileID: 0}
+  blender: {fileID: 0}
   adjustableCanonCapsule: {fileID: 0}
   adjustableEmptyAttachedCapsule: {fileID: 0}
   adjustableFilledAttachedCapsule: {fileID: 0}
+  cookingTimer: 0
   adjustableSoup: {fileID: 0}
   adjustableBlenderEntryTrigger: {fileID: 0}
   adjustableBlenderSpawnPoint: {fileID: 0}
   adjustableBlenderCover: {fileID: 0}
-  adjustableEntryTrigger: {fileID: 0}
-  adjustableExitTrigger: {fileID: 0}
-  adjustableCutterEjectionSpeed: 10
+  adjustableItemSpawnPoint: {fileID: 0}
   adjustableWater: {fileID: 0}

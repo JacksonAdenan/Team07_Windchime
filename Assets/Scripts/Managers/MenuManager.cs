@@ -13,6 +13,10 @@ public enum MenuState
 
 public class MenuManager : MonoBehaviour
 {
+    // Singelton hehe. //
+    GameManager gameManager;
+    
+    
     private MenuState currentState = global::MenuState.none;
     
    
@@ -22,11 +26,15 @@ public class MenuManager : MonoBehaviour
     public Canvas orderUI;
     public Canvas pauseUI;
     public Canvas debugUI;
+    public Canvas gameOverUI;
     
 
     // Timers //
     float orderCreatedTextTimer;
     float orderSubmittedTextTimer;
+
+    // Time left. //
+    public TextMeshProUGUI timeLeftText;
 
     // Order creation stuff //
     public TextMeshProUGUI orderCreatedText;
@@ -98,22 +106,10 @@ public class MenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //heldItemText = debugUI.transform.Find("heldItem").GetComponent<TextMeshProUGUI>();
-        //selectedItemText = debugUI.transform.Find("selectedItem").GetComponent<TextMeshProUGUI>();
-        //selectedApplianceText = debugUI.transform.Find("selectedAppliance").GetComponent<TextMeshProUGUI>();
 
-        // Setting the "seperators" to make it easier to find children under the seperator. //
-        //soupOrganiser = orderUI.transform.Find("SoupStuff");
-        //orderOrganiser = orderUI.transform.Find("OrderCreationStuff");
-        //currentOrderOrganiser = orderUI.transform.Find("OrderList");
+        // Singleton hehe. //
+        gameManager = GameManager.GetInstance();
 
-        //soupDisplayText = currentOrderOrganiser.Find("soupName").GetComponent<TextMeshProUGUI>();
-        //colourDisplayText = currentOrderOrganiser.Find("colourPreference").GetComponent<TextMeshProUGUI>();
-        //meatVegDisplayText = currentOrderOrganiser.Find("meatVegPref").GetComponent<TextMeshProUGUI>();
-        //spicyDisplayText = currentOrderOrganiser.Find("spicy").GetComponent<TextMeshProUGUI>();
-        //chunkyDisplayText = currentOrderOrganiser.Find("chunky").GetComponent<TextMeshProUGUI>();
-
-        // orderCreatedText = orderOrganiser.Find("orderCreatedText").GetComponent<TextMeshProUGUI>();
 
         // Setting my timers to 0 safely //
         orderSubmittedTextTimer = 0;
@@ -121,26 +117,12 @@ public class MenuManager : MonoBehaviour
 
         orderCreatedText.gameObject.SetActive(false);
 
-
-        
-
-     
-
-        //colourDropdown = orderOrganiser.Find("colourDropdown").GetComponent<TMP_Dropdown>();
         TextMeshProUGUI colourDropdownLabel = colourDropdown.transform.Find("Label").GetComponent<TextMeshProUGUI>();
-
-        //meatVegDropdown = orderOrganiser.Find("meatVegDropdown").GetComponent<TMP_Dropdown>();
         TextMeshProUGUI meatVegDropdownLabel = meatVegDropdown.transform.Find("Label").GetComponent<TextMeshProUGUI>();
-
-        //spicyInput = orderOrganiser.Find("spicyInput").GetComponent<TMP_InputField>();
-        //chunkyInput = orderOrganiser.Find("chunkyInput").GetComponent<TMP_InputField>();
 
         // Initialising static texts to their adjustable counter parts. //
         submittedOrderText = adjustableSubmittedOrderText;
-
-        
-
-        
+   
         colourDropdown.options.Clear();
         colourDropdownLabel.text = "None";
 
@@ -179,8 +161,6 @@ public class MenuManager : MonoBehaviour
             orderCreatedText.gameObject.SetActive(false);
         }
 
-        // Displaying available soups //
-        DisplayAvailableSoups(soupOrganiser);
 
         // Display player UI stuff // 
         DisplayHeldItem();
@@ -199,6 +179,8 @@ public class MenuManager : MonoBehaviour
         DisplayBlenderState();
 
         DisplayDefaultMaterial();
+
+        DisplayTimeLeft();
 
 
         // Displaying order/canon monitor ui stuff //
@@ -255,14 +237,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    //void PopulateSoupDropdownOptions(TMP_Dropdown dropDownBox)
-    //{
-    //    for (int i = 0; i < CookingManager.allSoups.Count; i++)
-    //    {
-    //        
-    //        dropDownBox.options.Add(new TMP_Dropdown.OptionData(CookingManager.allSoups[i].soupName));
-    //    }
-    //}
     void PopulateColourDropdownOptions(TMP_Dropdown dropDownBox)
     {
         dropDownBox.options.Add(new TMP_Dropdown.OptionData("None"));
@@ -354,7 +328,7 @@ public class MenuManager : MonoBehaviour
         
         for (int i = 0; i < CookingManager.currentIngredients.Count; i++)
         {
-            ingredientsText = ingredientsText + CookingManager.ConvertTextToIngredient(CookingManager.currentIngredients[i].GetComponent<IngredientData>().ingredientName).name + ", ";
+            ingredientsText = ingredientsText + CookingManager.currentIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentIngredients.text = ingredientsText;
         ingredientsText = "";
@@ -418,31 +392,6 @@ public class MenuManager : MonoBehaviour
         {
             currentPortionsData.text = "there are no portions.";
         }
-    }
-
-    void DisplayAvailableSoups(Transform parentOfUI)
-    {
-        //// Setting all the soup titles. These will be stored to make finding their children easier. //
-        //Transform soup1Parent = parentOfUI.transform.Find("soup1Name");
-        //Transform soup2Parent = parentOfUI.transform.Find("soup2Name");
-        //Transform soup3Parent = parentOfUI.transform.Find("soup3Name");
-        //
-        //soup1Parent.GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[0].soupName;
-        //soup2Parent.GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[1].soupName;
-        //soup3Parent.GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[2].soupName;
-        //
-        //
-        //soup1Parent.transform.Find("spicyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[0].spicyValue.ToString();
-        //soup1Parent.transform.Find("chunkyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[0].chunkyValue.ToString();
-        //soup1Parent.transform.Find("restrictedIngredient").GetComponent<TextMeshProUGUI>().text = "Restricted: " + CookingManager.allSoups[0].restrictedIngredient.name;
-        //
-        //soup2Parent.transform.Find("spicyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[1].spicyValue.ToString();
-        //soup2Parent.transform.Find("chunkyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[1].chunkyValue.ToString();
-        //soup2Parent.transform.Find("restrictedIngredient").GetComponent<TextMeshProUGUI>().text = "Restricted: " + CookingManager.allSoups[1].restrictedIngredient.name;
-        //
-        //soup3Parent.transform.Find("spicyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[2].spicyValue.ToString();
-        //soup3Parent.transform.Find("chunkyValue").GetComponent<TextMeshProUGUI>().text = CookingManager.allSoups[2].chunkyValue.ToString();
-        //soup3Parent.transform.Find("restrictedIngredient").GetComponent<TextMeshProUGUI>().text = "Restricted: " + CookingManager.allSoups[2].restrictedIngredient.name;
     }
 
     void DisplayOrderScreens()
@@ -531,7 +480,7 @@ public class MenuManager : MonoBehaviour
     {
         for (int i = 0; i < CookingManager.currentBlenderIngredients.Count; i++)
         {
-            blenderIngredientsText = blenderIngredientsText + CookingManager.ConvertTextToIngredient(CookingManager.currentBlenderIngredients[i].GetComponent<IngredientData>().ingredientName).name + ", ";
+            blenderIngredientsText = blenderIngredientsText + CookingManager.currentBlenderIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentBlenderIngredients.text = blenderIngredientsText;
         blenderIngredientsText = "";
@@ -548,6 +497,20 @@ public class MenuManager : MonoBehaviour
             defaultMaterial.text = "NULL";
         }
     }
+
+    public void DisplayGameOver()
+    {
+        orderUI.gameObject.SetActive(false);
+        debugUI.gameObject.SetActive(false);
+        gameOverUI.gameObject.SetActive(true);
+    }
+
+    public void DisplayTimeLeft()
+    {
+        timeLeftText.text = gameManager.gameTime.ToString();
+    }
+
+
 
     
 

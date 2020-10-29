@@ -2,13 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+public enum SpawnerType
+{ 
+    DRUMSTICK,
+    LAMB,
+    MUSHROOM,
+    PEPPER,
+    PUMPKIN,
+    TBONE,
+    TURNIP
+
+}
+public class ItemSpawnerData : MonoBehaviour
 {
-    public static int currentScore;
+    public SpawnerType thisType;
     // Start is called before the first frame update
     void Start()
     {
-        currentScore = 0;
+        
     }
 
     // Update is called once per frame
