@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 753fe28289d84f7418629c24489cdd97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theCookingManager: {fileID: 0}
 --- !u!1 &533931097401602922
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,9 +290,12 @@ GameObject:
   - component: {fileID: 4745592277550498652}
   - component: {fileID: 6484369073219626777}
   - component: {fileID: 7344978942244173857}
+  - component: {fileID: 1611362200}
+  - component: {fileID: 1611362201}
+  - component: {fileID: 1611362202}
   m_Layer: 0
   m_Name: Left_Button
-  m_TagString: Untagged
+  m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -357,6 +361,51 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1611362200
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834288360308145709}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 65371026409263719, guid: 7ac0133e70b8b224aa25d5ed55d24683, type: 3}
+--- !u!114 &1611362201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834288360308145709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054e4791fc138b34fa0d86968fa2ff11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  incrementAmount: 10
+  decrementAmount: 0.5
+  decrementSpeedSeconds: 0.05
+  currentAmount: 0
+  gaugeCap: 100
+--- !u!114 &1611362202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834288360308145709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8191ff5ba031f8e4e8641ef978a349cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &1022389865045438211
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,9 +496,12 @@ GameObject:
   - component: {fileID: 6397189699085919867}
   - component: {fileID: 1668194306742749181}
   - component: {fileID: 4534383759752686634}
+  - component: {fileID: 1904794745}
+  - component: {fileID: 1904794744}
+  - component: {fileID: 1904794746}
   m_Layer: 0
   m_Name: Right_Button
-  m_TagString: Untagged
+  m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -515,6 +567,51 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1904794745
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068760913733413237}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1812408932493463848, guid: 7ac0133e70b8b224aa25d5ed55d24683, type: 3}
+--- !u!114 &1904794744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068760913733413237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054e4791fc138b34fa0d86968fa2ff11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
+  incrementAmount: 10
+  decrementAmount: 0.5
+  decrementSpeedSeconds: 0.05
+  currentAmount: 0
+  gaugeCap: 100
+--- !u!114 &1904794746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068760913733413237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8191ff5ba031f8e4e8641ef978a349cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!1 &2078457778692536357
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,8 +966,8 @@ SkinnedMeshRenderer:
   m_Mesh: {fileID: 3909233067320746374, guid: 7ac0133e70b8b224aa25d5ed55d24683, type: 3}
   m_Bones: []
   m_BlendShapeWeights:
-  - 19.6
-  - 69.7
+  - 10
+  - 100
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0, y: -0.000000029802322, z: -0.000000029802322}
