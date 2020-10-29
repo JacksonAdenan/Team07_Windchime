@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CutterEntry : MonoBehaviour
 {
+    public CookingManager theCookingManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +21,7 @@ public class CutterEntry : MonoBehaviour
     {
         if (otherObj.tag == "Ingredient")
         {
-            CookingManager.Cut(otherObj.transform);
+            theCookingManager.theSlicer.CutHalf(otherObj.transform);
             Debug.Log("Cutter entry trigger activated.");
         }
     }

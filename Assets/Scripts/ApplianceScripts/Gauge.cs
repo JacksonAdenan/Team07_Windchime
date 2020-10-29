@@ -1,7 +1,14 @@
 ﻿using UnityEngine;
 
+public enum GaugeState
+{ 
+    LOW,
+    MID,
+    HIGH
+}
 public class Gauge : MonoBehaviour
 {
+    public GaugeState currentState;
 
     public float incrementAmount;
     public float decrementAmount;
@@ -26,6 +33,21 @@ public class Gauge : MonoBehaviour
             gaugeTimer = 0;
             GaugeDecrease();
         }
+
+        if (currentAmount <= 25)
+        {
+            currentState = GaugeState.LOW;
+        }
+        if (currentAmount > 25 && currentAmount < 75)
+        {
+            currentState = GaugeState.MID;
+        }
+        if (currentAmount >= 75)
+        {
+            currentState = GaugeState.HIGH;
+        }
+
+
     }
 
     public void Increase()

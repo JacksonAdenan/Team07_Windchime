@@ -66,6 +66,8 @@ public class CookingManager : MonoBehaviour
     public static Transform occupyingSoup;
 
 
+    public Slicer theSlicer;
+
     // Appliance prefabs //
     public Transform cookingOrb;
     public Transform canon;
@@ -119,29 +121,6 @@ public class CookingManager : MonoBehaviour
     public static Transform blenderCover;
     public Transform adjustableBlenderCover;
 
-
-    // Triggers and stats for cutter appliance. //
-
-    public SkinnedMeshRenderer cutterSkinnedMesh;
-    private Mesh cutterMesh;
-
-    private int cutterBlendShapeCount;
-
-    public static Transform cutterGauge1;
-    public static Transform cutterGauge2;
-
-    public Transform adjustableCutterGauge1;
-    public Transform adjustableCutterGauge2;
-
-    public static Transform entryTrigger;
-    public static Transform exitTrigger;
-
-    public Transform adjustableEntryTrigger;
-    public Transform adjustableExitTrigger;
-
-    public float adjustableCutterEjectionSpeed;
-    public static float cutterEjectionSpeed;
-
     // Item fabricator stuff. //
     public Transform adjustableItemSpawnPoint;
     public static Transform itemSpawnPoint;
@@ -166,27 +145,6 @@ public class CookingManager : MonoBehaviour
         currentIngredients = new List<Transform>();
         currentlyTrackedIngredients = new List<Transform>();
 
-
-        // Creating all basic ingridients //
-        //CreateBasicIngridients();
-        // New way of creating all ingredients. //
-        //CopyOverCreatedIngredients();
-
-        // Reading in and creating all the soups //
-        //PopulateSoupList();
-
-        // Printing out names of all soups.
-        //DisplaySoups();
-
-
-        // Setting static values from non static inspector values //
-        cutterEjectionSpeed = adjustableCutterEjectionSpeed;
-        entryTrigger = adjustableEntryTrigger;
-        exitTrigger = adjustableExitTrigger;
-
-        cutterGauge1 = adjustableCutterGauge1;
-        cutterGauge2 = adjustableCutterGauge2;
-
         // Setting up item fabricator static values. //
         itemSpawnPoint = adjustableItemSpawnPoint;
 
@@ -197,7 +155,7 @@ public class CookingManager : MonoBehaviour
         soupOrb = adjustableSoup;
 
         // Setting cutter mesh and animation. //
-        cutterMesh = cutterSkinnedMesh.sharedMesh;
+        //cutterMesh = cutterSkinnedMesh.sharedMesh;
         
 
 
@@ -238,6 +196,10 @@ public class CookingManager : MonoBehaviour
             adjustableCanonCapsule.gameObject.AddComponent<SoupData>();
         }
         canonCapsule = adjustableCanonCapsule;
+
+
+        // Slicer Start. //
+        theSlicer.SlicerStart();
     }
     
     // Update is called once per frame
@@ -277,12 +239,8 @@ public class CookingManager : MonoBehaviour
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
             }
         }
-
-
-
-        cutterSkinnedMesh.SetBlendShapeWeight(0, cutterGauge1.GetComponent<Gauge>().currentAmount);
-
-        cutterSkinnedMesh.SetBlendShapeWeight(1, cutterGauge2.GetComponent<Gauge>().currentAmount);
+        // Slicer Updates. //
+        theSlicer.SlicerUpdate();
     }
 
 
@@ -559,66 +517,6 @@ public class CookingManager : MonoBehaviour
         occupyingSoup = newSoupOrb;
 
         
-    }
-
-       
-    public static void Cut(Transform victim)
-    {
-
-        if (victim.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
-        {
-            Debug.Log("Cut ingredient.");
-        
-            Vector3 victimScale = victim.localScale;
-            Vector3 leftPoint = victim.position - Vector3.right * victimScale.x / 2;
-            Vector3 rightPoint = victim.position + Vector3.right * victimScale.x / 2;
-            victim.gameObject.SetActive(false);
-
-            // Spawning the right object. //
-            Transform rightSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
-            rightSideObj.gameObject.SetActive(true);
-            rightSideObj.transform.localScale = victim.localScale / 2;
-
-            // Spawning the left object. //
-            Transform leftSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
-            leftSideObj.gameObject.SetActive(true);
-            leftSideObj.transform.localScale = victim.localScale / 2;
-
-
-            // Setting them to be halved. //
-            rightSideObj.GetComponent<Ingredient>().currentState = IngredientState.HALF;
-            leftSideObj.GetComponent<Ingredient>().currentState = IngredientState.HALF;
-
-
-            Debug.Log(leftSideObj.GetComponent<Ingredient>().currentState);
-
-            Debug.Log("Cut peices have been set to half.");
-
-
-
-            // Shooting the new peices upwards. //
-
-            leftSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            leftSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
-
-            rightSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            rightSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
-        }
-        else
-        {
-            Debug.Log("Could not cut this ingredient. It is already cut.");
-        }
-    }
-
-    public static void CutterSwitch1()
-    {
-        Debug.Log("Cutter switch 1 activated.");
-        cutterGauge1.GetComponent<Gauge>().Increase();
-    }
-    public static void CutterSwitch2()
-    {
-        Debug.Log("Cutter switch 2 activated.");
-        cutterGauge2.GetComponent<Gauge>().Increase();
     }
     public static void WaterTapSwitch()
     {

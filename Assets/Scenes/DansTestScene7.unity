@@ -9135,6 +9135,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 615060685}
     m_Modifications:
+    - target: {fileID: 1914315513, guid: 7b9bf34da3ad5c145adf3092f4768ff3, type: 3}
+      propertyPath: theCookingManager
+      value: 
+      objectReference: {fileID: 818171761}
     - target: {fileID: 834288360308145709, guid: 7b9bf34da3ad5c145adf3092f4768ff3,
         type: 3}
       propertyPath: m_TagString
@@ -15253,6 +15257,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 814479138}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &818171761 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 909345569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7fa3f2b6aea4724cada86c6bb2d83ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &818607432
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16652,6 +16668,30 @@ PrefabInstance:
       propertyPath: adjustablePlayerCamera
       value: 
       objectReference: {fileID: 1582596455}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theSlicer.cutterSkinnedMesh
+      value: 
+      objectReference: {fileID: 1873112694}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theSlicer.cutterGauge1
+      value: 
+      objectReference: {fileID: 1611362199}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theSlicer.cutterGauge2
+      value: 
+      objectReference: {fileID: 1904794743}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theSlicer.entryTrigger
+      value: 
+      objectReference: {fileID: 1914315509}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theSlicer.exitTrigger
+      value: 
+      objectReference: {fileID: 902276140}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theSlicer.cutterEjectionSpeed
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name
@@ -29525,6 +29565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 054e4791fc138b34fa0d86968fa2ff11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   incrementAmount: 10
   decrementAmount: 0.5
   decrementSpeedSeconds: 0.05
@@ -34540,6 +34581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 054e4791fc138b34fa0d86968fa2ff11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   incrementAmount: 10
   decrementAmount: 0.5
   decrementSpeedSeconds: 0.05

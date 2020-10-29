@@ -137,6 +137,10 @@ public class MouseLook : MonoBehaviour
     float handAcceleration = 0;
     float accelerationTimer = 0;
 
+
+    // Manager references. //
+    public CookingManager theCookingManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -1008,10 +1012,10 @@ public class MouseLook : MonoBehaviour
         switch (switchType)
         {
             case SwitchType.CUTTER_SWITCH_1:
-                CookingManager.CutterSwitch1();
+                theCookingManager.theSlicer.CutterSwitch1();
                 break;
             case SwitchType.CUTTER_SWITCH_2:
-                CookingManager.CutterSwitch2();
+                theCookingManager.theSlicer.CutterSwitch2();
                 break;
             case SwitchType.WATER_TAP:
                 CookingManager.WaterTapSwitch();
