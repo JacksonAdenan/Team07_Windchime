@@ -354,7 +354,7 @@ public class MenuManager : MonoBehaviour
         
         for (int i = 0; i < CookingManager.currentIngredients.Count; i++)
         {
-            ingredientsText = ingredientsText + CookingManager.ConvertTextToIngredient(CookingManager.currentIngredients[i].GetComponent<IngredientData>().ingredientName).name + ", ";
+            ingredientsText = ingredientsText + CookingManager.currentIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentIngredients.text = ingredientsText;
         ingredientsText = "";
@@ -531,7 +531,7 @@ public class MenuManager : MonoBehaviour
     {
         for (int i = 0; i < CookingManager.currentBlenderIngredients.Count; i++)
         {
-            blenderIngredientsText = blenderIngredientsText + CookingManager.ConvertTextToIngredient(CookingManager.currentBlenderIngredients[i].GetComponent<IngredientData>().ingredientName).name + ", ";
+            blenderIngredientsText = blenderIngredientsText + CookingManager.currentBlenderIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentBlenderIngredients.text = blenderIngredientsText;
         blenderIngredientsText = "";

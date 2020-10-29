@@ -52,8 +52,8 @@ public class CookingManager : MonoBehaviour
     public Transform adjustablePlayerCamera;
     public static Transform playerCamera;
 
-    public static List<Ingredient> allIngridients;
-    public List<Ingredient> adjustableAllIngredients = new List<Ingredient>();
+    //public static List<Ingredient> allIngridients;
+    //public List<Ingredient> adjustableAllIngredients = new List<Ingredient>();
 
     public GameObject allSoupsObject;
 
@@ -160,7 +160,7 @@ public class CookingManager : MonoBehaviour
 
         playerCamera = adjustablePlayerCamera;
 
-        allIngridients = new List<Ingredient>();
+        //allIngridients = new List<Ingredient>();
   
 
         currentIngredients = new List<Transform>();
@@ -170,7 +170,7 @@ public class CookingManager : MonoBehaviour
         // Creating all basic ingridients //
         //CreateBasicIngridients();
         // New way of creating all ingredients. //
-        CopyOverCreatedIngredients();
+        //CopyOverCreatedIngredients();
 
         // Reading in and creating all the soups //
         //PopulateSoupList();
@@ -413,59 +413,29 @@ public class CookingManager : MonoBehaviour
     /// CreateSoup() grabs a child gameObject from the AllSoups gameObject in the scene. It then uses data stored in the gameObjects SoupCreator script to make a Soup instance.
     /// </summary>
     /// <param name="soupFromScene"></param>
-    //Soup CreateSoup(Transform soupFromScene)
+
+
+    // --------------------------------------- PREVIOUS WAY OF HANDLING INGREDIENTS --------------------------------------- //
+
+    //public static Ingredient ConvertTextToIngredient(string textToConvert)
     //{
-    //    SoupCreator soupsData = soupFromScene.GetComponent<SoupCreator>();
-    //    Ingredient restrictedIngredient = ConvertTextToIngredient(soupsData.restrictedIngredient);
-    //    float spicyValue = soupsData.spicyValue;
-    //    float chunkyValue = soupsData.chunkyValue;
-    //
-    //    Soup newSoup = new Soup(spicyValue, chunkyValue);
-    //    return newSoup;
-    //    
-    //}
-
-    public static Ingredient ConvertTextToIngredient(string textToConvert)
-    {
-        for (int i = 0; i < allIngridients.Count; i++)
-        {
-            if (allIngridients[i].name == textToConvert)
-            {
-                return allIngridients[i]; 
-            }
-        }
-        return null;
-    }
-
-    public void CopyOverCreatedIngredients()
-    {
-        allIngridients = adjustableAllIngredients;
-    }
-    void CreateBasicIngridients()
-    {
-        allIngridients.Add(new Ingredient("apple", 10, 25, false));
-        allIngridients.Add(new Ingredient("banana", 2, 5, false));
-        allIngridients.Add(new Ingredient("steak", 8, 14, true));
-
-    }
-
-    //void PopulateSoupList()
-    //{
-    //    for (int i = 0; i < allSoupsObject.transform.childCount; i++)
+    //    for (int i = 0; i < allIngridients.Count; i++)
     //    {
-    //        allSoups.Add(CreateSoup(allSoupsObject.transform.GetChild(i)));
+    //        if (allIngridients[i].name == textToConvert)
+    //        {
+    //            return allIngridients[i]; 
+    //        }
     //    }
+    //    return null;
     //}
     //
-    //void DisplaySoups()
+    //public void CopyOverCreatedIngredients()
     //{
-    //    for (int i = 0; i < allSoups.Count; i++)
-    //    {
-    //        Debug.Log(allSoups[i].soupName);
-    //    }
+    //    allIngridients = adjustableAllIngredients;
     //}
 
-       
+    // -------------------------------------------------------------------------------------------------------------------- //
+
     // To be able to check if there is anything currently being tracked by the cooking orb.
     public static bool IsTracking()
     {
@@ -536,14 +506,14 @@ public class CookingManager : MonoBehaviour
  
         for (int i = 0; i < currentIngredients.Count; i++)
         {
-            CombineIngredient(CookingManager.ConvertTextToIngredient(currentIngredients[i].GetComponent<IngredientData>().ingredientName));
+            CombineIngredient(currentIngredients[i].GetComponent<Ingredient>());
         }
 
         Soup newSoup = new Soup(currentSpicy, currentChunky);
 
         for (int i = 0; i < currentIngredients.Count; i++)
         {
-            newSoup.usedIngredients.Add(CookingManager.ConvertTextToIngredient(currentIngredients[i].GetComponent<IngredientData>().ingredientName));
+            newSoup.usedIngredients.Add(currentIngredients[i].GetComponent<Ingredient>());
         }
 
 
@@ -592,42 +562,52 @@ public class CookingManager : MonoBehaviour
     }
 
        
-    public static void Cut(Transform ingredientObj, Vector3 _pos, Transform victim)
+    public static void Cut(Transform victim)
     {
-        //ingredientObj.position = exitTrigger.position;
+
+        if (victim.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
+        {
+            Debug.Log("Cut ingredient.");
+        
+            Vector3 victimScale = victim.localScale;
+            Vector3 leftPoint = victim.position - Vector3.right * victimScale.x / 2;
+            Vector3 rightPoint = victim.position + Vector3.right * victimScale.x / 2;
+            victim.gameObject.SetActive(false);
+
+            // Spawning the right object. //
+            Transform rightSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
+            rightSideObj.gameObject.SetActive(true);
+            rightSideObj.transform.localScale = victim.localScale / 2;
+
+            // Spawning the left object. //
+            Transform leftSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
+            leftSideObj.gameObject.SetActive(true);
+            leftSideObj.transform.localScale = victim.localScale / 2;
 
 
-        Vector3 pos = new Vector3(_pos.x, victim.position.y, victim.position.z);
-        Vector3 victimScale = victim.localScale;
+            // Setting them to be halved. //
+            rightSideObj.GetComponent<Ingredient>().currentState = IngredientState.HALF;
+            leftSideObj.GetComponent<Ingredient>().currentState = IngredientState.HALF;
 
 
-        Vector3 leftPoint = victim.position - Vector3.right * victimScale.x / 2;
-        Vector3 rightPoint = victim.position + Vector3.right * victimScale.x / 2;
-        Material mat = victim.GetComponent<MeshRenderer>().material;
-        victim.gameObject.SetActive(false);
+            Debug.Log(leftSideObj.GetComponent<Ingredient>().currentState);
+
+            Debug.Log("Cut peices have been set to half.");
 
 
-        Transform rightSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
-        rightSideObj.gameObject.SetActive(true);
-        //rightSideObj.transform.position = (rightPoint + pos) / 2;
-        float rightwidth = Vector3.Distance(pos, rightPoint);
-        rightSideObj.transform.localScale = new Vector3(rightwidth, victimScale.y, victimScale.z);
 
-        rightSideObj.GetComponent<MeshRenderer>().material = mat;
+            // Shooting the new peices upwards. //
 
-        Transform leftSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
-        leftSideObj.gameObject.SetActive(true);
-        //leftSideObj.transform.position = (leftPoint + pos) / 2;
-        float leftwidth = Vector3.Distance(pos, leftPoint);
-        leftSideObj.transform.localScale = new Vector3(leftwidth, victimScale.y, victimScale.z);
+            leftSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            leftSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
 
-        leftSideObj.GetComponent<MeshRenderer>().material = mat;
-
-        leftSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        leftSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
-
-        rightSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        rightSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
+            rightSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            rightSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
+        }
+        else
+        {
+            Debug.Log("Could not cut this ingredient. It is already cut.");
+        }
     }
 
     public static void CutterSwitch1()
@@ -776,7 +756,7 @@ public class CookingManager : MonoBehaviour
 
     public static void SpawnBlendedIngredient(Transform oldIngredient)
     {
-        IngredientData dataToTransfer = oldIngredient.GetComponent<IngredientData>();
+        Ingredient dataToTransfer = oldIngredient.GetComponent<Ingredient>();
         Transform newBlendedThing = Object.Instantiate(soupOrb, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
 
         // Incase the soupOrb we are copying isnt active. //
@@ -787,8 +767,8 @@ public class CookingManager : MonoBehaviour
         newBlendedThing.position = blenderSpawnPoint.position;
 
         // Just because we don't have any art for blended foods, ill make the soup orb a blended ingredient by changing the tag and adding a IngredientData script. //
-        newBlendedThing.gameObject.AddComponent<IngredientData>();
-        newBlendedThing.gameObject.GetComponent<IngredientData>().ingredientName = dataToTransfer.ingredientName;
+        newBlendedThing.gameObject.AddComponent<Ingredient>();
+        newBlendedThing.gameObject.GetComponent<Ingredient>().Copy(dataToTransfer);
         newBlendedThing.tag = "Ingredient";
         newBlendedThing.GetComponent<Rigidbody>().isKinematic = false;
 
@@ -799,9 +779,8 @@ public class CookingManager : MonoBehaviour
 
     public static void SpawnIngredient()
     {
-        string ingredientName = playerCamera.GetComponent<MouseLook>().selectedSwitch.GetComponent<IngredientData>().ingredientName;
-        Ingredient ingredientToSpawn = ConvertTextToIngredient(ingredientName);
-        Instantiate(ingredientToSpawn.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);
+        Ingredient ingredient = playerCamera.GetComponent<MouseLook>().selectedSwitch.GetComponent<Ingredient>();
+        Instantiate(ingredient.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);
     }
 
 }

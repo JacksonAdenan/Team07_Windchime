@@ -20,8 +20,7 @@ public class CutterEntry : MonoBehaviour
     {
         if (otherObj.tag == "Ingredient")
         {
-            CookingManager.Cut(otherObj.transform, transform.position, otherObj.transform);
-            CubeCut.Cut(otherObj.transform, transform.position);
+            CookingManager.Cut(otherObj.transform);
             Debug.Log("Cutter entry trigger activated.");
         }
     }
