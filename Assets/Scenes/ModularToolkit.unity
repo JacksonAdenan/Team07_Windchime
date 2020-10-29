@@ -2072,6 +2072,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character_Handy
       objectReference: {fileID: 0}
+    - target: {fileID: 3591398287831893590, guid: d0b89c783d1904140ae593d6d212989b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4094043996211344622, guid: d0b89c783d1904140ae593d6d212989b,
         type: 3}
       propertyPath: m_LocalPosition.x
