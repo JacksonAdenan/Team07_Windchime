@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1726525754225699995}
   m_Layer: 0
-  m_Name: Appliances_Takeout_Cannon
+  m_Name: Appliance_PillLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,7 +42,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 15f2ecfd939b4374a9bab003a4178e56, type: 2}
+      objectReference: {fileID: 2100000, guid: 29122576c730e8e45a092abcaeccab7f, type: 2}
     - target: {fileID: -4216859302048453862, guid: 0c4de2b7a1eba9a458d88d0b99474967,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -102,12 +102,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 15f2ecfd939b4374a9bab003a4178e56, type: 2}
+      objectReference: {fileID: 2100000, guid: 29122576c730e8e45a092abcaeccab7f, type: 2}
     - target: {fileID: -2234566218187586468, guid: 0c4de2b7a1eba9a458d88d0b99474967,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 15f2ecfd939b4374a9bab003a4178e56, type: 2}
+      objectReference: {fileID: 2100000, guid: 29122576c730e8e45a092abcaeccab7f, type: 2}
     - target: {fileID: -927199367670048503, guid: 0c4de2b7a1eba9a458d88d0b99474967,
         type: 3}
       propertyPath: m_Name
@@ -117,7 +117,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 15f2ecfd939b4374a9bab003a4178e56, type: 2}
+      objectReference: {fileID: 2100000, guid: 29122576c730e8e45a092abcaeccab7f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c4de2b7a1eba9a458d88d0b99474967, type: 3}
 --- !u!4 &6482609032193332980 stripped
