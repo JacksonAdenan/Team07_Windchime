@@ -43,6 +43,9 @@ public class MouseLook : MonoBehaviour
     // Constants //
     const float INTERACT_DISTANCE = 2;
 
+    // Singleton hehe. //
+    GameManager gameManager;
+
 
     // Adjustable Values //
     // ------------------------------------------ //
@@ -153,6 +156,10 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Singleton hehe. //
+        gameManager = GameManager.GetInstance();
+
+
         //// Doing raycast from hand //
         //Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
         //Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
@@ -168,10 +175,7 @@ public class MouseLook : MonoBehaviour
         collisions = Physics.OverlapSphere(collisionSphere.position, handCollisionRadius);
 
         CameraState(); // This is the old camera state swapping thing.
-
-
-        //SelectObj();
-        
+   
         DisplayPickupUI();
         DisplayApplianceIU();
 
@@ -179,22 +183,7 @@ public class MouseLook : MonoBehaviour
 
         UpdatePlayerState();
         InputState();
-        //if (Input.GetKeyDown(KeyCode.E) && !isHoldingItem && selectedItem)
-        //{
-        //    PickUpItem(selectedItem);
-        //}
-        //else if (Input.GetKeyDown(KeyCode.C) && !isHoldingItem && selectedItem)
-        //{
-        //    Debug.Log("Cutting ingredient.");
-        //}
-        //else if (Input.GetKeyDown(KeyCode.E) && isHoldingItem)
-        //{
-        //    DropItem();
-        //}
-        //else if (Input.GetKeyDown(KeyCode.F) && isHoldingItem)
-        //{
-        //    ThrowItem();
-        //}
+ 
         Debug.Log(currentPlayerState.ToString());
 
         if (!isCentered)
@@ -207,12 +196,14 @@ public class MouseLook : MonoBehaviour
         // Acceleration timer counting. //
         accelerationTimer += Time.deltaTime;
 
-        
 
-           
-        
- 
-       
+
+        //  Very sketchy restart system. //
+        if (Input.GetKeyDown(KeyCode.R) && gameManager.currentGameState == GameState.GAMEOVER)
+        {
+            gameManager.RestartGame();
+        }
+
     }
 
     void InputState()
