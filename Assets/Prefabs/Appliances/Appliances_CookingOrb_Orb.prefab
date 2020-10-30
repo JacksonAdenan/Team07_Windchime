@@ -235,8 +235,22 @@ MonoBehaviour:
     usedIngredients: []
     isSpicy: 0
     isChunky: 0
-  maxPortions: 0
-  currentPortions: 0
+  maxPortions: 5
+  currentPortions: 5
+--- !u!64 &1153193676
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681671339315248603}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5954701602515823156, guid: a737e20b7a5ee5b43963bb1ade31fba1, type: 3}
 --- !u!1 &4466918368739401251
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,6 +304,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!64 &144676171
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6336109153520528013}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4293751317952506913, guid: a737e20b7a5ee5b43963bb1ade31fba1, type: 3}
 --- !u!95 &1853214757690634575
 Animator:
   serializedVersion: 3
@@ -309,6 +337,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &320258806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415115220060201266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f063241fe4605e54c8a466c42f4f84aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applianceType: 0
 --- !u!1001 &570149158101760059
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -376,16 +417,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3456528008182656330, guid: a737e20b7a5ee5b43963bb1ade31fba1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Appliance
+      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: a737e20b7a5ee5b43963bb1ade31fba1,
         type: 3}
       propertyPath: m_Name
       value: Appliances_CookingOrb_Orb
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: a737e20b7a5ee5b43963bb1ade31fba1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Appliance
       objectReference: {fileID: 0}
     - target: {fileID: 470832121292460570, guid: a737e20b7a5ee5b43963bb1ade31fba1,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b988d83fb4b856f45b328174224a3921, type: 2}
+    - target: {fileID: 1206943324845606368, guid: a737e20b7a5ee5b43963bb1ade31fba1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Appliance
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a737e20b7a5ee5b43963bb1ade31fba1, type: 3}
 --- !u!1 &8415115220060201266 stripped
@@ -397,6 +453,18 @@ GameObject:
 --- !u!4 &4797221381282272033 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: a737e20b7a5ee5b43963bb1ade31fba1,
+    type: 3}
+  m_PrefabInstance: {fileID: 570149158101760059}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6336109153520528013 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3456528008182656330, guid: a737e20b7a5ee5b43963bb1ade31fba1,
+    type: 3}
+  m_PrefabInstance: {fileID: 570149158101760059}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1681671339315248603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1206943324845606368, guid: a737e20b7a5ee5b43963bb1ade31fba1,
     type: 3}
   m_PrefabInstance: {fileID: 570149158101760059}
   m_PrefabAsset: {fileID: 0}

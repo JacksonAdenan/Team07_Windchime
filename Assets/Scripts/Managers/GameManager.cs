@@ -74,6 +74,6 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("DansTestScene7");
+        SceneManager.LoadScene("ModularToolKit");
     }
 }

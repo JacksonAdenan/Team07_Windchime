@@ -41,7 +41,7 @@ public enum SwitchType
 public class MouseLook : MonoBehaviour
 {
     // Constants //
-    const float INTERACT_DISTANCE = 2;
+    const float INTERACT_DISTANCE = 4;
 
     // Singleton hehe. //
     GameManager gameManager;

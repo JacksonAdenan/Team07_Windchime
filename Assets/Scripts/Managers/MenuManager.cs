@@ -36,7 +36,7 @@ public class MenuManager : MonoBehaviour
     // Time left. //
     public TextMeshProUGUI timeLeftText;
 
-    // Order creation stuff //
+    [Header("Order Creation")]
     public TextMeshProUGUI orderCreatedText;
     public TMP_Dropdown colourDropdown;
     public TMP_Dropdown meatVegDropdown;
@@ -44,17 +44,18 @@ public class MenuManager : MonoBehaviour
     public TMP_InputField chunkyInput;
 
 
-    // Current order text stuff //
+    [Header("Soup Display")]
     public TextMeshProUGUI colourDisplayText;
     public TextMeshProUGUI meatVegDisplayText;
     public TextMeshProUGUI spicyDisplayText;
     public TextMeshProUGUI chunkyDisplayText;
 
-    // Player UI stuff //
+    [Header("Player UI")]
     public TextMeshProUGUI heldItemText;
     public TextMeshProUGUI selectedItemText;
     public TextMeshProUGUI selectedApplianceText;
 
+    [Header("Appliance Things")]
     public TextMeshProUGUI currentCookingOrbState;
     public TextMeshProUGUI currentIngredients;
     List<string> currentIngredientsNames;
@@ -71,7 +72,7 @@ public class MenuManager : MonoBehaviour
 
     public TextMeshProUGUI defaultMaterial;
 
-    // Order monitor display stuff //
+    [Header("Order Monitor Display Stuff")]
     public TextMeshProUGUI unLoadedText;
     public TextMeshProUGUI soupStatsText;
 
@@ -79,19 +80,19 @@ public class MenuManager : MonoBehaviour
     public Canvas newOrderCanvas;
     public Canvas currentOrderCanvas;
     
-    // These are the order request text boxes //
+    [Header("Order Request Texts")]
     public TextMeshProUGUI wantedSpicy;
     public TextMeshProUGUI wantedChunky;
     public TextMeshProUGUI wantedColour;
     public TextMeshProUGUI wantedMeatVegPref;
 
-    // These are the current order text boxes //
+    [Header("Current Order Text")]
     public TextMeshProUGUI requestedSpicy;
     public TextMeshProUGUI requestedChunky;
     public TextMeshProUGUI requestedColour;
     public TextMeshProUGUI requestedMeatVegPref;
 
-    // Score and order submission UI //
+    [Header("Score and Order Submit Text")]
     public TextMeshProUGUI adjustableSubmittedOrderText;
     public TextMeshProUGUI playerPoints;
 
