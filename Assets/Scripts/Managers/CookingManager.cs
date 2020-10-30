@@ -208,6 +208,7 @@ public class CookingManager : MonoBehaviour
 
         // Cooking orb updates. //
         UpdateCookingOrbState();
+        UpdateCookingOrbAnimation();
 
         // Catcher updates //
         UpdateCatcherState();
@@ -230,7 +231,8 @@ public class CookingManager : MonoBehaviour
         // Doing cooking timer. //
         if (currentCookingOrbState == CookingOrbState.COOKING)
         {
-            cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+            Debug.Log("Cooking orb cooking.");
+            //cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
             cookingTimer += Time.deltaTime;
             if (cookingTimer >= 3)
             {
@@ -333,6 +335,31 @@ public class CookingManager : MonoBehaviour
             filledAttachedCapsule.gameObject.SetActive(true);
         }
 
+    }
+    void UpdateCookingOrbAnimation()
+    {
+        switch (currentCookingOrbState)
+        {
+            case CookingOrbState.EMPTY:
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                break;
+            case CookingOrbState.EMPTY_WATER:
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                break;
+            case CookingOrbState.INGREDIENTS_AND_WATER:
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                break;
+            case CookingOrbState.INGREDIENTS_NOWATER:
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                break;
+            case CookingOrbState.OCCUPIED_SOUP:
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                break;
+            case CookingOrbState.COOKING:
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                break;
+
+        }
     }
     void UpdateCookingOrbState()
     {
