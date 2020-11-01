@@ -133,6 +133,14 @@ public class CookingManager : MonoBehaviour
 
     public static WaterTapState currentWaterTapState;
 
+    // Ingredient spawner stuff. //
+    static float ingredientSpawnTimer;
+    static bool isSpawningIngredient;
+    public float ingredientSpawnerLength;
+
+    static Ingredient cachedIngredientToSpawn = null;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -200,6 +208,12 @@ public class CookingManager : MonoBehaviour
 
         // Slicer Start. //
         theSlicer.SlicerStart();
+
+
+        // Ingredient spawner stuff. //
+        ingredientSpawnTimer = 0;
+        isSpawningIngredient = false;
+        
     }
     
     // Update is called once per frame
@@ -243,6 +257,20 @@ public class CookingManager : MonoBehaviour
         }
         // Slicer Updates. //
         theSlicer.SlicerUpdate();
+
+        // Ingredient spawner update. //
+        if (isSpawningIngredient == true)
+        {
+            ingredientSpawnTimer += Time.deltaTime;
+            if (ingredientSpawnTimer >= ingredientSpawnerLength)
+            {
+                ingredientSpawnTimer = 0;
+                isSpawningIngredient = false;
+                SpawnIngredient();
+                cachedIngredientToSpawn = null;
+            }
+        }
+
     }
 
 
@@ -703,9 +731,14 @@ public class CookingManager : MonoBehaviour
     }
 
     public static void SpawnIngredient()
+    {      
+        Instantiate(cachedIngredientToSpawn.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);
+    }
+
+    public static void IngredientSpawnTimer()
     {
-        Ingredient ingredient = playerCamera.GetComponent<MouseLook>().selectedSwitch.GetComponent<Ingredient>();
-        Instantiate(ingredient.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);
+        cachedIngredientToSpawn = playerCamera.GetComponent<MouseLook>().selectedSwitch.GetComponent<Ingredient>();
+        isSpawningIngredient = true;
     }
 
 }

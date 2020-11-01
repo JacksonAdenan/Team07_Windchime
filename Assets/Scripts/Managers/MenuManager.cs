@@ -18,7 +18,8 @@ public class MenuManager : MonoBehaviour
     
     
     private MenuState currentState = global::MenuState.none;
-    
+
+    private MouseLook playersMouseLook;
    
 
     public Transform playerCamera;
@@ -71,6 +72,9 @@ public class MenuManager : MonoBehaviour
     string blenderIngredientsText = "";
 
     public TextMeshProUGUI defaultMaterial;
+
+    public TextMeshProUGUI ingredientTimer;
+    public TextMeshProUGUI canSpawnIngredient;
 
     [Header("Order Monitor Display Stuff")]
     public TextMeshProUGUI unLoadedText;
@@ -134,6 +138,8 @@ public class MenuManager : MonoBehaviour
         PopulateColourDropdownOptions(colourDropdown);
         PopulateMeatVegDropdownOptions(meatVegDropdown);
 
+        playersMouseLook = playerCamera.GetComponent<MouseLook>();
+
 
     }
    
@@ -183,6 +189,7 @@ public class MenuManager : MonoBehaviour
 
         DisplayTimeLeft();
 
+        DisplayIngredientTimer();
 
         // Displaying order/canon monitor ui stuff //
         DisplayCanonMonitor();
@@ -509,6 +516,12 @@ public class MenuManager : MonoBehaviour
     public void DisplayTimeLeft()
     {
         timeLeftText.text = gameManager.gameTime.ToString();
+    }
+
+    public void DisplayIngredientTimer()
+    {
+        ingredientTimer.text = playersMouseLook.ingredientSpawnTimer.ToString();
+        canSpawnIngredient.text = playersMouseLook.canSpawnIngredient.ToString();
     }
 
 

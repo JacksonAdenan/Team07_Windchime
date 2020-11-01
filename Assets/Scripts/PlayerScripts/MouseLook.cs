@@ -144,11 +144,17 @@ public class MouseLook : MonoBehaviour
     // Manager references. //
     public CookingManager theCookingManager;
 
+    // Cool down timers. //
+    public float ingredientSpawnCooldown;
+    public float ingredientSpawnTimer;
+    public bool canSpawnIngredient;
+
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-
+        ingredientSpawnTimer = 0;
+        canSpawnIngredient = true;
 
         
     }
@@ -202,6 +208,17 @@ public class MouseLook : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && gameManager.currentGameState == GameState.GAMEOVER)
         {
             gameManager.RestartGame();
+        }
+
+        // Cooldown for ingredient spawning. //
+        if (canSpawnIngredient == false)
+        {
+            ingredientSpawnTimer += Time.deltaTime;
+            if (ingredientSpawnTimer >= ingredientSpawnCooldown)
+            {
+                canSpawnIngredient = true;
+                ingredientSpawnTimer = 0;
+            }
         }
 
     }
@@ -1024,7 +1041,16 @@ public class MouseLook : MonoBehaviour
                 CookingManager.ActivateBlender();
                 break;
             case SwitchType.ITEM_SPAWNER:
-                CookingManager.SpawnIngredient();
+                if (canSpawnIngredient == true)
+                {
+                    canSpawnIngredient = false;
+                    CookingManager.IngredientSpawnTimer();
+                    Debug.Log("Spawning an ingredient.");
+                }
+                else
+                {
+                    Debug.Log("You can't spawn an ingredient that fast!");
+                }
                 break;
                 
         }
