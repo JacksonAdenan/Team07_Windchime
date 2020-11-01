@@ -41,7 +41,7 @@ public enum SwitchType
 public class MouseLook : MonoBehaviour
 {
     // Constants //
-    const float INTERACT_DISTANCE = 2;
+    const float INTERACT_DISTANCE = 4;
 
     // Singleton hehe. //
     GameManager gameManager;
@@ -359,30 +359,30 @@ public class MouseLook : MonoBehaviour
         {
             currentPlayerState = PlayerState.LOOKING_AT_ITEM;
             //hand.transform.GetChild(0).GetComponent<Animator>().
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (selectedAppliance)
         {
             currentPlayerState = PlayerState.LOOKING_AT_APPLIANCE;
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (isHoldingItem)
         {
             currentPlayerState = PlayerState.HOLDING_ITEM;
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsGrabbing", true);
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", false);
+            hand.transform.GetComponent<Animator>().SetBool("IsGrabbing", true);
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", false);
 
         }
         else if (selectedSwitch)
         {
             currentPlayerState = PlayerState.LOOKING_AT_SWITCH;
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (!isHoldingItem && !selectedItem)
         {
             currentPlayerState = PlayerState.LOOKING_AT_NOTHING;
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", false);
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsGrabbing", false);
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", false);
+            hand.transform.GetComponent<Animator>().SetBool("IsGrabbing", false);
         }
         else
         {
