@@ -76,6 +76,8 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI ingredientTimer;
     public TextMeshProUGUI canSpawnIngredient;
 
+    public TextMeshProUGUI currentSlicerState;
+
     [Header("Order Monitor Display Stuff")]
     public TextMeshProUGUI unLoadedText;
     public TextMeshProUGUI soupStatsText;
@@ -188,6 +190,7 @@ public class MenuManager : MonoBehaviour
         DisplayDefaultMaterial();
 
         DisplayTimeLeft();
+        DisplaySlicerState();
 
         //DisplayIngredientTimer();
 
@@ -518,11 +521,10 @@ public class MenuManager : MonoBehaviour
         timeLeftText.text = gameManager.gameTime.ToString();
     }
 
-    //public void DisplayIngredientTimer()
-    //{
-    //    ingredientTimer.text = playersMouseLook.ingredientSpawnTimer.ToString();
-    //    canSpawnIngredient.text = playersMouseLook.canSpawnIngredient.ToString();
-    //}
+    public void DisplaySlicerState()
+    {
+        currentSlicerState.text = gameManager.cookingManager.theSlicer.currentSlicerState.ToString();
+    }
 
 
 

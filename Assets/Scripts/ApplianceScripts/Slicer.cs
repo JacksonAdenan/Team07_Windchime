@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum SlicerState
+{ 
+    NO_POWER_MODE,
+    EXTREME_POWER_MODE,
+    HALFING_MODE,
+    QUARTERING_MODE
+}
 [Serializable]
 public class Slicer
 {
@@ -14,23 +21,76 @@ public class Slicer
 
     private int cutterBlendShapeCount;
 
-    public Transform cutterGauge1;
-    public Transform cutterGauge2;
+    public Transform cutterGauge1Transform;
+    public Transform cutterGauge2Transform;
+
+    private Gauge cutterGauge1;
+    private Gauge cutterGauge2;
 
     public Transform entryTrigger;
     public Transform exitTrigger;
 
     public float cutterEjectionSpeed;
 
+    public SlicerState currentSlicerState = SlicerState.NO_POWER_MODE;
+
 
     public void SlicerStart()
     {
         cutterMesh = cutterSkinnedMesh.sharedMesh;
+
+        cutterGauge1 = cutterGauge1Transform.GetComponent<Gauge>();
+        cutterGauge2 = cutterGauge2Transform.GetComponent<Gauge>();
     }
     public void SlicerUpdate()
     {
-        cutterSkinnedMesh.SetBlendShapeWeight(0, cutterGauge1.GetComponent<Gauge>().currentAmount);
-        cutterSkinnedMesh.SetBlendShapeWeight(1, cutterGauge2.GetComponent<Gauge>().currentAmount);
+        cutterSkinnedMesh.SetBlendShapeWeight(0, cutterGauge1Transform.GetComponent<Gauge>().currentAmount);
+        cutterSkinnedMesh.SetBlendShapeWeight(1, cutterGauge2Transform.GetComponent<Gauge>().currentAmount);
+
+        UpdateSlicerState();
+    }
+
+
+    private void UpdateSlicerState()
+    {
+        // Setting no power mode. //
+        if (cutterGauge1.currentState == GaugeState.LOW && cutterGauge2.currentState == GaugeState.LOW)
+        {
+            currentSlicerState = SlicerState.NO_POWER_MODE;
+        }
+        if (cutterGauge1.currentState == GaugeState.HIGH || cutterGauge2.currentState == GaugeState.HIGH)
+        {
+            currentSlicerState = SlicerState.EXTREME_POWER_MODE;
+        }
+        // Setting extreme power mode. //
+        //else if (cutterGauge1.currentState == GaugeState.HIGH && cutterGauge2.currentState == GaugeState.HIGH)
+        //{
+        //    currentSlicerState = SlicerState.EXTREME_POWER_MODE;
+        //}
+        //else if (cutterGauge1.currentState == GaugeState.MID && cutterGauge2.currentState == GaugeState.HIGH)
+        //{
+        //    currentSlicerState = SlicerState.EXTREME_POWER_MODE;
+        //}
+        //else if (cutterGauge1.currentState == GaugeState.HIGH && cutterGauge2.currentState == GaugeState.MID)
+        //{
+        //    currentSlicerState = SlicerState.EXTREME_POWER_MODE;
+        //}
+
+        // Setting the inbetween modes. //
+        else if (cutterGauge1.currentState == GaugeState.MID && cutterGauge2.currentState == GaugeState.MID)
+        {
+            currentSlicerState = SlicerState.QUARTERING_MODE;
+        }
+        else if (cutterGauge1.currentState == GaugeState.MID && cutterGauge2.currentState == GaugeState.LOW)
+        {
+            currentSlicerState = SlicerState.HALFING_MODE;
+        }
+
+        else if (cutterGauge1.currentState == GaugeState.LOW && cutterGauge2.currentState == GaugeState.MID)
+        {
+            currentSlicerState = SlicerState.HALFING_MODE;
+        }
+
     }
     public void CutHalf(Transform victim)
     {
@@ -83,11 +143,11 @@ public class Slicer
     public void CutterSwitch1()
     {
         Debug.Log("Cutter switch 1 activated.");
-        cutterGauge1.GetComponent<Gauge>().Increase();
+        cutterGauge1Transform.GetComponent<Gauge>().Increase();
     }
     public void CutterSwitch2()
     {
         Debug.Log("Cutter switch 2 activated.");
-        cutterGauge2.GetComponent<Gauge>().Increase();
+        cutterGauge2Transform.GetComponent<Gauge>().Increase();
     }
 }
