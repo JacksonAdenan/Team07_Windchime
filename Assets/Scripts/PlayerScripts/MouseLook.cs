@@ -83,8 +83,8 @@ public class MouseLook : MonoBehaviour
     public Transform collisionSphere;
     public Transform realHandCentre;
 
-    public Canvas PickUpUI;
-    public Canvas ApplianceUI;
+    //public Canvas PickUpUI;
+    //public Canvas ApplianceUI;
 
     public Canvas crosshairCanvas;
     public Image crosshairImage;
@@ -175,8 +175,8 @@ public class MouseLook : MonoBehaviour
 
         CameraState(); // This is the old camera state swapping thing.
    
-        DisplayPickupUI();
-        DisplayApplianceIU();
+        //DisplayPickupUI();
+        //DisplayApplianceIU();
 
         NewSelectObj();
 
@@ -212,7 +212,7 @@ public class MouseLook : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.LOOKING_AT_ITEM:
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButton(0))
                 {
                     if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover")
                     {
@@ -268,7 +268,7 @@ public class MouseLook : MonoBehaviour
                 {
                     DropItem();
                 }
-                else if (Input.GetKeyDown(KeyCode.F))
+                else if (Input.GetMouseButtonUp(0))
                 {
                     ThrowItem();
                 }
@@ -960,86 +960,86 @@ public class MouseLook : MonoBehaviour
     }
 
     
-    void DisplayPickupUI()
-    {
-        if (selectedItem)
-        {
-            if (!isHoldingItem)
-            {
-                PickUpUI.gameObject.SetActive(true);
-            }
-            else
-            {
-                PickUpUI.gameObject.SetActive(false);
-            }
-
-            Vector3 UIPos = selectedItem.position;
-            UIPos.y += PickUpUIYPos;
-            PickUpUI.transform.position = UIPos;
-            PickUpUI.transform.LookAt(gameObject.transform);
-
-        }
-        else
-        {
-            PickUpUI.gameObject.SetActive(false);
-        }
-    }
-
-
-    void DisplayApplianceIU()
-    {
-        Vector3 applianceUIPos;
-        if (insertText == null && notHoldingText == null)
-        {
-            notHoldingText = ApplianceUI.transform.Find("notHoldingText");
-            insertText = ApplianceUI.transform.Find("insertText");
-        }
-        if (selectedAppliance)
-        {
-            
-            if (selectedAppliance.parent != null)
-            {
-                applianceUIPos = selectedAppliance.parent.position;
-            }
-            else
-            {
-                applianceUIPos = selectedAppliance.position;
-            }
-
-            // Adjusting the position based on the inspector values //
-            applianceUIPos.y += ApplianceUIYPos;
-            applianceUIPos.z += ApplianceUIZPos;
-
-
-            // Applying new position and constantly making the UI face the player. //
-            ApplianceUI.transform.position = applianceUIPos;
-            ApplianceUI.transform.LookAt(gameObject.transform);
-
-
-
-            if (IsLookingAtAppliance() && !isHoldingItem)
-            {
-                notHoldingText.gameObject.SetActive(true);
-                insertText.gameObject.SetActive(false);
-            }
-            else if (IsLookingAtAppliance() && isHoldingItem)
-            {
-                insertText.gameObject.SetActive(true);
-                notHoldingText.gameObject.SetActive(false);
-                insertText.GetComponent<TextMeshProUGUI>().text = "INSERT " + heldItem.name + " [E]";
-            }
-            else
-            {
-                notHoldingText.gameObject.SetActive(false);
-                insertText.gameObject.SetActive(false);
-            }
-        }
-        else 
-        {
-            notHoldingText.gameObject.SetActive(false);
-            insertText.gameObject.SetActive(false);
-        }
-    }
+    //void DisplayPickupUI()
+    //{
+    //    if (selectedItem)
+    //    {
+    //        if (!isHoldingItem)
+    //        {
+    //            PickUpUI.gameObject.SetActive(true);
+    //        }
+    //        else
+    //        {
+    //            PickUpUI.gameObject.SetActive(false);
+    //        }
+    //
+    //        Vector3 UIPos = selectedItem.position;
+    //        UIPos.y += PickUpUIYPos;
+    //        PickUpUI.transform.position = UIPos;
+    //        PickUpUI.transform.LookAt(gameObject.transform);
+    //
+    //    }
+    //    else
+    //    {
+    //        PickUpUI.gameObject.SetActive(false);
+    //    }
+    //}
+    //
+    //
+    //void DisplayApplianceIU()
+    //{
+    //    Vector3 applianceUIPos;
+    //    if (insertText == null && notHoldingText == null)
+    //    {
+    //        notHoldingText = ApplianceUI.transform.Find("notHoldingText");
+    //        insertText = ApplianceUI.transform.Find("insertText");
+    //    }
+    //    if (selectedAppliance)
+    //    {
+    //        
+    //        if (selectedAppliance.parent != null)
+    //        {
+    //            applianceUIPos = selectedAppliance.parent.position;
+    //        }
+    //        else
+    //        {
+    //            applianceUIPos = selectedAppliance.position;
+    //        }
+    //
+    //        // Adjusting the position based on the inspector values //
+    //        applianceUIPos.y += ApplianceUIYPos;
+    //        applianceUIPos.z += ApplianceUIZPos;
+    //
+    //
+    //        // Applying new position and constantly making the UI face the player. //
+    //        ApplianceUI.transform.position = applianceUIPos;
+    //        ApplianceUI.transform.LookAt(gameObject.transform);
+    //
+    //
+    //
+    //        if (IsLookingAtAppliance() && !isHoldingItem)
+    //        {
+    //            notHoldingText.gameObject.SetActive(true);
+    //            insertText.gameObject.SetActive(false);
+    //        }
+    //        else if (IsLookingAtAppliance() && isHoldingItem)
+    //        {
+    //            insertText.gameObject.SetActive(true);
+    //            notHoldingText.gameObject.SetActive(false);
+    //            insertText.GetComponent<TextMeshProUGUI>().text = "INSERT " + heldItem.name + " [E]";
+    //        }
+    //        else
+    //        {
+    //            notHoldingText.gameObject.SetActive(false);
+    //            insertText.gameObject.SetActive(false);
+    //        }
+    //    }
+    //    else 
+    //    {
+    //        notHoldingText.gameObject.SetActive(false);
+    //        insertText.gameObject.SetActive(false);
+    //    }
+    //}
 
     // Appliance interactions //
 
@@ -1100,9 +1100,6 @@ public class MouseLook : MonoBehaviour
     //            
     //    }
     //}
-
-    void InsertItem()
-    { }
     void RemoveItem()
     {
         isHoldingItem = false;
@@ -1114,10 +1111,6 @@ public class MouseLook : MonoBehaviour
         heldItem.gameObject.SetActive(false);
         heldItem = null;
     }
-
-    void ActivateAppliance()
-    { }
-
     void CalculateTarget()
     {
         if (currentCameraMode == CameraMode.HAND_CONTROL)
