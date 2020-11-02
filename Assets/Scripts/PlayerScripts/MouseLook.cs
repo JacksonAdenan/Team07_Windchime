@@ -41,7 +41,7 @@ public enum SwitchType
 public class MouseLook : MonoBehaviour
 {
     // Constants //
-    const float INTERACT_DISTANCE = 4;
+    const float INTERACT_DISTANCE = 2;
 
     // Singleton hehe. //
     GameManager gameManager;
@@ -214,8 +214,9 @@ public class MouseLook : MonoBehaviour
             case PlayerState.LOOKING_AT_ITEM:
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (selectedItem.tag != "Soup")
+                    if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover")
                     {
+                        Debug.Log("YOU SHOULD NOT SEE THIS");
                         // If the thing they want to pick up is a water. //
                         // Freeing up the WaterTap so the player can get more water if they want.
                         if (selectedItem.tag == "Water")
@@ -226,22 +227,36 @@ public class MouseLook : MonoBehaviour
 
                         PickUpItem(selectedItem);
                     }
-                    
+                    else if (selectedItem.tag == "BlenderCover")
+                    {
+                        if (gameManager.cookingManager.theBlender.currentBlenderState == BlenderCoverState.JAR)
+                        {
+                            Debug.Log("REMOVED BLENDER COVER");
+                            DetachBlenderCover(gameManager.cookingManager.theBlender.blenderCover);
+
+                            // REMEMBER TO RUN REMOVE BLENDER COVER FUNCTION TO SET THE APPROPRIATE VALUE ON THE BLENDER. //
+                            gameManager.cookingManager.theBlender.RemoveBlenderCover();
+                        }
+                    }
+
                     else if (selectedItem.tag == "Soup")
                     {
                         PickUpSoup(selectedItem);
                         Debug.Log("PICKED UP SOUP");
                     }
 
-                    heldItemOriginalPos = heldItem.position;
-                    previousHandPos = hand.position;
-                    previousHandMovementDir = handMovement;
-                    Vector3 test = heldItemOriginalPos - gameObject.transform.position;
-                    if (Vector3.Dot(test.normalized, gameObject.transform.forward) <= cameraCenteringDeadZone)
+                    if (currentCameraMode == CameraMode.HAND_CONTROL)
                     { 
-                        isCentered = false;
+                        heldItemOriginalPos = heldItem.position;
+                        previousHandPos = hand.position;
+                        previousHandMovementDir = handMovement;
+                        Vector3 test = heldItemOriginalPos - gameObject.transform.position;
+                        if (Vector3.Dot(test.normalized, gameObject.transform.forward) <= cameraCenteringDeadZone)
+                        { 
+                            isCentered = false;
+                        }
+                        Debug.Log("INTIAL DOT = " + Vector3.Dot(-test, gameObject.transform.forward));
                     }
-                    Debug.Log("INTIAL DOT = " + Vector3.Dot(-test, gameObject.transform.forward));
                 }
                 else if (Input.GetKeyDown(KeyCode.C))
                 {
@@ -317,19 +332,21 @@ public class MouseLook : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (isHoldingItem && heldItem.tag == "InteractableBlenderCover" && CookingManager.currentBlenderState == BlenderState.NOT_COVERED)
-                        {
-                            RemoveItem();
-                            CookingManager.AttachBlenderCover();
-                        }
-                        else if (CookingManager.currentBlenderState == BlenderState.COVERED && !isHoldingItem)
-                        {
-                            Debug.Log("REMOVED BLENDER COVER");
-                            DetachBlenderCover(CookingManager.blenderCover);
-      
-                            // REMEMBER TO RUN REMOVE BLENDER COVER FUNCTION TO SET THE APPROPRIATE VALUE ON THE BLENDER. //
-                            CookingManager.RemoveBlenderCover();
-                        }
+                        // OLD BLENDER INTERACTIONS //
+
+                        //if (isHoldingItem && heldItem.tag == "InteractableBlenderCover" && CookingManager.currentBlenderState == BlenderState.NOT_COVERED)
+                        //{
+                        //    RemoveItem();
+                        //    CookingManager.AttachBlenderCover();
+                        //}
+                        //else if (CookingManager.currentBlenderState == BlenderState.COVERED && !isHoldingItem)
+                        //{
+                        //    Debug.Log("REMOVED BLENDER COVER");
+                        //    DetachBlenderCover(CookingManager.blenderCover);
+                        //
+                        //    // REMEMBER TO RUN REMOVE BLENDER COVER FUNCTION TO SET THE APPROPRIATE VALUE ON THE BLENDER. //
+                        //    CookingManager.RemoveBlenderCover();
+                        //}
                     }
                 }
                 else if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.CANON)
@@ -576,8 +593,7 @@ public class MouseLook : MonoBehaviour
 
         // Resetting ingredients/items/water //
         if (NewIsLookingAtItem() == null)
-        {
-
+        {    
             if (selectedItem != null)
             {
                 selectedItem.GetComponent<Renderer>().material = defaultMat;
@@ -585,6 +601,8 @@ public class MouseLook : MonoBehaviour
             }
             selectedItem = null;
         }
+
+        // ================================= BLENDER CAPSULE BUG RELATED TO THIS CODE SNIPPET ======================================= //
 
         // This is to prevent the bug where if the player is selecting something and then instantly selects something else without having a period inbetween of not selecting something, the default material doesn't 
         // update properly.
@@ -596,6 +614,7 @@ public class MouseLook : MonoBehaviour
                 defaultMat = null;
             }
         }
+
 
         if (NewIsLookingAtItem() && !isHoldingItem)
         {
@@ -671,7 +690,7 @@ public class MouseLook : MonoBehaviour
         //
         //return null;
 
-        if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+        if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
         {
             if (target.transform.childCount > 0)
             {
@@ -709,7 +728,14 @@ public class MouseLook : MonoBehaviour
     void PickUpItem(Transform itemToPickUp)
     {
         // Stopping the selection if your holding an item //
-        itemToPickUp.GetComponent<Renderer>().material = defaultMat;
+        if (defaultMat != null)
+        {
+            itemToPickUp.GetComponent<Renderer>().material = defaultMat;
+        }
+        else
+        {
+            Debug.Log("EROORR RORORr");
+        }
         selectedItem = null;
         defaultMat = null;
 
@@ -823,7 +849,9 @@ public class MouseLook : MonoBehaviour
 
     void DetachBlenderCover(Transform itemToPickUp)
     {
+
         Transform blenderCover = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
+        blenderCover.GetComponent<Renderer>().material = defaultMat;
         blenderCover.tag = "InteractableBlenderCover";
 
         // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
@@ -843,8 +871,23 @@ public class MouseLook : MonoBehaviour
         // TEMPORARY FIX ME //
         // Because the mesh on the blender isn't working properly, we can't put a mesh collider on it. This means we have to use a box collider and set it to be a trigger so that ingredients can
         // be inside of it.
+        if (blenderCover.GetComponent<BoxCollider>())
+        { 
+            blenderCover.GetComponent<BoxCollider>().isTrigger = false;
+        }
 
-        blenderCover.GetComponent<BoxCollider>().isTrigger = false;
+        // Stopping the selection if your holding an item //
+        // This code will prevent the bug where the blender cover will sometimes turn pink. //
+        if (defaultMat != null)
+        {
+            itemToPickUp.GetComponent<Renderer>().material = defaultMat;
+        }
+        else
+        {
+            Debug.Log("EROORR RORORr");
+        }
+        selectedItem = null;
+        defaultMat = null;
     }
     void DropItem()
     {
@@ -869,8 +912,18 @@ public class MouseLook : MonoBehaviour
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
 
+            // This is a fix for any items that have a non convex mesh collider. We have to swap its collider for a box collider when its being thrown around because 
+            // Unity doesn't support mesh colliders and rigidbodys. //
+            //if (heldItem.GetComponent<MeshCollider>())
+            //{
+            //    Destroy(heldItem.GetComponent<MeshCollider>());
+            //    heldItem.gameObject.AddComponent<BoxCollider>();
+            //}
+
             heldItem.parent = null;
             heldItem = null;
+
+
         
         }
         
@@ -888,6 +941,14 @@ public class MouseLook : MonoBehaviour
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
             heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * tempThrowForce, ForceMode.Impulse);
 
+
+            // This is a fix for any items that have a non convex mesh collider. We have to swap its collider for a box collider when its being thrown around because 
+            // Unity doesn't support mesh colliders and rigidbodys. //
+            if (heldItem.GetComponent<MeshCollider>())
+            {
+                Destroy(heldItem.GetComponent<MeshCollider>());
+                heldItem.gameObject.AddComponent<BoxCollider>();
+            }
 
 
             isHoldingItem = false;

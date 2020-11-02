@@ -13,7 +13,7 @@ public class SwitchData : MonoBehaviour
     GameManager gameManager;
 
     // Cool down timers. //
-    public float switchSpamCooldown = 2;
+    public float switchSpamCooldown = 0;
     public float switchCooldownTimer;
     public bool onCooldown;
 
@@ -58,7 +58,7 @@ public class SwitchData : MonoBehaviour
                 CookingManager.ShootCapsule();
                 break;
             case SwitchType.BLENDER_BUTTON:
-                CookingManager.ActivateBlender();
+                gameManager.cookingManager.theBlender.BlenderButton();
                 break;
             case SwitchType.ITEM_SPAWNER:
                 if (onCooldown == false)

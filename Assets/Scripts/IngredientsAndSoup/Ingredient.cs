@@ -24,6 +24,9 @@ public class Ingredient : MonoBehaviour
     public IngredientState currentState;
 
     public Transform prefab;
+    public Transform halfedPrefab;
+    public Transform quateredPrefab;
+    public Transform blendedPrefab;
 
     void Start()
     { 
@@ -48,6 +51,9 @@ public class Ingredient : MonoBehaviour
         this.isMeat = thingToCopy.isMeat;
         this.currentState = thingToCopy.currentState;
         this.prefab = thingToCopy.prefab;
+        this.halfedPrefab = thingToCopy.halfedPrefab;
+        this.quateredPrefab = thingToCopy.quateredPrefab;
+        this.blendedPrefab = thingToCopy.blendedPrefab;
     }
 
 }

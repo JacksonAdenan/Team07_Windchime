@@ -42,11 +42,7 @@ public enum CanonState
     LOADED
 }
 
-public enum BlenderState
-{ 
-    NOT_COVERED,
-    COVERED
-}
+
 public class CookingManager : MonoBehaviour
 {
     public Transform adjustablePlayerCamera;
@@ -67,11 +63,12 @@ public class CookingManager : MonoBehaviour
 
 
     public Slicer theSlicer;
+    public Blender theBlender;
 
     // Appliance prefabs //
     public Transform cookingOrb;
     public Transform canon;
-    public Transform blender;
+    
 
     // Canon stats and current things. //
     public static CanonState currentCanonState;
@@ -107,19 +104,7 @@ public class CookingManager : MonoBehaviour
     public static Transform soupOrb;
 
 
-    // Triggers and stats for blender appliance. //
-    public static BlenderState currentBlenderState;
-    public static List<Transform> currentBlenderIngredients;
-
-    public static Transform blenderEntryTrigger;
-    public static Transform blenderSpawnPoint;
-
-    public Transform adjustableBlenderEntryTrigger;
-    public Transform adjustableBlenderSpawnPoint;
-
-    // This transform is just used to show if the blender is covered or not. //
-    public static Transform blenderCover;
-    public Transform adjustableBlenderCover;
+    
 
     // Item fabricator stuff. //
     public Transform adjustableItemSpawnPoint;
@@ -188,16 +173,12 @@ public class CookingManager : MonoBehaviour
         currentCanonState = CanonState.EMPTY;
         isLoaded = false;
 
-        // Initialising blender things. //
-        currentBlenderIngredients = new List<Transform>();
-        currentBlenderState = BlenderState.COVERED;
-        blenderCover = adjustableBlenderCover;
+        // Blender start //
+        theBlender.BlenderStart();
+
+
         
-        blenderEntryTrigger = adjustableBlenderEntryTrigger;
-        blenderSpawnPoint = adjustableBlenderSpawnPoint;
-
-
-
+       
         // Giving the capsules soup data components because i'm gonna use them to store information. //
         if (adjustableCanonCapsule.GetComponent<SoupData>() == null)
         { 
@@ -232,8 +213,7 @@ public class CookingManager : MonoBehaviour
         UpdateCanonState();
         UpdateCanonCapsule();
 
-        // Blender updates // 
-        UpdateBlenderCover();
+        
 
 
         // Adding tracked ingredients to the cooking orb. //
@@ -258,6 +238,9 @@ public class CookingManager : MonoBehaviour
         // Slicer Updates. //
         theSlicer.SlicerUpdate();
 
+        // Blender Updates. //
+        theBlender.BlenderUpdate();
+
         // Ingredient spawner update. //
         if (isSpawningIngredient == true)
         {
@@ -274,18 +257,7 @@ public class CookingManager : MonoBehaviour
     }
 
 
-    void UpdateBlenderCover()
-    {
-        switch (currentBlenderState)
-        {
-            case BlenderState.COVERED:
-                blenderCover.gameObject.SetActive(true);
-                break;
-            case BlenderState.NOT_COVERED:
-                blenderCover.gameObject.SetActive(false);
-                break;
-        }
-    }
+   
     void UpdateCanonCapsule()
     {
         switch (currentCanonState)
@@ -502,16 +474,7 @@ public class CookingManager : MonoBehaviour
         Debug.Log("Caught a portion of soup.");
     }
 
-    public static void AddIngredientToBlender(Transform ingredientToCatch)
-    {
-        currentBlenderIngredients.Add(ingredientToCatch);
-        Debug.Log("Ingredient added to blender.");
-    }
-    public static void RemoveIngredientFromBlender(Transform ingredientToRemove)
-    {
-        currentBlenderIngredients.Remove(ingredientToRemove);
-        Debug.Log("Ingredient removed from blender.");
-    }
+   
 
     public static Soup CookSoup()
     {
@@ -605,14 +568,7 @@ public class CookingManager : MonoBehaviour
         Debug.Log(currentCookingOrbState);
     }
 
-    public static void AttachBlenderCover()
-    {
-        currentBlenderState = BlenderState.COVERED;
-    }
-    public static void RemoveBlenderCover()
-    {
-        currentBlenderState = BlenderState.NOT_COVERED;
-    }
+    
     public static void AttachCapsule()
     {
         hasCapsule = true;
@@ -658,78 +614,6 @@ public class CookingManager : MonoBehaviour
         }
 
     }
-    public static void PopBlenderCover()
-    {
-        Transform poppedBlenderCover = Instantiate(blenderCover, blenderCover.position, blenderCover.rotation);
-        poppedBlenderCover.tag = "InteractableBlenderCover";
-
-        // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
-        for (int i = 0; i < poppedBlenderCover.childCount; i++)
-        {
-            poppedBlenderCover.GetChild(0).tag = "InteractableBlenderCover";
-        }
-       
-       
-
-        // TEMPORARY FIX ME //
-        // Because the mesh on the blender isn't working properly, we can't put a mesh collider on it. This means we have to use a box collider and set it to be a trigger so that ingredients can
-        // be inside of it.
-
-        poppedBlenderCover.GetComponent<BoxCollider>().isTrigger = false;
-
-        // Adding upwards force to "pop" the cover //
-        poppedBlenderCover.GetComponent<Rigidbody>().isKinematic = false;
-        poppedBlenderCover.GetComponent<Rigidbody>().AddForce(Vector3.up * 50);
-    }
-    public static void ActivateBlender()
-    {
-        if (currentBlenderState == BlenderState.COVERED)
-        {
-            Debug.Log("Blender activated");
-            for (int i = currentBlenderIngredients.Count - 1; i > -1; i--)
-            {
-                // Spawn a blended thingy in its place. //
-                SpawnBlendedIngredient(currentBlenderIngredients[i]);
-
-
-                currentBlenderIngredients[i].gameObject.SetActive(false);
-                currentBlenderIngredients.Remove(currentBlenderIngredients[i]);
-
-            }
-
-
-            RemoveBlenderCover();
-            PopBlenderCover();
-        }
-        else
-        {
-            Debug.Log("Blender could not be activated. Please put the cover on.");
-        }
-    }
-
-    public static void SpawnBlendedIngredient(Transform oldIngredient)
-    {
-        Ingredient dataToTransfer = oldIngredient.GetComponent<Ingredient>();
-        Transform newBlendedThing = Object.Instantiate(soupOrb, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
-
-        // Incase the soupOrb we are copying isnt active. //
-        newBlendedThing.gameObject.SetActive(true);
-
-        newBlendedThing.localScale /= 2;
-
-        newBlendedThing.position = blenderSpawnPoint.position;
-
-        // Just because we don't have any art for blended foods, ill make the soup orb a blended ingredient by changing the tag and adding a IngredientData script. //
-        newBlendedThing.gameObject.AddComponent<Ingredient>();
-        newBlendedThing.gameObject.GetComponent<Ingredient>().Copy(dataToTransfer);
-        newBlendedThing.tag = "Ingredient";
-        newBlendedThing.GetComponent<Rigidbody>().isKinematic = false;
-
-        // Because its instantiating the soup thing we have to remove its soup data script. //
-        Destroy(newBlendedThing.GetComponent<SoupData>());
-
-    }
-
     public static void SpawnIngredient()
     {      
         Instantiate(cachedIngredientToSpawn.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);

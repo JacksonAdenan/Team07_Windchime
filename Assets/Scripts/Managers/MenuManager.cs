@@ -485,13 +485,13 @@ public class MenuManager : MonoBehaviour
 
     public void DisplayBlenderState()
     {
-        currentBlenderState.text = CookingManager.currentBlenderState.ToString();
+        currentBlenderState.text = gameManager.cookingManager.theBlender.currentBlenderState.ToString();
     }
     public void DisplayBlenderIngredients()
     {
-        for (int i = 0; i < CookingManager.currentBlenderIngredients.Count; i++)
+        for (int i = 0; i < gameManager.cookingManager.theBlender.currentBlenderIngredients.Count; i++)
         {
-            blenderIngredientsText = blenderIngredientsText + CookingManager.currentBlenderIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
+            blenderIngredientsText = blenderIngredientsText + gameManager.cookingManager.theBlender.currentBlenderIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentBlenderIngredients.text = blenderIngredientsText;
         blenderIngredientsText = "";
