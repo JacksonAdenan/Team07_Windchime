@@ -32312,6 +32312,16 @@ PrefabInstance:
       propertyPath: canSpawnIngredient
       value: 
       objectReference: {fileID: 1544791122}
+    - target: {fileID: 5885022278467152190, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
+        type: 3}
+      propertyPath: type
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5885022278467152190, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
+        type: 3}
+      propertyPath: switchSpamCooldown
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6713570836579110331, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
         type: 3}
       propertyPath: m_AnchoredPosition.y

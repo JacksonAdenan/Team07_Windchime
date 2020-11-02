@@ -132,7 +132,7 @@ public class MouseLook : MonoBehaviour
     Vector3 handMovement;
     RaycastHit target;
 
-    SwitchType selectedSwitchType;
+    SwitchData selectedSwitchData;
 
 
     // Hand swaying stuff. //
@@ -144,19 +144,12 @@ public class MouseLook : MonoBehaviour
     // Manager references. //
     public CookingManager theCookingManager;
 
-    // Cool down timers. //
-    public float ingredientSpawnCooldown;
-    public float ingredientSpawnTimer;
-    public bool canSpawnIngredient;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        ingredientSpawnTimer = 0;
-        canSpawnIngredient = true;
-
-        
+        Cursor.lockState = CursorLockMode.Locked;      
     }
 
     // Update is called once per frame
@@ -210,16 +203,7 @@ public class MouseLook : MonoBehaviour
             gameManager.RestartGame();
         }
 
-        // Cooldown for ingredient spawning. //
-        if (canSpawnIngredient == false)
-        {
-            ingredientSpawnTimer += Time.deltaTime;
-            if (ingredientSpawnTimer >= ingredientSpawnCooldown)
-            {
-                canSpawnIngredient = true;
-                ingredientSpawnTimer = 0;
-            }
-        }
+        
 
     }
 
@@ -277,10 +261,10 @@ public class MouseLook : MonoBehaviour
 
             case PlayerState.LOOKING_AT_SWITCH:
                 // Getting the type of switch the players is looking at. //
-                selectedSwitchType = selectedSwitch.GetComponent<SwitchData>().type;
+                selectedSwitchData = selectedSwitch.GetComponent<SwitchData>();
                 if (Input.GetMouseButtonDown(0))
                 {
-                    ActivateSwitch(selectedSwitchType);
+                    selectedSwitchData.ActivateSwitch();
                 }
                 break;
             case PlayerState.LOOKING_AT_NOTHING:
@@ -1015,46 +999,46 @@ public class MouseLook : MonoBehaviour
 
     
 
-    void ActivateSwitch(SwitchType switchType)
-    {
-        switch (switchType)
-        {
-            case SwitchType.CUTTER_SWITCH_1:
-                theCookingManager.theSlicer.CutterSwitch1();
-                break;
-            case SwitchType.CUTTER_SWITCH_2:
-                theCookingManager.theSlicer.CutterSwitch2();
-                break;
-            case SwitchType.WATER_TAP:
-                CookingManager.WaterTapSwitch();
-                break;
-            case SwitchType.ORDER_ACCEPT:
-                OrderManager.AcceptOrder(OrderManager.requestedOrders[0]);
-                break;
-            case SwitchType.ORDER_REJECT:
-                OrderManager.RejectOrder();
-                break;
-            case SwitchType.CANON_BUTTON:
-                CookingManager.ShootCapsule();
-                break;
-            case SwitchType.BLENDER_BUTTON:
-                CookingManager.ActivateBlender();
-                break;
-            case SwitchType.ITEM_SPAWNER:
-                if (canSpawnIngredient == true)
-                {
-                    canSpawnIngredient = false;
-                    CookingManager.IngredientSpawnTimer();
-                    Debug.Log("Spawning an ingredient.");
-                }
-                else
-                {
-                    Debug.Log("You can't spawn an ingredient that fast!");
-                }
-                break;
-                
-        }
-    }
+    //void ActivateSwitch(SwitchType switchType)
+    //{
+    //    switch (switchType)
+    //    {
+    //        case SwitchType.CUTTER_SWITCH_1:
+    //            theCookingManager.theSlicer.CutterSwitch1();
+    //            break;
+    //        case SwitchType.CUTTER_SWITCH_2:
+    //            theCookingManager.theSlicer.CutterSwitch2();
+    //            break;
+    //        case SwitchType.WATER_TAP:
+    //            CookingManager.WaterTapSwitch();
+    //            break;
+    //        case SwitchType.ORDER_ACCEPT:
+    //            OrderManager.AcceptOrder(OrderManager.requestedOrders[0]);
+    //            break;
+    //        case SwitchType.ORDER_REJECT:
+    //            OrderManager.RejectOrder();
+    //            break;
+    //        case SwitchType.CANON_BUTTON:
+    //            CookingManager.ShootCapsule();
+    //            break;
+    //        case SwitchType.BLENDER_BUTTON:
+    //            CookingManager.ActivateBlender();
+    //            break;
+    //        case SwitchType.ITEM_SPAWNER:
+    //            if (canSpawnIngredient == true)
+    //            {
+    //                canSpawnIngredient = false;
+    //                CookingManager.IngredientSpawnTimer();
+    //                Debug.Log("Spawning an ingredient.");
+    //            }
+    //            else
+    //            {
+    //                Debug.Log("You can't spawn an ingredient that fast!");
+    //            }
+    //            break;
+    //            
+    //    }
+    //}
 
     void InsertItem()
     { }

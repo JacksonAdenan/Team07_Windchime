@@ -189,7 +189,7 @@ public class MenuManager : MonoBehaviour
 
         DisplayTimeLeft();
 
-        DisplayIngredientTimer();
+        //DisplayIngredientTimer();
 
         // Displaying order/canon monitor ui stuff //
         DisplayCanonMonitor();
@@ -518,11 +518,11 @@ public class MenuManager : MonoBehaviour
         timeLeftText.text = gameManager.gameTime.ToString();
     }
 
-    public void DisplayIngredientTimer()
-    {
-        ingredientTimer.text = playersMouseLook.ingredientSpawnTimer.ToString();
-        canSpawnIngredient.text = playersMouseLook.canSpawnIngredient.ToString();
-    }
+    //public void DisplayIngredientTimer()
+    //{
+    //    ingredientTimer.text = playersMouseLook.ingredientSpawnTimer.ToString();
+    //    canSpawnIngredient.text = playersMouseLook.canSpawnIngredient.ToString();
+    //}
 
 
 
