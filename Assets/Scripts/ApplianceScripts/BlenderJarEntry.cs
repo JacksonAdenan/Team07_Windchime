@@ -19,7 +19,7 @@ public class BlenderJarEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
-        if (obj.tag == "InteractableBlenderCover" && MouseLook.heldItem != obj.gameObject.transform)
+        if (obj.tag == "InteractableBlenderCover" && MouseLook.heldItem != obj.gameObject.transform && gameManager.cookingManager.theBlender.isInvulnverable == false)
         {
             gameManager.cookingManager.theBlender.AttachBlenderCover();
             Destroy(obj.gameObject);

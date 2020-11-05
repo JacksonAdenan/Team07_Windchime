@@ -14,6 +14,15 @@ public enum BlenderJointState
     OPEN,
     CLOSED
 }
+
+public enum BlenderButtonState
+{ 
+    OPEN,
+    CLOSE,
+    BLEND,
+    NOTHING
+
+}
 [Serializable]
 public class Blender
 {
@@ -22,6 +31,7 @@ public class Blender
     // Triggers and stats for blender appliance. //
     public BlenderCoverState currentBlenderState = BlenderCoverState.JAR;
     public BlenderJointState currentBlenderJointState = BlenderJointState.OPEN;
+    public BlenderButtonState currentBlenderButtonState = BlenderButtonState.OPEN;
     public List<Transform> currentBlenderIngredients;
 
     public Transform blenderEntryTrigger;
@@ -29,6 +39,10 @@ public class Blender
 
     // This transform is just used to show if the blender is covered or not. //
     public Transform blenderCover;
+
+    // Invulnerability timer for the blender. This is so if the blender "pops" off it doesn't instantly reattach istelf. //
+    private float invulnerabilityTimer = 0;
+    public bool isInvulnverable = true;
 
     public void BlenderStart()
     {
@@ -39,6 +53,22 @@ public class Blender
     {
         UpdateBlenderCover();
         UpdateBlenderAnimation();
+        UpdateBlenderButtonState();
+
+        if (isInvulnverable == true)
+        {
+            Invulnerability();
+        }
+    }
+
+    public void Invulnerability()
+    {
+        invulnerabilityTimer += Time.deltaTime;
+        if (invulnerabilityTimer >= 2)
+        {
+            invulnerabilityTimer = 0;
+            isInvulnverable = false;
+        }
     }
 
     void UpdateBlenderCover()
@@ -51,6 +81,26 @@ public class Blender
             case BlenderCoverState.NO_JAR:
                 blenderCover.gameObject.SetActive(false);
                 break;
+        }
+    }
+
+    public void UpdateBlenderButtonState()
+    {
+        if (currentBlenderState == BlenderCoverState.JAR && currentBlenderJointState == BlenderJointState.CLOSED && currentBlenderIngredients.Count > 0)
+        {
+            currentBlenderButtonState = BlenderButtonState.BLEND;
+        }
+        else if (currentBlenderState == BlenderCoverState.JAR && currentBlenderJointState == BlenderJointState.OPEN)
+        {
+            currentBlenderButtonState = BlenderButtonState.CLOSE;
+        }
+        else if (currentBlenderState == BlenderCoverState.JAR && currentBlenderJointState == BlenderJointState.CLOSED)
+        {
+            currentBlenderButtonState = BlenderButtonState.OPEN;
+        }
+        else if (currentBlenderState == BlenderCoverState.NO_JAR)
+        {
+            currentBlenderButtonState = BlenderButtonState.NOTHING;
         }
     }
 
@@ -73,10 +123,17 @@ public class Blender
     {
         currentBlenderState = BlenderCoverState.NO_JAR;
     }
-
+    
     public void PopBlenderCover()
     {
-        Transform poppedBlenderCover = UnityEngine.Object.Instantiate(blenderCover, blenderCover.position, blenderCover.rotation);
+        // Must set blender to invulnerable so that the cover doesn't reattach straight away. //
+        isInvulnverable = true;
+
+
+        Transform poppedBlenderCover = GameObject.Instantiate(blenderCover, blenderCover.position, blenderCover.rotation);
+
+        // Incase its invisible. //
+        poppedBlenderCover.gameObject.SetActive(true);
         poppedBlenderCover.tag = "InteractableBlenderCover";
 
         // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
@@ -88,49 +145,72 @@ public class Blender
 
 
         // TEMPORARY FIX ME //
-        // Because the mesh on the blender isn't working properly, we can't put a mesh collider on it. This means we have to use a box collider and set it to be a trigger so that ingredients can
-        // be inside of it.
+        // Because there is a mesh collider on the blender, we have to swap it out for a box collider if we want the cover to float around and behave with physics. //
 
-        poppedBlenderCover.GetComponent<BoxCollider>().isTrigger = false;
+        if (poppedBlenderCover.GetComponent<MeshCollider>())
+        {
+            GameObject.Destroy(poppedBlenderCover.GetComponent<MeshCollider>());
+            poppedBlenderCover.gameObject.AddComponent<BoxCollider>();
+        }
 
         // Adding upwards force to "pop" the cover //
         poppedBlenderCover.GetComponent<Rigidbody>().isKinematic = false;
-        poppedBlenderCover.GetComponent<Rigidbody>().AddForce(Vector3.up * 50);
+        poppedBlenderCover.GetComponent<Rigidbody>().AddForce(Vector3.up * 100);
     }
 
     public void BlenderButton()
     {
-        if (currentBlenderJointState == BlenderJointState.CLOSED)
+        switch (currentBlenderButtonState)
         {
-            currentBlenderJointState = BlenderJointState.OPEN;
-        }
-        else if (currentBlenderJointState == BlenderJointState.OPEN)
-        {
-            currentBlenderJointState = BlenderJointState.CLOSED;
+            case BlenderButtonState.OPEN:
+                currentBlenderJointState = BlenderJointState.OPEN;
+                break;
+            case BlenderButtonState.CLOSE:
+                currentBlenderJointState = BlenderJointState.CLOSED;
+                break;
+            case BlenderButtonState.BLEND:
+                Blend();
+                break;
+            case BlenderButtonState.NOTHING:
+                Debug.Log("Could not activate button. Please attach blender cover.");
+                break;
         }
 
-        //if (currentBlenderState == BlenderState.COVERED)
+        //if (currentBlenderJointState == BlenderJointState.CLOSED)
         //{
-        //    Debug.Log("Blender activated");
-        //    for (int i = currentBlenderIngredients.Count - 1; i > -1; i--)
-        //    {
-        //        // Spawn a blended thingy in its place. //
-        //        SpawnBlendedIngredient(currentBlenderIngredients[i]);
-        //
-        //
-        //        currentBlenderIngredients[i].gameObject.SetActive(false);
-        //        currentBlenderIngredients.Remove(currentBlenderIngredients[i]);
-        //
-        //    }
-        //
-        //
-        //    RemoveBlenderCover();
-        //    PopBlenderCover();
+        //    currentBlenderJointState = BlenderJointState.OPEN;
         //}
+        //else if (currentBlenderJointState == BlenderJointState.OPEN)
+        //{
+        //    currentBlenderJointState = BlenderJointState.CLOSED;
+        //}
+
+        
         //else
         //{
         //    Debug.Log("Blender could not be activated. Please put the cover on.");
         //}
+    }
+
+    public void Blend()
+    {
+
+        Debug.Log("Blender activated");
+        for (int i = currentBlenderIngredients.Count - 1; i > -1; i--)
+        {
+            // Spawn a blended thingy in its place. //
+            SpawnBlendedIngredient(currentBlenderIngredients[i]);
+    
+    
+            currentBlenderIngredients[i].gameObject.SetActive(false);
+            currentBlenderIngredients.Remove(currentBlenderIngredients[i]);
+    
+        }
+    
+        PopBlenderCover();
+        RemoveBlenderCover();
+    
+        
     }
     public void SpawnBlendedIngredient(Transform oldIngredient)
     {

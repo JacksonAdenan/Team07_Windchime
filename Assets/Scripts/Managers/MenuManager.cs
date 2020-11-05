@@ -68,6 +68,7 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI currentPortionsData;
 
     public TextMeshProUGUI currentBlenderState;
+    public TextMeshProUGUI currentBlenderButtonState;
     public TextMeshProUGUI currentBlenderIngredients;
     string blenderIngredientsText = "";
 
@@ -191,6 +192,8 @@ public class MenuManager : MonoBehaviour
 
         DisplayTimeLeft();
         DisplaySlicerState();
+
+        DisplayBlenderButtonState();
 
         //DisplayIngredientTimer();
 
@@ -524,6 +527,11 @@ public class MenuManager : MonoBehaviour
     public void DisplaySlicerState()
     {
         currentSlicerState.text = gameManager.cookingManager.theSlicer.currentSlicerState.ToString();
+    }
+
+    public void DisplayBlenderButtonState()
+    {
+        currentBlenderButtonState.text = gameManager.cookingManager.theBlender.currentBlenderButtonState.ToString();
     }
 
 
