@@ -79,6 +79,13 @@ public class MenuManager : MonoBehaviour
 
     public TextMeshProUGUI currentSlicerState;
 
+    [Header("Blender Progress Stuff")]
+    public TextMeshProUGUI blenderProgress;
+    public TextMeshProUGUI blendingHalfDone;
+    public TextMeshProUGUI blendingComplete;
+    public TextMeshProUGUI blendingHalfTimer;
+    public TextMeshProUGUI blendingCompleteTimer;
+
     [Header("Order Monitor Display Stuff")]
     public TextMeshProUGUI unLoadedText;
     public TextMeshProUGUI soupStatsText;
@@ -194,6 +201,7 @@ public class MenuManager : MonoBehaviour
         DisplaySlicerState();
 
         DisplayBlenderButtonState();
+        DisplayBlenderProgress();
 
         //DisplayIngredientTimer();
 
@@ -532,6 +540,15 @@ public class MenuManager : MonoBehaviour
     public void DisplayBlenderButtonState()
     {
         currentBlenderButtonState.text = gameManager.cookingManager.theBlender.currentBlenderButtonState.ToString();
+    }
+
+    public void DisplayBlenderProgress()
+    {
+        blenderProgress.text = gameManager.cookingManager.theBlender.blendProgress.ToString();
+        blendingHalfDone.text = gameManager.cookingManager.theBlender.isHalfBlended.ToString();
+        blendingComplete.text = gameManager.cookingManager.theBlender.isFullBlended.ToString();
+        blendingHalfTimer.text = gameManager.cookingManager.theBlender.continueButtonTimer.ToString();
+        blendingCompleteTimer.text = gameManager.cookingManager.theBlender.completeButtonTimer.ToString();
     }
 
 

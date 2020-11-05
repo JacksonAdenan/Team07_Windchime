@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum BlenderCoverState
+public enum BlenderState
 {  
     JAR,
     NO_JAR,
-    LOADED,
+    BLENDING,
 }
 public enum BlenderJointState
 {
@@ -19,7 +19,8 @@ public enum BlenderButtonState
 { 
     OPEN,
     CLOSE,
-    BLEND,
+    START_BLENDING,
+    BLENDING,
     NOTHING
 
 }
@@ -29,7 +30,7 @@ public class Blender
     public Transform blender;
 
     // Triggers and stats for blender appliance. //
-    public BlenderCoverState currentBlenderState = BlenderCoverState.JAR;
+    public BlenderState currentBlenderState = BlenderState.JAR;
     public BlenderJointState currentBlenderJointState = BlenderJointState.OPEN;
     public BlenderButtonState currentBlenderButtonState = BlenderButtonState.OPEN;
     public List<Transform> currentBlenderIngredients;
@@ -43,6 +44,22 @@ public class Blender
     // Invulnerability timer for the blender. This is so if the blender "pops" off it doesn't instantly reattach istelf. //
     private float invulnerabilityTimer = 0;
     public bool isInvulnverable = true;
+
+    // Blending progress. //
+    public float blendCompletionTime = 0;
+    public float continueButtonDuration = 0;
+    public float completeButtonDuration = 0;
+
+
+    // DO NOT SET THESE IN INSPECTOR, they are only public so that the horrible "menu manager" can access them! //
+    public float continueButtonTimer = 0;
+    public float completeButtonTimer = 0;
+
+    // blendProgress increases each time blendingDuration hits 1. blendingDuration increases by deltaTime every frame. //
+    public float blendProgress = 0;
+    private float blendingDuration = 0;
+    public bool isHalfBlended = false;
+    public bool isFullBlended = false;
 
     public void BlenderStart()
     {
@@ -59,7 +76,16 @@ public class Blender
         {
             Invulnerability();
         }
+
+        // Do the blending thing. //
+        if (currentBlenderState == BlenderState.BLENDING)
+        {
+            BlendProgress();
+        }
+
     }
+
+    
 
     public void Invulnerability()
     {
@@ -75,10 +101,10 @@ public class Blender
     {
         switch (currentBlenderState)
         {
-            case BlenderCoverState.JAR:
+            case BlenderState.JAR:
                 blenderCover.gameObject.SetActive(true);
                 break;
-            case BlenderCoverState.NO_JAR:
+            case BlenderState.NO_JAR:
                 blenderCover.gameObject.SetActive(false);
                 break;
         }
@@ -86,21 +112,25 @@ public class Blender
 
     public void UpdateBlenderButtonState()
     {
-        if (currentBlenderState == BlenderCoverState.JAR && currentBlenderJointState == BlenderJointState.CLOSED && currentBlenderIngredients.Count > 0)
+        if (currentBlenderState == BlenderState.JAR && currentBlenderJointState == BlenderJointState.CLOSED && currentBlenderIngredients.Count > 0)
         {
-            currentBlenderButtonState = BlenderButtonState.BLEND;
+            currentBlenderButtonState = BlenderButtonState.START_BLENDING;
         }
-        else if (currentBlenderState == BlenderCoverState.JAR && currentBlenderJointState == BlenderJointState.OPEN)
+        else if (currentBlenderState == BlenderState.JAR && currentBlenderJointState == BlenderJointState.OPEN)
         {
             currentBlenderButtonState = BlenderButtonState.CLOSE;
         }
-        else if (currentBlenderState == BlenderCoverState.JAR && currentBlenderJointState == BlenderJointState.CLOSED)
+        else if (currentBlenderState == BlenderState.JAR && currentBlenderJointState == BlenderJointState.CLOSED)
         {
             currentBlenderButtonState = BlenderButtonState.OPEN;
         }
-        else if (currentBlenderState == BlenderCoverState.NO_JAR)
+        else if (currentBlenderState == BlenderState.NO_JAR)
         {
             currentBlenderButtonState = BlenderButtonState.NOTHING;
+        }
+        else if (currentBlenderState == BlenderState.BLENDING)
+        {
+            currentBlenderButtonState = BlenderButtonState.BLENDING;
         }
     }
 
@@ -117,11 +147,11 @@ public class Blender
 
     public void AttachBlenderCover()
     {
-        currentBlenderState = BlenderCoverState.JAR;
+        currentBlenderState = BlenderState.JAR;
     }
     public void RemoveBlenderCover()
     {
-        currentBlenderState = BlenderCoverState.NO_JAR;
+        currentBlenderState = BlenderState.NO_JAR;
     }
     
     public void PopBlenderCover()
@@ -142,8 +172,6 @@ public class Blender
             poppedBlenderCover.GetChild(0).tag = "InteractableBlenderCover";
         }
 
-
-
         // TEMPORARY FIX ME //
         // Because there is a mesh collider on the blender, we have to swap it out for a box collider if we want the cover to float around and behave with physics. //
 
@@ -156,6 +184,8 @@ public class Blender
         // Adding upwards force to "pop" the cover //
         poppedBlenderCover.GetComponent<Rigidbody>().isKinematic = false;
         poppedBlenderCover.GetComponent<Rigidbody>().AddForce(Vector3.up * 100);
+
+        RemoveBlenderCover();
     }
 
     public void BlenderButton()
@@ -168,30 +198,99 @@ public class Blender
             case BlenderButtonState.CLOSE:
                 currentBlenderJointState = BlenderJointState.CLOSED;
                 break;
-            case BlenderButtonState.BLEND:
-                Blend();
+            case BlenderButtonState.START_BLENDING:
+                StartBlending();
+                break;
+            case BlenderButtonState.BLENDING:
+                if (isHalfBlended)
+                {
+                    Blend();
+                    
+                }
+                else if (isFullBlended)
+                {
+                    Blend();
+                }
+                else
+                {
+                    Blend();
+                }
                 break;
             case BlenderButtonState.NOTHING:
                 Debug.Log("Could not activate button. Please attach blender cover.");
                 break;
         }
-
-        //if (currentBlenderJointState == BlenderJointState.CLOSED)
-        //{
-        //    currentBlenderJointState = BlenderJointState.OPEN;
-        //}
-        //else if (currentBlenderJointState == BlenderJointState.OPEN)
-        //{
-        //    currentBlenderJointState = BlenderJointState.CLOSED;
-        //}
-
-        
-        //else
-        //{
-        //    Debug.Log("Blender could not be activated. Please put the cover on.");
-        //}
     }
 
+    public void CompleteDuration()
+    {
+        completeButtonTimer += Time.deltaTime;
+        if (completeButtonTimer >= completeButtonDuration)
+        {
+            isFullBlended = false;
+            completeButtonTimer = 0;
+            Blend();
+            PopBlenderCover();
+        }
+    }
+    public void ContinueDuration()
+    {
+        continueButtonTimer += Time.deltaTime;
+        if (continueButtonTimer >= continueButtonDuration)
+        {
+            isHalfBlended = false;
+            continueButtonTimer = 0;
+            Blend();
+            PopBlenderCover();
+        }
+    }
+    private void ResetBlendProgress()
+    {
+        blendProgress = 0;
+        isHalfBlended = false;
+        isFullBlended = false;
+        continueButtonTimer = 0;
+        completeButtonTimer = 0;
+    }
+    public void BlendProgress()
+    {
+        // Main tracking of blending progress. //
+        blendingDuration += Time.deltaTime;
+        if (blendingDuration >= 1)
+        {
+            blendProgress += 1;
+            blendingDuration = 0;
+        }
+
+        // Timers for how long the player will be able to press the button to "continue" and "complete". //
+        if (isHalfBlended)
+        {
+            ContinueDuration();
+        }
+        else if (isFullBlended)
+        {
+            CompleteDuration();
+        }
+
+
+        // Setting whether it's half blended or finished blending. //
+
+        if (blendProgress >= blendCompletionTime / 2)
+        {
+            isHalfBlended = true;
+            isFullBlended = false;
+        }
+        else if (blendProgress >= blendCompletionTime)
+        {
+            isFullBlended = true;
+            isHalfBlended = false;
+        }
+    }
+
+    public void StartBlending()
+    {
+        currentBlenderState = BlenderState.BLENDING;
+    }
     public void Blend()
     {
 
@@ -206,11 +305,9 @@ public class Blender
             currentBlenderIngredients.Remove(currentBlenderIngredients[i]);
     
         }
-    
-        PopBlenderCover();
-        RemoveBlenderCover();
-    
-        
+
+        currentBlenderState = BlenderState.JAR;
+        ResetBlendProgress();
     }
     public void SpawnBlendedIngredient(Transform oldIngredient)
     {

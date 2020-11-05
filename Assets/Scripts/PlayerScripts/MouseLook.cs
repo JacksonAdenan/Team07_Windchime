@@ -229,7 +229,7 @@ public class MouseLook : MonoBehaviour
                     }
                     else if (selectedItem.tag == "BlenderCover")
                     {
-                        if (gameManager.cookingManager.theBlender.currentBlenderState == BlenderCoverState.JAR)
+                        if (gameManager.cookingManager.theBlender.currentBlenderState == BlenderState.JAR)
                         {
                             Debug.Log("REMOVED BLENDER COVER");
                             DetachBlenderCover(gameManager.cookingManager.theBlender.blenderCover);
