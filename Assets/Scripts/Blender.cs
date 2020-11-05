@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum Blend
+{ 
+    HALF,
+    FULL
+}
 public enum BlenderState
 {  
     JAR,
@@ -60,6 +65,9 @@ public class Blender
     private float blendingDuration = 0;
     public bool isHalfBlended = false;
     public bool isFullBlended = false;
+
+    private bool isHalfFinished = false;
+    private bool isFullFinished = false;
 
     public void BlenderStart()
     {
@@ -204,22 +212,27 @@ public class Blender
             case BlenderButtonState.BLENDING:
                 if (isHalfBlended)
                 {
-                    Blend();
+                    ContinueBlend();
                     
                 }
                 else if (isFullBlended)
                 {
-                    Blend();
+                    Blend(global::Blend.FULL);
                 }
                 else
                 {
-                    Blend();
+                    //Blend();
                 }
                 break;
             case BlenderButtonState.NOTHING:
                 Debug.Log("Could not activate button. Please attach blender cover.");
                 break;
         }
+    }
+
+    public void ContinueBlend()
+    {
+        isHalfBlended = false;
     }
 
     public void CompleteDuration()
@@ -229,7 +242,7 @@ public class Blender
         {
             isFullBlended = false;
             completeButtonTimer = 0;
-            Blend();
+            Blend(global::Blend.FULL);
             PopBlenderCover();
         }
     }
@@ -240,7 +253,7 @@ public class Blender
         {
             isHalfBlended = false;
             continueButtonTimer = 0;
-            Blend();
+            Blend(global::Blend.HALF);
             PopBlenderCover();
         }
     }
@@ -249,6 +262,9 @@ public class Blender
         blendProgress = 0;
         isHalfBlended = false;
         isFullBlended = false;
+        isHalfFinished = false;
+        isFullFinished = false;
+
         continueButtonTimer = 0;
         completeButtonTimer = 0;
     }
@@ -275,10 +291,13 @@ public class Blender
 
         // Setting whether it's half blended or finished blending. //
 
-        if (blendProgress >= blendCompletionTime / 2)
+        if ((blendProgress >= blendCompletionTime / 2) && !isHalfFinished)
         {
             isHalfBlended = true;
             isFullBlended = false;
+
+            // This bool will make it so this only gets called the first time blend progress reaches half way. //
+            isHalfFinished = true;
         }
         else if (blendProgress >= blendCompletionTime)
         {
@@ -291,14 +310,14 @@ public class Blender
     {
         currentBlenderState = BlenderState.BLENDING;
     }
-    public void Blend()
+    public void Blend(Blend type)
     {
 
         Debug.Log("Blender activated");
         for (int i = currentBlenderIngredients.Count - 1; i > -1; i--)
         {
             // Spawn a blended thingy in its place. //
-            SpawnBlendedIngredient(currentBlenderIngredients[i]);
+            SpawnBlendedIngredient(currentBlenderIngredients[i], type);
     
     
             currentBlenderIngredients[i].gameObject.SetActive(false);
@@ -309,7 +328,7 @@ public class Blender
         currentBlenderState = BlenderState.JAR;
         ResetBlendProgress();
     }
-    public void SpawnBlendedIngredient(Transform oldIngredient)
+    public void SpawnBlendedIngredient(Transform oldIngredient, Blend type)
     {
         Ingredient dataToTransfer = oldIngredient.GetComponent<Ingredient>();
         Transform newBlendedThing = UnityEngine.Object.Instantiate(oldIngredient.GetComponent<Ingredient>().blendedPrefab, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
@@ -325,8 +344,18 @@ public class Blender
         newBlendedThing.tag = "Ingredient";
         newBlendedThing.GetComponent<Rigidbody>().isKinematic = false;
 
-        // Because its instantiating the soup thing we have to remove its soup data script. //
-        //Destroy(newBlendedThing.GetComponent<SoupData>());
+
+        // Editing the cunkyness value. //
+        if (type == global::Blend.HALF)
+        {
+            newBlendedThing.GetComponent<Ingredient>().chunkyness /= 2;
+            Debug.Log("BLENDED HALF");
+        }
+        else if (type == global::Blend.FULL)
+        {
+            newBlendedThing.GetComponent<Ingredient>().chunkyness = 0;
+            Debug.Log("BLENDED FULL");
+        }
 
     }
 

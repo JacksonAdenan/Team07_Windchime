@@ -300,6 +300,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5566326718945512824, guid: c70c4a34e6e5c4c4fb23a37db88f14fe,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 701539547918257742, guid: c70c4a34e6e5c4c4fb23a37db88f14fe,
         type: 3}
       propertyPath: m_Name
@@ -11409,6 +11414,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -972278350266280792, guid: 69a1ccd1a92218a43b3ecea70472eaf5,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: -946363687938443899, guid: 69a1ccd1a92218a43b3ecea70472eaf5,
         type: 3}
       propertyPath: blendedPrefab
@@ -12548,7 +12558,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!1001 &540767736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23364,6 +23374,11 @@ PrefabInstance:
       propertyPath: blendedPrefab
       value: 
       objectReference: {fileID: 975073974}
+    - target: {fileID: 5533197621728628831, guid: 44d827bf43d2b264ebc0138482af0a39,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9175447213216302376, guid: 44d827bf43d2b264ebc0138482af0a39,
         type: 3}
       propertyPath: m_Name
