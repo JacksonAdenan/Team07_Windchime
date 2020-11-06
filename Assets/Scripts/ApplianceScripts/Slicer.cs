@@ -143,6 +143,66 @@ public class Slicer
         }
     }
 
+    public void CutQuarter(Transform ingredientTransform)
+    {
+        if (ingredientTransform.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
+        {
+
+            Ingredient dataToTransfer = ingredientTransform.GetComponent<Ingredient>();
+            Transform quarter1 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform quarter2 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform quarter3 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform quarter4 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
+
+            // ======================= NEW INGREDIENT CREATION ===================== //
+
+            quarter1.position = exitTrigger.position;
+            quarter2.position = exitTrigger.position;
+            quarter3.position = exitTrigger.position;
+            quarter4.position = exitTrigger.position;
+
+
+            Ingredient.CreateIngredient(ingredientTransform, quarter1, IngredientState.QUARTER);
+            Ingredient.CreateIngredient(ingredientTransform, quarter2, IngredientState.QUARTER);
+            Ingredient.CreateIngredient(ingredientTransform, quarter3, IngredientState.QUARTER);
+            Ingredient.CreateIngredient(ingredientTransform, quarter4, IngredientState.QUARTER);
+
+            // ====================================================================== //
+
+            Vector3 ingredientScale = ingredientTransform.localScale;
+            Vector3 leftPoint = ingredientTransform.position - Vector3.right * ingredientScale.x / 2;
+            Vector3 rightPoint = ingredientTransform.position + Vector3.right * ingredientScale.x / 2;
+            ingredientTransform.gameObject.SetActive(false);
+
+            // Setting the new ingredients to be active just incase.//
+            quarter1.gameObject.SetActive(true);
+            quarter2.gameObject.SetActive(true);
+            quarter3.gameObject.SetActive(true);
+            quarter4.gameObject.SetActive(true);
+
+
+            // Setting them to be halved. //
+            quarter1.GetComponent<Ingredient>().currentState = IngredientState.QUARTER;
+            quarter2.GetComponent<Ingredient>().currentState = IngredientState.QUARTER;
+            quarter3.GetComponent<Ingredient>().currentState = IngredientState.QUARTER;
+            quarter4.GetComponent<Ingredient>().currentState = IngredientState.QUARTER;
+
+
+            // Shooting the new peices upwards. //
+
+            ShootUp(quarter1);
+            ShootUp(quarter2);
+            ShootUp(quarter3);
+            ShootUp(quarter4);
+        }
+        else
+        {
+            ingredientTransform.position = exitTrigger.position;
+            ShootUp(ingredientTransform);
+            Debug.Log("Could not cut this ingredient. It is already cut.");
+        }
+    }
+
     public void Slice(Transform ingredient)
     {
         switch (currentSlicerState)
@@ -154,7 +214,7 @@ public class Slicer
                 CutHalf(ingredient);
                 break;
             case SlicerState.QUARTERING_MODE:
-                CutHalf(ingredient);
+                CutQuarter(ingredient);
                 break;
             case SlicerState.NO_POWER_MODE:
                 PassIngredient(ingredient);

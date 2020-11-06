@@ -57,7 +57,10 @@ public class Blender
 
 
     // DO NOT SET THESE IN INSPECTOR, they are only public so that the horrible "menu manager" can access them! //
+    [Header("Do not modify these.")]
+    [Tooltip("This should be 0.")]
     public float continueButtonTimer = 0;
+    [Tooltip("This should be 0.")]
     public float completeButtonTimer = 0;
 
     // blendProgress increases each time blendingDuration hits 1. blendingDuration increases by deltaTime every frame. //

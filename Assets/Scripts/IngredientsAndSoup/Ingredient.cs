@@ -81,6 +81,21 @@ public class Ingredient : MonoBehaviour
                 Debug.Log("SLICED HALF");
                 break;
             case IngredientState.QUARTER:
+                if (!newIngredient.GetComponent<Ingredient>())
+                {
+                    newIngredient.gameObject.AddComponent<Ingredient>();
+                }
+
+                newIngredient.gameObject.GetComponent<Ingredient>().Copy(originalIngredient.GetComponent<Ingredient>());
+                newIngredient.tag = "Ingredient";
+                newIngredient.GetComponent<Rigidbody>().isKinematic = false;
+
+
+
+                // Editing the cunkyness value. //
+                newIngredient.GetComponent<Ingredient>().chunkyness /= 4;
+                newIngredient.GetComponent<Ingredient>().currentState = IngredientState.QUARTER;
+                Debug.Log("SLICED QUARTER");
                 break;
 
         }
