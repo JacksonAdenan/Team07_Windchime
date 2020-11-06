@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class CookingOrbEntry : MonoBehaviour
 {
+    GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameManager.GetInstance();
     }
 
     // Update is called once per frame
@@ -20,20 +21,25 @@ public class CookingOrbEntry : MonoBehaviour
     {
         if (obj.tag == "Ingredient")
         {
-            CookingManager.TrackIngredient(obj.transform);
+            gameManager.cookingManager.theOrb.TrackIngredient(obj.transform);
+        }
+        if (obj.tag == "Water" && obj.transform != MouseLook.heldItem)
+        {
+            gameManager.cookingManager.theOrb.AddWater();
+            Destroy(obj.gameObject);
         }
     }
     void OnTriggerExit(Collider obj)
     {
         if (obj.tag == "Ingredient")
         {
-            if (CookingManager.currentCookingOrbState == CookingOrbState.EMPTY || CookingManager.currentCookingOrbState == CookingOrbState.INGREDIENTS_NOWATER)
+            if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.EMPTY || gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_NOWATER)
             {
-                CookingManager.StopTrackingIngredient(obj.transform);
+                gameManager.cookingManager.theOrb.StopTrackingIngredient(obj.transform);
             }
-            else if (CookingManager.currentCookingOrbState == CookingOrbState.EMPTY_WATER || CookingManager.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+            else if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.EMPTY_WATER || gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
             {
-                CookingManager.RemoveIngredient(obj.transform);
+                gameManager.cookingManager.theOrb.RemoveIngredient(obj.transform);
             }
         }
     }

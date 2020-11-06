@@ -48,25 +48,13 @@ public class CookingManager : MonoBehaviour
     public Transform adjustablePlayerCamera;
     public static Transform playerCamera;
 
-    //public static List<Ingredient> allIngridients;
-    //public List<Ingredient> adjustableAllIngredients = new List<Ingredient>();
-
-    public GameObject allSoupsObject;
-
-    
-
-    public static float currentSpicy;
-    public static float currentChunky;
-    public static Colour currentColour;
-
-    public static Transform occupyingSoup;
-
-
+    // ---------------------------------------------------------------- APPLIANCES ---------------------------------------------------------------- //
+    public CookingOrb theOrb;
     public Slicer theSlicer;
     public Blender theBlender;
+    // -------------------------------------------------------------------------------------------------------------------------------------------- //
 
     // Appliance prefabs //
-    public Transform cookingOrb;
     public Transform canon;
     
 
@@ -92,19 +80,7 @@ public class CookingManager : MonoBehaviour
     public static Transform filledAttachedCapsule;
 
     public static bool hasCapsule;
-
-    // Cookingorb stats and current things. //
-    public static CookingOrbState currentCookingOrbState;
-    public static List<Transform> currentIngredients;
-    public static List<Transform> currentlyTrackedIngredients;
-
-    public float cookingTimer = 0;
-
-    public Transform adjustableSoup;
-    public static Transform soupOrb;
-
-
-    
+ 
 
     // Item fabricator stuff. //
     public Transform adjustableItemSpawnPoint;
@@ -132,33 +108,14 @@ public class CookingManager : MonoBehaviour
 
         playerCamera = adjustablePlayerCamera;
 
-        //allIngridients = new List<Ingredient>();
-  
-
-        currentIngredients = new List<Transform>();
-        currentlyTrackedIngredients = new List<Transform>();
-
         // Setting up item fabricator static values. //
         itemSpawnPoint = adjustableItemSpawnPoint;
 
         // Setting static value for water from inspector value. //
         water = adjustableWater;
 
-        // Setting static value for soup from inspector value. //
-        soupOrb = adjustableSoup;
-
-        // Setting cutter mesh and animation. //
-        //cutterMesh = cutterSkinnedMesh.sharedMesh;
-        
-
-
         // Initialising things for the water tap. //
         currentWaterTapState = WaterTapState.EMPTY;
-
-        // Initialising cooking orb things. //
-        currentCookingOrbState = CookingOrbState.EMPTY;
-        currentSpicy = 0;
-        currentChunky = 0;
 
         // Initialising catcher things. //
         currentCatcherState = CatcherState.EMPTY;
@@ -175,6 +132,9 @@ public class CookingManager : MonoBehaviour
 
         // Blender start //
         theBlender.BlenderStart();
+
+        // CookingOrb start. //
+        theOrb.Start();
 
 
         
@@ -201,9 +161,7 @@ public class CookingManager : MonoBehaviour
     void Update()
     {
 
-        // Cooking orb updates. //
-        UpdateCookingOrbState();
-        UpdateCookingOrbAnimation();
+        
 
         // Catcher updates //
         UpdateCatcherState();
@@ -216,30 +174,17 @@ public class CookingManager : MonoBehaviour
         
 
 
-        // Adding tracked ingredients to the cooking orb. //
-        if (currentCookingOrbState == CookingOrbState.EMPTY_WATER || currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
-        {
-            AddTrackedIngredients();
-        }
+        
 
-        // Doing cooking timer. //
-        if (currentCookingOrbState == CookingOrbState.COOKING)
-        {
-            Debug.Log("Cooking orb cooking.");
-            //cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
-            cookingTimer += Time.deltaTime;
-            if (cookingTimer >= 3)
-            {
-                currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
-                occupyingSoup.gameObject.SetActive(true);
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
-            }
-        }
+        
         // Slicer Updates. //
         theSlicer.SlicerUpdate();
 
         // Blender Updates. //
         theBlender.BlenderUpdate();
+
+        // CookingOrb Updates. //
+        theOrb.Update();
 
         // Ingredient spawner update. //
         if (isSpawningIngredient == true)
@@ -336,63 +281,8 @@ public class CookingManager : MonoBehaviour
         }
 
     }
-    void UpdateCookingOrbAnimation()
-    {
-        switch (currentCookingOrbState)
-        {
-            case CookingOrbState.EMPTY:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
-                break;
-            case CookingOrbState.EMPTY_WATER:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
-                break;
-            case CookingOrbState.INGREDIENTS_AND_WATER:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
-                break;
-            case CookingOrbState.INGREDIENTS_NOWATER:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
-                break;
-            case CookingOrbState.OCCUPIED_SOUP:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
-                break;
-            case CookingOrbState.COOKING:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
-                break;
-
-        }
-    }
-    void UpdateCookingOrbState()
-    {
-        if (occupyingSoup != null && occupyingSoup.GetComponent<SoupData>().currentPortions <= 0)
-        {
-            occupyingSoup.gameObject.SetActive(false);
-            occupyingSoup = null;
-
-            // Freeing the cooking orb. //
-            currentCookingOrbState = CookingOrbState.EMPTY;
-        }
-
-        // Commented this out because I'm adding a cooking timer mechanic. At the end of the timer, the cooking orb state will be swapped to OCCUPIED_SOUP.
-
-        //if (occupyingSoup != null)
-        //{
-        //    currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
-        //
-        //}
-        else if (currentIngredients.Count > 0 && currentCookingOrbState == CookingOrbState.EMPTY)
-        {
-            currentCookingOrbState = CookingOrbState.INGREDIENTS_NOWATER;
-        }
-        else if (currentIngredients.Count > 0 && currentCookingOrbState == CookingOrbState.EMPTY_WATER)
-        {
-            currentCookingOrbState = CookingOrbState.INGREDIENTS_AND_WATER;
-        }
-        else if (currentIngredients.Count == 0 && currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
-        {
-            currentCookingOrbState = CookingOrbState.EMPTY_WATER;
-        }
-
-    }
+    
+    
 
     /// <summary>
     /// CreateSoup() grabs a child gameObject from the AllSoups gameObject in the scene. It then uses data stored in the gameObjects SoupCreator script to make a Soup instance.
@@ -421,51 +311,7 @@ public class CookingManager : MonoBehaviour
 
     // -------------------------------------------------------------------------------------------------------------------- //
 
-    // To be able to check if there is anything currently being tracked by the cooking orb.
-    public static bool IsTracking()
-    {
-        if (currentlyTrackedIngredients.Count > 0)
-        {
-            return true;
-        }
-        return false;
-    }
-    public static void AddTrackedIngredients()
-    {
-        for (int i = currentlyTrackedIngredients.Count - 1; i > -1; i--)
-        {
-            currentIngredients.Add(currentlyTrackedIngredients[i]);
-            currentlyTrackedIngredients.Remove(currentlyTrackedIngredients[i]);
-        }
-    }
-    public static void TrackIngredient(Transform ingredientToTrack)
-    {
-        currentlyTrackedIngredients.Add(ingredientToTrack);
-        Debug.Log("Ingredient being tracked by cooking orb.");
-    }
-    public static void StopTrackingIngredient(Transform ingredientToTrack)
-    {
-        currentlyTrackedIngredients.Remove(ingredientToTrack);
-        Debug.Log("Ingredient stopped being tracked by cooking orb.");
-    }
-    public static void AddIngredient(Transform ingredient)
-    {
-        currentIngredients.Add(ingredient);
-        Debug.Log("Ingredient added to cooking orb.");
-    }
-
-    public static void RemoveIngredient(Transform ingredient)
-    {
-        currentIngredients.Remove(ingredient);
-        Debug.Log("Ingredient removed from cooking orb.");
-    }
-
-    public static void CombineIngredient(Ingredient ingredient)
-    {
-        currentSpicy += ingredient.spicyness;
-        currentChunky += ingredient.chunkyness;
-            
-    }
+    
 
     public static void CatchSoup(Transform soupToCatch)
     {
@@ -476,66 +322,7 @@ public class CookingManager : MonoBehaviour
 
    
 
-    public static Soup CookSoup()
-    {
-        //bool finishedCook = false;
- 
-        for (int i = 0; i < currentIngredients.Count; i++)
-        {
-            CombineIngredient(currentIngredients[i].GetComponent<Ingredient>());
-        }
-
-        Soup newSoup = new Soup(currentSpicy, currentChunky);
-
-        for (int i = 0; i < currentIngredients.Count; i++)
-        {
-            newSoup.usedIngredients.Add(currentIngredients[i].GetComponent<Ingredient>());
-        }
-
-
-        // Resetting current cooking orb values to be ready for next soup
-        currentSpicy = 0;
-        currentChunky = 0;
-        //currentCookingOrbState = CookingOrbState.EMPTY;
-
-        for (int i = currentIngredients.Count - 1; i > -1; i--)
-        {
-            currentIngredients[i].gameObject.SetActive(false);
-            currentIngredients.Remove(currentIngredients[i]);
-        }
-        
-        return newSoup;
-    }
-
-    public static void MakeSoup()
-    {
-
-
-        // Making the cooking orb state OCCUPIED. //
-        currentCookingOrbState = CookingOrbState.COOKING;
-
-        Soup newSoup = CookSoup();
-        
-        Transform newSoupOrb = Object.Instantiate(soupOrb, soupOrb.position, soupOrb.rotation);
-
-        // The setting active is moved to the State Machine because of the added cooking timer mechanic. //
-        //newSoupOrb.gameObject.SetActive(true);
-
-        SoupData newSoupsData = newSoupOrb.GetComponent<SoupData>();
-
-        newSoupsData.theSoup = newSoup;
-
-        // Setting max amount of "portions" of soup. The player can keep grabbing soup until they've depleted all the portions. //
-
-        // Hey get out of here! If you want to set the portion sizes do it through the inspector ! //
-
-        //newSoupsData.currentPortions = 5;
-        //newSoupsData.maxPortions = 5;
-
-        occupyingSoup = newSoupOrb;
-
-        
-    }
+    
     public static void WaterTapSwitch()
     {
         if (currentWaterTapState == WaterTapState.EMPTY)
@@ -551,22 +338,7 @@ public class CookingManager : MonoBehaviour
         }
     }
 
-    public static void AddWater()
-    {
-        if (currentCookingOrbState == CookingOrbState.EMPTY)
-        {
-            currentCookingOrbState = CookingOrbState.EMPTY_WATER;
-        }
-        else if (currentCookingOrbState == CookingOrbState.INGREDIENTS_NOWATER)
-        {
-            currentCookingOrbState = CookingOrbState.INGREDIENTS_AND_WATER;
-        }
-        else if (currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER || currentCookingOrbState == CookingOrbState.EMPTY_WATER)
-        {
-            Debug.Log("Tried to add water to cooking orb but there is already water!");
-        }
-        Debug.Log(currentCookingOrbState);
-    }
+    
 
     
     public static void AttachCapsule()

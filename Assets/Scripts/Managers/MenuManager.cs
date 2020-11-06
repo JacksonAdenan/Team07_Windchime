@@ -343,14 +343,14 @@ public class MenuManager : MonoBehaviour
 
     void DisplayCurrentCookingOrbState()
     {
-        currentCookingOrbState.text = CookingManager.currentCookingOrbState.ToString();
+        currentCookingOrbState.text = gameManager.cookingManager.theOrb.currentCookingOrbState.ToString();
     }
     void DisplayCurrentIngredients()
     {
         
-        for (int i = 0; i < CookingManager.currentIngredients.Count; i++)
+        for (int i = 0; i < gameManager.cookingManager.theOrb.currentIngredients.Count; i++)
         {
-            ingredientsText = ingredientsText + CookingManager.currentIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
+            ingredientsText = ingredientsText + gameManager.cookingManager.theOrb.currentIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentIngredients.text = ingredientsText;
         ingredientsText = "";

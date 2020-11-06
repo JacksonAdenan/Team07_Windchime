@@ -5289,6 +5289,22 @@ PrefabInstance:
       propertyPath: theBlender.isInvulnverable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theOrb.cookingOrb
+      value: 
+      objectReference: {fileID: 320258807}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theOrb.occupyingSoup
+      value: 
+      objectReference: {fileID: 1745654147}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theOrb.cookingDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theOrb.soupOrb
+      value: 
+      objectReference: {fileID: 1745654147}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name

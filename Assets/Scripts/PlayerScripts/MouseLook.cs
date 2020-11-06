@@ -277,14 +277,14 @@ public class MouseLook : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (isHoldingItem && heldItem.tag == "Water")
+                        //if (isHoldingItem && heldItem.tag == "Water")
+                        //{
+                        //    RemoveItem();
+                        //    gameManager.cookingManager.theOrb.AddWater();
+                        //}
+                        if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
                         {
-                            RemoveItem();
-                            CookingManager.AddWater();
-                        }
-                        else if (CookingManager.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
-                        {
-                            CookingManager.MakeSoup();
+                            gameManager.cookingManager.theOrb.MakeSoup();
                         }
                     }
                 }
