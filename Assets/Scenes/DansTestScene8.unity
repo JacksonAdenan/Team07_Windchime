@@ -12447,6 +12447,10 @@ PrefabInstance:
       propertyPath: theCookingManager
       value: 
       objectReference: {fileID: 191978519}
+    - target: {fileID: 930497156, guid: 7b9bf34da3ad5c145adf3092f4768ff3, type: 3}
+      propertyPath: switchSpamCooldown
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1269946006982373876, guid: 7b9bf34da3ad5c145adf3092f4768ff3,
         type: 3}
       propertyPath: m_LocalPosition.x

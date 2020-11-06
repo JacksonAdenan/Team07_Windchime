@@ -51,65 +51,74 @@ public class SwitchData : MonoBehaviour
     { }
     public void ActivateSwitch()
     {
-        switch (type)
+        if (onCooldown == false)
         {
-            case SwitchType.CUTTER_SWITCH_1:
-                gameManager.cookingManager.theSlicer.CutterSwitch1();
-                break;
-            case SwitchType.CUTTER_SWITCH_2:
-                gameManager.cookingManager.theSlicer.CutterSwitch2();
-                break;
-            case SwitchType.WATER_TAP:
-                CookingManager.WaterTapSwitch();
-                break;
-            case SwitchType.ORDER_ACCEPT:
-                OrderManager.AcceptOrder(OrderManager.requestedOrders[0]);
-                break;
-            case SwitchType.ORDER_REJECT:
-                OrderManager.RejectOrder();
-                break;
-            case SwitchType.CANON_BUTTON:
-                CookingManager.ShootCapsule();
-                break;
-            case SwitchType.BLENDER_BUTTON:
-                gameManager.cookingManager.theBlender.BlenderButton();
-                break;
-            case SwitchType.ITEM_SPAWNER:
-                if (onCooldown == false)
-                {
+            switch (type)
+            {
+                case SwitchType.CUTTER_SWITCH_1:
+                    onCooldown = true;
+                    gameManager.cookingManager.theSlicer.CutterSwitch1();
+                    break;
+                case SwitchType.CUTTER_SWITCH_2:
+                    onCooldown = true;
+                    gameManager.cookingManager.theSlicer.CutterSwitch2();
+                    break;
+                case SwitchType.WATER_TAP:
+                    onCooldown = true;
+                    CookingManager.WaterTapSwitch();
+                    break;
+                case SwitchType.ORDER_ACCEPT:
+                    onCooldown = true;
+                    OrderManager.AcceptOrder(OrderManager.requestedOrders[0]);
+                    break;
+                case SwitchType.ORDER_REJECT:
+                    onCooldown = true;
+                    OrderManager.RejectOrder();
+                    break;
+                case SwitchType.CANON_BUTTON:
+                    onCooldown = true;
+                    CookingManager.ShootCapsule();
+                    break;
+                case SwitchType.BLENDER_BUTTON:
+                    onCooldown = true;
+                    gameManager.cookingManager.theBlender.BlenderButton();
+                    break;
+                case SwitchType.ITEM_SPAWNER:
                     onCooldown = true;
                     CookingManager.IngredientSpawnTimer();
-                    Debug.Log("Spawning an ingredient.");
-                }
-                else
-                {
-                    Debug.Log("You can't spawn an ingredient that fast!");
-                }
-                break;
-            case SwitchType.MONITOR_FORWARD:
-                {
-                    MonitorScreen monitor = FindMonitorFromSwitch(gameManager.playerController.selectedSwitch);
-
-                    // I know this is really bad but don't judge me. If the switch had an ingredient component, I'm going to assume that its the item fabricator monitor. Giving a reference to the ingredient
-                    // will help in displaying the ingredients stats and stuff. //
-                    if (gameManager.playerController.selectedSwitch.GetComponent<Ingredient>())
+                    break;
+                case SwitchType.MONITOR_FORWARD:
+                    onCooldown = true;
                     {
-                        monitor.currentIngredientDisplay = gameManager.playerController.selectedSwitch.GetComponent<Ingredient>();
-                        monitor.SetScreenState(ScreenState.SECONDARY);
+                        MonitorScreen monitor = FindMonitorFromSwitch(gameManager.playerController.selectedSwitch);
+
+                        // I know this is really bad but don't judge me. If the switch had an ingredient component, I'm going to assume that its the item fabricator monitor. Giving a reference to the ingredient
+                        // will help in displaying the ingredients stats and stuff. //
+                        if (gameManager.playerController.selectedSwitch.GetComponent<Ingredient>())
+                        {
+                            monitor.currentIngredientDisplay = gameManager.playerController.selectedSwitch.GetComponent<Ingredient>();
+                            monitor.SetScreenState(ScreenState.SECONDARY);
+                        }
+                        else
+                        {
+                            monitor.SetScreenState(ScreenState.SECONDARY);
+                        }
+                        break;
                     }
-                    else
-                    { 
-                        monitor.SetScreenState(ScreenState.SECONDARY);
+                case SwitchType.MONITOR_BACK:
+                    onCooldown = true;
+                    {
+                        MonitorScreen monitor = FindMonitorFromSwitch(gameManager.playerController.selectedSwitch);
+                        monitor.SetScreenState(ScreenState.MAIN_MENU);
+                        break;
                     }
-                    break;
-                }
-            case SwitchType.MONITOR_BACK:
-                {
-                    MonitorScreen monitor = FindMonitorFromSwitch(gameManager.playerController.selectedSwitch);
-                    monitor.SetScreenState(ScreenState.MAIN_MENU);
-                    break;
-                }
+            }
         }
+        else
+        {
+            Debug.Log("You can't spam this button that fast!");
+        }
+
     }
 
     private MonitorScreen FindMonitorFromSwitch(Transform switchTransform)
