@@ -19,9 +19,9 @@ public class CutterEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider otherObj)
     {
-        if (otherObj.tag == "Ingredient")
+        if (otherObj.tag == "Ingredient" && otherObj.transform != MouseLook.heldItem)
         {
-            theCookingManager.theSlicer.CutHalf(otherObj.transform);
+            theCookingManager.theSlicer.Slice(otherObj.transform);
             Debug.Log("Cutter entry trigger activated.");
         }
     }

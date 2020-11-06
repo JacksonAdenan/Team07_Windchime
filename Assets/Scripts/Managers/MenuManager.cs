@@ -18,7 +18,8 @@ public class MenuManager : MonoBehaviour
     
     
     private MenuState currentState = global::MenuState.none;
-    
+
+    private MouseLook playersMouseLook;
    
 
     public Transform playerCamera;
@@ -67,10 +68,23 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI currentPortionsData;
 
     public TextMeshProUGUI currentBlenderState;
+    public TextMeshProUGUI currentBlenderButtonState;
     public TextMeshProUGUI currentBlenderIngredients;
     string blenderIngredientsText = "";
 
     public TextMeshProUGUI defaultMaterial;
+
+    public TextMeshProUGUI ingredientTimer;
+    public TextMeshProUGUI canSpawnIngredient;
+
+    public TextMeshProUGUI currentSlicerState;
+
+    [Header("Blender Progress Stuff")]
+    public TextMeshProUGUI blenderProgress;
+    public TextMeshProUGUI blendingHalfDone;
+    public TextMeshProUGUI blendingComplete;
+    public TextMeshProUGUI blendingHalfTimer;
+    public TextMeshProUGUI blendingCompleteTimer;
 
     [Header("Order Monitor Display Stuff")]
     public TextMeshProUGUI unLoadedText;
@@ -134,6 +148,8 @@ public class MenuManager : MonoBehaviour
         PopulateColourDropdownOptions(colourDropdown);
         PopulateMeatVegDropdownOptions(meatVegDropdown);
 
+        playersMouseLook = playerCamera.GetComponent<MouseLook>();
+
 
     }
    
@@ -182,7 +198,12 @@ public class MenuManager : MonoBehaviour
         DisplayDefaultMaterial();
 
         DisplayTimeLeft();
+        DisplaySlicerState();
 
+        DisplayBlenderButtonState();
+        DisplayBlenderProgress();
+
+        //DisplayIngredientTimer();
 
         // Displaying order/canon monitor ui stuff //
         DisplayCanonMonitor();
@@ -322,14 +343,14 @@ public class MenuManager : MonoBehaviour
 
     void DisplayCurrentCookingOrbState()
     {
-        currentCookingOrbState.text = CookingManager.currentCookingOrbState.ToString();
+        currentCookingOrbState.text = gameManager.cookingManager.theOrb.currentCookingOrbState.ToString();
     }
     void DisplayCurrentIngredients()
     {
         
-        for (int i = 0; i < CookingManager.currentIngredients.Count; i++)
+        for (int i = 0; i < gameManager.cookingManager.theOrb.currentIngredients.Count; i++)
         {
-            ingredientsText = ingredientsText + CookingManager.currentIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
+            ingredientsText = ingredientsText + gameManager.cookingManager.theOrb.currentIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentIngredients.text = ingredientsText;
         ingredientsText = "";
@@ -475,13 +496,13 @@ public class MenuManager : MonoBehaviour
 
     public void DisplayBlenderState()
     {
-        currentBlenderState.text = CookingManager.currentBlenderState.ToString();
+        currentBlenderState.text = gameManager.cookingManager.theBlender.currentBlenderState.ToString();
     }
     public void DisplayBlenderIngredients()
     {
-        for (int i = 0; i < CookingManager.currentBlenderIngredients.Count; i++)
+        for (int i = 0; i < gameManager.cookingManager.theBlender.currentBlenderIngredients.Count; i++)
         {
-            blenderIngredientsText = blenderIngredientsText + CookingManager.currentBlenderIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
+            blenderIngredientsText = blenderIngredientsText + gameManager.cookingManager.theBlender.currentBlenderIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentBlenderIngredients.text = blenderIngredientsText;
         blenderIngredientsText = "";
@@ -509,6 +530,25 @@ public class MenuManager : MonoBehaviour
     public void DisplayTimeLeft()
     {
         timeLeftText.text = gameManager.gameTime.ToString();
+    }
+
+    public void DisplaySlicerState()
+    {
+        currentSlicerState.text = gameManager.cookingManager.theSlicer.currentSlicerState.ToString();
+    }
+
+    public void DisplayBlenderButtonState()
+    {
+        currentBlenderButtonState.text = gameManager.cookingManager.theBlender.currentBlenderButtonState.ToString();
+    }
+
+    public void DisplayBlenderProgress()
+    {
+        blenderProgress.text = gameManager.cookingManager.theBlender.blendProgress.ToString();
+        blendingHalfDone.text = gameManager.cookingManager.theBlender.isHalfBlended.ToString();
+        blendingComplete.text = gameManager.cookingManager.theBlender.isFullBlended.ToString();
+        blendingHalfTimer.text = gameManager.cookingManager.theBlender.continueButtonTimer.ToString();
+        blendingCompleteTimer.text = gameManager.cookingManager.theBlender.completeButtonTimer.ToString();
     }
 
 

@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public OrderManager orderManager;
     public ScoreManager scoreManager;
     public MenuManager menuManager;
+    public MouseLook playerController;
 
     public float gameTime = 5;
     float timer = 0;

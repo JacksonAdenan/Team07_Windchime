@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlenderEntry : MonoBehaviour
+public class BlenderJarEntry : MonoBehaviour
 {
     GameManager gameManager;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -20,17 +19,10 @@ public class BlenderEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
-        if (obj.tag == "Ingredient")
+        if (obj.tag == "InteractableBlenderCover" && MouseLook.heldItem != obj.gameObject.transform && gameManager.cookingManager.theBlender.isInvulnverable == false)
         {
-            gameManager.cookingManager.theBlender.AddIngredientToBlender(obj.transform);
-        }
-    }
-
-    void OnTriggerExit(Collider obj)
-    {
-        if (obj.tag == "Ingredient")
-        {
-            gameManager.cookingManager.theBlender.RemoveIngredientFromBlender(obj.transform);
+            gameManager.cookingManager.theBlender.AttachBlenderCover();
+            Destroy(obj.gameObject);
         }
     }
 }
