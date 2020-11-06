@@ -15,6 +15,7 @@ TagManager:
   - CatcherCapsule
   - BlenderCover
   - InteractableBlenderCover
+  - NonInteractableWater
   layers:
   - Default
   - TransparentFX

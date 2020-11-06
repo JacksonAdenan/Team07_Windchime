@@ -5,10 +5,12 @@ using UnityEngine;
 public class CookingOrbEntry : MonoBehaviour
 {
     GameManager gameManager;
+    CookingOrb orb;
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameManager.GetInstance();
+        orb = gameManager.cookingManager.theOrb;
     }
 
     // Update is called once per frame
@@ -23,9 +25,9 @@ public class CookingOrbEntry : MonoBehaviour
         {
             gameManager.cookingManager.theOrb.TrackIngredient(obj.transform);
         }
-        if (obj.tag == "Water" && obj.transform != MouseLook.heldItem)
+        if (obj.tag == "Water" && obj.transform != MouseLook.heldItem && (orb.currentCookingOrbState != CookingOrbState.EMPTY_WATER && orb.currentCookingOrbState != CookingOrbState.INGREDIENTS_AND_WATER))
         {
-            gameManager.cookingManager.theOrb.AddWater();
+            gameManager.cookingManager.theOrb.AddWater(obj.transform);
             Destroy(obj.gameObject);
         }
     }

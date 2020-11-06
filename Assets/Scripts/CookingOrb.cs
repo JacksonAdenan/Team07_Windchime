@@ -26,9 +26,14 @@ public class CookingOrb
     public float cookingTimer = 0;
     [Tooltip("The time it takes to cook a soup.")]
     public float cookingDuration = 0;
+    [Tooltip("Speed at which the thrown water lerps to the centre.")]
+    public float waterCenteringSpeed = 0;
+    private bool isCentered = false;
 
     // Prefab that will be set to active if there is a soup in the cooking orb. //
+    [Header("Prefabs to display whats in the orb.")]
     public Transform soupOrb;
+    public Transform water;
 
 
     // Start is called before the first frame update
@@ -62,6 +67,14 @@ public class CookingOrb
                 occupyingSoup.gameObject.SetActive(true);
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
             }
+        }
+
+
+        // Moving water to the centre of the orb. //
+        if (isCentered == false && water != null)
+        {
+            Debug.Log("CENTERING WATER...");
+            MoveWaterToCenter();
         }
 
         // Cooking orb updates. //
@@ -223,8 +236,19 @@ public class CookingOrb
         occupyingSoup = newSoupOrb;
     }
 
-    public void AddWater()
+    public void AddWater(Transform waterOrb)
     {
+        water = GameObject.Instantiate(waterOrb, waterOrb.position, waterOrb.rotation);
+        water.tag = "NonInteractableWater";
+        water.GetComponent<SphereCollider>().isTrigger = true;
+
+
+
+
+
+
+        // ------------------------------------------ Setting the CookingOrbState ------------------------------------------ //
+
         if (currentCookingOrbState == CookingOrbState.EMPTY)
         {
             currentCookingOrbState = CookingOrbState.EMPTY_WATER;
@@ -238,5 +262,16 @@ public class CookingOrb
             Debug.Log("Tried to add water to cooking orb but there is already water!");
         }
         Debug.Log(currentCookingOrbState);
+
+        // ----------------------------------------------------------------------------------------------------------------- //
+    }
+
+    private void MoveWaterToCenter()
+    {
+        water.position = Vector3.Lerp(water.position, soupOrb.position, waterCenteringSpeed);
+        if (water.position == soupOrb.position)
+        {
+            isCentered = true;
+        }
     }
 }

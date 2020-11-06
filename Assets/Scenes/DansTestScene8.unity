@@ -5305,6 +5305,10 @@ PrefabInstance:
       propertyPath: theOrb.soupOrb
       value: 
       objectReference: {fileID: 1745654147}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theOrb.waterCenteringSpeed
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name
