@@ -367,17 +367,17 @@ public class MouseLook : MonoBehaviour
             //hand.transform.GetChild(0).GetComponent<Animator>().
             hand.transform.GetComponent<Animator>().SetBool("IsPointing", true);
         }
-        else if (selectedAppliance)
-        {
-            currentPlayerState = PlayerState.LOOKING_AT_APPLIANCE;
-            hand.transform.GetComponent<Animator>().SetBool("IsPointing", true);
-        }
         else if (isHoldingItem)
         {
             currentPlayerState = PlayerState.HOLDING_ITEM;
             hand.transform.GetComponent<Animator>().SetBool("IsGrabbing", true);
             hand.transform.GetComponent<Animator>().SetBool("IsPointing", false);
 
+        }
+        else if (selectedAppliance)
+        {
+            currentPlayerState = PlayerState.LOOKING_AT_APPLIANCE;
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (selectedSwitch)
         {

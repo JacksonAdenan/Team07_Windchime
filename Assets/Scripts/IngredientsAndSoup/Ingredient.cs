@@ -56,4 +56,34 @@ public class Ingredient : MonoBehaviour
         this.blendedPrefab = thingToCopy.blendedPrefab;
     }
 
+    public static void CreateIngredient(Transform originalIngredient, Transform newIngredient, IngredientState state)
+    {
+        switch (state)
+        {
+            case IngredientState.WHOLE:
+                break;
+            case IngredientState.HALF:
+                // Just because we don't have any art for blended foods, ill make the soup orb a blended ingredient by changing the tag and adding an Ingredient script. //
+                if (!newIngredient.GetComponent<Ingredient>())
+                { 
+                    newIngredient.gameObject.AddComponent<Ingredient>();
+                }
+
+                newIngredient.gameObject.GetComponent<Ingredient>().Copy(originalIngredient.GetComponent<Ingredient>());
+                newIngredient.tag = "Ingredient";
+                newIngredient.GetComponent<Rigidbody>().isKinematic = false;
+
+
+
+                // Editing the cunkyness value. //
+                newIngredient.GetComponent<Ingredient>().chunkyness /= 2;
+                newIngredient.GetComponent<Ingredient>().currentState = IngredientState.HALF;
+                Debug.Log("SLICED HALF");
+                break;
+            case IngredientState.QUARTER:
+                break;
+
+        }
+    }
+
 }

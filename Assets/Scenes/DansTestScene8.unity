@@ -12431,6 +12431,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 615060685}
     m_Modifications:
+    - target: {fileID: 129375713, guid: 7b9bf34da3ad5c145adf3092f4768ff3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.41116735
+      objectReference: {fileID: 0}
+    - target: {fileID: 129375713, guid: 7b9bf34da3ad5c145adf3092f4768ff3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.24910322
+      objectReference: {fileID: 0}
+    - target: {fileID: 129375713, guid: 7b9bf34da3ad5c145adf3092f4768ff3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.30296597
+      objectReference: {fileID: 0}
     - target: {fileID: 129375714, guid: 7b9bf34da3ad5c145adf3092f4768ff3, type: 3}
       propertyPath: theCookingManager
       value: 
@@ -35099,6 +35111,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -6.142
+      objectReference: {fileID: 0}
+    - target: {fileID: 8337026927673139470, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8724806588464728778, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
         type: 3}

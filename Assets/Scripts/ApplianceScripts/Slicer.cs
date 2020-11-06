@@ -62,20 +62,6 @@ public class Slicer
         {
             currentSlicerState = SlicerState.EXTREME_POWER_MODE;
         }
-        // Setting extreme power mode. //
-        //else if (cutterGauge1.currentState == GaugeState.HIGH && cutterGauge2.currentState == GaugeState.HIGH)
-        //{
-        //    currentSlicerState = SlicerState.EXTREME_POWER_MODE;
-        //}
-        //else if (cutterGauge1.currentState == GaugeState.MID && cutterGauge2.currentState == GaugeState.HIGH)
-        //{
-        //    currentSlicerState = SlicerState.EXTREME_POWER_MODE;
-        //}
-        //else if (cutterGauge1.currentState == GaugeState.HIGH && cutterGauge2.currentState == GaugeState.MID)
-        //{
-        //    currentSlicerState = SlicerState.EXTREME_POWER_MODE;
-        //}
-
         // Setting the inbetween modes. //
         else if (cutterGauge1.currentState == GaugeState.MID && cutterGauge2.currentState == GaugeState.MID)
         {
@@ -92,52 +78,104 @@ public class Slicer
         }
 
     }
-    public void CutHalf(Transform victim)
+    public void CutHalf(Transform ingredientTransform)
     {
 
-        if (victim.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
+        if (ingredientTransform.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
         {
-            Debug.Log("Cut ingredient.");
 
-            Vector3 victimScale = victim.localScale;
-            Vector3 leftPoint = victim.position - Vector3.right * victimScale.x / 2;
-            Vector3 rightPoint = victim.position + Vector3.right * victimScale.x / 2;
-            victim.gameObject.SetActive(false);
+            Ingredient dataToTransfer = ingredientTransform.GetComponent<Ingredient>();
+            Transform half1 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform half2 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
 
-            // Spawning the right object. //
-            Transform rightSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
-            rightSideObj.gameObject.SetActive(true);
-            rightSideObj.transform.localScale = victim.localScale / 2;
+            // ======================= NEW INGREDIENT CREATION ===================== //
 
-            // Spawning the left object. //
-            Transform leftSideObj = GameObject.Instantiate(victim, exitTrigger.position, victim.rotation); //primitivetype determines the shape after cutting
-            leftSideObj.gameObject.SetActive(true);
-            leftSideObj.transform.localScale = victim.localScale / 2;
+            half1.position = exitTrigger.position;
+            half2.position = exitTrigger.position;
+
+            // Just because we don't have any art for blended foods, ill make the soup orb a blended ingredient by changing the tag and adding an Ingredient script. //
+            //half1.gameObject.AddComponent<Ingredient>();
+            //half1.gameObject.GetComponent<Ingredient>().Copy(dataToTransfer);
+            //half1.tag = "Ingredient";
+            //half1.GetComponent<Rigidbody>().isKinematic = false;
+            //
+            //half2.gameObject.AddComponent<Ingredient>();
+            //half2.gameObject.GetComponent<Ingredient>().Copy(dataToTransfer);
+            //half2.tag = "Ingredient";
+            //half2.GetComponent<Rigidbody>().isKinematic = false;
+            //
+            //
+            //// Editing the cunkyness value. //
+            //half1.GetComponent<Ingredient>().chunkyness /= 2;
+            //half2.GetComponent<Ingredient>().chunkyness /= 2;
+            //Debug.Log("SLICED HALF");
+
+            Ingredient.CreateIngredient(ingredientTransform, half1, IngredientState.HALF);
+            Ingredient.CreateIngredient(ingredientTransform, half2, IngredientState.HALF);
+
+            // ====================================================================== //
+
+            Vector3 ingredientScale = ingredientTransform.localScale;
+            Vector3 leftPoint = ingredientTransform.position - Vector3.right * ingredientScale.x / 2;
+            Vector3 rightPoint = ingredientTransform.position + Vector3.right * ingredientScale.x / 2;
+            ingredientTransform.gameObject.SetActive(false);
+
+            // Setting the new ingredients to be active just incase.//
+            half1.gameObject.SetActive(true);
+            half2.gameObject.SetActive(true);
 
 
             // Setting them to be halved. //
-            rightSideObj.GetComponent<Ingredient>().currentState = IngredientState.HALF;
-            leftSideObj.GetComponent<Ingredient>().currentState = IngredientState.HALF;
-
-
-            Debug.Log(leftSideObj.GetComponent<Ingredient>().currentState);
-
-            Debug.Log("Cut peices have been set to half.");
-
+            half1.GetComponent<Ingredient>().currentState = IngredientState.HALF;
+            half2.GetComponent<Ingredient>().currentState = IngredientState.HALF;
 
 
             // Shooting the new peices upwards. //
 
-            leftSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            leftSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
-
-            rightSideObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            rightSideObj.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
+            ShootUp(half1);
+            ShootUp(half2);
         }
         else
         {
+            ingredientTransform.position = exitTrigger.position;
+            ShootUp(ingredientTransform);
             Debug.Log("Could not cut this ingredient. It is already cut.");
         }
+    }
+
+    public void Slice(Transform ingredient)
+    {
+        switch (currentSlicerState)
+        {
+            case SlicerState.EXTREME_POWER_MODE:
+                DestroyIngredient(ingredient);
+                break;
+            case SlicerState.HALFING_MODE:
+                CutHalf(ingredient);
+                break;
+            case SlicerState.QUARTERING_MODE:
+                CutHalf(ingredient);
+                break;
+            case SlicerState.NO_POWER_MODE:
+                PassIngredient(ingredient);
+                break;
+        }
+    }
+
+    private void DestroyIngredient(Transform ingredient)
+    {
+        GameObject.Destroy(ingredient.gameObject);
+    }
+    private void PassIngredient(Transform ingredient)
+    {
+        ingredient.position = exitTrigger.position;
+        ShootUp(ingredient);
+    }
+
+    private void ShootUp(Transform objToShootUp)
+    {
+        objToShootUp.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        objToShootUp.GetComponent<Rigidbody>().AddForce(Vector3.up * cutterEjectionSpeed);
     }
 
     public void CutterSwitch1()

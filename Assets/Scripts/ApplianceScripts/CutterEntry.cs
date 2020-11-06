@@ -21,7 +21,7 @@ public class CutterEntry : MonoBehaviour
     {
         if (otherObj.tag == "Ingredient")
         {
-            theCookingManager.theSlicer.CutHalf(otherObj.transform);
+            theCookingManager.theSlicer.Slice(otherObj.transform);
             Debug.Log("Cutter entry trigger activated.");
         }
     }
