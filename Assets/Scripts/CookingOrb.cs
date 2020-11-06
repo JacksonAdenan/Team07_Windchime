@@ -110,6 +110,7 @@ public class CookingOrb
 
     void UpdateCookingOrbState()
     {
+        // ------------------------------------ Deleting the soup orb if it's currentPortions hit 0 ------------------------------------ //
         if (occupyingSoup != null && occupyingSoup.GetComponent<SoupData>().currentPortions <= 0)
         {
             occupyingSoup.gameObject.SetActive(false);
@@ -118,6 +119,8 @@ public class CookingOrb
             // Freeing the cooking orb. //
             currentCookingOrbState = CookingOrbState.EMPTY;
         }
+        // ----------------------------------------------------------------------------------------------------------------------------- //
+
         else if (currentIngredients.Count > 0 && currentCookingOrbState == CookingOrbState.EMPTY)
         {
             currentCookingOrbState = CookingOrbState.INGREDIENTS_NOWATER;
@@ -179,6 +182,8 @@ public class CookingOrb
 
     }
 
+
+    // -------------------------------------------- Combining all the ingredients and returning a soup with all the stats. -------------------------------------------- //
     public Soup CookSoup()
     {
         //bool finishedCook = false;
@@ -195,7 +200,6 @@ public class CookingOrb
             newSoup.usedIngredients.Add(currentIngredients[i].GetComponent<Ingredient>());
         }
 
-
         // Resetting current cooking orb values to be ready for next soup
         currentSpicy = 0;
         currentChunky = 0;
@@ -206,10 +210,12 @@ public class CookingOrb
             currentIngredients[i].gameObject.SetActive(false);
             currentIngredients.Remove(currentIngredients[i]);
         }
-
         return newSoup;
     }
+    // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
+
+    // ------------------------- After we "CookSoup()", we use the returned soup and create a Soup object and attach the appropriate Soup stats to the SoupData script. ------------------------- //
     public void MakeSoup()
     {
         // Making the cooking orb state OCCUPIED. //
@@ -234,7 +240,11 @@ public class CookingOrb
         //newSoupsData.maxPortions = 5;
 
         occupyingSoup = newSoupOrb;
+
+        // Removing and resetting stuff to do with the water display. //
+        RemoveWater();
     }
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
 
     public void AddWater(Transform waterOrb)
     {
@@ -273,5 +283,12 @@ public class CookingOrb
         {
             isCentered = true;
         }
+    }
+
+    private void RemoveWater()
+    {
+        GameObject.Destroy(water.gameObject);
+        water = null;
+        isCentered = false;
     }
 }
