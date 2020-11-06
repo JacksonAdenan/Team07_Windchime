@@ -589,6 +589,20 @@ public class MouseLook : MonoBehaviour
             }
             selectedItem = null;
         }
+        // Resetting switches //
+        if (IsLookingAtSwitch() == null)
+        {
+            if (selectedSwitch != null)
+            {
+                // This if statement protects bug if the switch doesn't have a renderer. only temporary hopefully while we have UI switches. //
+                if (selectedSwitch.GetComponent<Renderer>() != null)
+                {
+                    selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
+                    switchDefaultMat = null;
+                }
+            }
+            selectedSwitch = null;
+        }
 
         // ================================= BLENDER CAPSULE BUG RELATED TO THIS CODE SNIPPET ======================================= //
 
@@ -603,7 +617,16 @@ public class MouseLook : MonoBehaviour
             }
         }
 
+        if (selectedSwitch != IsLookingAtSwitch())
+        {
+            if (selectedSwitch != null)
+            {
+                selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
+                switchDefaultMat = null;
+            }
+        }
 
+        // ================================================================================================================================= //
         if (NewIsLookingAtItem() && !isHoldingItem)
         {
             selectedItem = NewIsLookingAtItem();
@@ -641,20 +664,7 @@ public class MouseLook : MonoBehaviour
             selectedAppliance = IsLookingAtAppliance();
         }
 
-        // Resetting switches //
-        if (IsLookingAtSwitch() == null)
-        { 
-            if (selectedSwitch != null)
-            {
-                // This if statement protects bug if the switch doesn't have a renderer. only temporary hopefully while we have UI switches. //
-                if (selectedSwitch.GetComponent<Renderer>() != null)
-                { 
-                    selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
-                    switchDefaultMat = null;
-                }
-            }
-            selectedSwitch = null;
-        }
+        
 
         if (IsLookingAtAppliance() == null)
         { 
