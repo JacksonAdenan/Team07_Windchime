@@ -25,19 +25,7 @@ public enum PlayerState
 
 }
 
-public enum SwitchType
-{ 
-    CUTTER_SWITCH_1,
-    CUTTER_SWITCH_2,
-    WATER_TAP,
-    CANON_BUTTON,
-    ORDER_ACCEPT,
-    ORDER_REJECT,
-    BLENDER_BUTTON,
-    ITEM_SPAWNER,
 
-    ERROR
-}
 public class MouseLook : MonoBehaviour
 {
     // Constants //

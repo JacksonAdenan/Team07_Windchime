@@ -2,7 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SwitchType
+{
+    CUTTER_SWITCH_1,
+    CUTTER_SWITCH_2,
+    WATER_TAP,
+    CANON_BUTTON,
+    ORDER_ACCEPT,
+    ORDER_REJECT,
+    BLENDER_BUTTON,
+    ITEM_SPAWNER,
+    MONITOR_FORWARD,
+    MONITOR_BACK,
 
+    ERROR
+}
 public class SwitchData : MonoBehaviour
 {
 
@@ -72,8 +86,41 @@ public class SwitchData : MonoBehaviour
                     Debug.Log("You can't spawn an ingredient that fast!");
                 }
                 break;
+            case SwitchType.MONITOR_FORWARD:
+                {
+                    MonitorScreen monitor = FindMonitorFromSwitch(gameManager.playerController.selectedSwitch);
 
+                    // I know this is really bad but don't judge me. If the switch had an ingredient component, I'm going to assume that its the item fabricator monitor. Giving a reference to the ingredient
+                    // will help in displaying the ingredients stats and stuff. //
+                    if (gameManager.playerController.selectedSwitch.GetComponent<Ingredient>())
+                    {
+                        monitor.currentIngredientDisplay = gameManager.playerController.selectedSwitch.GetComponent<Ingredient>();
+                        monitor.SetScreenState(ScreenState.SECONDARY);
+                    }
+                    else
+                    { 
+                        monitor.SetScreenState(ScreenState.SECONDARY);
+                    }
+                    break;
+                }
+            case SwitchType.MONITOR_BACK:
+                {
+                    MonitorScreen monitor = FindMonitorFromSwitch(gameManager.playerController.selectedSwitch);
+                    monitor.SetScreenState(ScreenState.MAIN_MENU);
+                    break;
+                }
         }
+    }
+
+    private MonitorScreen FindMonitorFromSwitch(Transform switchTransform)
+    {
+        Transform currentObj = switchTransform;
+        while (currentObj.GetComponent<MonitorScreen>() == null)
+        {
+            Debug.Log(currentObj.name);
+            currentObj = currentObj.parent;
+        }
+        return currentObj.GetComponent<MonitorScreen>();
     }
     public void SwitchTimer()
     { 
