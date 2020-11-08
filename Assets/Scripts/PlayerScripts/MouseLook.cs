@@ -28,8 +28,8 @@ public enum PlayerState
 
 public class MouseLook : MonoBehaviour
 {
-    // Constants //
-    const float INTERACT_DISTANCE = 2;
+   
+    public float INTERACT_DISTANCE = 2;
 
     // Singleton hehe. //
     GameManager gameManager;
@@ -37,80 +37,94 @@ public class MouseLook : MonoBehaviour
 
     // Adjustable Values //
     // ------------------------------------------ //
+    [Header("Sensitivities")]
     public float mouseSensitivity = 100f;
     public float rotationSensitivity = 100f;
     public float handControlSensitivity = 100f;
+    public float roationLerpSpeed;
+
+    [Header("Hand Deadzones")]
     public float handZDistance = 0.7f;
     public float handYCeilingLimit = 0.0f;
     public float handYFloorLimit = 0.0f;
     public float handXLeftLimit = 0.0f;
     public float handXRightLimit = 0.0f;
+
+    [Header("Old Unused Things")]
     public float PickUpUIYPos = 0.0f;
     public float ApplianceUIZPos = 3.0f;
     public float ApplianceUIYPos = 5.0f;
+
+    [Header("Collisions and Item Placements")]
     public float handCollisionRadius = 0;
     public float heldItemPosX = 0;
     public float heldItemPosY = 0;
     public float heldItemPosZ = 0;
 
+    [Header("Throwing")]
     public float tempThrowForce = 0;
-    public float roationLerpSpeed;
-    public float cameraCenteringDeadZone;
 
+    [Header("Smooth Camera Centering Deadzone")]
+    [Tooltip("How far the hand has to be for the camera to centre towards the object.")]
+    public float cameraCenteringDeadZone;
     // ------------------------------------------ //
 
     // Inspector Variables //
     // ------------------------------------------ //
     public Transform playerBody;
-    public Material itemSelectedMat;
-    public Material switchSelectedMat;
-    //public Material waterSelectedMat;
+
 
     public Vector3 handFPSPos;
     public Transform hand;
     public Transform collisionSphere;
     public Transform realHandCentre;
 
-    //public Canvas PickUpUI;
-    //public Canvas ApplianceUI;
-
+    [Header("Crosshair Display")]
     public Canvas crosshairCanvas;
     public Image crosshairImage;
 
+    [Header("Old Unused Deadzones")]
     public float xDeadZone;
     public float yDeadZone;
 
     // ------------------------------------------ //
 
 
-    bool isHoldingItem = false;
-    Vector3 handPos;
-    public CameraMode currentCameraMode = CameraMode.HAND_CONTROL;
+    // ------------------------- Selected and Held Items ------------------------- //
+    private bool isHoldingItem = false;
+
     public static Transform selectedItem;
     public static Transform selectedWater;
     public static Transform selectedAppliance = null;
     public static Transform heldItem = null;
     public static Transform heldWater = null;
     public Transform selectedSwitch = null;
+    // --------------------------------------------------------------------------- //
+
+
+    // ------------------------- Selection Materials ------------------------- //
+    [Header("Selection Materials")]
+    public Material itemSelectedMat;
+    public Material switchSelectedMat;
+
+    [Tooltip("Do not set this in inspector.")]
     public Material defaultMat;
-    //private Material defaultWaterMat;
     private Material switchDefaultMat;
-    float xRotation = 0.0f;
+    // ----------------------------------------------------------------------- //
 
-    Transform insertText = null;
-    Transform notHoldingText = null;
 
-    // Different raycasts //
+    // ------------------------- Raycasts and Collisions ------------------------- //
     RaycastHit raycastFromHand;
     RaycastHit raycastFromScreen;
     Collider[] collisions;
+    // --------------------------------------------------------------------------- //
+
+    [Header("Other")]
 
     PlayerState currentPlayerState = PlayerState.LOOKING_AT_NOTHING;
-
-    
-
-    public float posX;
-    public float posY;
+    Vector3 handPos;
+    public CameraMode currentCameraMode = CameraMode.HAND_CONTROL;
+    float xRotation = 0.0f;
 
     Vector3 heldItemOriginalPos;
     Vector3 previousHandMovementDir;
@@ -130,14 +144,24 @@ public class MouseLook : MonoBehaviour
 
 
     // Manager references. //
+    // Initialised in inspector. //
     public CookingManager theCookingManager;
 
-    
+    // ------------------------------------ Appliance References ------------------------------------ //
+    SoupCatcher theCatcher;
+    // ----------------------------------------------------------------------------------------------- //
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;      
+        Cursor.lockState = CursorLockMode.Locked;
+
+
+        // ------------------------------------ Appliance Reference Initialisation ------------------------------------ //
+        theCatcher = theCookingManager.theCatcher;
+        // ------------------------------------------------------------------------------------------------------------ //
     }
 
     // Update is called once per frame
@@ -146,15 +170,6 @@ public class MouseLook : MonoBehaviour
         // Singleton hehe. //
         gameManager = GameManager.GetInstance();
 
-
-        //// Doing raycast from hand //
-        //Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
-        //Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
-        //
-        //// Doing raycast from screen //
-        //Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 5, out raycastFromScreen, 5);
-        //Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 5, Color.white);
-
         // Raycast code is now controlled by this. //
         CalculateTarget();
 
@@ -162,9 +177,6 @@ public class MouseLook : MonoBehaviour
         collisions = Physics.OverlapSphere(collisionSphere.position, handCollisionRadius);
 
         CameraState(); // This is the old camera state swapping thing.
-   
-        //DisplayPickupUI();
-        //DisplayApplianceIU();
 
         NewSelectObj();
 
@@ -178,21 +190,14 @@ public class MouseLook : MonoBehaviour
             CentreCamera(heldItemOriginalPos);
         }
 
-
-
         // Acceleration timer counting. //
         accelerationTimer += Time.deltaTime;
-
-
 
         //  Very sketchy restart system. //
         if (Input.GetKeyDown(KeyCode.R) && gameManager.currentGameState == GameState.GAMEOVER)
         {
             gameManager.RestartGame();
         }
-
-        
-
     }
 
     void InputState()
@@ -292,27 +297,27 @@ public class MouseLook : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (isHoldingItem && heldItem.tag == "Capsule" && !CookingManager.hasCapsule)
-                        {
-                            
-                            RemoveItem();
-                            CookingManager.AttachCapsule();
-                        }
-                        else if (CookingManager.hasCapsule && !isHoldingItem)
+                        //if (isHoldingItem && heldItem.tag == "Capsule" && !theCatcher.hasCapsule)
+                        //{
+                        //    
+                        //    RemoveItem();
+                        //    theCatcher.AttachCapsule();
+                        //}
+                        if (theCatcher.hasCapsule && !isHoldingItem)
                         {
                             Debug.Log("REMOVED CAPSULE FROM CATCHER");
-                            if (CookingManager.currentCatcherState == CatcherState.FULL_CAPSULE)
+                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
                             {
-                                Detach(CookingManager.filledAttachedCapsule);
+                                Detach(theCatcher.filledAttachedCapsule);
                             }
                             else
                             {
-                                Detach(CookingManager.emptyAttachedCapsule);
+                                Detach(theCatcher.emptyAttachedCapsule);
                             }
 
 
                             // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
-                            CookingManager.RemoveCapsule();
+                            theCatcher.RemoveCapsule();
                         }
                     }
                 }
@@ -823,10 +828,10 @@ public class MouseLook : MonoBehaviour
 
 
             // Can only set the type of soup if the catcher contains soup. //
-            if (CookingManager.currentPortions.Count > 0)
+            if (theCatcher.currentPortions.Count > 0)
             {
                 Debug.Log("SET CAPSULES SOUP DATA");
-                capsule.gameObject.GetComponent<SoupData>().theSoup = CookingManager.currentPortions[0];
+                capsule.gameObject.GetComponent<SoupData>().theSoup = theCatcher.currentPortions[0];
             }
         }
         

@@ -15,8 +15,12 @@ public class MenuManager : MonoBehaviour
 {
     // Singelton hehe. //
     GameManager gameManager;
-    
-    
+
+    // ----------------------- Appliance References ----------------------- //
+    SoupCatcher theCatcher;
+    // -------------------------------------------------------------------- //
+
+
     private MenuState currentState = global::MenuState.none;
 
     private MouseLook playersMouseLook;
@@ -121,7 +125,6 @@ public class MenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         // Singleton hehe. //
         gameManager = GameManager.GetInstance();
 
@@ -151,8 +154,13 @@ public class MenuManager : MonoBehaviour
         playersMouseLook = playerCamera.GetComponent<MouseLook>();
 
 
+        // ---------------------- Initialising Appliance References ---------------------- //
+        theCatcher = gameManager.cookingManager.theCatcher;
+        // ------------------------------------------------------------------------------- //
+
+
     }
-   
+
     // Update is called once per frame
     void Update()
     {
@@ -358,7 +366,7 @@ public class MenuManager : MonoBehaviour
 
     void DisplayCurrentCatcherState()
     {
-        currentCatcherState.text = CookingManager.currentCatcherState.ToString();
+        currentCatcherState.text = gameManager.cookingManager.theCatcher.currentCatcherState.ToString();
     }
 
     void DisplayCanonMonitor()
@@ -402,15 +410,15 @@ public class MenuManager : MonoBehaviour
 
     void DisplayCurrentPortionsData()
     {
-        if (CookingManager.currentPortions.Count > 0 && CookingManager.currentPortions[0] == null)
+        if (theCatcher.currentPortions.Count > 0 && theCatcher.currentPortions[0] == null)
         {
             currentPortionsData.text = "Portion is null.";
         }
-        else if (CookingManager.currentPortions.Count > 0 && CookingManager.currentPortions[0] != null)
+        else if (theCatcher.currentPortions.Count > 0 && theCatcher.currentPortions[0] != null)
         {
             currentPortionsData.text = "Portion is NOT null!";
         }
-        else if (CookingManager.currentPortions.Count == 0)
+        else if (theCatcher.currentPortions.Count == 0)
         {
             currentPortionsData.text = "there are no portions.";
         }

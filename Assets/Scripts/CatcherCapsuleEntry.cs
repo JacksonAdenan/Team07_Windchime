@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CatcherEntry : MonoBehaviour
+public class CatcherCapsuleEntry : MonoBehaviour
 {
     GameManager gameManager;
     SoupCatcher theCatcher;
@@ -22,11 +22,10 @@ public class CatcherEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
-        if (obj.tag == "SoupPortion" && theCatcher.currentPortions.Count < 5 && theCatcher.currentCatcherState != CatcherState.EMPTY)
+        if (obj.tag == "Capsule" && !theCatcher.hasCapsule && obj.transform != MouseLook.heldItem)
         {
-            theCatcher.CatchSoup(obj.transform);
-            
+            theCatcher.AttachCapsule();
+            Destroy(obj.gameObject);
         }
-        
     }
 }

@@ -25,16 +25,7 @@ public enum WaterTapState
     OCCUPIED
 }
 
-public enum CatcherState
-{ 
-    EMPTY,
-    EMPTY_CAPSULE,
-    FILLED_1,
-    FILLED_2,
-    FILLED_3,
-    FILLED_4,
-    FULL_CAPSULE
-}
+
 
 public enum CanonState
 { 
@@ -48,16 +39,17 @@ public class CookingManager : MonoBehaviour
     public Transform adjustablePlayerCamera;
     public static Transform playerCamera;
 
-    // ---------------------------------------------------------------- APPLIANCES ---------------------------------------------------------------- //
+    // ---------------------------------------------------------------- Appliance Objects -------------------------------------------------------------------- //
+    // ====================================== QUESTION ============================ WHY DON'T I NEED TO INITIALISE THESE AND IT WORKS? 
+    [Header("Appliance Objects")]
     public CookingOrb theOrb;
     public Slicer theSlicer;
     public Blender theBlender;
-    // -------------------------------------------------------------------------------------------------------------------------------------------- //
+    public SoupCatcher theCatcher;
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------ //
 
-    // Appliance prefabs //
+    [Header("Other")]
     public Transform canon;
-    
-
     // Canon stats and current things. //
     public static CanonState currentCanonState;
     //public static Soup loadedCapsule;
@@ -69,17 +61,7 @@ public class CookingManager : MonoBehaviour
     public static Transform canonCapsule;
 
 
-    // Soup catcher stats and current things. //
-    public static List<Soup> currentPortions;
-    public static CatcherState currentCatcherState;
-
-    public Transform adjustableEmptyAttachedCapsule;
-    public Transform adjustableFilledAttachedCapsule;
-
-    public static Transform emptyAttachedCapsule;
-    public static Transform filledAttachedCapsule;
-
-    public static bool hasCapsule;
+    
  
 
     // Item fabricator stuff. //
@@ -106,6 +88,14 @@ public class CookingManager : MonoBehaviour
     void Start()
     {
 
+        // ------------------ Appliance Start Functions ------------------ //
+        theSlicer.SlicerStart();
+        theBlender.BlenderStart();
+        theOrb.Start();
+        theCatcher.Start();
+        // --------------------------------------------------------------- //
+
+
         playerCamera = adjustablePlayerCamera;
 
         // Setting up item fabricator static values. //
@@ -117,39 +107,17 @@ public class CookingManager : MonoBehaviour
         // Initialising things for the water tap. //
         currentWaterTapState = WaterTapState.EMPTY;
 
-        // Initialising catcher things. //
-        currentCatcherState = CatcherState.EMPTY;
-        currentPortions = new List<Soup>();
-
-        emptyAttachedCapsule = adjustableEmptyAttachedCapsule;
-        filledAttachedCapsule = adjustableFilledAttachedCapsule;
-
-        hasCapsule = true;
-
+       
         // Initialising canon things. //
         currentCanonState = CanonState.EMPTY;
         isLoaded = false;
 
-        // Blender start //
-        theBlender.BlenderStart();
-
-        // CookingOrb start. //
-        theOrb.Start();
-
-
-        
-       
         // Giving the capsules soup data components because i'm gonna use them to store information. //
         if (adjustableCanonCapsule.GetComponent<SoupData>() == null)
         { 
             adjustableCanonCapsule.gameObject.AddComponent<SoupData>();
         }
         canonCapsule = adjustableCanonCapsule;
-
-
-        // Slicer Start. //
-        theSlicer.SlicerStart();
-
 
         // Ingredient spawner stuff. //
         ingredientSpawnTimer = 0;
@@ -160,32 +128,19 @@ public class CookingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // ------------------ Appliance Update Functions ------------------ //
+        theSlicer.SlicerUpdate();
+        theBlender.BlenderUpdate();
+        theOrb.Update();
+        theCatcher.Update();
+        // ---------------------------------------------------------------- //
 
-        
-
-        // Catcher updates //
-        UpdateCatcherState();
-        UpdateCatcherCapsule();
 
         // Canon updates //
         UpdateCanonState();
         UpdateCanonCapsule();
 
-        
-
-
-        
-
-        
-        // Slicer Updates. //
-        theSlicer.SlicerUpdate();
-
-        // Blender Updates. //
-        theBlender.BlenderUpdate();
-
-        // CookingOrb Updates. //
-        theOrb.Update();
-
+       
         // Ingredient spawner update. //
         if (isSpawningIngredient == true)
         {
@@ -201,8 +156,6 @@ public class CookingManager : MonoBehaviour
 
     }
 
-
-   
     void UpdateCanonCapsule()
     {
         switch (currentCanonState)
@@ -229,100 +182,11 @@ public class CookingManager : MonoBehaviour
             currentCanonState = CanonState.LOADED;
         }
     }
-    void UpdateCatcherState()
-    {
-        if (!hasCapsule)
-        {
-            currentPortions.Clear();
-            currentCatcherState = CatcherState.EMPTY;
-        }
-        else if (currentPortions.Count == 0)
-        {
-            currentCatcherState = CatcherState.EMPTY_CAPSULE;
-        }
-        else if (currentPortions.Count == 1)
-        {
-            currentCatcherState = CatcherState.FILLED_1;
-        }
-        else if (currentPortions.Count == 2)
-        {
-            currentCatcherState = CatcherState.FILLED_2;
-        }
-        else if (currentPortions.Count == 3)
-        {
-            currentCatcherState = CatcherState.FILLED_3;
-        }
-        else if (currentPortions.Count == 4)
-        {
-            currentCatcherState = CatcherState.FILLED_4;
-        }
-        else if (currentPortions.Count == 5)
-        {
-            currentCatcherState = CatcherState.FULL_CAPSULE;
-        }
-    }
-
-    void UpdateCatcherCapsule()
-    {
-        if (currentCatcherState == CatcherState.EMPTY)
-        {
-            emptyAttachedCapsule.gameObject.SetActive(false);
-            filledAttachedCapsule.gameObject.SetActive(false);
-        }
-        else if ((int)currentCatcherState >= 1 && (int)currentCatcherState < 5)
-        {
-            emptyAttachedCapsule.gameObject.SetActive(true);
-            filledAttachedCapsule.gameObject.SetActive(false);
-        }
-        else if (currentCatcherState == CatcherState.FULL_CAPSULE)
-        {
-            emptyAttachedCapsule.gameObject.SetActive(false);
-            filledAttachedCapsule.gameObject.SetActive(true);
-        }
-
-    }
-    
-    
 
     /// <summary>
     /// CreateSoup() grabs a child gameObject from the AllSoups gameObject in the scene. It then uses data stored in the gameObjects SoupCreator script to make a Soup instance.
     /// </summary>
     /// <param name="soupFromScene"></param>
-
-
-    // --------------------------------------- PREVIOUS WAY OF HANDLING INGREDIENTS --------------------------------------- //
-
-    //public static Ingredient ConvertTextToIngredient(string textToConvert)
-    //{
-    //    for (int i = 0; i < allIngridients.Count; i++)
-    //    {
-    //        if (allIngridients[i].name == textToConvert)
-    //        {
-    //            return allIngridients[i]; 
-    //        }
-    //    }
-    //    return null;
-    //}
-    //
-    //public void CopyOverCreatedIngredients()
-    //{
-    //    allIngridients = adjustableAllIngredients;
-    //}
-
-    // -------------------------------------------------------------------------------------------------------------------- //
-
-    
-
-    public static void CatchSoup(Transform soupToCatch)
-    {
-        currentPortions.Add(soupToCatch.GetComponent<SoupData>().theSoup);
-        soupToCatch.gameObject.SetActive(false);
-        Debug.Log("Caught a portion of soup.");
-    }
-
-   
-
-    
     public static void WaterTapSwitch()
     {
         if (currentWaterTapState == WaterTapState.EMPTY)
@@ -336,19 +200,6 @@ public class CookingManager : MonoBehaviour
         {
             Debug.Log("Could not activate water tap switch. There is already a water on the tap.");
         }
-    }
-
-    
-
-    
-    public static void AttachCapsule()
-    {
-        hasCapsule = true;
-    }
-    public static void RemoveCapsule()
-    {
-        hasCapsule = false;
-        Debug.Log("hasCapsule is now FALSE");
     }
 
     public static void LoadCanon(Soup theDataToLoad)
