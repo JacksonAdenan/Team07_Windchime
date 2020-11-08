@@ -207,7 +207,7 @@ public class MouseLook : MonoBehaviour
             case PlayerState.LOOKING_AT_ITEM:
                 if (Input.GetMouseButton(0))
                 {
-                    if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover")
+                    if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover" && selectedItem.tag != "CatcherCapsule")
                     {
                         Debug.Log("YOU SHOULD NOT SEE THIS");
                         // If the thing they want to pick up is a water. //
@@ -229,6 +229,24 @@ public class MouseLook : MonoBehaviour
 
                             // REMEMBER TO RUN REMOVE BLENDER COVER FUNCTION TO SET THE APPROPRIATE VALUE ON THE BLENDER. //
                             gameManager.cookingManager.theBlender.RemoveBlenderCover();
+                        }
+                    }
+                    else if (selectedItem.tag == "CatcherCapsule")
+                    {
+                        if (gameManager.cookingManager.theCatcher.hasCapsule)
+                        {
+                            Debug.Log("REMOVED CATCHER CAPSULE");
+                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
+                            {
+                                Detach(theCatcher.filledAttachedCapsule);
+                            }
+                            else
+                            {
+                                Detach(theCatcher.emptyAttachedCapsule);
+                            }
+
+                            // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
+                            theCatcher.RemoveCapsule();
                         }
                     }
 
@@ -297,28 +315,30 @@ public class MouseLook : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
+                        // OLD SOUP CATCHER INTERACTIONS //
+
                         //if (isHoldingItem && heldItem.tag == "Capsule" && !theCatcher.hasCapsule)
                         //{
                         //    
                         //    RemoveItem();
                         //    theCatcher.AttachCapsule();
                         //}
-                        if (theCatcher.hasCapsule && !isHoldingItem)
-                        {
-                            Debug.Log("REMOVED CAPSULE FROM CATCHER");
-                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
-                            {
-                                Detach(theCatcher.filledAttachedCapsule);
-                            }
-                            else
-                            {
-                                Detach(theCatcher.emptyAttachedCapsule);
-                            }
-
-
-                            // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
-                            theCatcher.RemoveCapsule();
-                        }
+                        //if (theCatcher.hasCapsule && !isHoldingItem)
+                        //{
+                        //    Debug.Log("REMOVED CAPSULE FROM CATCHER");
+                        //    if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
+                        //    {
+                        //        Detach(theCatcher.filledAttachedCapsule);
+                        //    }
+                        //    else
+                        //    {
+                        //        Detach(theCatcher.emptyAttachedCapsule);
+                        //    }
+                        //
+                        //
+                        //    // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
+                        //    theCatcher.RemoveCapsule();
+                        //}
                     }
                 }
                 else if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.BLENDER)
@@ -693,7 +713,7 @@ public class MouseLook : MonoBehaviour
         //
         //return null;
 
-        if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+        if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
         {
             if (target.transform.childCount > 0)
             {
@@ -811,9 +831,23 @@ public class MouseLook : MonoBehaviour
     { 
         
     }
+
+    private Renderer FindRenderer(Transform obj)
+    {
+        Transform currentObj = obj;
+        for (int i = 0; i < currentObj.childCount; i++)
+        {
+            if (currentObj.GetChild(i).GetComponent<Renderer>())
+            {
+                return currentObj.GetChild(i).GetComponent<Renderer>();
+            }
+        }
+        return null;
+    }
     void Detach(Transform itemToPickUp)
     {
         Transform capsule = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
+        FindRenderer(capsule).material = defaultMat;
         capsule.tag = "Capsule";
 
         // Giving the capsule appropriate soup data. //
@@ -848,6 +882,19 @@ public class MouseLook : MonoBehaviour
 
         capsule.GetComponent<Rigidbody>().useGravity = false;
         capsule.GetComponent<Rigidbody>().isKinematic = true;
+
+        // Stopping the selection if your holding an item //
+        // This code will prevent the bug where the blender cover will sometimes turn pink. //
+        if (defaultMat != null)
+        {
+            FindRenderer(itemToPickUp).material = defaultMat;
+        }
+        else
+        {
+            Debug.Log("EROORR RORORr");
+        }
+        selectedItem = null;
+        defaultMat = null;
     }
 
     void DetachBlenderCover(Transform itemToPickUp)
