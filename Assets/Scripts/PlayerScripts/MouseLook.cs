@@ -850,6 +850,13 @@ public class MouseLook : MonoBehaviour
         FindRenderer(capsule).material = defaultMat;
         capsule.tag = "Capsule";
 
+        // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
+        for (int i = 0; i < capsule.childCount; i++)
+        {
+            capsule.GetChild(0).tag = "Capsule";
+            Debug.Log("Set capsule child tag to capsule.");
+        }
+
         // Giving the capsule appropriate soup data. //
         if (capsule.GetComponent<SoupData>() == null)
         {
