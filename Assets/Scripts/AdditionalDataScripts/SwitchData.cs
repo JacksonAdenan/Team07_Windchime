@@ -14,6 +14,7 @@ public enum SwitchType
     ITEM_SPAWNER,
     MONITOR_FORWARD,
     MONITOR_BACK,
+    NEXT_ORDER,
 
     ERROR
 }
@@ -114,6 +115,10 @@ public class SwitchData : MonoBehaviour
                         monitor.SetScreenState(ScreenState.MAIN_MENU);
                         break;
                     }
+                case SwitchType.NEXT_ORDER:
+                    onCooldown = true;
+                    gameManager.orderManager.SwapSelectedOrder();
+                    break;
             }
         }
         else

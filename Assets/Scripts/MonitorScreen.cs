@@ -31,6 +31,7 @@ public class MonitorScreen : MonoBehaviour
     public Ingredient currentIngredientDisplay;
 
     // Text/dropdownboxes and other UI elements go here. //
+    public TextMeshProUGUI title;
     public TextMeshProUGUI ingredientNameText;
     public TextMeshProUGUI spicyText;
     public TextMeshProUGUI chunkyText;
@@ -68,8 +69,19 @@ public class MonitorScreen : MonoBehaviour
                         mainScreen.gameObject.SetActive(false);
                     }
                 }
+                else if (thisMonitor == MonitorType.CURRENT_ORDER_MONITOR)
+                {
+                    if (orderManager.selectedOrder != null)
+                    {
+                        DisplayMainMenu(orderManager.selectedOrder);
+                    }
+                    else
+                    {
+                        mainScreen.gameObject.SetActive(false);
+                    }
+                }
                 else
-                { 
+                {
                     DisplayMainMenu();
                 }
                 break;
@@ -119,6 +131,21 @@ public class MonitorScreen : MonoBehaviour
         // ----------------------------- //
 
         colourText.text = "Colour " + "[" + "-" + "]";
+
+        // ----------------- Displaying proper title for the current order monitor ----------------- //
+        if (thisMonitor == MonitorType.CURRENT_ORDER_MONITOR)
+        {
+            if (orderManager.acceptedOrders.Count > 0 && orderManager.selectedOrder == orderManager.acceptedOrders[0])
+            {
+                title.text = "Current Order";
+            }
+            else
+            {
+                title.text = "Next Order";
+            }
+        }
+
+
     }
     public void DisplaySecondaryMenu()
     {

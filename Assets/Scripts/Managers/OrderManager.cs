@@ -14,6 +14,9 @@ public class OrderManager : MonoBehaviour
     public List<Order> requestedOrders;
     public List<Order> acceptedOrders;
 
+    // We have selectedOrder instead of just swapped around the positions of the orders in the array because we still want to keep track of which alien gets what food. //
+    public Order selectedOrder;
+
     public static OrderScreenState currentScreenState;
 
     [Header("Order Mechanics")]
@@ -32,6 +35,8 @@ public class OrderManager : MonoBehaviour
     void Update()
     {
         UpdateOrders();
+        UpdateSelectedOrder();
+
 
         if (isOrderAvailable == false)
         {
@@ -39,6 +44,33 @@ public class OrderManager : MonoBehaviour
         }
     }
 
+    public void UpdateSelectedOrder()
+    {
+        // If they only have one accepted order. //
+        if (acceptedOrders.Count == 0)
+        {
+            selectedOrder = null;
+        }
+        else if (acceptedOrders.Count == 1)
+        {
+            selectedOrder = acceptedOrders[0];
+        }
+    }
+    public void SwapSelectedOrder()
+    {
+        // If they have 2 accepted orders. //
+        if (acceptedOrders.Count > 1)
+        {
+            if (selectedOrder == acceptedOrders[0])
+            {
+                selectedOrder = acceptedOrders[1];
+            }
+            else
+            {
+                selectedOrder = acceptedOrders[0];
+            }
+        }    
+    }
     private void OrderTimer()
     {
         nextOrderTimer += Time.deltaTime;
