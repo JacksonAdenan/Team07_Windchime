@@ -120,10 +120,9 @@ public class MouseLook : MonoBehaviour
     // --------------------------------------------------------------------------- //
 
     [Header("Other")]
-
     PlayerState currentPlayerState = PlayerState.LOOKING_AT_NOTHING;
     Vector3 handPos;
-    public CameraMode currentCameraMode = CameraMode.HAND_CONTROL;
+    public CameraMode currentCameraMode = CameraMode.FPS_CONTROL;
     float xRotation = 0.0f;
 
     Vector3 heldItemOriginalPos;
