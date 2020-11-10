@@ -1303,8 +1303,8 @@ public class MouseLook : MonoBehaviour
         {
             Debug.Log("Raycast from screen.");
             // Doing raycast from screen //
-            Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~(1 << 2));
-            Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.white);
+            Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~((1 << 2) | (1 << 9)));
+            Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.blue);
         }
     }
 
