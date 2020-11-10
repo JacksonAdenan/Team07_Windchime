@@ -18,6 +18,7 @@ public class PlayerCollision : MonoBehaviour
     }
 
 
+    // ========================== REMEMBER OnCollisionEnter() IS NOT CALLED FOR CHARACTER CONTROLLERS >:( //
     // Ignoring collisions.
     void OnCollisionEnter(Collision collision)
     {

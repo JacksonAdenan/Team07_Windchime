@@ -22,7 +22,13 @@ public enum PlayerState
     LOOKING_AT_APPLIANCE,
     LOOKING_AT_SWITCH,
     ERROR
+}
 
+public enum ThrowCharge
+{ 
+    WEAK,
+    MEDIUM,
+    STRONG
 }
 
 
@@ -60,9 +66,6 @@ public class MouseLook : MonoBehaviour
     public float heldItemPosX = 0;
     public float heldItemPosY = 0;
     public float heldItemPosZ = 0;
-
-    [Header("Throwing")]
-    public float tempThrowForce = 0;
 
     [Header("Smooth Camera Centering Deadzone")]
     [Tooltip("How far the hand has to be for the camera to centre towards the object.")]
@@ -152,6 +155,28 @@ public class MouseLook : MonoBehaviour
     // ----------------------------------------------------------------------------------------------- //
 
 
+    // ------------------------------------ Throwing Mechanic Stuff ------------------------------------ //
+    [Header("Throw Mechanics")]
+    [Tooltip("Don't change this timer.")]
+    public float throwingHeldDownTimer = 0;
+    [Tooltip("Charge rate per second. If set to 1, charge rate will increase 1 every second")]
+    public float throwingChargeRate = 1;
+    public float throwCharge = 0;
+    public float weakThrowStrength = 0;
+    public float mediumThrowStrength = 5;
+    public float strongThrowStrength = 10;
+
+    public float weakThrowThreshold = 0;
+    public float mediumThrowThreshold = 2;
+    public float strongthrowThreshold = 4;
+
+    public ThrowCharge currentThrowCharge = ThrowCharge.WEAK;
+
+
+    [Header("Old Throwing Mechanics")]
+    public float tempThrowForce = 0;
+    // ------------------------------------------------------------------------------------------------- //
+
 
     // Start is called before the first frame update
     void Start()
@@ -198,6 +223,12 @@ public class MouseLook : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && gameManager.currentGameState == GameState.GAMEOVER)
         {
             gameManager.RestartGame();
+        }
+
+        // Charging up throw. //
+        if (isHoldingItem)
+        {
+            ThrowTimer();
         }
     }
 
@@ -1027,12 +1058,28 @@ public class MouseLook : MonoBehaviour
         
         Vector3 throwDirection;
         
+        // I think this if statement is unnecessary?? //
         if (Physics.Raycast(gameObject.transform.position, gameObject.GetComponent<Camera>().transform.forward * 100, 100, ~(1 << 2)))
         { 
             throwDirection = (target.point - heldItem.position).normalized;
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
-            heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * tempThrowForce, ForceMode.Impulse);
+
+
+            // Adding force based on charged throw //
+            if (currentThrowCharge == ThrowCharge.WEAK)
+            { 
+                heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * weakThrowStrength, ForceMode.Impulse);
+            }
+            else if (currentThrowCharge == ThrowCharge.MEDIUM)
+            {
+                heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * mediumThrowStrength, ForceMode.Impulse);
+
+            }
+            else if (currentThrowCharge == ThrowCharge.STRONG)
+            {
+                heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * strongThrowStrength, ForceMode.Impulse);
+            }
 
 
             // This is a fix for any items that have a non convex mesh collider. We have to swap its collider for a box collider when its being thrown around because 
@@ -1048,11 +1095,40 @@ public class MouseLook : MonoBehaviour
             heldItem.parent = null;
             heldItem = null;
 
+
+            // Resetting throw charge values. //
+            throwingHeldDownTimer = 0;
+            throwCharge = 0;
+            currentThrowCharge = ThrowCharge.WEAK;
+
             Debug.Log("throw activated");
         }    
     }
+    private void ThrowTimer()
+    {
+        throwingHeldDownTimer += Time.deltaTime;
+        if (throwingHeldDownTimer >= throwingChargeRate && throwCharge <= strongthrowThreshold)
+        {
+            throwCharge += 1;
+            throwingHeldDownTimer = 0;
+        }
 
-    
+
+        if (throwCharge >= strongthrowThreshold)
+        {
+            currentThrowCharge = ThrowCharge.STRONG;
+        }
+        else if (throwCharge >= mediumThrowThreshold)
+        {
+            currentThrowCharge = ThrowCharge.MEDIUM;
+        }
+        else if (throwCharge >= weakThrowThreshold)
+        {
+            currentThrowCharge = ThrowCharge.WEAK;
+        }
+    }
+
+
     //void DisplayPickupUI()
     //{
     //    if (selectedItem)
@@ -1136,7 +1212,7 @@ public class MouseLook : MonoBehaviour
 
     // Appliance interactions //
 
-     
+
     SwitchType GetInteractableSwitch(RaycastHit target)
     {
         if (target.transform.tag == "BLENDER_BUTTON_1")
@@ -1229,5 +1305,9 @@ public class MouseLook : MonoBehaviour
     {
         Gizmos.DrawWireSphere(collisionSphere.position, handCollisionRadius);
     }
+
+    
+
+    
 
 }

@@ -118,6 +118,12 @@ public class MenuManager : MonoBehaviour
     public static TextMeshProUGUI submittedOrderText;
 
 
+    [Header("Throwing Mechanics")]
+    public TextMeshProUGUI throwCharge;
+    public TextMeshProUGUI throwTimer;
+    public TextMeshProUGUI throwState;
+
+
     // Seperators for ease of access //
     Transform soupOrganiser;
     Transform orderOrganiser;
@@ -211,6 +217,8 @@ public class MenuManager : MonoBehaviour
 
         DisplayBlenderButtonState();
         DisplayBlenderProgress();
+
+        DisplayThrowMechanics();
 
         //DisplayIngredientTimer();
 
@@ -558,6 +566,13 @@ public class MenuManager : MonoBehaviour
         blendingComplete.text = gameManager.cookingManager.theBlender.isFullBlended.ToString();
         blendingHalfTimer.text = gameManager.cookingManager.theBlender.continueButtonTimer.ToString();
         blendingCompleteTimer.text = gameManager.cookingManager.theBlender.completeButtonTimer.ToString();
+    }
+
+    public void DisplayThrowMechanics()
+    {
+        throwCharge.text = "ThrowCharge: " + gameManager.playerController.throwCharge.ToString();
+        throwTimer.text = gameManager.playerController.throwingHeldDownTimer.ToString() + "s";
+        throwState.text = gameManager.playerController.currentThrowCharge.ToString();
     }
 
 
