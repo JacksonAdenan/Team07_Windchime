@@ -149,6 +149,7 @@ public class MouseLook : MonoBehaviour
 
     // ------------------------------------ Appliance References ------------------------------------ //
     SoupCatcher theCatcher;
+    Canon theCanon;
     // ----------------------------------------------------------------------------------------------- //
 
 
@@ -161,6 +162,7 @@ public class MouseLook : MonoBehaviour
 
         // ------------------------------------ Appliance Reference Initialisation ------------------------------------ //
         theCatcher = theCookingManager.theCatcher;
+        theCanon = theCookingManager.theCanon;
         // ------------------------------------------------------------------------------------------------------------ //
     }
 
@@ -207,7 +209,7 @@ public class MouseLook : MonoBehaviour
             case PlayerState.LOOKING_AT_ITEM:
                 if (Input.GetMouseButton(0))
                 {
-                    if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover" && selectedItem.tag != "CatcherCapsule")
+                    if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover" && selectedItem.tag != "CatcherCapsule" && selectedItem.tag != "CanonCapsule")
                     {
                         Debug.Log("YOU SHOULD NOT SEE THIS");
                         // If the thing they want to pick up is a water. //
@@ -249,6 +251,18 @@ public class MouseLook : MonoBehaviour
                             theCatcher.RemoveCapsule();
                         }
                     }
+                    else if (selectedItem.tag == "CanonCapsule")
+                    {
+                        if (gameManager.cookingManager.theCatcher.hasCapsule)
+                        {
+                            Debug.Log("REMOVED CANON CAPSULE");
+                            if (theCanon.isLoaded)
+                            {
+                                Detach(theCanon.canonCapsule);
+                                theCanon.UnloadCanon();
+                            }
+                        }
+                    }
 
                     else if (selectedItem.tag == "Soup")
                     {
@@ -268,10 +282,6 @@ public class MouseLook : MonoBehaviour
                         }
                         Debug.Log("INTIAL DOT = " + Vector3.Dot(-test, gameObject.transform.forward));
                     }
-                }
-                else if (Input.GetKeyDown(KeyCode.C))
-                {
-                    Debug.Log("Cutting ingredient.");
                 }
                 break;
             case PlayerState.HOLDING_ITEM:
@@ -366,17 +376,17 @@ public class MouseLook : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (isHoldingItem && heldItem.tag == "Capsule" && !theCookingManager.theCanon.isLoaded)
-                        {
-                            theCookingManager.theCanon.LoadCanon(heldItem.GetComponent<SoupData>().theSoup);
-                            RemoveItem();
-                        }
-                        else if (theCookingManager.theCanon.isLoaded)
-                        {
-                            Detach(theCookingManager.theCanon.canonCapsule);
-                            theCookingManager.theCanon.UnloadCanon();
-                            //Debug.Log("Tried to unload the canon but that feature doesn't exist yet.");
-                        }
+                        //if (isHoldingItem && heldItem.tag == "Capsule" && !theCookingManager.theCanon.isLoaded)
+                        //{
+                        //    theCookingManager.theCanon.LoadCanon(heldItem.GetComponent<SoupData>().theSoup);
+                        //    RemoveItem();
+                        //}
+                        //else if (theCookingManager.theCanon.isLoaded)
+                        //{
+                        //    Detach(theCookingManager.theCanon.canonCapsule);
+                        //    theCookingManager.theCanon.UnloadCanon();
+                        //    //Debug.Log("Tried to unload the canon but that feature doesn't exist yet.");
+                        //}
                     }
                 }
                 break;
@@ -427,7 +437,7 @@ public class MouseLook : MonoBehaviour
         {
             case CameraMode.HAND_CONTROL:
                 CameraLook();  
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButtonUp(1))
                 {
                     currentCameraMode = CameraMode.FPS_CONTROL;
 
@@ -437,7 +447,7 @@ public class MouseLook : MonoBehaviour
                 break;
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButton(1))
                 {
                     currentCameraMode = CameraMode.HAND_CONTROL;
                 }
@@ -713,7 +723,7 @@ public class MouseLook : MonoBehaviour
         //
         //return null;
 
-        if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+        if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
         {
             if (target.transform.childCount > 0)
             {

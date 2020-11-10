@@ -16,6 +16,7 @@ TagManager:
   - BlenderCover
   - InteractableBlenderCover
   - NonInteractableWater
+  - CanonCapsule
   layers:
   - Default
   - TransparentFX
