@@ -5233,6 +5233,18 @@ PrefabInstance:
       propertyPath: theCatcher.currentCatcherState
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theCanon.canon
+      value: 
+      objectReference: {fileID: 540767740}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theCanon.adjustableCanonCapsule
+      value: 
+      objectReference: {fileID: 28416974}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theCanon.canonCapsule
+      value: 
+      objectReference: {fileID: 28416974}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name

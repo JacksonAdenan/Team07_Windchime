@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
 {
     // Singelton hehe. //
     GameManager gameManager;
+    CookingManager cookingManager;
 
     // ----------------------- Appliance References ----------------------- //
     SoupCatcher theCatcher;
@@ -127,7 +128,7 @@ public class MenuManager : MonoBehaviour
     {
         // Singleton hehe. //
         gameManager = GameManager.GetInstance();
-
+        cookingManager = gameManager.cookingManager;
 
         // Setting my timers to 0 safely //
         orderSubmittedTextTimer = 0;
@@ -371,12 +372,12 @@ public class MenuManager : MonoBehaviour
 
     void DisplayCanonMonitor()
     {
-        if (CookingManager.isLoaded)
+        if (cookingManager.theCanon.isLoaded)
         {
             unLoadedText.gameObject.SetActive(false);
             soupStatsText.gameObject.SetActive(true);
-            Soup soupData = CookingManager.canonCapsule.GetComponent<SoupData>().theSoup;
-            if (CookingManager.canonCapsule.GetComponent<SoupData>().theSoup == null)
+            Soup soupData = cookingManager.theCanon.canonCapsule.GetComponent<SoupData>().theSoup;
+            if (cookingManager.theCanon.canonCapsule.GetComponent<SoupData>().theSoup == null)
             {
                 soupStatsText.text = "NULL soup.";
             }
@@ -386,7 +387,7 @@ public class MenuManager : MonoBehaviour
             }
 
         }
-        else if (!CookingManager.isLoaded)
+        else if (!cookingManager.theCanon.isLoaded)
         {
             unLoadedText.gameObject.SetActive(true);
             soupStatsText.gameObject.SetActive(false);

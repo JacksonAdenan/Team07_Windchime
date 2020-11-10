@@ -25,6 +25,7 @@ public class SwitchData : MonoBehaviour
 
     Ingredient ingredientInfo;
     GameManager gameManager;
+    CookingManager cookingManager;
 
     // Cool down timers. //
     public float switchSpamCooldown = 0;
@@ -36,6 +37,7 @@ public class SwitchData : MonoBehaviour
     {
         ingredientInfo = GetComponent<Ingredient>();
         gameManager = GameManager.GetInstance();
+        cookingManager = gameManager.cookingManager;
 
         switchCooldownTimer = 0;
         onCooldown = false;
@@ -77,7 +79,7 @@ public class SwitchData : MonoBehaviour
                     break;
                 case SwitchType.CANON_BUTTON:
                     onCooldown = true;
-                    CookingManager.ShootCapsule();
+                    cookingManager.theCanon.ShootCapsule();
                     break;
                 case SwitchType.BLENDER_BUTTON:
                     onCooldown = true;

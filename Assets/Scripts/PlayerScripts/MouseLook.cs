@@ -366,15 +366,15 @@ public class MouseLook : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (isHoldingItem && heldItem.tag == "Capsule" && !CookingManager.isLoaded)
+                        if (isHoldingItem && heldItem.tag == "Capsule" && !theCookingManager.theCanon.isLoaded)
                         {
-                            CookingManager.LoadCanon(heldItem.GetComponent<SoupData>().theSoup);
+                            theCookingManager.theCanon.LoadCanon(heldItem.GetComponent<SoupData>().theSoup);
                             RemoveItem();
                         }
-                        else if (CookingManager.isLoaded)
+                        else if (theCookingManager.theCanon.isLoaded)
                         {
-                            Detach(CookingManager.canonCapsule);
-                            CookingManager.UnloadCanon();
+                            Detach(theCookingManager.theCanon.canonCapsule);
+                            theCookingManager.theCanon.UnloadCanon();
                             //Debug.Log("Tried to unload the canon but that feature doesn't exist yet.");
                         }
                     }
