@@ -283,7 +283,7 @@ public class MouseLook : MonoBehaviour
                     }
                     else if (selectedItem.tag == "CanonCapsule")
                     {
-                        if (gameManager.cookingManager.theCatcher.hasCapsule)
+                        if (gameManager.cookingManager.theCanon.isLoaded)
                         {
                             Debug.Log("REMOVED CANON CAPSULE");
                             if (theCanon.isLoaded)
@@ -933,14 +933,17 @@ public class MouseLook : MonoBehaviour
             // Just set current portions and max portions to 5. Doesn't really matter just yet. //
             soupData.currentPortions = 5;
             soupData.maxPortions = 5;
+        }
 
+        // Can only set the type of soup if the catcher contains soup. //
+        // ======================================= REMEMBER TO CHANGE THIS TO STANDALONE FUNCTION ======================================= //
+        // Right now this can get called for detaching the catcher AND canon. //
 
-            // Can only set the type of soup if the catcher contains soup. //
-            if (theCatcher.currentPortions.Count > 0)
-            {
-                Debug.Log("SET CAPSULES SOUP DATA");
-                capsule.gameObject.GetComponent<SoupData>().theSoup = theCatcher.currentPortions[0];
-            }
+        //if(itemToPickUp.tag == "CatcherCapsule")
+        if (theCatcher.currentPortions.Count > 0)
+        {
+            Debug.Log("SET CAPSULES SOUP DATA");
+            capsule.gameObject.GetComponent<SoupData>().theSoup = theCatcher.currentPortions[0];
         }
         
         // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 

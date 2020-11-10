@@ -84,6 +84,8 @@ public class MenuManager : MonoBehaviour
 
     public TextMeshProUGUI currentSlicerState;
 
+    public TextMeshProUGUI currentCanonState;
+
     [Header("Blender Progress Stuff")]
     public TextMeshProUGUI blenderProgress;
     public TextMeshProUGUI blendingHalfDone;
@@ -219,6 +221,9 @@ public class MenuManager : MonoBehaviour
         DisplayBlenderProgress();
 
         DisplayThrowMechanics();
+
+        DisplayCanonState();
+
 
         //DisplayIngredientTimer();
 
@@ -573,6 +578,20 @@ public class MenuManager : MonoBehaviour
         throwCharge.text = "ThrowCharge: " + gameManager.playerController.throwCharge.ToString();
         throwTimer.text = gameManager.playerController.throwingHeldDownTimer.ToString() + "s";
         throwState.text = gameManager.playerController.currentThrowCharge.ToString();
+    }
+
+    public void DisplayCanonState()
+    {
+        if (cookingManager.theCanon.isLoaded)
+        {
+            currentCanonState.text = "CanonState: LOADED";
+        }
+        else
+        {
+            currentCanonState.text = "CanonState: UNLOADED";
+        }
+
+        //currentCanonState.text = "CanonState: " + cookingManager.theCanon.currentCanonState.ToString();
     }
 
 
