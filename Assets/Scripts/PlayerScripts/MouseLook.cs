@@ -177,7 +177,7 @@ public class MouseLook : MonoBehaviour
 
         // Doing sphere check //
         collisions = Physics.OverlapSphere(collisionSphere.position, handCollisionRadius);
-
+        
         CameraState(); // This is the old camera state swapping thing.
 
         NewSelectObj();
@@ -711,29 +711,34 @@ public class MouseLook : MonoBehaviour
 
     Transform NewIsLookingAtItem()
     {
-        //for (int i = 0; i < collisions.Length; i++)
-        //{
-        //    if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule" || collisions[i].gameObject.tag == "InteractableBlenderCover")
-        //    {
-        //       
-        //        return collisions[i].transform;
-        //
-        //    }
-        //}
-        //
-        //return null;
-
-        if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+        if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
-            if (target.transform.childCount > 0)
+            for (int i = 0; i < collisions.Length; i++)
             {
-                return target.transform.GetChild(0);
+                if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule" || collisions[i].gameObject.tag == "InteractableBlenderCover" || collisions[i].gameObject.tag == "BlenderCover" || collisions[i].gameObject.tag == "CatcherCapsule" || collisions[i].gameObject.tag == "CanonCapsule")
+                {
+                    return collisions[i].transform;
+                }
             }
-            else
+            return null;
+        }
+
+        else if (currentCameraMode == CameraMode.FPS_CONTROL)
+        { 
+            if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
             {
-                return target.transform;
+                if (target.transform.childCount > 0)
+                {
+                    return target.transform.GetChild(0);
+                }
+                else
+                {
+                    return target.transform;
+                }
+
             }
 
+            return null;
         }
 
         return null;
@@ -742,15 +747,37 @@ public class MouseLook : MonoBehaviour
    
     Transform IsLookingAtSwitch()
     {
-        if (target.transform.tag == "Switch" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+
+        if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
-            return target.transform;
+            for (int i = 0; i < collisions.Length; i++)
+            {
+                if (collisions[i].gameObject.tag == "Switch")
+                {
+                    return collisions[i].transform;
+                }
+            }
+            return null;
         }
 
-        return null;
+        else
+        { 
+            if (target.transform.tag == "Switch" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+            {
+                return target.transform;
+            }
+
+            return null;
+        }
     }
     Transform IsLookingAtAppliance()
     {
+
+        // ------------- NOTE ------------- //
+        // Really we should also be checking for the "handmode" collisions like we are doing for items and switches but because we don't really need
+        // to tell if the player is looking at an appliance I'm going to be lazy and leave that out. //
+
+
         if (target.transform.tag == "Appliance" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
         {
             return target.transform;
@@ -1196,6 +1223,12 @@ public class MouseLook : MonoBehaviour
             Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~(1 << 2));
             Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.white);
         }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(collisionSphere.position, handCollisionRadius);
     }
 
 }
