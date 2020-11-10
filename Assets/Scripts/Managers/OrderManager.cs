@@ -6,14 +6,20 @@ using TMPro;
 public enum OrderScreenState
 { 
     NEW_ORDER,
-    CURRENT_ORDER
+    CURRENT_ORDER,
+    CURRENT_ORDER2
 }
 public class OrderManager : MonoBehaviour
 {
-    public static List<Order> requestedOrders;
-    public static List<Order> acceptedOrders;
+    public List<Order> requestedOrders;
+    public List<Order> acceptedOrders;
 
     public static OrderScreenState currentScreenState;
+
+    [Header("Order Mechanics")]
+    public float nextOrderTimer = 0;
+    public float newOrderRate = 15;
+    private bool isOrderAvailable = false;
 
     void Start()
     {
@@ -26,26 +32,42 @@ public class OrderManager : MonoBehaviour
     void Update()
     {
         UpdateOrders();
+
+        if (isOrderAvailable == false)
+        {
+            OrderTimer();
+        }
     }
 
+    private void OrderTimer()
+    {
+        nextOrderTimer += Time.deltaTime;
+        if (nextOrderTimer >= newOrderRate)
+        {
+            nextOrderTimer = 0;
+            isOrderAvailable = true;
+        }
+    }
     void UpdateOrders()
     {
-        if (acceptedOrders.Count == 0 && requestedOrders.Count == 0)
+        if (acceptedOrders.Count < 2 && requestedOrders.Count == 0 && isOrderAvailable)
         {
             SendOrder(OrderManager.CreateOrder());
         }
     }
-    public static void AcceptOrder(Order orderToAccept)
+    public void AcceptOrder(Order orderToAccept)
     {
         acceptedOrders.Add(orderToAccept);
         requestedOrders.Remove(requestedOrders[0]);
         currentScreenState = OrderScreenState.CURRENT_ORDER;
+
+        isOrderAvailable = false;
     }
-    public static void RejectOrder()
+    public void RejectOrder()
     {
         requestedOrders.Remove(requestedOrders[0]);
     }
-    public static void SendOrder(Order orderToAdd)
+    public void SendOrder(Order orderToAdd)
     {
         requestedOrders.Clear();
         requestedOrders.Add(orderToAdd);
@@ -136,7 +158,7 @@ public class OrderManager : MonoBehaviour
         return new Order(desiredColour, desiredSpicyness, desiredChunkyness, noMeat, noVeg);
     }
 
-    static int CompareOrder(Soup soupToSubmit)
+    private int CompareOrder(Soup soupToSubmit)
     {
         int accumulatedScore = 0;
 
@@ -174,7 +196,7 @@ public class OrderManager : MonoBehaviour
         return accumulatedScore;
     }
 
-    public static void CompleteOrder(Soup soupToSubmit)
+    public void CompleteOrder(Soup soupToSubmit)
     {
         ScoreManager.currentScore += CompareOrder(soupToSubmit);
         acceptedOrders.Remove(acceptedOrders[0]);

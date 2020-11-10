@@ -4,6 +4,12 @@ using UnityEngine;
 using TMPro;
 
 
+public enum MonitorType
+{ 
+    ITEM_FABRICATOR_MONITOR,
+    NEW_ORDER_MONITOR,
+    CURRENT_ORDER_MONITOR
+}
 public enum ScreenState
 { 
     MAIN_MENU,
@@ -12,11 +18,14 @@ public enum ScreenState
 public class MonitorScreen : MonoBehaviour
 {
 
+    GameManager gameManager;
+    OrderManager orderManager;
+
     public Transform mainScreen;
     public Transform secondaryScreen;
 
     public ScreenState currentState = ScreenState.MAIN_MENU;
-
+    public MonitorType thisMonitor;
 
     // Because our item fabricator needs to display ingredient stats, we need a reference to the ingredient. //
     public Ingredient currentIngredientDisplay;
@@ -32,7 +41,8 @@ public class MonitorScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        gameManager = GameManager.GetInstance();
+        orderManager = gameManager.orderManager;
     }
 
     // Update is called once per frame
@@ -47,7 +57,21 @@ public class MonitorScreen : MonoBehaviour
         switch (currentState)
         {
             case ScreenState.MAIN_MENU:
-                DisplayMainMenu();
+                if (thisMonitor == MonitorType.NEW_ORDER_MONITOR)
+                {
+                    if (orderManager.requestedOrders.Count > 0)
+                    {
+                        DisplayMainMenu(orderManager.requestedOrders[0]);
+                    }
+                    else
+                    {
+                        mainScreen.gameObject.SetActive(false);
+                    }
+                }
+                else
+                { 
+                    DisplayMainMenu();
+                }
                 break;
             case ScreenState.SECONDARY:
                 if (currentIngredientDisplay)
@@ -69,6 +93,32 @@ public class MonitorScreen : MonoBehaviour
 
         // If we had stored a ingredient we are going to null it now and all the text. //
         currentIngredientDisplay = null;
+    }
+
+    public void DisplayMainMenu(Order orderToDisplay)
+    {
+        mainScreen.gameObject.SetActive(true);
+        //secondaryScreen.gameObject.SetActive(false);
+
+        spicyText.text = "Make It Spicy " + "[" + orderToDisplay.spicyness.ToString() + "]";
+        chunkyText.text = "Make It Chunky " + "[" + orderToDisplay.chunkiness.ToString() + "]";
+        
+        // Displaying meat veg preference //
+        if (orderToDisplay.noMeat == false && orderToDisplay.noVeg == false)
+        {
+            meatText.text = "Meat and veg allowed";
+        }
+        else if (orderToDisplay.noMeat == true)
+        {
+            meatText.text = "No meat";
+        }
+        else if (orderToDisplay.noVeg == true)
+        {
+            meatText.text = "No veg";
+        }
+        // ----------------------------- //
+
+        colourText.text = "Colour " + "[" + "-" + "]";
     }
     public void DisplaySecondaryMenu()
     {

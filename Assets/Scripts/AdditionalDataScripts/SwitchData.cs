@@ -71,11 +71,11 @@ public class SwitchData : MonoBehaviour
                     break;
                 case SwitchType.ORDER_ACCEPT:
                     onCooldown = true;
-                    OrderManager.AcceptOrder(OrderManager.requestedOrders[0]);
+                    gameManager.orderManager.AcceptOrder(gameManager.orderManager.requestedOrders[0]);
                     break;
                 case SwitchType.ORDER_REJECT:
                     onCooldown = true;
-                    OrderManager.RejectOrder();
+                    gameManager.orderManager.RejectOrder();
                     break;
                 case SwitchType.CANON_BUTTON:
                     onCooldown = true;

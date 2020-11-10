@@ -13,6 +13,10 @@ public enum CanonState
 [Serializable]
 public class Canon
 {
+    GameManager gameManager;
+    OrderManager orderManager;
+
+
     [Tooltip("This canon transform is for the animation.")]
     // Transform for animation. //
     public Transform canon;
@@ -27,6 +31,9 @@ public class Canon
     // Start is called before the first frame update
     public void Start()
     {
+        gameManager = GameManager.GetInstance();
+        orderManager = gameManager.orderManager;
+
         // Giving the capsules soup data components because i'm gonna use them to store information. //
         if (canonCapsule.GetComponent<SoupData>() == null)
         {
@@ -90,9 +97,9 @@ public class Canon
 
     public void ShootCapsule()
     {
-        if (OrderManager.acceptedOrders.Count > 0)
+        if (orderManager.acceptedOrders.Count > 0)
         {
-            OrderManager.CompleteOrder(canonCapsule.GetComponent<SoupData>().theSoup);
+            orderManager.CompleteOrder(canonCapsule.GetComponent<SoupData>().theSoup);
             canonCapsule.GetComponent<SoupData>().theSoup = null;
             isLoaded = false;
             Debug.Log("Canon submitted order and removed soup data.");

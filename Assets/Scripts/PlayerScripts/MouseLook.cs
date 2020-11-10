@@ -915,14 +915,6 @@ public class MouseLook : MonoBehaviour
     {
         Transform capsule = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
         FindRenderer(capsule).material = defaultMat;
-        capsule.tag = "Capsule";
-
-        // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
-        for (int i = 0; i < capsule.childCount; i++)
-        {
-            capsule.GetChild(0).tag = "Capsule";
-            Debug.Log("Set capsule child tag to capsule.");
-        }
 
         // Giving the capsule appropriate soup data. //
         if (capsule.GetComponent<SoupData>() == null)
@@ -937,14 +929,27 @@ public class MouseLook : MonoBehaviour
 
         // Can only set the type of soup if the catcher contains soup. //
         // ======================================= REMEMBER TO CHANGE THIS TO STANDALONE FUNCTION ======================================= //
-        // Right now this can get called for detaching the catcher AND canon. //
-
-        //if(itemToPickUp.tag == "CatcherCapsule")
-        if (theCatcher.currentPortions.Count > 0)
-        {
-            Debug.Log("SET CAPSULES SOUP DATA");
-            capsule.gameObject.GetComponent<SoupData>().theSoup = theCatcher.currentPortions[0];
+        if (itemToPickUp.tag == "CatcherCapsule")
+        { 
+            if (theCatcher.currentPortions.Count > 0)
+            {
+                Debug.Log("SET CAPSULES SOUP DATA");
+                capsule.gameObject.GetComponent<SoupData>().theSoup = theCatcher.currentPortions[0];
+            }
         }
+
+        capsule.tag = "Capsule";
+
+        // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
+        for (int i = 0; i < capsule.childCount; i++)
+        {
+            capsule.GetChild(0).tag = "Capsule";
+            Debug.Log("Set capsule child tag to capsule.");
+        }
+
+        
+
+        
         
         // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
         for (int i = 0; i < capsule.childCount; i++)

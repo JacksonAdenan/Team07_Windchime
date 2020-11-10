@@ -16,6 +16,7 @@ public class MenuManager : MonoBehaviour
     // Singelton hehe. //
     GameManager gameManager;
     CookingManager cookingManager;
+    OrderManager orderManager;
 
     // ----------------------- Appliance References ----------------------- //
     SoupCatcher theCatcher;
@@ -137,6 +138,7 @@ public class MenuManager : MonoBehaviour
         // Singleton hehe. //
         gameManager = GameManager.GetInstance();
         cookingManager = gameManager.cookingManager;
+        orderManager = gameManager.orderManager;
 
         // Setting my timers to 0 safely //
         orderSubmittedTextTimer = 0;
@@ -230,7 +232,7 @@ public class MenuManager : MonoBehaviour
         // Displaying order/canon monitor ui stuff //
         DisplayCanonMonitor();
 
-        DisplayOrderScreens();
+        //DisplayOrderScreens();
 
         // Displaying players score. //
         DisplayPlayerPoints();
@@ -294,9 +296,10 @@ public class MenuManager : MonoBehaviour
     }
 
 
+    // This is the super old way of creating orders. //
     public void CreateOrder()
     {
-        OrderManager.SendOrder(OrderManager.ManuallyCreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
+        orderManager.SendOrder(OrderManager.ManuallyCreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
         orderCreatedText.gameObject.SetActive(true);
         orderCreatedTextTimer = 0;
 
@@ -307,23 +310,23 @@ public class MenuManager : MonoBehaviour
     void DisplayCurrentOrder(TextMeshProUGUI colour, TextMeshProUGUI meatVeg, TextMeshProUGUI spicy, TextMeshProUGUI chunky)
     {
         //soup.text = OrderManager.currentOrders[0].mainSoup.soupName;
-        colour.text = OrderManager.requestedOrders[0].colourPreference.name;
+        colour.text = orderManager.requestedOrders[0].colourPreference.name;
 
-        if (!OrderManager.requestedOrders[0].noMeat && !OrderManager.requestedOrders[0].noVeg)
+        if (!orderManager.requestedOrders[0].noMeat && !orderManager.requestedOrders[0].noVeg)
         {
             meatVeg.text = "Meat and Veg allowed";
         }
-        else if (OrderManager.requestedOrders[0].noMeat && !OrderManager.requestedOrders[0].noVeg)
+        else if (orderManager.requestedOrders[0].noMeat && !orderManager.requestedOrders[0].noVeg)
         {
             meatVeg.text = "Meat not allowed";
         }
-        else if (OrderManager.requestedOrders[0].noVeg && !OrderManager.requestedOrders[0].noMeat)
+        else if (orderManager.requestedOrders[0].noVeg && !orderManager.requestedOrders[0].noMeat)
         {
             meatVeg.text = "Veg not allowed";
         }
 
-        spicy.text = OrderManager.requestedOrders[0].spicyness.ToString();
-        chunky.text = OrderManager.requestedOrders[0].chunkiness.ToString();
+        spicy.text = orderManager.requestedOrders[0].spicyness.ToString();
+        chunky.text = orderManager.requestedOrders[0].chunkiness.ToString();
 
     }
 
@@ -459,21 +462,21 @@ public class MenuManager : MonoBehaviour
     void UpdateNewOrder()
     {
         // This if statement is to make sure your not trying to access requestedOrders if the list is empty. //
-        if (OrderManager.requestedOrders.Count > 0)
+        if (orderManager.requestedOrders.Count > 0)
         { 
-            wantedChunky.text = "Chunkyness: " + OrderManager.requestedOrders[0].chunkiness.ToString();
-            wantedSpicy.text = "Spicyness: " + OrderManager.requestedOrders[0].spicyness.ToString();
+            wantedChunky.text = "Chunkyness: " + orderManager.requestedOrders[0].chunkiness.ToString();
+            wantedSpicy.text = "Spicyness: " + orderManager.requestedOrders[0].spicyness.ToString();
             wantedColour.text = "No colours yet.";
 
-            if (OrderManager.requestedOrders[0].noMeat == false && OrderManager.requestedOrders[0].noVeg == false)
+            if (orderManager.requestedOrders[0].noMeat == false && orderManager.requestedOrders[0].noVeg == false)
             {
                 wantedMeatVegPref.text = "Meat and veg allowed";
             }
-            else if (OrderManager.requestedOrders[0].noMeat == true)
+            else if (orderManager.requestedOrders[0].noMeat == true)
             {
                 wantedMeatVegPref.text = "No meat";
             }
-            else if (OrderManager.requestedOrders[0].noVeg == true)
+            else if (orderManager.requestedOrders[0].noVeg == true)
             {
                 wantedMeatVegPref.text = "No veg";
             }
@@ -482,9 +485,9 @@ public class MenuManager : MonoBehaviour
 
     void UpdateCurrentOrder()
     {
-        if (OrderManager.acceptedOrders.Count > 0)
+        if (orderManager.acceptedOrders.Count > 0)
         {
-            Order theOrder = OrderManager.acceptedOrders[0];
+            Order theOrder = orderManager.acceptedOrders[0];
 
             requestedSpicy.text = "Spicy: " + theOrder.spicyness;
             requestedChunky.text = "Chunky: " + theOrder.chunkiness;
