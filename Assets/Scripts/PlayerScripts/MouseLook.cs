@@ -48,6 +48,7 @@ public class MouseLook : MonoBehaviour
     public float rotationSensitivity = 100f;
     public float handControlSensitivity = 100f;
     public float roationLerpSpeed;
+    public float handReturnSpeed = 0.05f;
 
     [Header("Hand Deadzones")]
     public float handZDistance = 0.7f;
@@ -177,6 +178,8 @@ public class MouseLook : MonoBehaviour
     public float tempThrowForce = 0;
     // ------------------------------------------------------------------------------------------------- //
 
+    private bool isHandReturning = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -188,6 +191,10 @@ public class MouseLook : MonoBehaviour
         theCatcher = theCookingManager.theCatcher;
         theCanon = theCookingManager.theCanon;
         // ------------------------------------------------------------------------------------------------------------ //
+
+
+        // Setting the hand to the correct position. //
+        hand.localPosition = handFPSPos;
     }
 
     // Update is called once per frame
@@ -466,17 +473,19 @@ public class MouseLook : MonoBehaviour
         switch (currentCameraMode)
         {
             case CameraMode.HAND_CONTROL:
-                CameraLook();  
+                CameraLook();
+                isHandReturning = true;
                 if (Input.GetMouseButtonUp(1))
                 {
                     currentCameraMode = CameraMode.FPS_CONTROL;
 
                     // Setting the hand to the correct position. //
-                    hand.localPosition = handFPSPos;
+                    //Vector3.Lerp(hand.localPosition, handFPSPos, 0.5f);
                 }
                 break;
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
+                CheckHandReturn();
                 if (Input.GetMouseButton(1))
                 {
                     currentCameraMode = CameraMode.HAND_CONTROL;
@@ -597,12 +606,12 @@ public class MouseLook : MonoBehaviour
         handAcceleration = mouseX;
         handAcceleration = Mathf.Clamp(handAcceleration, -0.05f, 0.05f);
         handVelocity += (handAcceleration) * Time.deltaTime;
-        
-        
-        
-   
 
-        if (handAcceleration != 0)
+
+
+
+
+        if (handAcceleration != 0 && isHandReturning == false)
         {
             float newHandX = hand.localPosition.x + handVelocity;
             newHandX = Mathf.Clamp(newHandX, handFPSPos.x - 0.3f, handFPSPos.x + 0.3f);
@@ -610,17 +619,22 @@ public class MouseLook : MonoBehaviour
         }
         else
         {
-            hand.localPosition = new Vector3(Mathf.Lerp(hand.localPosition.x, handFPSPos.x, 0.05f), hand.localPosition.y, hand.localPosition.z);
+            //hand.localPosition = new Vector3(Mathf.Lerp(hand.localPosition.x, handFPSPos.x, 0.05f), hand.localPosition.y, hand.localPosition.z);
+            hand.localPosition = Vector3.Lerp(hand.localPosition, handFPSPos, handReturnSpeed);
             accelerationTimer = 0;
             handVelocity = 0;
-   
         }
 
-    }
 
-    void ReduceAcceleration(ref float acceleration)
+
+    }
+    void CheckHandReturn()
     {
-        
+        if(Vector2.Distance(hand.localPosition, handFPSPos) < 0.05f)
+        {
+            isHandReturning = false;
+            Debug.Log("FALSE");
+        }
     }
 
     void CameraPause()

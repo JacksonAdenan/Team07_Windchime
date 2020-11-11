@@ -98,6 +98,8 @@ public class OrderManager : MonoBehaviour
     public void RejectOrder()
     {
         requestedOrders.Remove(requestedOrders[0]);
+
+        isOrderAvailable = false;
     }
     public void SendOrder(Order orderToAdd)
     {
