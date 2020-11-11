@@ -259,6 +259,10 @@ public class CookingOrb
         if (MouseLook.selectedItem != null && MouseLook.selectedItem == waterOrb)
         {
             waterOrb.GetComponent<Renderer>().material = gameManager.playerController.defaultMat;
+
+            // Have to have this otherwise default mat doesn't reset and the next item you look out will turn into water. //
+            gameManager.playerController.defaultMat = null;
+            MouseLook.selectedItem = null;
         }
         // -------------------------------------------------------------------------------- //
 

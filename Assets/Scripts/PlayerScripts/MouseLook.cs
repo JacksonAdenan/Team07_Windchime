@@ -768,18 +768,21 @@ public class MouseLook : MonoBehaviour
         }
 
         else if (currentCameraMode == CameraMode.FPS_CONTROL)
-        { 
-            if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
-            {
-                if (target.transform.childCount > 0)
+        {
+            if (target.transform != null)
+            { 
+                if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
                 {
-                    return target.transform.GetChild(0);
-                }
-                else
-                {
-                    return target.transform;
-                }
+                    if (target.transform.childCount > 0)
+                    {
+                        return target.transform.GetChild(0);
+                    }
+                    else
+                    {
+                        return target.transform;
+                    }
 
+                }
             }
 
             return null;
@@ -805,10 +808,13 @@ public class MouseLook : MonoBehaviour
         }
 
         else
-        { 
-            if (target.transform.tag == "Switch" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
-            {
-                return target.transform;
+        {
+            if (target.transform != null)
+            { 
+                if (target.transform.tag == "Switch" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+                {
+                    return target.transform;
+                }
             }
 
             return null;
@@ -821,10 +827,12 @@ public class MouseLook : MonoBehaviour
         // Really we should also be checking for the "handmode" collisions like we are doing for items and switches but because we don't really need
         // to tell if the player is looking at an appliance I'm going to be lazy and leave that out. //
 
-
-        if (target.transform.tag == "Appliance" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
-        {
-            return target.transform;
+        if (target.transform != null)
+        { 
+            if (target.transform.tag == "Appliance" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+            {
+                return target.transform;
+            }
         }
 
         return null;
