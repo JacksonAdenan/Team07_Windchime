@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SpaceWater
+  m_Name: SpaceWater 1
   m_Shader: {fileID: -6465566751694194690, guid: fa85fc9507af8ef4a8385a8fac36bf36,
     type: 3}
   m_ShaderKeywords: 
@@ -33,6 +33,6 @@ Material:
     - Vector1_E5D5C5D: 2.79
     - Vector1_F8E4DFA8: 0.35
     m_Colors:
-    - Color_6EDA1D08: {r: 0.12758097, g: 0.33575824, b: 0.4433962, a: 0}
+    - Color_6EDA1D08: {r: 0.5647059, g: 0.17254901, b: 0.49083915, a: 0}
     - Color_B81CEFF2: {r: 1, g: 1, b: 1, a: 0}
     - Color_BF8B5250: {r: 0.9366363, g: 1, b: 0, a: 0}

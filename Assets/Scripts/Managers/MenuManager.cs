@@ -87,6 +87,8 @@ public class MenuManager : MonoBehaviour
 
     public TextMeshProUGUI currentCanonState;
 
+    public TextMeshProUGUI cookingOrbTimer;
+
     [Header("Blender Progress Stuff")]
     public TextMeshProUGUI blenderProgress;
     public TextMeshProUGUI blendingHalfDone;
@@ -225,6 +227,8 @@ public class MenuManager : MonoBehaviour
         DisplayThrowMechanics();
 
         DisplayCanonState();
+
+        DisplayCookingOrbTimer();
 
 
         //DisplayIngredientTimer();
@@ -595,6 +599,11 @@ public class MenuManager : MonoBehaviour
         }
 
         //currentCanonState.text = "CanonState: " + cookingManager.theCanon.currentCanonState.ToString();
+    }
+
+    public void DisplayCookingOrbTimer() 
+    {
+        cookingOrbTimer.text = "CookingTimer: " + cookingManager.theOrb.cookingTimer.ToString() + "s";
     }
 
 

@@ -109,7 +109,10 @@ public class MonitorScreen : MonoBehaviour
 
     public void DisplayMainMenu(Order orderToDisplay)
     {
-        mainScreen.gameObject.SetActive(true);
+        if (!mainScreen.gameObject.activeSelf)
+        { 
+            mainScreen.gameObject.SetActive(true);
+        }
         //secondaryScreen.gameObject.SetActive(false);
 
         spicyText.text = "Make It Spicy " + "[" + orderToDisplay.spicyness.ToString() + "]";
@@ -130,7 +133,7 @@ public class MonitorScreen : MonoBehaviour
         }
         // ----------------------------- //
 
-        colourText.text = "Colour " + "[" + "-" + "]";
+        colourText.text = "Colour " + "[" + orderToDisplay.colourPreference.name + "]";
 
         // ----------------- Displaying proper title for the current order monitor ----------------- //
         if (thisMonitor == MonitorType.CURRENT_ORDER_MONITOR)
@@ -165,7 +168,7 @@ public class MonitorScreen : MonoBehaviour
         spicyText.text = "Spicy " + "[" + ingredient.spicyness.ToString() + "]";
         chunkyText.text = "Chunky " + "[" + ingredient.chunkyness.ToString() + "]";
         meatText.text = "Meat " + "[" + ingredient.isMeat.ToString() + "]";
-        colourText.text = "Colour " + "[" + "-" + "]";
+        colourText.text = "Colour " + "[" + ingredient.colour.name + "]";
     }
     public void SetScreenState(ScreenState newState)
     {

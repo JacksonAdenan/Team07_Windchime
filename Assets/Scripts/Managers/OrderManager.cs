@@ -24,13 +24,25 @@ public class OrderManager : MonoBehaviour
     public float newOrderRate = 15;
     private bool isOrderAvailable = false;
 
+
+    // ---------------------- Colour Shenanigans ---------------------- //
+    private List<Colour> availableColours;
+    // ---------------------------------------------------------------- //
+
     void Start()
     {
         // Initialising all the lists. //
         requestedOrders = new List<Order>();
         acceptedOrders = new List<Order>();
+        availableColours = new List<Colour>();
 
         currentScreenState = OrderScreenState.NEW_ORDER;
+
+        // Initialising available colours //
+        AddAllColours(availableColours);
+
+
+        selectedOrder = null;
     }
     void Update()
     {
@@ -44,16 +56,25 @@ public class OrderManager : MonoBehaviour
         }
     }
 
+    private void AddAllColours(List<Colour> list)
+    {
+        list.Add(Colour.blue);
+        list.Add(Colour.red);
+        list.Add(Colour.green);
+    }
+
     public void UpdateSelectedOrder()
     {
         // If they only have one accepted order. //
         if (acceptedOrders.Count == 0)
         {
             selectedOrder = null;
+            Debug.Log("selected order is null");
         }
         else if (acceptedOrders.Count == 1)
         {
             selectedOrder = acceptedOrders[0];
+            Debug.Log("selected order is NOT null");
         }
     }
     public void SwapSelectedOrder()
@@ -84,7 +105,7 @@ public class OrderManager : MonoBehaviour
     {
         if (acceptedOrders.Count < 2 && requestedOrders.Count == 0 && isOrderAvailable)
         {
-            SendOrder(OrderManager.CreateOrder());
+            SendOrder(CreateOrder());
         }
     }
     public void AcceptOrder(Order orderToAccept)
@@ -112,7 +133,7 @@ public class OrderManager : MonoBehaviour
         Order newOrder = new Order();
 
         //newOrder.mainSoup = GetSoupFromDropdown(soup.value, soup);
-        newOrder.colourPreference = new Colour("none");
+        newOrder.colourPreference = Colour.blue;
 
         try
         {
@@ -153,7 +174,7 @@ public class OrderManager : MonoBehaviour
         return newOrder;
     }
 
-    public static Order CreateOrder()
+    public Order CreateOrder()
     {
         // Making these ints here because I don't want the random function to return something lie 0.45345. //
         int desiredSpicyness;
@@ -164,9 +185,12 @@ public class OrderManager : MonoBehaviour
         bool noVeg = false;
 
         Colour desiredColour;
+        int colourNum;
 
         // For now we don't have colours so just set it to nothing. //
-        desiredColour = null;
+        // Actually we do have colours now mwhahaha. just not very many. :( //
+        colourNum = Random.Range(0, availableColours.Count);
+        desiredColour = availableColours[colourNum];
 
         desiredSpicyness = Random.Range(1, 50);
         desiredChunkyness = Random.Range(1, 50);
@@ -214,7 +238,18 @@ public class OrderManager : MonoBehaviour
 
 
         // Since we don't have colours yet I'll just set it to 0.
-        colourPoints = 0;
+        // we do have colours now.
+
+        if (soupToSubmit.colour.name == acceptedOrders[0].colourPreference.name)
+        {
+            colourPoints = 10;
+            Debug.Log("Got colour correct.");
+        }
+        else
+        {
+            Debug.Log("Got colour incorrect.");
+            colourPoints = 0;
+        }
 
         if (soupToSubmit.ContainsMeat() && acceptedOrders[0].noMeat)
         {

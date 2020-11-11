@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentGameState = GameState.PLAYING;
-
+        Colour.InitColours();
     }
 
     void Awake()

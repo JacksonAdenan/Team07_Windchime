@@ -37,6 +37,7 @@ public class Soup
     
         this.spicyValue = spicyValue;
         this.chunkyValue = chunkyValue;
+
         
     }
 

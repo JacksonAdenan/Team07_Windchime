@@ -8,7 +8,6 @@ public class CookingOrb
 {
     GameManager gameManager;
 
-
     // Appliance prefab. //
     public Transform cookingOrb;
 
@@ -37,6 +36,9 @@ public class CookingOrb
     [Header("Prefabs to display whats in the orb.")]
     public Transform soupOrb;
     public Transform water;
+
+    [Header("Soup Colour Things")]
+    public Shader waterShader;
 
 
     // Start is called before the first frame update
@@ -69,6 +71,9 @@ public class CookingOrb
             cookingTimer += Time.deltaTime;
             if (cookingTimer >= 3)
             {
+                // Resetting cookingTimer after cook. //
+                cookingTimer = 0;
+
                 currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
                 occupyingSoup.gameObject.SetActive(true);
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
@@ -209,6 +214,7 @@ public class CookingOrb
         // Resetting current cooking orb values to be ready for next soup
         currentSpicy = 0;
         currentChunky = 0;
+        
         //currentCookingOrbState = CookingOrbState.EMPTY;
 
         for (int i = currentIngredients.Count - 1; i > -1; i--)
@@ -216,6 +222,10 @@ public class CookingOrb
             currentIngredients[i].gameObject.SetActive(false);
             currentIngredients.Remove(currentIngredients[i]);
         }
+
+        // Setting the colour by last ingredient in the soup //
+        newSoup.colour = newSoup.usedIngredients[newSoup.usedIngredients.Count - 1].colour;
+
         return newSoup;
     }
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -246,6 +256,12 @@ public class CookingOrb
         //newSoupsData.maxPortions = 5;
 
         occupyingSoup = newSoupOrb;
+
+        // Setting the colour of the occupying soup. //
+        Material newMaterial = new Material(waterShader);
+        newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(newSoup.colour));
+        occupyingSoup.GetComponent<Renderer>().material = newMaterial;
+
 
         // Removing and resetting stuff to do with the water display. //
         RemoveWater();
