@@ -45,6 +45,10 @@ public class CookingManager : MonoBehaviour
     public Canon theCanon;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------ //
 
+    [Header("Monitors")]
+    public MonitorScreen itemFabricator;
+
+
     [Header("Other")]
     
     // Item fabricator stuff. //
@@ -149,10 +153,18 @@ public class CookingManager : MonoBehaviour
         Instantiate(cachedIngredientToSpawn.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);
     }
 
-    public static void IngredientSpawnTimer()
+    public void IngredientSpawnTimer()
     {
-        cachedIngredientToSpawn = playerCamera.GetComponent<MouseLook>().selectedSwitch.GetComponent<Ingredient>();
-        isSpawningIngredient = true;
+        //cachedIngredientToSpawn = playerCamera.GetComponent<MouseLook>().selectedSwitch.GetComponent<Ingredient>();
+        if (itemFabricator.currentIngredientDisplay != null)
+        {
+            cachedIngredientToSpawn = itemFabricator.currentIngredientDisplay;
+            isSpawningIngredient = true;
+        }
+        else
+        {
+            Debug.Log("IngredientSpawnTiimer() could not find ingredient.");
+        }
     }
 
 }

@@ -88,7 +88,7 @@ public class SwitchData : MonoBehaviour
                     break;
                 case SwitchType.ITEM_SPAWNER:
                     onCooldown = true;
-                    CookingManager.IngredientSpawnTimer();
+                    cookingManager.IngredientSpawnTimer();
                     break;
                 case SwitchType.MONITOR_FORWARD:
                     onCooldown = true;
