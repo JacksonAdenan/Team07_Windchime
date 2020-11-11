@@ -211,7 +211,10 @@ public class MouseLook : MonoBehaviour
         
         CameraState(); // This is the old camera state swapping thing.
 
-        NewSelectObj();
+        if (!isHoldingItem)
+        { 
+            NewSelectObj();
+        }
 
         UpdatePlayerState();
         InputState();
@@ -352,10 +355,10 @@ public class MouseLook : MonoBehaviour
                         //    RemoveItem();
                         //    gameManager.cookingManager.theOrb.AddWater();
                         //}
-                        if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
-                        {
-                            gameManager.cookingManager.theOrb.MakeSoup();
-                        }
+                        //if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+                        //{
+                        //    gameManager.cookingManager.theOrb.MakeSoup();
+                        //}
                     }
                 }
                 else if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.CATCHER)

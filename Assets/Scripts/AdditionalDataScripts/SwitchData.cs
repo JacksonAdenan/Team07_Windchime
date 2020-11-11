@@ -15,6 +15,7 @@ public enum SwitchType
     MONITOR_FORWARD,
     MONITOR_BACK,
     NEXT_ORDER,
+    COOKING_ORB_HATCH,
 
     ERROR
 }
@@ -118,6 +119,13 @@ public class SwitchData : MonoBehaviour
                 case SwitchType.NEXT_ORDER:
                     onCooldown = true;
                     gameManager.orderManager.SwapSelectedOrder();
+                    break;
+                case SwitchType.COOKING_ORB_HATCH:
+                    onCooldown = true;
+                    if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+                    {
+                        gameManager.cookingManager.theOrb.MakeSoup();
+                    }
                     break;
             }
         }

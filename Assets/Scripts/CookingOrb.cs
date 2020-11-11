@@ -270,11 +270,6 @@ public class CookingOrb
         water.tag = "NonInteractableWater";
         water.GetComponent<SphereCollider>().isTrigger = true;
 
-
-
-
-
-
         // ------------------------------------------ Setting the CookingOrbState ------------------------------------------ //
 
         if (currentCookingOrbState == CookingOrbState.EMPTY)

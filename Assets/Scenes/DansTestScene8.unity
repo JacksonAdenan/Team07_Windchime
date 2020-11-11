@@ -7854,6 +7854,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Appliances_CookingOrb_Orb
       objectReference: {fileID: 0}
+    - target: {fileID: 6336109153520528013, guid: 5c60787673a29904eb8924e98b508a14,
+        type: 3}
+      propertyPath: m_TagString
+      value: Switch
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c60787673a29904eb8924e98b508a14, type: 3}
 --- !u!4 &320258804 stripped
@@ -18492,6 +18497,28 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 785773882}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &786057308 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6336109153520528013, guid: 5c60787673a29904eb8924e98b508a14,
+    type: 3}
+  m_PrefabInstance: {fileID: 320258803}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &786057309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786057308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8191ff5ba031f8e4e8641ef978a349cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 11
+  switchSpamCooldown: 0
+  switchCooldownTimer: 0
+  onCooldown: 0
 --- !u!1 &787935375
 GameObject:
   m_ObjectHideFlags: 0
