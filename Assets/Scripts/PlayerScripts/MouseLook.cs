@@ -35,7 +35,7 @@ public enum ThrowCharge
 public class MouseLook : MonoBehaviour
 {
    
-    public float INTERACT_DISTANCE = 2;
+    public float FPS_INTERACT_DISTANCE = 2;
 
     // Singleton hehe. //
     GameManager gameManager;
@@ -497,6 +497,14 @@ public class MouseLook : MonoBehaviour
             case CameraMode.pauseMode:
                 CameraPause();
                 Cursor.lockState = CursorLockMode.None;
+                Time.timeScale = 0;
+                Debug.Log("Paused");
+
+                // Un freezing time on pause screen exit. //
+                if (Input.GetKey(KeyCode.P))
+                {
+                    Time.timeScale = 1;
+                }
                 
                 break;
         }
@@ -774,7 +782,7 @@ public class MouseLook : MonoBehaviour
         {
             if (target.transform != null)
             { 
-                if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+                if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < FPS_INTERACT_DISTANCE)
                 {
                     if (target.transform.childCount > 0)
                     {
@@ -814,7 +822,7 @@ public class MouseLook : MonoBehaviour
         {
             if (target.transform != null)
             { 
-                if (target.transform.tag == "Switch" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+                if (target.transform.tag == "Switch" && (gameObject.transform.position - target.transform.position).magnitude < FPS_INTERACT_DISTANCE)
                 {
                     return target.transform;
                 }
@@ -832,7 +840,7 @@ public class MouseLook : MonoBehaviour
 
         if (target.transform != null)
         { 
-            if (target.transform.tag == "Appliance" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+            if (target.transform.tag == "Appliance" && (gameObject.transform.position - target.transform.position).magnitude < FPS_INTERACT_DISTANCE)
             {
                 return target.transform;
             }
