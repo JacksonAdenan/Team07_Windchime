@@ -22,103 +22,112 @@ public enum PlayerState
     LOOKING_AT_APPLIANCE,
     LOOKING_AT_SWITCH,
     ERROR
-
 }
 
-public enum SwitchType
+public enum ThrowCharge
 { 
-    CUTTER_SWITCH_1,
-    CUTTER_SWITCH_2,
-    WATER_TAP,
-    CANON_BUTTON,
-    ORDER_ACCEPT,
-    ORDER_REJECT,
-    BLENDER_BUTTON,
-
-    ERROR
+    WEAK,
+    MEDIUM,
+    STRONG
 }
+
+
 public class MouseLook : MonoBehaviour
 {
-    // Constants //
-    const float INTERACT_DISTANCE = 2;
+   
+    public float FPS_INTERACT_DISTANCE = 2;
+
+    // Singleton hehe. //
+    GameManager gameManager;
 
 
     // Adjustable Values //
     // ------------------------------------------ //
+    [Header("Sensitivities")]
     public float mouseSensitivity = 100f;
     public float rotationSensitivity = 100f;
     public float handControlSensitivity = 100f;
+    public float roationLerpSpeed;
+    public float handReturnSpeed = 0.05f;
+
+    [Header("Hand Deadzones")]
     public float handZDistance = 0.7f;
     public float handYCeilingLimit = 0.0f;
     public float handYFloorLimit = 0.0f;
     public float handXLeftLimit = 0.0f;
     public float handXRightLimit = 0.0f;
+
+    [Header("Old Unused Things")]
     public float PickUpUIYPos = 0.0f;
     public float ApplianceUIZPos = 3.0f;
     public float ApplianceUIYPos = 5.0f;
+
+    [Header("Collisions and Item Placements")]
     public float handCollisionRadius = 0;
     public float heldItemPosX = 0;
     public float heldItemPosY = 0;
     public float heldItemPosZ = 0;
 
-    public float tempThrowForce = 0;
-    public float roationLerpSpeed;
+    [Header("Smooth Camera Centering Deadzone")]
+    [Tooltip("How far the hand has to be for the camera to centre towards the object.")]
     public float cameraCenteringDeadZone;
-
     // ------------------------------------------ //
 
     // Inspector Variables //
     // ------------------------------------------ //
     public Transform playerBody;
-    public Material itemSelectedMat;
-    public Material switchSelectedMat;
-    //public Material waterSelectedMat;
+
 
     public Vector3 handFPSPos;
     public Transform hand;
     public Transform collisionSphere;
     public Transform realHandCentre;
 
-    public Canvas PickUpUI;
-    public Canvas ApplianceUI;
-
+    [Header("Crosshair Display")]
     public Canvas crosshairCanvas;
     public Image crosshairImage;
 
+    [Header("Old Unused Deadzones")]
     public float xDeadZone;
     public float yDeadZone;
 
     // ------------------------------------------ //
 
 
-    bool isHoldingItem = false;
-    Vector3 handPos;
-    public CameraMode currentCameraMode = CameraMode.HAND_CONTROL;
+    // ------------------------- Selected and Held Items ------------------------- //
+    private bool isHoldingItem = false;
+
     public static Transform selectedItem;
     public static Transform selectedWater;
     public static Transform selectedAppliance = null;
     public static Transform heldItem = null;
     public static Transform heldWater = null;
     public Transform selectedSwitch = null;
+    // --------------------------------------------------------------------------- //
+
+
+    // ------------------------- Selection Materials ------------------------- //
+    [Header("Selection Materials")]
+    public Material itemSelectedMat;
+    public Material switchSelectedMat;
+
+    [Tooltip("Do not set this in inspector.")]
     public Material defaultMat;
-    //private Material defaultWaterMat;
     private Material switchDefaultMat;
-    float xRotation = 0.0f;
+    // ----------------------------------------------------------------------- //
 
-    Transform insertText = null;
-    Transform notHoldingText = null;
 
-    // Different raycasts //
+    // ------------------------- Raycasts and Collisions ------------------------- //
     RaycastHit raycastFromHand;
     RaycastHit raycastFromScreen;
     Collider[] collisions;
+    // --------------------------------------------------------------------------- //
 
+    [Header("Other")]
     PlayerState currentPlayerState = PlayerState.LOOKING_AT_NOTHING;
-
-    
-
-    public float posX;
-    public float posY;
+    Vector3 handPos;
+    public CameraMode currentCameraMode = CameraMode.FPS_CONTROL;
+    float xRotation = 0.0f;
 
     Vector3 heldItemOriginalPos;
     Vector3 previousHandMovementDir;
@@ -128,7 +137,7 @@ public class MouseLook : MonoBehaviour
     Vector3 handMovement;
     RaycastHit target;
 
-    SwitchType selectedSwitchType;
+    SwitchData selectedSwitchData;
 
 
     // Hand swaying stuff. //
@@ -136,60 +145,80 @@ public class MouseLook : MonoBehaviour
     float handAcceleration = 0;
     float accelerationTimer = 0;
 
+
+    // Manager references. //
+    // Initialised in inspector. //
+    public CookingManager theCookingManager;
+
+    // ------------------------------------ Appliance References ------------------------------------ //
+    SoupCatcher theCatcher;
+    Canon theCanon;
+    // ----------------------------------------------------------------------------------------------- //
+
+
+    // ------------------------------------ Throwing Mechanic Stuff ------------------------------------ //
+    [Header("Throw Mechanics")]
+    [Tooltip("Don't change this timer.")]
+    public float throwingHeldDownTimer = 0;
+    [Tooltip("Charge rate per second. If set to 1, charge rate will increase 1 every second")]
+    public float throwingChargeRate = 1;
+    public float throwCharge = 0;
+    public float weakThrowStrength = 0;
+    public float mediumThrowStrength = 5;
+    public float strongThrowStrength = 10;
+
+    public float weakThrowThreshold = 0;
+    public float mediumThrowThreshold = 2;
+    public float strongthrowThreshold = 4;
+
+    public ThrowCharge currentThrowCharge = ThrowCharge.WEAK;
+
+
+    [Header("Old Throwing Mechanics")]
+    public float tempThrowForce = 0;
+    // ------------------------------------------------------------------------------------------------- //
+
+    private bool isHandReturning = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
 
 
-        
+        // ------------------------------------ Appliance Reference Initialisation ------------------------------------ //
+        theCatcher = theCookingManager.theCatcher;
+        theCanon = theCookingManager.theCanon;
+        // ------------------------------------------------------------------------------------------------------------ //
+
+
+        // Setting the hand to the correct position. //
+        hand.localPosition = handFPSPos;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //// Doing raycast from hand //
-        //Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
-        //Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
-        //
-        //// Doing raycast from screen //
-        //Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 5, out raycastFromScreen, 5);
-        //Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 5, Color.white);
+        // Singleton hehe. //
+        gameManager = GameManager.GetInstance();
 
         // Raycast code is now controlled by this. //
         CalculateTarget();
 
         // Doing sphere check //
         collisions = Physics.OverlapSphere(collisionSphere.position, handCollisionRadius);
-
+        
         CameraState(); // This is the old camera state swapping thing.
 
-
-        //SelectObj();
-        
-        DisplayPickupUI();
-        DisplayApplianceIU();
-
-        NewSelectObj();
+        if (!isHoldingItem)
+        { 
+            NewSelectObj();
+        }
 
         UpdatePlayerState();
         InputState();
-        //if (Input.GetKeyDown(KeyCode.E) && !isHoldingItem && selectedItem)
-        //{
-        //    PickUpItem(selectedItem);
-        //}
-        //else if (Input.GetKeyDown(KeyCode.C) && !isHoldingItem && selectedItem)
-        //{
-        //    Debug.Log("Cutting ingredient.");
-        //}
-        //else if (Input.GetKeyDown(KeyCode.E) && isHoldingItem)
-        //{
-        //    DropItem();
-        //}
-        //else if (Input.GetKeyDown(KeyCode.F) && isHoldingItem)
-        //{
-        //    ThrowItem();
-        //}
+ 
         Debug.Log(currentPlayerState.ToString());
 
         if (!isCentered)
@@ -197,17 +226,20 @@ public class MouseLook : MonoBehaviour
             CentreCamera(heldItemOriginalPos);
         }
 
-
-
         // Acceleration timer counting. //
         accelerationTimer += Time.deltaTime;
 
-        
+        //  Very sketchy restart system. //
+        if (Input.GetKeyDown(KeyCode.R) && gameManager.currentGameState == GameState.GAMEOVER)
+        {
+            gameManager.RestartGame();
+        }
 
-           
-        
- 
-       
+        // Charging up throw. //
+        if (isHoldingItem)
+        {
+            ThrowTimer();
+        }
     }
 
     void InputState()
@@ -215,10 +247,11 @@ public class MouseLook : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.LOOKING_AT_ITEM:
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButton(0))
                 {
-                    if (selectedItem.tag != "Soup")
+                    if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover" && selectedItem.tag != "CatcherCapsule" && selectedItem.tag != "CanonCapsule")
                     {
+                        Debug.Log("YOU SHOULD NOT SEE THIS");
                         // If the thing they want to pick up is a water. //
                         // Freeing up the WaterTap so the player can get more water if they want.
                         if (selectedItem.tag == "Water")
@@ -229,26 +262,66 @@ public class MouseLook : MonoBehaviour
 
                         PickUpItem(selectedItem);
                     }
-                    
+                    else if (selectedItem.tag == "BlenderCover")
+                    {
+                        if (gameManager.cookingManager.theBlender.currentBlenderState == BlenderState.JAR)
+                        {
+                            Debug.Log("REMOVED BLENDER COVER");
+                            DetachBlenderCover(gameManager.cookingManager.theBlender.blenderCover);
+
+                            // REMEMBER TO RUN REMOVE BLENDER COVER FUNCTION TO SET THE APPROPRIATE VALUE ON THE BLENDER. //
+                            gameManager.cookingManager.theBlender.RemoveBlenderCover();
+                        }
+                    }
+                    else if (selectedItem.tag == "CatcherCapsule")
+                    {
+                        if (gameManager.cookingManager.theCatcher.hasCapsule)
+                        {
+                            Debug.Log("REMOVED CATCHER CAPSULE");
+                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
+                            {
+                                Detach(theCatcher.filledAttachedCapsule);
+                            }
+                            else
+                            {
+                                Detach(theCatcher.emptyAttachedCapsule);
+                            }
+
+                            // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
+                            theCatcher.RemoveCapsule();
+                        }
+                    }
+                    else if (selectedItem.tag == "CanonCapsule")
+                    {
+                        if (gameManager.cookingManager.theCanon.isLoaded)
+                        {
+                            Debug.Log("REMOVED CANON CAPSULE");
+                            if (theCanon.isLoaded)
+                            {
+                                Detach(theCanon.canonCapsule);
+                                theCanon.UnloadCanon();
+                            }
+                        }
+                    }
+
                     else if (selectedItem.tag == "Soup")
                     {
                         PickUpSoup(selectedItem);
                         Debug.Log("PICKED UP SOUP");
                     }
 
-                    heldItemOriginalPos = heldItem.position;
-                    previousHandPos = hand.position;
-                    previousHandMovementDir = handMovement;
-                    Vector3 test = heldItemOriginalPos - gameObject.transform.position;
-                    if (Vector3.Dot(test.normalized, gameObject.transform.forward) <= cameraCenteringDeadZone)
+                    if (currentCameraMode == CameraMode.HAND_CONTROL)
                     { 
-                        isCentered = false;
+                        heldItemOriginalPos = heldItem.position;
+                        previousHandPos = hand.position;
+                        previousHandMovementDir = handMovement;
+                        Vector3 test = heldItemOriginalPos - gameObject.transform.position;
+                        if (Vector3.Dot(test.normalized, gameObject.transform.forward) <= cameraCenteringDeadZone)
+                        { 
+                            isCentered = false;
+                        }
+                        Debug.Log("INTIAL DOT = " + Vector3.Dot(-test, gameObject.transform.forward));
                     }
-                    Debug.Log("INTIAL DOT = " + Vector3.Dot(-test, gameObject.transform.forward));
-                }
-                else if (Input.GetKeyDown(KeyCode.C))
-                {
-                    Debug.Log("Cutting ingredient.");
                 }
                 break;
             case PlayerState.HOLDING_ITEM:
@@ -256,7 +329,7 @@ public class MouseLook : MonoBehaviour
                 {
                     DropItem();
                 }
-                else if (Input.GetKeyDown(KeyCode.F))
+                else if (Input.GetMouseButtonUp(0))
                 {
                     ThrowItem();
                 }
@@ -264,10 +337,10 @@ public class MouseLook : MonoBehaviour
 
             case PlayerState.LOOKING_AT_SWITCH:
                 // Getting the type of switch the players is looking at. //
-                selectedSwitchType = selectedSwitch.GetComponent<SwitchData>().type;
+                selectedSwitchData = selectedSwitch.GetComponent<SwitchData>();
                 if (Input.GetMouseButtonDown(0))
                 {
-                    ActivateSwitch(selectedSwitchType);
+                    selectedSwitchData.ActivateSwitch();
                 }
                 break;
             case PlayerState.LOOKING_AT_NOTHING:
@@ -277,79 +350,83 @@ public class MouseLook : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (isHoldingItem && heldItem.tag == "Water")
-                        {
-                            RemoveItem();
-                            CookingManager.AddWater();
-                        }
-                        else if (CookingManager.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
-                        {
-                            CookingManager.MakeSoup();
-                        }
+                        //if (isHoldingItem && heldItem.tag == "Water")
+                        //{
+                        //    RemoveItem();
+                        //    gameManager.cookingManager.theOrb.AddWater();
+                        //}
+                        //if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+                        //{
+                        //    gameManager.cookingManager.theOrb.MakeSoup();
+                        //}
                     }
                 }
                 else if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.CATCHER)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (isHoldingItem && heldItem.tag == "Capsule" && !CookingManager.hasCapsule)
-                        {
-                            
-                            RemoveItem();
-                            CookingManager.AttachCapsule();
-                        }
-                        else if (CookingManager.hasCapsule && !isHoldingItem)
-                        {
-                            Debug.Log("REMOVED CAPSULE FROM CATCHER");
-                            if (CookingManager.currentCatcherState == CatcherState.FULL_CAPSULE)
-                            {
-                                Detach(CookingManager.filledAttachedCapsule);
-                            }
-                            else
-                            {
-                                Detach(CookingManager.emptyAttachedCapsule);
-                            }
+                        // OLD SOUP CATCHER INTERACTIONS //
 
-
-                            // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
-                            CookingManager.RemoveCapsule();
-                        }
+                        //if (isHoldingItem && heldItem.tag == "Capsule" && !theCatcher.hasCapsule)
+                        //{
+                        //    
+                        //    RemoveItem();
+                        //    theCatcher.AttachCapsule();
+                        //}
+                        //if (theCatcher.hasCapsule && !isHoldingItem)
+                        //{
+                        //    Debug.Log("REMOVED CAPSULE FROM CATCHER");
+                        //    if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
+                        //    {
+                        //        Detach(theCatcher.filledAttachedCapsule);
+                        //    }
+                        //    else
+                        //    {
+                        //        Detach(theCatcher.emptyAttachedCapsule);
+                        //    }
+                        //
+                        //
+                        //    // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
+                        //    theCatcher.RemoveCapsule();
+                        //}
                     }
                 }
                 else if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.BLENDER)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (isHoldingItem && heldItem.tag == "InteractableBlenderCover" && CookingManager.currentBlenderState == BlenderState.NOT_COVERED)
-                        {
-                            RemoveItem();
-                            CookingManager.AttachBlenderCover();
-                        }
-                        else if (CookingManager.currentBlenderState == BlenderState.COVERED && !isHoldingItem)
-                        {
-                            Debug.Log("REMOVED BLENDER COVER");
-                            DetachBlenderCover(CookingManager.blenderCover);
-      
-                            // REMEMBER TO RUN REMOVE BLENDER COVER FUNCTION TO SET THE APPROPRIATE VALUE ON THE BLENDER. //
-                            CookingManager.RemoveBlenderCover();
-                        }
+                        // OLD BLENDER INTERACTIONS //
+
+                        //if (isHoldingItem && heldItem.tag == "InteractableBlenderCover" && CookingManager.currentBlenderState == BlenderState.NOT_COVERED)
+                        //{
+                        //    RemoveItem();
+                        //    CookingManager.AttachBlenderCover();
+                        //}
+                        //else if (CookingManager.currentBlenderState == BlenderState.COVERED && !isHoldingItem)
+                        //{
+                        //    Debug.Log("REMOVED BLENDER COVER");
+                        //    DetachBlenderCover(CookingManager.blenderCover);
+                        //
+                        //    // REMEMBER TO RUN REMOVE BLENDER COVER FUNCTION TO SET THE APPROPRIATE VALUE ON THE BLENDER. //
+                        //    CookingManager.RemoveBlenderCover();
+                        //}
                     }
                 }
                 else if (selectedAppliance.parent && selectedAppliance.parent.GetComponent<ApplianceData>().applianceType == ApplianceType.CANON)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        if (isHoldingItem && heldItem.tag == "Capsule" && !CookingManager.isLoaded)
-                        {
-                            CookingManager.LoadCanon(heldItem.GetComponent<SoupData>().theSoup);
-                            RemoveItem();
-                        }
-                        else if (CookingManager.isLoaded)
-                        {
-                            Detach(CookingManager.canonCapsule);
-                            CookingManager.UnloadCanon();
-                            //Debug.Log("Tried to unload the canon but that feature doesn't exist yet.");
-                        }
+                        //if (isHoldingItem && heldItem.tag == "Capsule" && !theCookingManager.theCanon.isLoaded)
+                        //{
+                        //    theCookingManager.theCanon.LoadCanon(heldItem.GetComponent<SoupData>().theSoup);
+                        //    RemoveItem();
+                        //}
+                        //else if (theCookingManager.theCanon.isLoaded)
+                        //{
+                        //    Detach(theCookingManager.theCanon.canonCapsule);
+                        //    theCookingManager.theCanon.UnloadCanon();
+                        //    //Debug.Log("Tried to unload the canon but that feature doesn't exist yet.");
+                        //}
                     }
                 }
                 break;
@@ -363,30 +440,30 @@ public class MouseLook : MonoBehaviour
         {
             currentPlayerState = PlayerState.LOOKING_AT_ITEM;
             //hand.transform.GetChild(0).GetComponent<Animator>().
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
-        }
-        else if (selectedAppliance)
-        {
-            currentPlayerState = PlayerState.LOOKING_AT_APPLIANCE;
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (isHoldingItem)
         {
             currentPlayerState = PlayerState.HOLDING_ITEM;
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsGrabbing", true);
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", false);
+            hand.transform.GetComponent<Animator>().SetBool("IsGrabbing", true);
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", false);
 
+        }
+        else if (selectedAppliance)
+        {
+            currentPlayerState = PlayerState.LOOKING_AT_APPLIANCE;
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (selectedSwitch)
         {
             currentPlayerState = PlayerState.LOOKING_AT_SWITCH;
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", true);
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", true);
         }
         else if (!isHoldingItem && !selectedItem)
         {
             currentPlayerState = PlayerState.LOOKING_AT_NOTHING;
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsPointing", false);
-            hand.transform.GetChild(0).GetComponent<Animator>().SetBool("IsGrabbing", false);
+            hand.transform.GetComponent<Animator>().SetBool("IsPointing", false);
+            hand.transform.GetComponent<Animator>().SetBool("IsGrabbing", false);
         }
         else
         {
@@ -399,18 +476,20 @@ public class MouseLook : MonoBehaviour
         switch (currentCameraMode)
         {
             case CameraMode.HAND_CONTROL:
-                CameraLook();  
-                if (Input.GetMouseButtonDown(1))
+                CameraLook();
+                isHandReturning = true;
+                if (Input.GetMouseButtonUp(1))
                 {
                     currentCameraMode = CameraMode.FPS_CONTROL;
 
                     // Setting the hand to the correct position. //
-                    hand.localPosition = handFPSPos;
+                    //Vector3.Lerp(hand.localPosition, handFPSPos, 0.5f);
                 }
                 break;
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
-                if (Input.GetMouseButtonDown(1))
+                CheckHandReturn();
+                if (Input.GetMouseButton(1))
                 {
                     currentCameraMode = CameraMode.HAND_CONTROL;
                 }
@@ -418,6 +497,14 @@ public class MouseLook : MonoBehaviour
             case CameraMode.pauseMode:
                 CameraPause();
                 Cursor.lockState = CursorLockMode.None;
+                Time.timeScale = 0;
+                Debug.Log("Paused");
+
+                // Un freezing time on pause screen exit. //
+                if (Input.GetKey(KeyCode.P))
+                {
+                    Time.timeScale = 1;
+                }
                 
                 break;
         }
@@ -530,12 +617,12 @@ public class MouseLook : MonoBehaviour
         handAcceleration = mouseX;
         handAcceleration = Mathf.Clamp(handAcceleration, -0.05f, 0.05f);
         handVelocity += (handAcceleration) * Time.deltaTime;
-        
-        
-        
-   
 
-        if (handAcceleration != 0)
+
+
+
+
+        if (handAcceleration != 0 && isHandReturning == false)
         {
             float newHandX = hand.localPosition.x + handVelocity;
             newHandX = Mathf.Clamp(newHandX, handFPSPos.x - 0.3f, handFPSPos.x + 0.3f);
@@ -543,17 +630,22 @@ public class MouseLook : MonoBehaviour
         }
         else
         {
-            hand.localPosition = new Vector3(Mathf.Lerp(hand.localPosition.x, handFPSPos.x, 0.05f), hand.localPosition.y, hand.localPosition.z);
+            //hand.localPosition = new Vector3(Mathf.Lerp(hand.localPosition.x, handFPSPos.x, 0.05f), hand.localPosition.y, hand.localPosition.z);
+            hand.localPosition = Vector3.Lerp(hand.localPosition, handFPSPos, handReturnSpeed);
             accelerationTimer = 0;
             handVelocity = 0;
-   
         }
 
-    }
 
-    void ReduceAcceleration(ref float acceleration)
+
+    }
+    void CheckHandReturn()
     {
-        
+        if(Vector2.Distance(hand.localPosition, handFPSPos) < 0.05f)
+        {
+            isHandReturning = false;
+            Debug.Log("FALSE");
+        }
     }
 
     void CameraPause()
@@ -579,8 +671,7 @@ public class MouseLook : MonoBehaviour
 
         // Resetting ingredients/items/water //
         if (NewIsLookingAtItem() == null)
-        {
-
+        {    
             if (selectedItem != null)
             {
                 selectedItem.GetComponent<Renderer>().material = defaultMat;
@@ -588,6 +679,22 @@ public class MouseLook : MonoBehaviour
             }
             selectedItem = null;
         }
+        // Resetting switches //
+        if (IsLookingAtSwitch() == null)
+        {
+            if (selectedSwitch != null)
+            {
+                // This if statement protects bug if the switch doesn't have a renderer. only temporary hopefully while we have UI switches. //
+                if (selectedSwitch.GetComponent<Renderer>() != null)
+                {
+                    selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
+                    switchDefaultMat = null;
+                }
+            }
+            selectedSwitch = null;
+        }
+
+        // ================================= BLENDER CAPSULE BUG RELATED TO THIS CODE SNIPPET ======================================= //
 
         // This is to prevent the bug where if the player is selecting something and then instantly selects something else without having a period inbetween of not selecting something, the default material doesn't 
         // update properly.
@@ -600,6 +707,16 @@ public class MouseLook : MonoBehaviour
             }
         }
 
+        if (selectedSwitch != IsLookingAtSwitch())
+        {
+            if (selectedSwitch != null)
+            {
+                selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
+                switchDefaultMat = null;
+            }
+        }
+
+        // ================================================================================================================================= //
         if (NewIsLookingAtItem() && !isHoldingItem)
         {
             selectedItem = NewIsLookingAtItem();
@@ -637,20 +754,7 @@ public class MouseLook : MonoBehaviour
             selectedAppliance = IsLookingAtAppliance();
         }
 
-        // Resetting switches //
-        if (IsLookingAtSwitch() == null)
-        { 
-            if (selectedSwitch != null)
-            {
-                // This if statement protects bug if the switch doesn't have a renderer. only temporary hopefully while we have UI switches. //
-                if (selectedSwitch.GetComponent<Renderer>() != null)
-                { 
-                    selectedSwitch.GetComponent<Renderer>().material = switchDefaultMat;
-                    switchDefaultMat = null;
-                }
-            }
-            selectedSwitch = null;
-        }
+        
 
         if (IsLookingAtAppliance() == null)
         { 
@@ -662,29 +766,37 @@ public class MouseLook : MonoBehaviour
 
     Transform NewIsLookingAtItem()
     {
-        //for (int i = 0; i < collisions.Length; i++)
-        //{
-        //    if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule" || collisions[i].gameObject.tag == "InteractableBlenderCover")
-        //    {
-        //       
-        //        return collisions[i].transform;
-        //
-        //    }
-        //}
-        //
-        //return null;
-
-        if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover") && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+        if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
-            if (target.transform.childCount > 0)
+            for (int i = 0; i < collisions.Length; i++)
             {
-                return target.transform.GetChild(0);
+                if (collisions[i].gameObject.tag == "Item" || collisions[i].gameObject.tag == "Ingredient" || collisions[i].gameObject.tag == "Water" || collisions[i].gameObject.tag == "Soup" || collisions[i].gameObject.tag == "SoupPortion" || collisions[i].gameObject.tag == "Capsule" || collisions[i].gameObject.tag == "InteractableBlenderCover" || collisions[i].gameObject.tag == "BlenderCover" || collisions[i].gameObject.tag == "CatcherCapsule" || collisions[i].gameObject.tag == "CanonCapsule")
+                {
+                    return collisions[i].transform;
+                }
             }
-            else
-            {
-                return target.transform;
+            return null;
+        }
+
+        else if (currentCameraMode == CameraMode.FPS_CONTROL)
+        {
+            if (target.transform != null)
+            { 
+                if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < FPS_INTERACT_DISTANCE)
+                {
+                    if (target.transform.childCount > 0)
+                    {
+                        return target.transform.GetChild(0);
+                    }
+                    else
+                    {
+                        return target.transform;
+                    }
+
+                }
             }
 
+            return null;
         }
 
         return null;
@@ -693,18 +805,45 @@ public class MouseLook : MonoBehaviour
    
     Transform IsLookingAtSwitch()
     {
-        if (target.transform.tag == "Switch" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
+
+        if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
-            return target.transform;
+            for (int i = 0; i < collisions.Length; i++)
+            {
+                if (collisions[i].gameObject.tag == "Switch")
+                {
+                    return collisions[i].transform;
+                }
+            }
+            return null;
         }
 
-        return null;
+        else
+        {
+            if (target.transform != null)
+            { 
+                if (target.transform.tag == "Switch" && (gameObject.transform.position - target.transform.position).magnitude < FPS_INTERACT_DISTANCE)
+                {
+                    return target.transform;
+                }
+            }
+
+            return null;
+        }
     }
     Transform IsLookingAtAppliance()
     {
-        if (target.transform.tag == "Appliance" && (gameObject.transform.position - target.transform.position).magnitude < INTERACT_DISTANCE)
-        {
-            return target.transform;
+
+        // ------------- NOTE ------------- //
+        // Really we should also be checking for the "handmode" collisions like we are doing for items and switches but because we don't really need
+        // to tell if the player is looking at an appliance I'm going to be lazy and leave that out. //
+
+        if (target.transform != null)
+        { 
+            if (target.transform.tag == "Appliance" && (gameObject.transform.position - target.transform.position).magnitude < FPS_INTERACT_DISTANCE)
+            {
+                return target.transform;
+            }
         }
 
         return null;
@@ -712,7 +851,14 @@ public class MouseLook : MonoBehaviour
     void PickUpItem(Transform itemToPickUp)
     {
         // Stopping the selection if your holding an item //
-        itemToPickUp.GetComponent<Renderer>().material = defaultMat;
+        if (defaultMat != null)
+        {
+            itemToPickUp.GetComponent<Renderer>().material = defaultMat;
+        }
+        else
+        {
+            Debug.Log("EROORR RORORr");
+        }
         selectedItem = null;
         defaultMat = null;
 
@@ -785,10 +931,23 @@ public class MouseLook : MonoBehaviour
     { 
         
     }
+
+    private Renderer FindRenderer(Transform obj)
+    {
+        Transform currentObj = obj;
+        for (int i = 0; i < currentObj.childCount; i++)
+        {
+            if (currentObj.GetChild(i).GetComponent<Renderer>())
+            {
+                return currentObj.GetChild(i).GetComponent<Renderer>();
+            }
+        }
+        return null;
+    }
     void Detach(Transform itemToPickUp)
     {
         Transform capsule = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
-        capsule.tag = "Capsule";
+        FindRenderer(capsule).material = defaultMat;
 
         // Giving the capsule appropriate soup data. //
         if (capsule.GetComponent<SoupData>() == null)
@@ -799,15 +958,31 @@ public class MouseLook : MonoBehaviour
             // Just set current portions and max portions to 5. Doesn't really matter just yet. //
             soupData.currentPortions = 5;
             soupData.maxPortions = 5;
+        }
 
-
-            // Can only set the type of soup if the catcher contains soup. //
-            if (CookingManager.currentPortions.Count > 0)
+        // Can only set the type of soup if the catcher contains soup. //
+        // ======================================= REMEMBER TO CHANGE THIS TO STANDALONE FUNCTION ======================================= //
+        if (itemToPickUp.tag == "CatcherCapsule")
+        { 
+            if (theCatcher.currentPortions.Count > 0)
             {
                 Debug.Log("SET CAPSULES SOUP DATA");
-                capsule.gameObject.GetComponent<SoupData>().theSoup = CookingManager.currentPortions[0];
+                capsule.gameObject.GetComponent<SoupData>().theSoup = theCatcher.currentPortions[0];
             }
         }
+
+        capsule.tag = "Capsule";
+
+        // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
+        for (int i = 0; i < capsule.childCount; i++)
+        {
+            capsule.GetChild(0).tag = "Capsule";
+            Debug.Log("Set capsule child tag to capsule.");
+        }
+
+        
+
+        
         
         // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
         for (int i = 0; i < capsule.childCount; i++)
@@ -822,11 +997,26 @@ public class MouseLook : MonoBehaviour
 
         capsule.GetComponent<Rigidbody>().useGravity = false;
         capsule.GetComponent<Rigidbody>().isKinematic = true;
+
+        // Stopping the selection if your holding an item //
+        // This code will prevent the bug where the blender cover will sometimes turn pink. //
+        if (defaultMat != null)
+        {
+            FindRenderer(itemToPickUp).material = defaultMat;
+        }
+        else
+        {
+            Debug.Log("EROORR RORORr");
+        }
+        selectedItem = null;
+        defaultMat = null;
     }
 
     void DetachBlenderCover(Transform itemToPickUp)
     {
+
         Transform blenderCover = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
+        blenderCover.GetComponent<Renderer>().material = defaultMat;
         blenderCover.tag = "InteractableBlenderCover";
 
         // Not only do we set the parent prefab to have a capsule tag, but also the children it has. // 
@@ -846,8 +1036,23 @@ public class MouseLook : MonoBehaviour
         // TEMPORARY FIX ME //
         // Because the mesh on the blender isn't working properly, we can't put a mesh collider on it. This means we have to use a box collider and set it to be a trigger so that ingredients can
         // be inside of it.
+        if (blenderCover.GetComponent<BoxCollider>())
+        { 
+            blenderCover.GetComponent<BoxCollider>().isTrigger = false;
+        }
 
-        blenderCover.GetComponent<BoxCollider>().isTrigger = false;
+        // Stopping the selection if your holding an item //
+        // This code will prevent the bug where the blender cover will sometimes turn pink. //
+        if (defaultMat != null)
+        {
+            itemToPickUp.GetComponent<Renderer>().material = defaultMat;
+        }
+        else
+        {
+            Debug.Log("EROORR RORORr");
+        }
+        selectedItem = null;
+        defaultMat = null;
     }
     void DropItem()
     {
@@ -872,8 +1077,18 @@ public class MouseLook : MonoBehaviour
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
 
+            // This is a fix for any items that have a non convex mesh collider. We have to swap its collider for a box collider when its being thrown around because 
+            // Unity doesn't support mesh colliders and rigidbodys. //
+            //if (heldItem.GetComponent<MeshCollider>())
+            //{
+            //    Destroy(heldItem.GetComponent<MeshCollider>());
+            //    heldItem.gameObject.AddComponent<BoxCollider>();
+            //}
+
             heldItem.parent = null;
             heldItem = null;
+
+
         
         }
         
@@ -884,108 +1099,161 @@ public class MouseLook : MonoBehaviour
         
         Vector3 throwDirection;
         
+        // I think this if statement is unnecessary?? //
         if (Physics.Raycast(gameObject.transform.position, gameObject.GetComponent<Camera>().transform.forward * 100, 100, ~(1 << 2)))
         { 
             throwDirection = (target.point - heldItem.position).normalized;
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
-            heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * tempThrowForce, ForceMode.Impulse);
 
+
+            // Adding force based on charged throw //
+            if (currentThrowCharge == ThrowCharge.WEAK)
+            { 
+                heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * weakThrowStrength, ForceMode.Impulse);
+            }
+            else if (currentThrowCharge == ThrowCharge.MEDIUM)
+            {
+                heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * mediumThrowStrength, ForceMode.Impulse);
+
+            }
+            else if (currentThrowCharge == ThrowCharge.STRONG)
+            {
+                heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * strongThrowStrength, ForceMode.Impulse);
+            }
+
+
+            // This is a fix for any items that have a non convex mesh collider. We have to swap its collider for a box collider when its being thrown around because 
+            // Unity doesn't support mesh colliders and rigidbodys. //
+            if (heldItem.GetComponent<MeshCollider>())
+            {
+                Destroy(heldItem.GetComponent<MeshCollider>());
+                heldItem.gameObject.AddComponent<BoxCollider>();
+            }
 
 
             isHoldingItem = false;
             heldItem.parent = null;
             heldItem = null;
 
+
+            // Resetting throw charge values. //
+            throwingHeldDownTimer = 0;
+            throwCharge = 0;
+            currentThrowCharge = ThrowCharge.WEAK;
+
             Debug.Log("throw activated");
         }    
     }
-
-    
-    void DisplayPickupUI()
+    private void ThrowTimer()
     {
-        if (selectedItem)
+        throwingHeldDownTimer += Time.deltaTime;
+        if (throwingHeldDownTimer >= throwingChargeRate && throwCharge <= strongthrowThreshold)
         {
-            if (!isHoldingItem)
-            {
-                PickUpUI.gameObject.SetActive(true);
-            }
-            else
-            {
-                PickUpUI.gameObject.SetActive(false);
-            }
-
-            Vector3 UIPos = selectedItem.position;
-            UIPos.y += PickUpUIYPos;
-            PickUpUI.transform.position = UIPos;
-            PickUpUI.transform.LookAt(gameObject.transform);
-
+            throwCharge += 1;
+            throwingHeldDownTimer = 0;
         }
-        else
+
+
+        if (throwCharge >= strongthrowThreshold)
         {
-            PickUpUI.gameObject.SetActive(false);
+            currentThrowCharge = ThrowCharge.STRONG;
+        }
+        else if (throwCharge >= mediumThrowThreshold)
+        {
+            currentThrowCharge = ThrowCharge.MEDIUM;
+        }
+        else if (throwCharge >= weakThrowThreshold)
+        {
+            currentThrowCharge = ThrowCharge.WEAK;
         }
     }
 
 
-    void DisplayApplianceIU()
-    {
-        Vector3 applianceUIPos;
-        if (insertText == null && notHoldingText == null)
-        {
-            notHoldingText = ApplianceUI.transform.Find("notHoldingText");
-            insertText = ApplianceUI.transform.Find("insertText");
-        }
-        if (selectedAppliance)
-        {
-            
-            if (selectedAppliance.parent != null)
-            {
-                applianceUIPos = selectedAppliance.parent.position;
-            }
-            else
-            {
-                applianceUIPos = selectedAppliance.position;
-            }
-
-            // Adjusting the position based on the inspector values //
-            applianceUIPos.y += ApplianceUIYPos;
-            applianceUIPos.z += ApplianceUIZPos;
-
-
-            // Applying new position and constantly making the UI face the player. //
-            ApplianceUI.transform.position = applianceUIPos;
-            ApplianceUI.transform.LookAt(gameObject.transform);
-
-
-
-            if (IsLookingAtAppliance() && !isHoldingItem)
-            {
-                notHoldingText.gameObject.SetActive(true);
-                insertText.gameObject.SetActive(false);
-            }
-            else if (IsLookingAtAppliance() && isHoldingItem)
-            {
-                insertText.gameObject.SetActive(true);
-                notHoldingText.gameObject.SetActive(false);
-                insertText.GetComponent<TextMeshProUGUI>().text = "INSERT " + heldItem.name + " [E]";
-            }
-            else
-            {
-                notHoldingText.gameObject.SetActive(false);
-                insertText.gameObject.SetActive(false);
-            }
-        }
-        else 
-        {
-            notHoldingText.gameObject.SetActive(false);
-            insertText.gameObject.SetActive(false);
-        }
-    }
+    //void DisplayPickupUI()
+    //{
+    //    if (selectedItem)
+    //    {
+    //        if (!isHoldingItem)
+    //        {
+    //            PickUpUI.gameObject.SetActive(true);
+    //        }
+    //        else
+    //        {
+    //            PickUpUI.gameObject.SetActive(false);
+    //        }
+    //
+    //        Vector3 UIPos = selectedItem.position;
+    //        UIPos.y += PickUpUIYPos;
+    //        PickUpUI.transform.position = UIPos;
+    //        PickUpUI.transform.LookAt(gameObject.transform);
+    //
+    //    }
+    //    else
+    //    {
+    //        PickUpUI.gameObject.SetActive(false);
+    //    }
+    //}
+    //
+    //
+    //void DisplayApplianceIU()
+    //{
+    //    Vector3 applianceUIPos;
+    //    if (insertText == null && notHoldingText == null)
+    //    {
+    //        notHoldingText = ApplianceUI.transform.Find("notHoldingText");
+    //        insertText = ApplianceUI.transform.Find("insertText");
+    //    }
+    //    if (selectedAppliance)
+    //    {
+    //        
+    //        if (selectedAppliance.parent != null)
+    //        {
+    //            applianceUIPos = selectedAppliance.parent.position;
+    //        }
+    //        else
+    //        {
+    //            applianceUIPos = selectedAppliance.position;
+    //        }
+    //
+    //        // Adjusting the position based on the inspector values //
+    //        applianceUIPos.y += ApplianceUIYPos;
+    //        applianceUIPos.z += ApplianceUIZPos;
+    //
+    //
+    //        // Applying new position and constantly making the UI face the player. //
+    //        ApplianceUI.transform.position = applianceUIPos;
+    //        ApplianceUI.transform.LookAt(gameObject.transform);
+    //
+    //
+    //
+    //        if (IsLookingAtAppliance() && !isHoldingItem)
+    //        {
+    //            notHoldingText.gameObject.SetActive(true);
+    //            insertText.gameObject.SetActive(false);
+    //        }
+    //        else if (IsLookingAtAppliance() && isHoldingItem)
+    //        {
+    //            insertText.gameObject.SetActive(true);
+    //            notHoldingText.gameObject.SetActive(false);
+    //            insertText.GetComponent<TextMeshProUGUI>().text = "INSERT " + heldItem.name + " [E]";
+    //        }
+    //        else
+    //        {
+    //            notHoldingText.gameObject.SetActive(false);
+    //            insertText.gameObject.SetActive(false);
+    //        }
+    //    }
+    //    else 
+    //    {
+    //        notHoldingText.gameObject.SetActive(false);
+    //        insertText.gameObject.SetActive(false);
+    //    }
+    //}
 
     // Appliance interactions //
 
-     
+
     SwitchType GetInteractableSwitch(RaycastHit target)
     {
         if (target.transform.tag == "BLENDER_BUTTON_1")
@@ -1002,37 +1270,46 @@ public class MouseLook : MonoBehaviour
 
     
 
-    void ActivateSwitch(SwitchType switchType)
-    {
-        switch (switchType)
-        {
-            case SwitchType.CUTTER_SWITCH_1:
-                CookingManager.CutterSwitch1();
-                break;
-            case SwitchType.CUTTER_SWITCH_2:
-                CookingManager.CutterSwitch2();
-                break;
-            case SwitchType.WATER_TAP:
-                CookingManager.WaterTapSwitch();
-                break;
-            case SwitchType.ORDER_ACCEPT:
-                OrderManager.AcceptOrder(OrderManager.requestedOrders[0]);
-                break;
-            case SwitchType.ORDER_REJECT:
-                OrderManager.RejectOrder();
-                break;
-            case SwitchType.CANON_BUTTON:
-                CookingManager.ShootCapsule();
-                break;
-            case SwitchType.BLENDER_BUTTON:
-                CookingManager.ActivateBlender();
-                break;
-                
-        }
-    }
-
-    void InsertItem()
-    { }
+    //void ActivateSwitch(SwitchType switchType)
+    //{
+    //    switch (switchType)
+    //    {
+    //        case SwitchType.CUTTER_SWITCH_1:
+    //            theCookingManager.theSlicer.CutterSwitch1();
+    //            break;
+    //        case SwitchType.CUTTER_SWITCH_2:
+    //            theCookingManager.theSlicer.CutterSwitch2();
+    //            break;
+    //        case SwitchType.WATER_TAP:
+    //            CookingManager.WaterTapSwitch();
+    //            break;
+    //        case SwitchType.ORDER_ACCEPT:
+    //            OrderManager.AcceptOrder(OrderManager.requestedOrders[0]);
+    //            break;
+    //        case SwitchType.ORDER_REJECT:
+    //            OrderManager.RejectOrder();
+    //            break;
+    //        case SwitchType.CANON_BUTTON:
+    //            CookingManager.ShootCapsule();
+    //            break;
+    //        case SwitchType.BLENDER_BUTTON:
+    //            CookingManager.ActivateBlender();
+    //            break;
+    //        case SwitchType.ITEM_SPAWNER:
+    //            if (canSpawnIngredient == true)
+    //            {
+    //                canSpawnIngredient = false;
+    //                CookingManager.IngredientSpawnTimer();
+    //                Debug.Log("Spawning an ingredient.");
+    //            }
+    //            else
+    //            {
+    //                Debug.Log("You can't spawn an ingredient that fast!");
+    //            }
+    //            break;
+    //            
+    //    }
+    //}
     void RemoveItem()
     {
         isHoldingItem = false;
@@ -1044,10 +1321,6 @@ public class MouseLook : MonoBehaviour
         heldItem.gameObject.SetActive(false);
         heldItem = null;
     }
-
-    void ActivateAppliance()
-    { }
-
     void CalculateTarget()
     {
         if (currentCameraMode == CameraMode.HAND_CONTROL)
@@ -1063,9 +1336,19 @@ public class MouseLook : MonoBehaviour
         {
             Debug.Log("Raycast from screen.");
             // Doing raycast from screen //
-            Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~(1 << 2));
-            Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.white);
+            Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~((1 << 2) | (1 << 9)));
+            Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.blue);
         }
     }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(collisionSphere.position, handCollisionRadius);
+    }
+
+    
+
+    
 
 }
