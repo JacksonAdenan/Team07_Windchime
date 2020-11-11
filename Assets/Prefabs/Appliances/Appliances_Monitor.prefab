@@ -99,6 +99,7 @@ MonoBehaviour:
   currentState: 0
   thisMonitor: 1
   currentIngredientDisplay: {fileID: 0}
+  title: {fileID: 0}
   ingredientNameText: {fileID: 0}
   spicyText: {fileID: 0}
   chunkyText: {fileID: 0}
@@ -121,6 +122,7 @@ MonoBehaviour:
   currentState: 0
   thisMonitor: 1
   currentIngredientDisplay: {fileID: 0}
+  title: {fileID: 0}
   ingredientNameText: {fileID: 0}
   spicyText: {fileID: 0}
   chunkyText: {fileID: 0}

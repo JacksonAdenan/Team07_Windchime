@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7668864386234971778}
   - component: {fileID: 7503864279930348753}
   - component: {fileID: -5566326718945512824}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: apple
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -109,10 +109,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientName: apple
   spicyness: 0
-  chunkyness: 0
+  chunkyness: 3
   isMeat: 0
   currentState: 0
   prefab: {fileID: 884400586295720880}
+  halfedPrefab: {fileID: 0}
+  quateredPrefab: {fileID: 0}
+  blendedPrefab: {fileID: 884400586295720880}
 --- !u!54 &-5566326718945512824
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -128,4 +131,4 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
