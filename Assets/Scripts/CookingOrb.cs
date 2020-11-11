@@ -6,6 +6,9 @@ using System;
 [Serializable]
 public class CookingOrb
 {
+    GameManager gameManager;
+
+
     // Appliance prefab. //
     public Transform cookingOrb;
 
@@ -39,6 +42,9 @@ public class CookingOrb
     // Start is called before the first frame update
     public void Start()
     {
+
+        gameManager = GameManager.GetInstance();
+
         currentIngredients = new List<Transform>();
         currentlyTrackedIngredients = new List<Transform>();
 
@@ -248,14 +254,21 @@ public class CookingOrb
 
     public void AddWater(Transform waterOrb)
     {
+
+        // This if statement prevents the added water from remaining the selected material. //
+        if (MouseLook.selectedItem != null && MouseLook.selectedItem == waterOrb)
+        {
+            waterOrb.GetComponent<Renderer>().material = gameManager.playerController.defaultMat;
+
+            // Have to have this otherwise default mat doesn't reset and the next item you look out will turn into water. //
+            gameManager.playerController.defaultMat = null;
+            MouseLook.selectedItem = null;
+        }
+        // -------------------------------------------------------------------------------- //
+
         water = GameObject.Instantiate(waterOrb, waterOrb.position, waterOrb.rotation);
         water.tag = "NonInteractableWater";
         water.GetComponent<SphereCollider>().isTrigger = true;
-
-
-
-
-
 
         // ------------------------------------------ Setting the CookingOrbState ------------------------------------------ //
 

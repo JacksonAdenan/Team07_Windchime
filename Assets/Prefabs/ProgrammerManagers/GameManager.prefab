@@ -48,4 +48,5 @@ MonoBehaviour:
   orderManager: {fileID: 0}
   scoreManager: {fileID: 0}
   menuManager: {fileID: 0}
-  gameTime: 50
+  playerController: {fileID: 0}
+  gameTime: 360

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 430453856}
   - component: {fileID: 430453855}
   - component: {fileID: 430453858}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Entry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5954701602515823156, guid: a737e20b7a5ee5b43963bb1ade31fba1, type: 3}
@@ -314,10 +314,26 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4293751317952506913, guid: a737e20b7a5ee5b43963bb1ade31fba1, type: 3}
+--- !u!114 &786057313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6336109153520528013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8191ff5ba031f8e4e8641ef978a349cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 11
+  switchSpamCooldown: 0
+  switchCooldownTimer: 0
+  onCooldown: 0
 --- !u!95 &1853214757690634575
 Animator:
   serializedVersion: 3
@@ -420,7 +436,7 @@ PrefabInstance:
     - target: {fileID: -3456528008182656330, guid: a737e20b7a5ee5b43963bb1ade31fba1,
         type: 3}
       propertyPath: m_TagString
-      value: Appliance
+      value: Switch
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: a737e20b7a5ee5b43963bb1ade31fba1,
         type: 3}

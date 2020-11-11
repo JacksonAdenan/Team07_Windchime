@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5260899498129032181}
   - component: {fileID: 2956937336414900393}
   - component: {fileID: 5533197621728628831}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: banana
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -109,10 +109,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientName: banana
   spicyness: 0
-  chunkyness: 0
+  chunkyness: 2
   isMeat: 0
   currentState: 0
   prefab: {fileID: 1475184736236626467}
+  halfedPrefab: {fileID: 0}
+  quateredPrefab: {fileID: 0}
+  blendedPrefab: {fileID: 1475184736236626467}
 --- !u!54 &5533197621728628831
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -128,4 +131,4 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3

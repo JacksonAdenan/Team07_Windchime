@@ -111,7 +111,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 75
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -153,7 +153,6 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_CameraOutput: 0
   m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
@@ -165,6 +164,7 @@ MonoBehaviour:
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
+  m_ClearDepth: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
@@ -180,9 +180,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b82deb4ee2bbb84bbf42a06e966d235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FPS_INTERACT_DISTANCE: 3
   mouseSensitivity: 300
   rotationSensitivity: 50
   handControlSensitivity: 300
+  roationLerpSpeed: 1.5
+  handReturnSpeed: 0.05
   handZDistance: 1
   handYCeilingLimit: 0.25
   handYFloorLimit: -1
@@ -191,32 +194,37 @@ MonoBehaviour:
   PickUpUIYPos: 0.3
   ApplianceUIZPos: -1.8
   ApplianceUIYPos: 0.13
-  handCollisionRadius: 0.25
+  handCollisionRadius: 0.3
   heldItemPosX: 0
   heldItemPosY: 0.25
   heldItemPosZ: -0.5
-  tempThrowForce: 8
-  roationLerpSpeed: 1.5
   cameraCenteringDeadZone: 0.95
   playerBody: {fileID: 6999435598105673451}
-  itemSelectedMat: {fileID: 2100000, guid: cd7cbee5842fa244bab3492da2417cbf, type: 2}
-  switchSelectedMat: {fileID: 2100000, guid: cd7cbee5842fa244bab3492da2417cbf, type: 2}
   handFPSPos: {x: 0.5, y: -0.31, z: 1}
   hand: {fileID: 3591398287783357391}
   collisionSphere: {fileID: 7711579659065494068}
   realHandCentre: {fileID: 6311543611434371166}
-  PickUpUI: {fileID: 0}
-  ApplianceUI: {fileID: 0}
   crosshairCanvas: {fileID: 0}
   crosshairImage: {fileID: 0}
   xDeadZone: 1.5
   yDeadZone: 1
-  currentCameraMode: 1
   selectedSwitch: {fileID: 0}
+  itemSelectedMat: {fileID: 2100000, guid: cd7cbee5842fa244bab3492da2417cbf, type: 2}
+  switchSelectedMat: {fileID: 2100000, guid: cd7cbee5842fa244bab3492da2417cbf, type: 2}
   defaultMat: {fileID: 0}
-  posX: 0
-  posY: 0
+  currentCameraMode: 0
   theCookingManager: {fileID: 0}
+  throwingHeldDownTimer: 0
+  throwingChargeRate: 1
+  throwCharge: 0
+  weakThrowStrength: 2
+  mediumThrowStrength: 5
+  strongThrowStrength: 10
+  weakThrowThreshold: 0
+  mediumThrowThreshold: 2
+  strongthrowThreshold: 4
+  currentThrowCharge: 0
+  tempThrowForce: 8
 --- !u!1 &6999435598105673239
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +238,9 @@ GameObject:
   - component: {fileID: 6999435598105673449}
   - component: {fileID: 6999435598105673448}
   - component: {fileID: 6999435598105673452}
-  m_Layer: 2
+  - component: {fileID: 1388271405}
+  - component: {fileID: 2669703668983256446}
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,7 +256,7 @@ Transform:
   m_GameObject: {fileID: 6999435598105673239}
   m_LocalRotation: {x: 0, y: 0.75015146, z: 0, w: 0.6612661}
   m_LocalPosition: {x: 3.28, y: 4.454767, z: 2.78}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 1.0000001}
   m_Children:
   - {fileID: 5899664984352078732}
   - {fileID: 6999435599806212877}
@@ -338,6 +348,30 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &1388271405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6999435598105673239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1487b6cd759822f4e9d6bfe499c8bb6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2669703668983256446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6999435598105673239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1487b6cd759822f4e9d6bfe499c8bb6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6999435599806212876
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,6 +468,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711579658949846957, guid: d0b89c783d1904140ae593d6d212989b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.045
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711579658949846957, guid: d0b89c783d1904140ae593d6d212989b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.493
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0b89c783d1904140ae593d6d212989b, type: 3}

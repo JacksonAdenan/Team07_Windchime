@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8695368405510417176}
   - component: {fileID: 8695368405510417179}
   m_Layer: 0
-  m_Name: OrderManager 1
+  m_Name: OrderManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,3 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19cb3fba76d371b4ca9cc71fe7ff2169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requestedOrders: []
+  acceptedOrders: []
+  selectedOrder:
+    orderName: 
+    spicyness: 0
+    chunkiness: 0
+    noMeat: 0
+    noVeg: 0
+  nextOrderTimer: 0
+  newOrderRate: 5

@@ -14,6 +14,8 @@ public enum SwitchType
     ITEM_SPAWNER,
     MONITOR_FORWARD,
     MONITOR_BACK,
+    NEXT_ORDER,
+    COOKING_ORB_HATCH,
 
     ERROR
 }
@@ -25,6 +27,7 @@ public class SwitchData : MonoBehaviour
 
     Ingredient ingredientInfo;
     GameManager gameManager;
+    CookingManager cookingManager;
 
     // Cool down timers. //
     public float switchSpamCooldown = 0;
@@ -36,6 +39,7 @@ public class SwitchData : MonoBehaviour
     {
         ingredientInfo = GetComponent<Ingredient>();
         gameManager = GameManager.GetInstance();
+        cookingManager = gameManager.cookingManager;
 
         switchCooldownTimer = 0;
         onCooldown = false;
@@ -69,15 +73,15 @@ public class SwitchData : MonoBehaviour
                     break;
                 case SwitchType.ORDER_ACCEPT:
                     onCooldown = true;
-                    OrderManager.AcceptOrder(OrderManager.requestedOrders[0]);
+                    gameManager.orderManager.AcceptOrder(gameManager.orderManager.requestedOrders[0]);
                     break;
                 case SwitchType.ORDER_REJECT:
                     onCooldown = true;
-                    OrderManager.RejectOrder();
+                    gameManager.orderManager.RejectOrder();
                     break;
                 case SwitchType.CANON_BUTTON:
                     onCooldown = true;
-                    CookingManager.ShootCapsule();
+                    cookingManager.theCanon.ShootCapsule();
                     break;
                 case SwitchType.BLENDER_BUTTON:
                     onCooldown = true;
@@ -85,7 +89,7 @@ public class SwitchData : MonoBehaviour
                     break;
                 case SwitchType.ITEM_SPAWNER:
                     onCooldown = true;
-                    CookingManager.IngredientSpawnTimer();
+                    cookingManager.IngredientSpawnTimer();
                     break;
                 case SwitchType.MONITOR_FORWARD:
                     onCooldown = true;
@@ -112,6 +116,17 @@ public class SwitchData : MonoBehaviour
                         monitor.SetScreenState(ScreenState.MAIN_MENU);
                         break;
                     }
+                case SwitchType.NEXT_ORDER:
+                    onCooldown = true;
+                    gameManager.orderManager.SwapSelectedOrder();
+                    break;
+                case SwitchType.COOKING_ORB_HATCH:
+                    onCooldown = true;
+                    if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
+                    {
+                        gameManager.cookingManager.theOrb.MakeSoup();
+                    }
+                    break;
             }
         }
         else

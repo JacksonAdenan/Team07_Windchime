@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 129375712}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.204, y: 0.802, z: 0.368}
-  m_LocalScale: {x: 0.26496923, y: 0.18410422, z: 0.2623412}
+  m_LocalScale: {x: 0.30296597, y: 0.24910322, z: 0.41116735}
   m_Children: []
   m_Father: {fileID: 1269946006982373876}
   m_RootOrder: 1
@@ -262,7 +262,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 65371026409263719, guid: b300124379868974f897e0ae408b0b6b, type: 3}
@@ -297,6 +297,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  switchSpamCooldown: 0
+  switchCooldownTimer: 0
+  onCooldown: 0
 --- !u!64 &809220583
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -307,7 +310,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1812408932493463848, guid: b300124379868974f897e0ae408b0b6b, type: 3}
@@ -342,6 +345,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  switchSpamCooldown: 0
+  switchCooldownTimer: 0
+  onCooldown: 0
 --- !u!1001 &8490532782983098623
 PrefabInstance:
   m_ObjectHideFlags: 0
