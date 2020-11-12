@@ -865,26 +865,42 @@ public class MouseLook : MonoBehaviour
         defaultMat = null;
 
         isHoldingItem = true;
-        if (itemToPickUp.parent != null)
+        Transform currentObj = itemToPickUp;
+        while (currentObj.parent != null)
         {
-          
-            heldItem = itemToPickUp.parent;
-            heldItem.SetParent(hand);
-            heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
-
-
-            // this is the parent it doesnt have these things !. So i have to get the children.//
-            heldItem.GetComponent<Rigidbody>().useGravity = false;
-            heldItem.GetComponent<Rigidbody>().isKinematic = true;          
+            currentObj = currentObj.parent;
         }
-        else
-        { 
-            heldItem = itemToPickUp;
-            itemToPickUp.SetParent(hand);
-            itemToPickUp.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+        //if (itemToPickUp.parent != null)
+        //{
+          
+        heldItem = currentObj;
+        heldItem.SetParent(hand);
+        heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
 
-            itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
-            itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+
+        // this is the parent it doesnt have these things !. So i have to get the children.//
+        heldItem.GetComponent<Rigidbody>().useGravity = false;
+        heldItem.GetComponent<Rigidbody>().isKinematic = true;
+        //}
+        //else
+        //{ 
+        //    heldItem = itemToPickUp;
+        //    itemToPickUp.SetParent(hand);
+        //    itemToPickUp.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+        //
+        //    itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
+        //    itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+        //}
+
+
+
+
+        // Making it so item is on a ignore-raycast layer if held. //
+        heldItem.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        // Setting all children aswell.
+        for (int i = 0; i < heldItem.childCount; i++)
+        { 
+            heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
         
     }
@@ -1060,6 +1076,11 @@ public class MouseLook : MonoBehaviour
     {
         isHoldingItem = false;
 
+
+        // Making it so item is back on default layer if let go. //
+        heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+
+
         // Have to write exception code for capsules since they have children >:( //
         if (heldItem.tag == "Capsule")
         {
@@ -1099,6 +1120,8 @@ public class MouseLook : MonoBehaviour
     void ThrowItem()
     {
         
+
+
         Vector3 throwDirection;
         
         // I think this if statement is unnecessary?? //
@@ -1107,6 +1130,15 @@ public class MouseLook : MonoBehaviour
             throwDirection = (target.point - heldItem.position).normalized;
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
+
+
+            // Making it so item is back on default layer if let go. //
+            heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+            // Setting all children aswell.
+            for (int i = 0; i < heldItem.childCount; i++)
+            {
+                heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+            }
 
 
             // Adding force based on charged throw //
@@ -1145,6 +1177,10 @@ public class MouseLook : MonoBehaviour
             currentThrowCharge = ThrowCharge.WEAK;
 
             Debug.Log("throw activated");
+
+
+
+
         }    
     }
     private void ThrowTimer()
