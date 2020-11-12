@@ -89,6 +89,9 @@ public class MenuManager : MonoBehaviour
 
     public TextMeshProUGUI cookingOrbTimer;
 
+    string trackedIngredientsText = "";
+    public TextMeshProUGUI trackedIngredients;
+
     [Header("Blender Progress Stuff")]
     public TextMeshProUGUI blenderProgress;
     public TextMeshProUGUI blendingHalfDone;
@@ -252,12 +255,13 @@ public class MenuManager : MonoBehaviour
                 orderUI.gameObject.SetActive(false);
                 pauseUI.gameObject.SetActive(true);
                 playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.pauseMode;
-                if (Input.GetKeyDown(KeyCode.P))
+              
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     currentState = global::MenuState.none;
                     playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
                     Cursor.lockState = CursorLockMode.Locked;
-
+                    Cursor.visible = false;
                     Time.timeScale = 1;
                 }
                 break;
@@ -280,9 +284,10 @@ public class MenuManager : MonoBehaviour
                 {
                     currentState = global::MenuState.orderMenu;
                 }
-                else if (Input.GetKeyDown(KeyCode.P))
+                else if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     currentState = global::MenuState.pauseMenu;
+                    Cursor.visible = true;
                 }
                 break;
             
@@ -385,6 +390,16 @@ public class MenuManager : MonoBehaviour
         }
         currentIngredients.text = ingredientsText;
         ingredientsText = "";
+
+
+        // ----------------- Tracked Ingredients ------------------- //
+        for (int i = 0; i < gameManager.cookingManager.theOrb.currentlyTrackedIngredients.Count; i++)
+        {
+            trackedIngredientsText = trackedIngredientsText + gameManager.cookingManager.theOrb.currentlyTrackedIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
+        }
+        trackedIngredients.text = trackedIngredientsText;
+        trackedIngredientsText = "";
+
     }
 
     void DisplayCurrentCatcherState()

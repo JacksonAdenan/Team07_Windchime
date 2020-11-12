@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1934301662150755828
+--- !u!1 &1232086138917603729
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3308588930145759266}
-  - component: {fileID: 1462647812610126675}
-  - component: {fileID: 4024436853902193675}
-  - component: {fileID: 1062572503541025379}
+  - component: {fileID: 3435788515163856590}
+  - component: {fileID: 3425502482431145152}
+  - component: {fileID: 224755122274546753}
+  - component: {fileID: 948083575657828400}
   m_Layer: 8
-  m_Name: Onion_Half
+  m_Name: Steak_Full
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3308588930145759266
+--- !u!4 &3435788515163856590
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934301662150755828}
+  m_GameObject: {fileID: 1232086138917603729}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.03622858, z: 0.039313335}
-  m_LocalScale: {x: 0.64264137, y: 0.64264137, z: 0.64264137}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5215614544627752562}
+  m_Father: {fileID: 665449077132107707}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1462647812610126675
+--- !u!33 &3425502482431145152
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934301662150755828}
-  m_Mesh: {fileID: -3540784593213173205, guid: 168bc01be5b229848836192168acb5bc, type: 3}
---- !u!23 &4024436853902193675
+  m_GameObject: {fileID: 1232086138917603729}
+  m_Mesh: {fileID: -1936429845656117808, guid: 8afe02317f7c33344adb2720f72a7251, type: 3}
+--- !u!23 &224755122274546753
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934301662150755828}
+  m_GameObject: {fileID: 1232086138917603729}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 51fc3e6205d365545bca9a5919d6aa43, type: 2}
+  - {fileID: 2100000, guid: 3dbcca41b806f71469eaed602b0cc95e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,20 +80,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &1062572503541025379
-SphereCollider:
+--- !u!65 &948083575657828400
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934301662150755828}
+  m_GameObject: {fileID: 1232086138917603729}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35932064
-  m_Center: {x: 0.17057315, y: 0.0009315908, z: -0.000000029802322}
---- !u!1 &9095806781928713313
+  m_Size: {x: 0.4250121, y: 0.055895366, z: 0.6445564}
+  m_Center: {x: 0.0019257367, y: 0, z: 0}
+--- !u!1 &4568760741368491432
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,37 +101,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5215614544627752562}
-  - component: {fileID: 9152242719001163960}
+  - component: {fileID: 665449077132107707}
+  - component: {fileID: 1644999491920712722}
+  - component: {fileID: -8525100917478333788}
   m_Layer: 8
-  m_Name: Food_Onion_Half
+  m_Name: Food_Steak_Full
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5215614544627752562
+--- !u!4 &665449077132107707
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9095806781928713313}
+  m_GameObject: {fileID: 4568760741368491432}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3308588930145759266}
+  - {fileID: 3435788515163856590}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &9152242719001163960
+--- !u!54 &1644999491920712722
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9095806781928713313}
+  m_GameObject: {fileID: 4568760741368491432}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -141,3 +142,31 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-8525100917478333788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568760741368491432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Brothleon Meat
+  spicyness: 0
+  chunkyness: 0
+  sweetness: 0
+  isMeat: 1
+  colourTag: 2
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 665449077132107707}
+  halfedPrefab: {fileID: 3089107478996846807, guid: 4685373c1982aee44992f478c101caba,
+    type: 3}
+  quateredPrefab: {fileID: 7615018144053310642, guid: 0c436283f15508d4a979c1d9595271fd,
+    type: 3}
+  blendedPrefab: {fileID: 0}

@@ -204,9 +204,9 @@ public class OrderManager : MonoBehaviour
         colourNum = Random.Range(0, availableColours.Count);
         desiredColour = availableColours[colourNum];
 
-        desiredSpicyness = Random.Range(1, 10);
-        desiredChunkyness = Random.Range(1, 10);
-        desiredSweetness = Random.Range(1, 10);
+        desiredSpicyness = Random.Range(1, 6);
+        desiredChunkyness = Random.Range(1, 6);
+        desiredSweetness = Random.Range(1, 6);
         
 
 

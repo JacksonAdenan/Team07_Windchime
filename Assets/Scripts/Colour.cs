@@ -51,11 +51,11 @@ public class Colour
         //blue = new Colour("blue", new Vector3(17, 80, 240));
         blue = new Colour("blue", new Vector3(25, 130, 150));
         green = new Colour("green", new Vector3(50, 100, 30));
-        red = new Colour("red", new Vector3(100, 30, 40));
+        red = new Colour("red", new Vector3(200, 30, 50));
 
         purple = new Colour("purple", new Vector3(130, 25, 110));
-        yellow = new Colour("yellow", new Vector3(220, 15, 30));
-        pink = new Colour("pink", new Vector3(100, 30, 40));
+        yellow = new Colour("yellow", new Vector3(220, 200, 20));
+        pink = new Colour("pink", new Vector3(250, 100, 200));
         orange = new Colour("orange", new Vector3(230, 120, 30));
 
     }

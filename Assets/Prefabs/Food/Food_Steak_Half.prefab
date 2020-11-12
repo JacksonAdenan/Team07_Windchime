@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7671546850923737406
+--- !u!1 &2055311838577097412
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6642130982717981485}
-  - component: {fileID: 8395412760682038096}
+  - component: {fileID: 3089107478996846807}
+  - component: {fileID: -4148442832562248275}
   m_Layer: 8
-  m_Name: Food_Tomato_Quater
+  m_Name: Food_Steak_Half
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6642130982717981485
+--- !u!4 &3089107478996846807
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671546850923737406}
+  m_GameObject: {fileID: 2055311838577097412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7184366692033124513}
+  - {fileID: 8072487160274642086}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &8395412760682038096
+--- !u!54 &-4148442832562248275
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671546850923737406}
+  m_GameObject: {fileID: 2055311838577097412}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -48,7 +48,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1 &8076734584659423594
+--- !u!1 &5957036512805607837
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,46 +56,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7184366692033124513}
-  - component: {fileID: 9062205618114768012}
-  - component: {fileID: 1952241085871209479}
-  - component: {fileID: 5638190573369768268}
+  - component: {fileID: 8072487160274642086}
+  - component: {fileID: 7710637680872854514}
+  - component: {fileID: 134530469320437222}
+  - component: {fileID: 1159280525574805510}
   m_Layer: 8
-  m_Name: Tomato_Quater
+  m_Name: Steak_Half
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7184366692033124513
+--- !u!4 &8072487160274642086
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8076734584659423594}
+  m_GameObject: {fileID: 5957036512805607837}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000000035245616, y: -0.0000000040237387, z: 0.000000016135788}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6642130982717981485}
+  m_Father: {fileID: 3089107478996846807}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &9062205618114768012
+--- !u!33 &7710637680872854514
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8076734584659423594}
-  m_Mesh: {fileID: -7595307228194918773, guid: c7b96088e31cd52489c18270a4fb173c, type: 3}
---- !u!23 &1952241085871209479
+  m_GameObject: {fileID: 5957036512805607837}
+  m_Mesh: {fileID: 3081437981895575308, guid: 1d2ee230c4af5ad4e91235e3e670c789, type: 3}
+--- !u!23 &134530469320437222
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8076734584659423594}
+  m_GameObject: {fileID: 5957036512805607837}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -107,7 +107,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 19cc09f58c293d24985a3b2b49716527, type: 2}
+  - {fileID: 2100000, guid: 3dbcca41b806f71469eaed602b0cc95e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -128,16 +128,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &5638190573369768268
-SphereCollider:
+--- !u!65 &1159280525574805510
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8076734584659423594}
+  m_GameObject: {fileID: 5957036512805607837}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.107192375
-  m_Center: {x: 0.0683808, y: 0.000000007450581, z: -0.07149097}
+  m_Size: {x: 0.2747042, y: 0.055895362, z: 0.639622}
+  m_Center: {x: 0.07707969, y: 0, z: 0.002467215}

@@ -149,6 +149,9 @@ public class Blender
     {
         currentBlenderIngredients.Add(ingredientToCatch);
         Debug.Log("Ingredient added to blender.");
+
+        ingredientToCatch.position = blenderSpawnPoint.position;
+        ingredientToCatch.GetComponent<Rigidbody>().isKinematic = true;
     }
     public void RemoveIngredientFromBlender(Transform ingredientToRemove)
     {
@@ -334,18 +337,18 @@ public class Blender
     public void SpawnBlendedIngredient(Transform oldIngredient, Blend type)
     {
         Ingredient dataToTransfer = oldIngredient.GetComponent<Ingredient>();
-        Transform newBlendedThing = UnityEngine.Object.Instantiate(oldIngredient.GetComponent<Ingredient>().blendedPrefab, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
-
+        //Transform newBlendedThing = UnityEngine.Object.Instantiate(oldIngredient.GetComponent<Ingredient>().blendedPrefab, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
+        Transform newBlendedThing = dataToTransfer.CreateBlended(blenderSpawnPoint.position, blenderSpawnPoint.rotation);
         // Incase the soupOrb we are copying isnt active and is missing important components. //
         newBlendedThing.gameObject.SetActive(true);
 
-        if (newBlendedThing.GetComponent<Rigidbody>() != null)
+        if (newBlendedThing.GetComponent<Rigidbody>() == null)
         {
             newBlendedThing.gameObject.AddComponent<Rigidbody>();
         }
-        if (newBlendedThing.GetComponent<Collider>() != null)
+        if (newBlendedThing.GetComponent<Collider>() == null)
         {
-            newBlendedThing.gameObject.AddComponent<BoxCollider>();
+            newBlendedThing.gameObject.AddComponent<SphereCollider>();
         }
         if (newBlendedThing.gameObject.tag != "Ingredient")
         {
@@ -361,6 +364,7 @@ public class Blender
         newBlendedThing.GetComponent<Rigidbody>().isKinematic = false;
 
 
+
         // Editing the cunkyness value. //
         if (type == global::Blend.HALF)
         {
@@ -372,6 +376,9 @@ public class Blender
             newBlendedThing.GetComponent<Ingredient>().chunkyness = 0;
             Debug.Log("BLENDED FULL");
         }
+
+        // Setting it to BLENDED mode. //
+        newBlendedThing.GetComponent<Ingredient>().currentState = IngredientState.BLENDED;
 
     }
 

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7671546850923737406
+--- !u!1 &5971017910449573021
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6642130982717981485}
-  - component: {fileID: 8395412760682038096}
+  - component: {fileID: 7243486945005895310}
+  - component: {fileID: -7979118929990544221}
+  - component: {fileID: -1736800315776655167}
   m_Layer: 8
-  m_Name: Food_Tomato_Quater
+  m_Name: Food_Potato_Full
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6642130982717981485
+--- !u!4 &7243486945005895310
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671546850923737406}
+  m_GameObject: {fileID: 5971017910449573021}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7184366692033124513}
+  - {fileID: 936667998287485301}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &8395412760682038096
+--- !u!54 &-7979118929990544221
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671546850923737406}
+  m_GameObject: {fileID: 5971017910449573021}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -48,7 +49,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1 &8076734584659423594
+--- !u!114 &-1736800315776655167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971017910449573021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Tentacle Potato
+  spicyness: 1
+  chunkyness: 3
+  sweetness: 1
+  isMeat: 1
+  colourTag: 5
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 7243486945005895310}
+  halfedPrefab: {fileID: 7027524154449994819, guid: 4ea3167349c213e4388b16da43949005,
+    type: 3}
+  quateredPrefab: {fileID: 5330636042665288141, guid: 2a0a8e94c27511742a6424e3897bf599,
+    type: 3}
+  blendedPrefab: {fileID: 0}
+--- !u!1 &7493298603189134642
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,46 +85,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7184366692033124513}
-  - component: {fileID: 9062205618114768012}
-  - component: {fileID: 1952241085871209479}
-  - component: {fileID: 5638190573369768268}
+  - component: {fileID: 936667998287485301}
+  - component: {fileID: 3064077249243969134}
+  - component: {fileID: 2934918811850476}
+  - component: {fileID: 3016086405947391399}
   m_Layer: 8
-  m_Name: Tomato_Quater
+  m_Name: Potato 1
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7184366692033124513
+--- !u!4 &936667998287485301
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8076734584659423594}
+  m_GameObject: {fileID: 7493298603189134642}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000000035245616, y: -0.0000000040237387, z: 0.000000016135788}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.0029652405, y: 0.09542101, z: 0.0062408447}
+  m_LocalScale: {x: 0.36238638, y: 0.36238638, z: 0.36238638}
   m_Children: []
-  m_Father: {fileID: 6642130982717981485}
+  m_Father: {fileID: 7243486945005895310}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &9062205618114768012
+--- !u!33 &3064077249243969134
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8076734584659423594}
-  m_Mesh: {fileID: -7595307228194918773, guid: c7b96088e31cd52489c18270a4fb173c, type: 3}
---- !u!23 &1952241085871209479
+  m_GameObject: {fileID: 7493298603189134642}
+  m_Mesh: {fileID: 4365235181375833991, guid: a42d7064ded6b024285ffb1e5731b6d9, type: 3}
+--- !u!23 &2934918811850476
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8076734584659423594}
+  m_GameObject: {fileID: 7493298603189134642}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -107,7 +136,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 19cc09f58c293d24985a3b2b49716527, type: 2}
+  - {fileID: 2100000, guid: 89ad0b24f5f2c2747b775921881c3053, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -128,16 +157,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &5638190573369768268
+--- !u!135 &3016086405947391399
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8076734584659423594}
+  m_GameObject: {fileID: 7493298603189134642}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.107192375
-  m_Center: {x: 0.0683808, y: 0.000000007450581, z: -0.07149097}
+  m_Radius: 0.41
+  m_Center: {x: 0, y: -0.11, z: 0}

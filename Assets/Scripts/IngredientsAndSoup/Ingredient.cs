@@ -8,12 +8,16 @@ public enum IngredientState
 { 
     WHOLE,
     HALF,
-    QUARTER
+    QUARTER,
+    BLENDED
 }
 
 //[Serializable]
 public class Ingredient : MonoBehaviour
 {
+    GameManager gameManager;
+
+
     public string ingredientName;
     public float spicyness;
     public float chunkyness;
@@ -34,6 +38,10 @@ public class Ingredient : MonoBehaviour
 
     void Start()
     {
+
+        gameManager = GameManager.GetInstance();
+
+
         Debug.Log("----------------------------- HEYYYYY -------------");
         colour = Colour.ConvertColour(colourTag);
     }
@@ -48,6 +56,17 @@ public class Ingredient : MonoBehaviour
         //colour = null;
     }
 
+    public Transform CreateBlended(Vector3 position, Quaternion rotation)
+    {
+        blendedPrefab = Instantiate(gameManager.cookingManager.blendedIngredientPrefab, position, rotation);
+        Debug.Log(ingredientName + "just spawned a blendedPrefab.");
+        // Setting the colour of the occupying soup. //
+        Material newMaterial = new Material(gameManager.cookingManager.theOrb.waterShader);
+        newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(colour));
+        blendedPrefab.GetComponent<Renderer>().material = newMaterial;
+
+        return blendedPrefab;
+    }
     public void Copy(Ingredient thingToCopy)
     {
         this.ingredientName = thingToCopy.ingredientName;
@@ -61,6 +80,7 @@ public class Ingredient : MonoBehaviour
         this.blendedPrefab = thingToCopy.blendedPrefab;
 
         this.colour = thingToCopy.colour;
+        this.colourTag = thingToCopy.colourTag;
         this.sweetness = thingToCopy.sweetness;
     }
 
