@@ -17,6 +17,7 @@ TagManager:
   - InteractableBlenderCover
   - NonInteractableWater
   - CanonCapsule
+  - Lighting
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - 
   - Ingredient
   - Player
-  - 
+  - Lighting
   - 
   - 
   - 
