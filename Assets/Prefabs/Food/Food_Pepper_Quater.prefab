@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8153646204497192124}
   - component: {fileID: 3549622038104916560}
   - component: {fileID: 8543589680537653618}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pepper_Quater
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6292055364286815936}
   - component: {fileID: -6570912911683183396}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food_Pepper_Quater
   m_TagString: Ingredient
   m_Icon: {fileID: 0}

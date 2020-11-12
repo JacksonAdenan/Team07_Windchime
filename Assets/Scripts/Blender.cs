@@ -337,8 +337,8 @@ public class Blender
     public void SpawnBlendedIngredient(Transform oldIngredient, Blend type)
     {
         Ingredient dataToTransfer = oldIngredient.GetComponent<Ingredient>();
-        Transform newBlendedThing = UnityEngine.Object.Instantiate(oldIngredient.GetComponent<Ingredient>().blendedPrefab, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
-
+        //Transform newBlendedThing = UnityEngine.Object.Instantiate(oldIngredient.GetComponent<Ingredient>().blendedPrefab, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
+        Transform newBlendedThing = dataToTransfer.CreateBlended(blenderSpawnPoint.position, blenderSpawnPoint.rotation);
         // Incase the soupOrb we are copying isnt active and is missing important components. //
         newBlendedThing.gameObject.SetActive(true);
 

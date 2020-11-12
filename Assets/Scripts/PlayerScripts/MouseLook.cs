@@ -586,8 +586,8 @@ public class MouseLook : MonoBehaviour
         
             xRotation -= rotMouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-            //transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-            gameObject.transform.Rotate(-Vector3.right * rotMouseY);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            //gameObject.transform.Rotate(-Vector3.right * rotMouseY);
             playerBody.Rotate(Vector3.up * rotMouseX);
         }      
     }
@@ -608,13 +608,15 @@ public class MouseLook : MonoBehaviour
 
         xRotation -= rotMouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        gameObject.transform.Rotate(-Vector3.right * rotMouseY);
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        //gameObject.transform.Rotate(-Vector3.right * rotMouseY);
+
         playerBody.Rotate(Vector3.up * rotMouseX);
 
 
         // Hand swaying in the direction of the camera turn. //
 
-        
+
 
         handAcceleration = mouseX;
         handAcceleration = Mathf.Clamp(handAcceleration, -0.05f, 0.05f);

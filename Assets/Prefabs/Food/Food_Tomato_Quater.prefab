@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6642130982717981485}
   - component: {fileID: 8395412760682038096}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food_Tomato_Quater
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 9062205618114768012}
   - component: {fileID: 1952241085871209479}
   - component: {fileID: 5638190573369768268}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tomato_Quater
   m_TagString: Ingredient
   m_Icon: {fileID: 0}

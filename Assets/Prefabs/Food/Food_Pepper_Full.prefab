@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4134014892645575354}
   - component: {fileID: 3302985967792556816}
   - component: {fileID: 5857040751617635653}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food_Pepper_Full
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 6428656192599554717}
   - component: {fileID: 4340198208253586061}
   - component: {fileID: 3005576697352034826}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pepper 1
   m_TagString: Ingredient
   m_Icon: {fileID: 0}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1462647812610126675}
   - component: {fileID: 4024436853902193675}
   - component: {fileID: 1062572503541025379}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Onion_Half
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5215614544627752562}
   - component: {fileID: 9152242719001163960}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food_Onion_Half
   m_TagString: Ingredient
   m_Icon: {fileID: 0}

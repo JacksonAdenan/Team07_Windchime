@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1744108318591118147}
   - component: {fileID: 7650335311816877670}
   - component: {fileID: 8141968751646581236}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tomato_Half
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7902473618771109456}
   - component: {fileID: 1473778709185126469}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food_Tomato_Half
   m_TagString: Ingredient
   m_Icon: {fileID: 0}

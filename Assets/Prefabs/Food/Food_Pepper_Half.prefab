@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3934107416861202045}
   - component: {fileID: 6376308170109169863}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food_Pepper_Half
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 6495047934827269632}
   - component: {fileID: 1081175517869838010}
   - component: {fileID: 7602880694104118152}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pepper_Half
   m_TagString: Ingredient
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1633860946880554479}
   - component: {fileID: 7812546772605118774}
   - component: {fileID: 991871132623414931}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Food_Tomato_Full
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 5050798293994987551}
   - component: {fileID: 2115030166569911864}
   - component: {fileID: 197640337346583678}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tomato 1
   m_TagString: Ingredient
   m_Icon: {fileID: 0}

@@ -44,20 +44,6 @@ public class Ingredient : MonoBehaviour
 
         Debug.Log("----------------------------- HEYYYYY -------------");
         colour = Colour.ConvertColour(colourTag);
-
-
-
-        if (blendedPrefab == null)
-        {
-            blendedPrefab = Instantiate(gameManager.cookingManager.blendedIngredientPrefab);
-            Debug.Log(ingredientName + "just spawned a blendedPrefab.");
-            // Setting the colour of the occupying soup. //
-            Material newMaterial = new Material(gameManager.cookingManager.theOrb.waterShader);
-            newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(colour));
-            blendedPrefab.GetComponent<Renderer>().material = newMaterial;
-        }
-
-
     }
     public Ingredient(string name, float spicy, float chunky, bool isMeat)
     {
@@ -70,6 +56,17 @@ public class Ingredient : MonoBehaviour
         //colour = null;
     }
 
+    public Transform CreateBlended(Vector3 position, Quaternion rotation)
+    {
+        blendedPrefab = Instantiate(gameManager.cookingManager.blendedIngredientPrefab, position, rotation);
+        Debug.Log(ingredientName + "just spawned a blendedPrefab.");
+        // Setting the colour of the occupying soup. //
+        Material newMaterial = new Material(gameManager.cookingManager.theOrb.waterShader);
+        newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(colour));
+        blendedPrefab.GetComponent<Renderer>().material = newMaterial;
+
+        return blendedPrefab;
+    }
     public void Copy(Ingredient thingToCopy)
     {
         this.ingredientName = thingToCopy.ingredientName;
