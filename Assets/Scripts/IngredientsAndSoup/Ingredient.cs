@@ -8,12 +8,16 @@ public enum IngredientState
 { 
     WHOLE,
     HALF,
-    QUARTER
+    QUARTER,
+    BLENDED
 }
 
 //[Serializable]
 public class Ingredient : MonoBehaviour
 {
+    GameManager gameManager;
+
+
     public string ingredientName;
     public float spicyness;
     public float chunkyness;
@@ -34,8 +38,26 @@ public class Ingredient : MonoBehaviour
 
     void Start()
     {
+
+        gameManager = GameManager.GetInstance();
+
+
         Debug.Log("----------------------------- HEYYYYY -------------");
         colour = Colour.ConvertColour(colourTag);
+
+
+
+        if (blendedPrefab == null)
+        {
+            blendedPrefab = Instantiate(gameManager.cookingManager.blendedIngredientPrefab, Vector3.zero, Quaternion.identity);
+
+            // Setting the colour of the occupying soup. //
+            Material newMaterial = new Material(gameManager.cookingManager.theOrb.waterShader);
+            newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(colour));
+            blendedPrefab.GetComponent<Renderer>().material = newMaterial;
+        }
+
+
     }
     public Ingredient(string name, float spicy, float chunky, bool isMeat)
     {

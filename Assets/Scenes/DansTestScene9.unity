@@ -4441,6 +4441,19 @@ PrefabInstance:
       propertyPath: itemFabricator
       value: 
       objectReference: {fileID: 1095970693}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: blendedIngredientPrefab
+      value: 
+      objectReference: {fileID: 8748806336590130949, guid: f2a4231f86157384aa5224d420a2dd40,
+        type: 3}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theBlender.continueButtonDuration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theBlender.blendCompletionTime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name
@@ -7941,7 +7954,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380454014}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2

@@ -71,6 +71,10 @@ public class CookingManager : MonoBehaviour
     static Ingredient cachedIngredientToSpawn = null;
 
 
+    // Blended Ingredient //
+    public Transform blendedIngredientPrefab;
+
+
     // Start is called before the first frame update
     void Start()
     {
