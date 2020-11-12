@@ -7,11 +7,11 @@ ModelImporter:
       74: 1827226128182048838
     second: Open
   - first:
-      74: 3735424879633174937
-    second: Open Button
+      74: 8923739719187884488
+    second: Destroy Button
   - first:
-      74: -5413963816606102518
-    second: Open Hatch
+      74: 8568492209326120217
+    second: Open Button Latch
   - first:
       74: 6003098609122225266
     second: Launch Button
@@ -73,7 +73,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Open Button
+      name: Destroy Button
       takeName: Take 001
       internalID: 0
       firstFrame: 30
@@ -102,7 +102,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Open Hatch
+      name: Open Button Latch
       takeName: Take 001
       internalID: 0
       firstFrame: 45
@@ -142,7 +142,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
