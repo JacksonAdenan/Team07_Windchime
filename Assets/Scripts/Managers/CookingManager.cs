@@ -154,7 +154,7 @@ public class CookingManager : MonoBehaviour
 
     public static void SpawnIngredient()
     {      
-        Instantiate(cachedIngredientToSpawn.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);
+        Transform newIngredient = Instantiate(cachedIngredientToSpawn.prefab, itemSpawnPoint.position, itemSpawnPoint.rotation);
     }
 
     public void IngredientSpawnTimer()

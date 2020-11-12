@@ -255,12 +255,13 @@ public class MenuManager : MonoBehaviour
                 orderUI.gameObject.SetActive(false);
                 pauseUI.gameObject.SetActive(true);
                 playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.pauseMode;
-                if (Input.GetKeyDown(KeyCode.P))
+              
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     currentState = global::MenuState.none;
                     playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
                     Cursor.lockState = CursorLockMode.Locked;
-
+                    Cursor.visible = false;
                     Time.timeScale = 1;
                 }
                 break;
@@ -283,9 +284,10 @@ public class MenuManager : MonoBehaviour
                 {
                     currentState = global::MenuState.orderMenu;
                 }
-                else if (Input.GetKeyDown(KeyCode.P))
+                else if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     currentState = global::MenuState.pauseMenu;
+                    Cursor.visible = true;
                 }
                 break;
             

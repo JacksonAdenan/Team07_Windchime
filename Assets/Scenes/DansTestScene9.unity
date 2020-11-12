@@ -26058,6 +26058,59 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6292055364286815936, guid: 9a58991dc61a4a84fa1c576b7ffe28db,
         type: 3}
+    - target: {fileID: 594209225, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 665449077132107707, guid: 31df8cca60613fd4e8c4d16d0382af1b,
+        type: 3}
+    - target: {fileID: 594209225, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: halfedPrefab
+      value: 
+      objectReference: {fileID: 3089107478996846807, guid: 4685373c1982aee44992f478c101caba,
+        type: 3}
+    - target: {fileID: 594209225, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: chunkyness
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 594209225, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: colourTag
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 594209225, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: quateredPrefab
+      value: 
+      objectReference: {fileID: 7615018144053310642, guid: 0c436283f15508d4a979c1d9595271fd,
+        type: 3}
+    - target: {fileID: 654355420, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 7243486945005895310, guid: 3719bd941df421144b3317a5740f6007,
+        type: 3}
+    - target: {fileID: 654355420, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: halfedPrefab
+      value: 
+      objectReference: {fileID: 7027524154449994819, guid: 4ea3167349c213e4388b16da43949005,
+        type: 3}
+    - target: {fileID: 654355420, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: quateredPrefab
+      value: 
+      objectReference: {fileID: 5330636042665288141, guid: 2a0a8e94c27511742a6424e3897bf599,
+        type: 3}
+    - target: {fileID: 756642966, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 7591500177567294948, guid: 464d768583e306b4ca48242ab2ca6995,
+        type: 3}
+    - target: {fileID: 756642966, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: halfedPrefab
+      value: 
+      objectReference: {fileID: 8923445550459775276, guid: abd06a4b37aaf524eafadd098d495d86,
+        type: 3}
+    - target: {fileID: 756642966, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: quateredPrefab
+      value: 
+      objectReference: {fileID: 7107926719708265919, guid: 480e199df8d694f4798c56d051466dcc,
+        type: 3}
     - target: {fileID: 2081690057, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
       propertyPath: prefab
       value: 

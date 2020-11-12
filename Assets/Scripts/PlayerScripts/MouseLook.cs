@@ -185,6 +185,7 @@ public class MouseLook : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
 
         // ------------------------------------ Appliance Reference Initialisation ------------------------------------ //
@@ -501,7 +502,7 @@ public class MouseLook : MonoBehaviour
                 Debug.Log("Paused");
 
                 // Un freezing time on pause screen exit. //
-                if (Input.GetKey(KeyCode.P))
+                if (Input.GetKey(KeyCode.Escape))
                 {
                     Time.timeScale = 1;
                 }
@@ -947,6 +948,15 @@ public class MouseLook : MonoBehaviour
         }
         Debug.Log("CREATED SOUP!");
 
+
+        // Making it so item is on a ignore-raycast layer if held. //
+        heldItem.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        // Setting all children aswell.
+        for (int i = 0; i < heldItem.childCount; i++)
+        {
+            heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        }
+
     }
 
     void LoadCanon()
@@ -1082,7 +1092,24 @@ public class MouseLook : MonoBehaviour
 
 
         // Making it so item is back on default layer if let go. //
-        heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+        if (heldItem.GetComponent<Ingredient>() != null)
+        {
+            heldItem.gameObject.layer = LayerMask.NameToLayer("Ingredient");
+            // Setting all children aswell.
+            for (int i = 0; i < heldItem.childCount; i++)
+            {
+                heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Ingredient");
+            }
+        }
+        else
+        { 
+            heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+            // Setting all children aswell.
+            for (int i = 0; i < heldItem.childCount; i++)
+            {
+                heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+            }
+        }
 
 
         // Have to write exception code for capsules since they have children >:( //
@@ -1135,14 +1162,33 @@ public class MouseLook : MonoBehaviour
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
 
-
             // Making it so item is back on default layer if let go. //
-            heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
-            // Setting all children aswell.
-            for (int i = 0; i < heldItem.childCount; i++)
+            if (heldItem.GetComponent<Ingredient>() != null)
             {
-                heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+                heldItem.gameObject.layer = LayerMask.NameToLayer("Ingredient");
+                // Setting all children aswell.
+                for (int i = 0; i < heldItem.childCount; i++)
+                {
+                    heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Ingredient");
+                }
             }
+            else
+            {
+                heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+                // Setting all children aswell.
+                for (int i = 0; i < heldItem.childCount; i++)
+                {
+                    heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+                }
+            }
+
+            //// Making it so item is back on default layer if let go. //
+            //heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+            //// Setting all children aswell.
+            //for (int i = 0; i < heldItem.childCount; i++)
+            //{
+            //    heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+            //}
 
 
             // Adding force based on charged throw //
