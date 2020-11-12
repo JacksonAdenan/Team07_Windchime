@@ -251,7 +251,7 @@ public class MouseLook : MonoBehaviour
                 {
                     if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover" && selectedItem.tag != "CatcherCapsule" && selectedItem.tag != "CanonCapsule")
                     {
-                        Debug.Log("YOU SHOULD NOT SEE THIS");
+                        //Debug.Log("YOU SHOULD NOT SEE THIS");
                         // If the thing they want to pick up is a water. //
                         // Freeing up the WaterTap so the player can get more water if they want.
                         if (selectedItem.tag == "Water")
@@ -786,6 +786,8 @@ public class MouseLook : MonoBehaviour
             { 
                 if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < FPS_INTERACT_DISTANCE)
                 {
+
+
                     if (target.transform.childCount > 0)
                     {
                         return target.transform.GetChild(0);
@@ -955,7 +957,7 @@ public class MouseLook : MonoBehaviour
         Transform currentObj = obj;
         for (int i = 0; i < currentObj.childCount; i++)
         {
-            if (currentObj.GetChild(i).GetComponent<Renderer>())
+            if (currentObj.GetChild(i).GetComponent<Renderer>() != null)
             {
                 return currentObj.GetChild(i).GetComponent<Renderer>();
             }

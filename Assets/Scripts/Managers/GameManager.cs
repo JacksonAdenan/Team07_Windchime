@@ -34,10 +34,11 @@ public class GameManager : MonoBehaviour
         return instance;
     }
     // Start is called before the first frame update
+
     void Start()
     {
         currentGameState = GameState.PLAYING;
-        Colour.InitColours();
+        
     }
 
     void Awake()
@@ -46,6 +47,8 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+
+        Colour.InitColours();
     }
 
     // Update is called once per frame

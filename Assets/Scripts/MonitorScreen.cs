@@ -88,7 +88,7 @@ public class MonitorScreen : MonoBehaviour
                 }
                 break;
             case ScreenState.SECONDARY:
-                if (currentIngredientDisplay)
+                if (currentIngredientDisplay != null)
                 {
                     DisplaySecondaryMenu(currentIngredientDisplay);
                 }

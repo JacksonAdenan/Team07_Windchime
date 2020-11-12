@@ -36,6 +36,9 @@ public class CookingOrb
     // Prefab that will be set to active if there is a soup in the cooking orb. //
     [Header("Prefabs to display whats in the orb.")]
     public Transform soupOrb;
+
+    // DONT SET THIS INSPECTOR //
+    [Tooltip("Please don't set this in inspector.")]
     public Transform water;
 
     [Header("Soup Colour Things")]
@@ -78,7 +81,7 @@ public class CookingOrb
 
                 currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
                 occupyingSoup.gameObject.SetActive(true);
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
             }
         }
 
@@ -91,7 +94,9 @@ public class CookingOrb
         }
 
         // Cooking orb updates. //
+
         UpdateCookingOrbState();
+
         UpdateCookingOrbAnimation();
 
     }
@@ -101,22 +106,22 @@ public class CookingOrb
         switch (currentCookingOrbState)
         {
             case CookingOrbState.EMPTY:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.EMPTY_WATER:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.INGREDIENTS_AND_WATER:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.INGREDIENTS_NOWATER:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.OCCUPIED_SOUP:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.COOKING:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
                 break;
         }
     }

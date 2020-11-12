@@ -52,11 +52,17 @@ MonoBehaviour:
     currentlyTrackedIngredients: []
     currentSpicy: 0
     currentChunky: 0
+    currentSweet: 0
+    currentColour:
+      name: 
+      RGBValue: {x: 0, y: 0, z: 0}
     cookingTimer: 0
     cookingDuration: 3
     waterCenteringSpeed: 0.05
     soupOrb: {fileID: 0}
     water: {fileID: 0}
+    waterShader: {fileID: -6465566751694194690, guid: fa85fc9507af8ef4a8385a8fac36bf36,
+      type: 3}
   theSlicer:
     cutterSkinnedMesh: {fileID: 0}
     cutterGauge1Transform: {fileID: 0}

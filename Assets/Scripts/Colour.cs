@@ -89,7 +89,7 @@ public class Colour
 
         }
 
-        return null;
         Debug.Log("ConvertColour() returned null!");
+        return null;
     }
 }

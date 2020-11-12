@@ -257,6 +257,8 @@ public class MenuManager : MonoBehaviour
                     currentState = global::MenuState.none;
                     playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
                     Cursor.lockState = CursorLockMode.Locked;
+
+                    Time.timeScale = 1;
                 }
                 break;
             case global::MenuState.orderMenu:

@@ -55,12 +55,12 @@ public class Canon
         {
             case CanonState.EMPTY:
                 canonCapsule.gameObject.SetActive(false);
-                canon.GetComponent<Animator>().SetBool("IsOpen", true);
+                canon.GetComponent<Animator>().SetBool("IsOpen", false);
 
                 break;
             case CanonState.LOADED:
                 canonCapsule.gameObject.SetActive(true);
-                canon.GetComponent<Animator>().SetBool("IsOpen", false);
+                canon.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
         }
     }

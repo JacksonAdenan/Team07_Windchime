@@ -34,6 +34,7 @@ public class Ingredient : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("----------------------------- HEYYYYY -------------");
         colour = Colour.ConvertColour(colourTag);
     }
     public Ingredient(string name, float spicy, float chunky, bool isMeat)
