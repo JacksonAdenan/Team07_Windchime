@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6642130982717981485}
-  - component: {fileID: -4740759717019610485}
   - component: {fileID: 8395412760682038096}
   m_Layer: 0
   m_Name: Food_Tomato_Quater
@@ -33,33 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4740759717019610485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7671546850923737406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ingredientName: Tomato
-  spicyness: 1
-  chunkyness: 1
-  sweetness: 2
-  isMeat: 0
-  colourTag: 1
-  colour:
-    name: 
-    RGBValue: {x: 0, y: 0, z: 0}
-  currentState: 0
-  prefab: {fileID: 1633860946880554479, guid: 75b1891c051a2244f8f0397eaeccecaa, type: 3}
-  halfedPrefab: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
-    type: 3}
-  quateredPrefab: {fileID: 6642130982717981485}
-  blendedPrefab: {fileID: 0}
 --- !u!54 &8395412760682038096
 Rigidbody:
   m_ObjectHideFlags: 0

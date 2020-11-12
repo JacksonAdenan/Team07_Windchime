@@ -49,8 +49,8 @@ public class Ingredient : MonoBehaviour
 
         if (blendedPrefab == null)
         {
-            blendedPrefab = Instantiate(gameManager.cookingManager.blendedIngredientPrefab, Vector3.zero, Quaternion.identity);
-
+            blendedPrefab = Instantiate(gameManager.cookingManager.blendedIngredientPrefab);
+            Debug.Log(ingredientName + "just spawned a blendedPrefab.");
             // Setting the colour of the occupying soup. //
             Material newMaterial = new Material(gameManager.cookingManager.theOrb.waterShader);
             newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(colour));
@@ -83,6 +83,7 @@ public class Ingredient : MonoBehaviour
         this.blendedPrefab = thingToCopy.blendedPrefab;
 
         this.colour = thingToCopy.colour;
+        this.colourTag = thingToCopy.colourTag;
         this.sweetness = thingToCopy.sweetness;
     }
 
