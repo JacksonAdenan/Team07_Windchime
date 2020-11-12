@@ -89,6 +89,9 @@ public class MenuManager : MonoBehaviour
 
     public TextMeshProUGUI cookingOrbTimer;
 
+    string trackedIngredientsText = "";
+    public TextMeshProUGUI trackedIngredients;
+
     [Header("Blender Progress Stuff")]
     public TextMeshProUGUI blenderProgress;
     public TextMeshProUGUI blendingHalfDone;
@@ -385,6 +388,16 @@ public class MenuManager : MonoBehaviour
         }
         currentIngredients.text = ingredientsText;
         ingredientsText = "";
+
+
+        // ----------------- Tracked Ingredients ------------------- //
+        for (int i = 0; i < gameManager.cookingManager.theOrb.currentlyTrackedIngredients.Count; i++)
+        {
+            trackedIngredientsText = trackedIngredientsText + gameManager.cookingManager.theOrb.currentlyTrackedIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
+        }
+        trackedIngredients.text = trackedIngredientsText;
+        trackedIngredientsText = "";
+
     }
 
     void DisplayCurrentCatcherState()
