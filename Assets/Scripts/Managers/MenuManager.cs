@@ -403,7 +403,7 @@ public class MenuManager : MonoBehaviour
             }
             else
             {
-                soupStatsText.text = "Soup is " + soupData.spicyValue + " spicy and " + soupData.chunkyValue + " chunky.";
+                soupStatsText.text = "Soup is " + soupData.spicyValue + " spicy and " + soupData.chunkyValue + " chunky." + "and " + soupData.sweetnessValue + " sweet.";
             }
 
         }

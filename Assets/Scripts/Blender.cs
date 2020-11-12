@@ -336,8 +336,21 @@ public class Blender
         Ingredient dataToTransfer = oldIngredient.GetComponent<Ingredient>();
         Transform newBlendedThing = UnityEngine.Object.Instantiate(oldIngredient.GetComponent<Ingredient>().blendedPrefab, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
 
-        // Incase the soupOrb we are copying isnt active. //
+        // Incase the soupOrb we are copying isnt active and is missing important components. //
         newBlendedThing.gameObject.SetActive(true);
+
+        if (newBlendedThing.GetComponent<Rigidbody>() != null)
+        {
+            newBlendedThing.gameObject.AddComponent<Rigidbody>();
+        }
+        if (newBlendedThing.GetComponent<Collider>() != null)
+        {
+            newBlendedThing.gameObject.AddComponent<BoxCollider>();
+        }
+        if (newBlendedThing.gameObject.tag != "Ingredient")
+        {
+            newBlendedThing.gameObject.tag = "Ingredient";
+        }
 
         newBlendedThing.position = blenderSpawnPoint.position;
 

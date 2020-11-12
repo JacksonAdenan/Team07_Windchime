@@ -22,6 +22,7 @@ public class CookingOrb
     [Header("Don't modify these in inspector.")]
     public float currentSpicy;
     public float currentChunky;
+    public float currentSweet;
     public Colour currentColour;
 
     [Header("Don't modify the timer. If you want to increase cooking time change Cooking Duration")]
@@ -54,6 +55,7 @@ public class CookingOrb
         currentCookingOrbState = CookingOrbState.EMPTY;
         currentSpicy = 0;
         currentChunky = 0;
+        currentSweet = 0;
     }
 
     // Update is called once per frame
@@ -190,6 +192,7 @@ public class CookingOrb
     {
         currentSpicy += ingredient.spicyness;
         currentChunky += ingredient.chunkyness;
+        currentSweet += ingredient.sweetness;
 
     }
 
@@ -204,7 +207,7 @@ public class CookingOrb
             CombineIngredient(currentIngredients[i].GetComponent<Ingredient>());
         }
 
-        Soup newSoup = new Soup(currentSpicy, currentChunky);
+        Soup newSoup = new Soup(currentSpicy, currentChunky, currentSweet);
 
         for (int i = 0; i < currentIngredients.Count; i++)
         {
@@ -214,6 +217,7 @@ public class CookingOrb
         // Resetting current cooking orb values to be ready for next soup
         currentSpicy = 0;
         currentChunky = 0;
+        currentSweet = 0;
         
         //currentCookingOrbState = CookingOrbState.EMPTY;
 

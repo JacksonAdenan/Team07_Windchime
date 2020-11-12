@@ -11,6 +11,9 @@ public enum OrderScreenState
 }
 public class OrderManager : MonoBehaviour
 {
+
+    GameManager gameManager;
+
     public List<Order> requestedOrders;
     public List<Order> acceptedOrders;
 
@@ -31,6 +34,8 @@ public class OrderManager : MonoBehaviour
 
     void Start()
     {
+        gameManager = GameManager.GetInstance();
+
         // Initialising all the lists. //
         requestedOrders = new List<Order>();
         acceptedOrders = new List<Order>();
@@ -61,6 +66,11 @@ public class OrderManager : MonoBehaviour
         list.Add(Colour.blue);
         list.Add(Colour.red);
         list.Add(Colour.green);
+        list.Add(Colour.orange);
+        list.Add(Colour.pink);
+        list.Add(Colour.purple);
+        list.Add(Colour.yellow);
+
     }
 
     public void UpdateSelectedOrder()
@@ -179,6 +189,8 @@ public class OrderManager : MonoBehaviour
         // Making these ints here because I don't want the random function to return something lie 0.45345. //
         int desiredSpicyness;
         int desiredChunkyness;
+        int desiredSweetness;
+
 
         int randomNum;
         bool noMeat = false;
@@ -192,8 +204,10 @@ public class OrderManager : MonoBehaviour
         colourNum = Random.Range(0, availableColours.Count);
         desiredColour = availableColours[colourNum];
 
-        desiredSpicyness = Random.Range(1, 50);
-        desiredChunkyness = Random.Range(1, 50);
+        desiredSpicyness = Random.Range(1, 10);
+        desiredChunkyness = Random.Range(1, 10);
+        desiredSweetness = Random.Range(1, 10);
+        
 
 
         // Setting the vegetarian status. //
@@ -213,61 +227,80 @@ public class OrderManager : MonoBehaviour
             noVeg = false;
         }
 
-        return new Order(desiredColour, desiredSpicyness, desiredChunkyness, noMeat, noVeg);
+        return new Order(desiredColour, desiredSpicyness, desiredChunkyness, noMeat, noVeg, desiredSweetness);
     }
 
-    private int CompareOrder(Soup soupToSubmit)
+    private bool CompareOrder(Soup soupToSubmit)
     {
-        int accumulatedScore = 0;
-
-        int chunkynessPoints = 0;
-        int spicynessPoints = 0;
-        int colourPoints = 0;
-        int meatVegPrefPoints = 0;
-
-
+        bool isCorrectOrder = true;
 
         int chunkynessDifference;
         int spicynessDifference;
+        int sweetnessDifference;
 
-        spicynessDifference = Mathf.Abs((int)soupToSubmit.spicyValue - (int)acceptedOrders[0].spicyness);
-        chunkynessDifference = Mathf.Abs((int)soupToSubmit.chunkyValue - (int)acceptedOrders[0].chunkiness);
+        spicynessDifference = (int)soupToSubmit.spicyValue - (int)acceptedOrders[0].spicyness;
+        chunkynessDifference = (int)soupToSubmit.chunkyValue - (int)acceptedOrders[0].chunkiness;
+        sweetnessDifference = (int)soupToSubmit.sweetnessValue - (int)acceptedOrders[0].sweetness;
 
-        chunkynessPoints -= chunkynessDifference;
-        spicynessPoints -= spicynessDifference;
-
-
-        // Since we don't have colours yet I'll just set it to 0.
-        // we do have colours now.
-
-        if (soupToSubmit.colour.name == acceptedOrders[0].colourPreference.name)
+        // Spicyness and chunkyness check.
+        if (spicynessDifference != 0)
         {
-            colourPoints = 10;
-            Debug.Log("Got colour correct.");
+            isCorrectOrder = false;
+        }
+        if (chunkynessDifference != 0)
+        {
+            isCorrectOrder = false;
+        }
+        if (sweetnessDifference != 0)
+        {
+            isCorrectOrder = false;
+        }
+
+        // we do have colours now.
+        if (soupToSubmit.colour.name != acceptedOrders[0].colourPreference.name)
+        {
+            isCorrectOrder = false;
+            Debug.Log("Got colour incorrect.");
+        }
+
+        // Meat/Veg points.
+        // -5 points if they give them something they didn't want. +5 if they got it right.
+        if (soupToSubmit.ContainsMeat() && acceptedOrders[0].noMeat)
+        {
+            isCorrectOrder = false;
+        }
+        else if (soupToSubmit.ContainsVeg() && acceptedOrders[0].noVeg)
+        {
+            isCorrectOrder = false;
+        }
+
+
+        
+        if (isCorrectOrder)
+        {
+
+            return true;
         }
         else
         {
-            Debug.Log("Got colour incorrect.");
-            colourPoints = 0;
+            return false;
         }
-
-        if (soupToSubmit.ContainsMeat() && acceptedOrders[0].noMeat)
-        {
-            meatVegPrefPoints -= 5;
-        }
-        if (soupToSubmit.ContainsVeg() && acceptedOrders[0].noVeg)
-        {
-            meatVegPrefPoints -= 5;
-        }
-
-        accumulatedScore += (chunkynessPoints + spicynessPoints + colourPoints + meatVegPrefPoints);
         
-        return accumulatedScore;
     }
 
     public void CompleteOrder(Soup soupToSubmit)
     {
-        ScoreManager.currentScore += CompareOrder(soupToSubmit);
+        if (CompareOrder(soupToSubmit) == true)
+        {
+            ScoreManager.currentScore += 500;
+            gameManager.gameTime += 30;
+            Debug.Log("Correct order");
+        }
+        else
+        {
+            Debug.Log("Incorrect order.");
+        }
+
         acceptedOrders.Remove(acceptedOrders[0]);
         currentScreenState = OrderScreenState.NEW_ORDER;
 

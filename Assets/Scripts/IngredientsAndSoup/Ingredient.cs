@@ -17,6 +17,7 @@ public class Ingredient : MonoBehaviour
     public string ingredientName;
     public float spicyness;
     public float chunkyness;
+    public float sweetness;
 
     public bool isMeat;
 
@@ -59,6 +60,7 @@ public class Ingredient : MonoBehaviour
         this.blendedPrefab = thingToCopy.blendedPrefab;
 
         this.colour = thingToCopy.colour;
+        this.sweetness = thingToCopy.sweetness;
     }
 
     public static void CreateIngredient(Transform originalIngredient, Transform newIngredient, IngredientState state)

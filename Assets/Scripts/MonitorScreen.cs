@@ -38,6 +38,8 @@ public class MonitorScreen : MonoBehaviour
     public TextMeshProUGUI meatText;
     public TextMeshProUGUI colourText;
 
+    public TextMeshProUGUI sweetnessText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -117,7 +119,8 @@ public class MonitorScreen : MonoBehaviour
 
         spicyText.text = "Make It Spicy " + "[" + orderToDisplay.spicyness.ToString() + "]";
         chunkyText.text = "Make It Chunky " + "[" + orderToDisplay.chunkiness.ToString() + "]";
-        
+        sweetnessText.text = "Make It Sweet " + "[" + orderToDisplay.sweetness.ToString() + "]";
+
         // Displaying meat veg preference //
         if (orderToDisplay.noMeat == false && orderToDisplay.noVeg == false)
         {
@@ -169,6 +172,7 @@ public class MonitorScreen : MonoBehaviour
         chunkyText.text = "Chunky " + "[" + ingredient.chunkyness.ToString() + "]";
         meatText.text = "Meat " + "[" + ingredient.isMeat.ToString() + "]";
         colourText.text = "Colour " + "[" + ingredient.colour.name + "]";
+        sweetnessText.text = "Sweet " + "[" + ingredient.sweetness.ToString() + "]";
     }
     public void SetScreenState(ScreenState newState)
     {
