@@ -87,6 +87,8 @@ public class MenuManager : MonoBehaviour
 
     public TextMeshProUGUI currentCanonState;
 
+    public TextMeshProUGUI cookingOrbTimer;
+
     [Header("Blender Progress Stuff")]
     public TextMeshProUGUI blenderProgress;
     public TextMeshProUGUI blendingHalfDone;
@@ -226,6 +228,8 @@ public class MenuManager : MonoBehaviour
 
         DisplayCanonState();
 
+        DisplayCookingOrbTimer();
+
 
         //DisplayIngredientTimer();
 
@@ -253,6 +257,8 @@ public class MenuManager : MonoBehaviour
                     currentState = global::MenuState.none;
                     playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
                     Cursor.lockState = CursorLockMode.Locked;
+
+                    Time.timeScale = 1;
                 }
                 break;
             case global::MenuState.orderMenu:
@@ -399,7 +405,7 @@ public class MenuManager : MonoBehaviour
             }
             else
             {
-                soupStatsText.text = "Soup is " + soupData.spicyValue + " spicy and " + soupData.chunkyValue + " chunky.";
+                soupStatsText.text = "Soup is " + soupData.spicyValue + " spicy and " + soupData.chunkyValue + " chunky." + "and " + soupData.sweetnessValue + " sweet.";
             }
 
         }
@@ -595,6 +601,11 @@ public class MenuManager : MonoBehaviour
         }
 
         //currentCanonState.text = "CanonState: " + cookingManager.theCanon.currentCanonState.ToString();
+    }
+
+    public void DisplayCookingOrbTimer() 
+    {
+        cookingOrbTimer.text = "CookingTimer: " + cookingManager.theOrb.cookingTimer.ToString() + "s";
     }
 
 

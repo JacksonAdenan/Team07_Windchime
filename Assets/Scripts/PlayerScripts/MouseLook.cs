@@ -251,7 +251,7 @@ public class MouseLook : MonoBehaviour
                 {
                     if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover" && selectedItem.tag != "CatcherCapsule" && selectedItem.tag != "CanonCapsule")
                     {
-                        Debug.Log("YOU SHOULD NOT SEE THIS");
+                        //Debug.Log("YOU SHOULD NOT SEE THIS");
                         // If the thing they want to pick up is a water. //
                         // Freeing up the WaterTap so the player can get more water if they want.
                         if (selectedItem.tag == "Water")
@@ -557,6 +557,8 @@ public class MouseLook : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
+  
+
         // Old crosshair placement code. I'm gonna try implement a new way which will be smoother and wont break if the player isn't looking at anything.
         crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
 
@@ -784,6 +786,8 @@ public class MouseLook : MonoBehaviour
             { 
                 if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < FPS_INTERACT_DISTANCE)
                 {
+
+
                     if (target.transform.childCount > 0)
                     {
                         return target.transform.GetChild(0);
@@ -863,26 +867,42 @@ public class MouseLook : MonoBehaviour
         defaultMat = null;
 
         isHoldingItem = true;
-        if (itemToPickUp.parent != null)
+        Transform currentObj = itemToPickUp;
+        while (currentObj.parent != null)
         {
-          
-            heldItem = itemToPickUp.parent;
-            heldItem.SetParent(hand);
-            heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
-
-
-            // this is the parent it doesnt have these things !. So i have to get the children.//
-            heldItem.GetComponent<Rigidbody>().useGravity = false;
-            heldItem.GetComponent<Rigidbody>().isKinematic = true;          
+            currentObj = currentObj.parent;
         }
-        else
-        { 
-            heldItem = itemToPickUp;
-            itemToPickUp.SetParent(hand);
-            itemToPickUp.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+        //if (itemToPickUp.parent != null)
+        //{
+          
+        heldItem = currentObj;
+        heldItem.SetParent(hand);
+        heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
 
-            itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
-            itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+
+        // this is the parent it doesnt have these things !. So i have to get the children.//
+        heldItem.GetComponent<Rigidbody>().useGravity = false;
+        heldItem.GetComponent<Rigidbody>().isKinematic = true;
+        //}
+        //else
+        //{ 
+        //    heldItem = itemToPickUp;
+        //    itemToPickUp.SetParent(hand);
+        //    itemToPickUp.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+        //
+        //    itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
+        //    itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+        //}
+
+
+
+
+        // Making it so item is on a ignore-raycast layer if held. //
+        heldItem.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        // Setting all children aswell.
+        for (int i = 0; i < heldItem.childCount; i++)
+        { 
+            heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
         
     }
@@ -937,7 +957,7 @@ public class MouseLook : MonoBehaviour
         Transform currentObj = obj;
         for (int i = 0; i < currentObj.childCount; i++)
         {
-            if (currentObj.GetChild(i).GetComponent<Renderer>())
+            if (currentObj.GetChild(i).GetComponent<Renderer>() != null)
             {
                 return currentObj.GetChild(i).GetComponent<Renderer>();
             }
@@ -1058,6 +1078,11 @@ public class MouseLook : MonoBehaviour
     {
         isHoldingItem = false;
 
+
+        // Making it so item is back on default layer if let go. //
+        heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+
+
         // Have to write exception code for capsules since they have children >:( //
         if (heldItem.tag == "Capsule")
         {
@@ -1097,6 +1122,8 @@ public class MouseLook : MonoBehaviour
     void ThrowItem()
     {
         
+
+
         Vector3 throwDirection;
         
         // I think this if statement is unnecessary?? //
@@ -1105,6 +1132,15 @@ public class MouseLook : MonoBehaviour
             throwDirection = (target.point - heldItem.position).normalized;
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
+
+
+            // Making it so item is back on default layer if let go. //
+            heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+            // Setting all children aswell.
+            for (int i = 0; i < heldItem.childCount; i++)
+            {
+                heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+            }
 
 
             // Adding force based on charged throw //
@@ -1143,6 +1179,10 @@ public class MouseLook : MonoBehaviour
             currentThrowCharge = ThrowCharge.WEAK;
 
             Debug.Log("throw activated");
+
+
+
+
         }    
     }
     private void ThrowTimer()

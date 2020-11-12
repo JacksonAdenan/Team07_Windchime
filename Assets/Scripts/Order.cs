@@ -14,7 +14,9 @@ public class Order
     public float chunkiness;
     public bool noMeat;
     public bool noVeg;
-    public Order(Colour colourPreference, float spicyValue, float chunkyValue, bool meatPreference, bool vegPreference)
+
+    public float sweetness;
+    public Order(Colour colourPreference, float spicyValue, float chunkyValue, bool meatPreference, bool vegPreference, float sweetness)
     {
         this.orderName = "NOT ASSIGNED BY ORDERMANAGER";
 
@@ -24,6 +26,8 @@ public class Order
 
         noMeat = meatPreference;
         noVeg = vegPreference;
+
+        this.sweetness = sweetness;
     }
     public Order()
     { 

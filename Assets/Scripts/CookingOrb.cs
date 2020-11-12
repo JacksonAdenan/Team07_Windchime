@@ -8,7 +8,6 @@ public class CookingOrb
 {
     GameManager gameManager;
 
-
     // Appliance prefab. //
     public Transform cookingOrb;
 
@@ -23,6 +22,7 @@ public class CookingOrb
     [Header("Don't modify these in inspector.")]
     public float currentSpicy;
     public float currentChunky;
+    public float currentSweet;
     public Colour currentColour;
 
     [Header("Don't modify the timer. If you want to increase cooking time change Cooking Duration")]
@@ -36,7 +36,13 @@ public class CookingOrb
     // Prefab that will be set to active if there is a soup in the cooking orb. //
     [Header("Prefabs to display whats in the orb.")]
     public Transform soupOrb;
+
+    // DONT SET THIS INSPECTOR //
+    [Tooltip("Please don't set this in inspector.")]
     public Transform water;
+
+    [Header("Soup Colour Things")]
+    public Shader waterShader;
 
 
     // Start is called before the first frame update
@@ -52,6 +58,7 @@ public class CookingOrb
         currentCookingOrbState = CookingOrbState.EMPTY;
         currentSpicy = 0;
         currentChunky = 0;
+        currentSweet = 0;
     }
 
     // Update is called once per frame
@@ -69,9 +76,12 @@ public class CookingOrb
             cookingTimer += Time.deltaTime;
             if (cookingTimer >= 3)
             {
+                // Resetting cookingTimer after cook. //
+                cookingTimer = 0;
+
                 currentCookingOrbState = CookingOrbState.OCCUPIED_SOUP;
                 occupyingSoup.gameObject.SetActive(true);
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
             }
         }
 
@@ -84,7 +94,9 @@ public class CookingOrb
         }
 
         // Cooking orb updates. //
+
         UpdateCookingOrbState();
+
         UpdateCookingOrbAnimation();
 
     }
@@ -94,22 +106,22 @@ public class CookingOrb
         switch (currentCookingOrbState)
         {
             case CookingOrbState.EMPTY:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.EMPTY_WATER:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.INGREDIENTS_AND_WATER:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.INGREDIENTS_NOWATER:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.OCCUPIED_SOUP:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
             case CookingOrbState.COOKING:
-                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
                 break;
         }
     }
@@ -185,6 +197,7 @@ public class CookingOrb
     {
         currentSpicy += ingredient.spicyness;
         currentChunky += ingredient.chunkyness;
+        currentSweet += ingredient.sweetness;
 
     }
 
@@ -199,7 +212,7 @@ public class CookingOrb
             CombineIngredient(currentIngredients[i].GetComponent<Ingredient>());
         }
 
-        Soup newSoup = new Soup(currentSpicy, currentChunky);
+        Soup newSoup = new Soup(currentSpicy, currentChunky, currentSweet);
 
         for (int i = 0; i < currentIngredients.Count; i++)
         {
@@ -209,6 +222,8 @@ public class CookingOrb
         // Resetting current cooking orb values to be ready for next soup
         currentSpicy = 0;
         currentChunky = 0;
+        currentSweet = 0;
+        
         //currentCookingOrbState = CookingOrbState.EMPTY;
 
         for (int i = currentIngredients.Count - 1; i > -1; i--)
@@ -216,6 +231,10 @@ public class CookingOrb
             currentIngredients[i].gameObject.SetActive(false);
             currentIngredients.Remove(currentIngredients[i]);
         }
+
+        // Setting the colour by last ingredient in the soup //
+        newSoup.colour = newSoup.usedIngredients[newSoup.usedIngredients.Count - 1].colour;
+
         return newSoup;
     }
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -246,6 +265,12 @@ public class CookingOrb
         //newSoupsData.maxPortions = 5;
 
         occupyingSoup = newSoupOrb;
+
+        // Setting the colour of the occupying soup. //
+        Material newMaterial = new Material(waterShader);
+        newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(newSoup.colour));
+        occupyingSoup.GetComponent<Renderer>().material = newMaterial;
+
 
         // Removing and resetting stuff to do with the water display. //
         RemoveWater();

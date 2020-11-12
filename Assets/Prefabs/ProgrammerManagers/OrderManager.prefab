@@ -47,9 +47,13 @@ MonoBehaviour:
   acceptedOrders: []
   selectedOrder:
     orderName: 
+    colourPreference:
+      name: 
+      RGBValue: {x: 0, y: 0, z: 0}
     spicyness: 0
     chunkiness: 0
     noMeat: 0
     noVeg: 0
+    sweetness: 0
   nextOrderTimer: 0
-  newOrderRate: 5
+  newOrderRate: 0

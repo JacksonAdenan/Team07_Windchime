@@ -17,9 +17,13 @@ public class Ingredient : MonoBehaviour
     public string ingredientName;
     public float spicyness;
     public float chunkyness;
+    public float sweetness;
 
     public bool isMeat;
-    //Colour colour;
+
+    public Colour_Tag colourTag;
+    [Tooltip("Don't set this colour value. It's automatically set by the colourTag.")]
+    public Colour colour;
 
     public IngredientState currentState;
 
@@ -29,8 +33,9 @@ public class Ingredient : MonoBehaviour
     public Transform blendedPrefab;
 
     void Start()
-    { 
-        
+    {
+        Debug.Log("----------------------------- HEYYYYY -------------");
+        colour = Colour.ConvertColour(colourTag);
     }
     public Ingredient(string name, float spicy, float chunky, bool isMeat)
     {
@@ -54,6 +59,9 @@ public class Ingredient : MonoBehaviour
         this.halfedPrefab = thingToCopy.halfedPrefab;
         this.quateredPrefab = thingToCopy.quateredPrefab;
         this.blendedPrefab = thingToCopy.blendedPrefab;
+
+        this.colour = thingToCopy.colour;
+        this.sweetness = thingToCopy.sweetness;
     }
 
     public static void CreateIngredient(Transform originalIngredient, Transform newIngredient, IngredientState state)
