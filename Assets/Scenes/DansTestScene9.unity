@@ -26026,6 +26026,40 @@ PrefabInstance:
       propertyPath: colourTag
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 215577334, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: ingredientName
+      value: Volcano Chili
+      objectReference: {fileID: 0}
+    - target: {fileID: 215577334, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 4134014892645575354, guid: 7c8ccfa6899e09345b14a4f5f27bf2b1,
+        type: 3}
+    - target: {fileID: 215577334, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: halfedPrefab
+      value: 
+      objectReference: {fileID: 3934107416861202045, guid: d9a2b16baed342a41ae19e54473c3e53,
+        type: 3}
+    - target: {fileID: 215577334, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: quateredPrefab
+      value: 
+      objectReference: {fileID: 6292055364286815936, guid: 9a58991dc61a4a84fa1c576b7ffe28db,
+        type: 3}
+    - target: {fileID: 2081690057, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 1633860946880554479, guid: 75b1891c051a2244f8f0397eaeccecaa,
+        type: 3}
+    - target: {fileID: 2081690057, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: halfedPrefab
+      value: 
+      objectReference: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
+        type: 3}
+    - target: {fileID: 2081690057, guid: 2163d581f84840b4f9df9e4fa524472c, type: 3}
+      propertyPath: quateredPrefab
+      value: 
+      objectReference: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
+        type: 3}
     - target: {fileID: 4860733406358062813, guid: 2163d581f84840b4f9df9e4fa524472c,
         type: 3}
       propertyPath: m_Name
