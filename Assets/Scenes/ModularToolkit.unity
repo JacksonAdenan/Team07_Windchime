@@ -538,6 +538,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (23)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -697,6 +702,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -958,6 +968,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1607171339}
     m_Modifications:
+    - target: {fileID: 4630296796274313152, guid: 7cf6ab8abb9ba5f40a55efd97e0b451c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 6376754487899288348, guid: 7cf6ab8abb9ba5f40a55efd97e0b451c,
         type: 3}
       propertyPath: m_Name
@@ -5689,6 +5704,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9193,6 +9213,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1607171339}
     m_Modifications:
+    - target: {fileID: 4630296796274313152, guid: 7cf6ab8abb9ba5f40a55efd97e0b451c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 6376754487899288348, guid: 7cf6ab8abb9ba5f40a55efd97e0b451c,
         type: 3}
       propertyPath: m_Name
@@ -10589,6 +10614,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11680,6 +11710,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12544,6 +12579,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (18)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18563,6 +18603,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19384,6 +19429,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19564,6 +19614,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19702,6 +19757,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25225,6 +25285,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1607171339}
     m_Modifications:
+    - target: {fileID: 4630296796274313152, guid: 7cf6ab8abb9ba5f40a55efd97e0b451c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 6376754487899288348, guid: 7cf6ab8abb9ba5f40a55efd97e0b451c,
         type: 3}
       propertyPath: m_Name
@@ -30990,6 +31055,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -31086,6 +31156,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -32310,6 +32385,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1607171339}
     m_Modifications:
+    - target: {fileID: 4630296796274313152, guid: 7cf6ab8abb9ba5f40a55efd97e0b451c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 6376754487899288348, guid: 7cf6ab8abb9ba5f40a55efd97e0b451c,
         type: 3}
       propertyPath: m_Name
@@ -34333,6 +34413,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -34682,6 +34767,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -37865,6 +37955,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -39188,6 +39283,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41196,6 +41296,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41460,6 +41565,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41550,6 +41660,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41911,6 +42026,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -42251,6 +42371,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -43455,6 +43580,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -43810,6 +43940,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -44706,6 +44841,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ship_Rail_Straight (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 6875045710585283258, guid: d7edd1ae7fb5715429f536b5b502d3c5,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ebb1c42a27adc5147a5ad9d3f85052c8, type: 2}
     - target: {fileID: 8146622986947298421, guid: d7edd1ae7fb5715429f536b5b502d3c5,
         type: 3}
       propertyPath: m_LocalPosition.x
