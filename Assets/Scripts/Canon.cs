@@ -97,7 +97,7 @@ public class Canon
 
     public void ShootCapsule()
     {
-        if (orderManager.acceptedOrders.Count > 0)
+        if (orderManager.acceptedOrders.Count > 0 && isLoaded)
         {
             orderManager.CompleteOrder(canonCapsule.GetComponent<SoupData>().theSoup);
             canonCapsule.GetComponent<SoupData>().theSoup = null;
