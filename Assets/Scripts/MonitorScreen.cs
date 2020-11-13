@@ -40,6 +40,10 @@ public class MonitorScreen : MonoBehaviour
 
     public TextMeshProUGUI sweetnessText;
 
+    public SpriteRenderer foodIcon;
+
+    public 
+
 
     // Start is called before the first frame update
     void Start()
@@ -173,6 +177,8 @@ public class MonitorScreen : MonoBehaviour
         meatText.text = "Meat " + "[" + ingredient.isMeat.ToString() + "]";
         colourText.text = "Colour " + "[" + ingredient.colour.name + "]";
         sweetnessText.text = "Sweet " + "[" + ingredient.sweetness.ToString() + "]";
+
+        foodIcon.sprite = ingredient.icon.sprite;
     }
     public void SetScreenState(ScreenState newState)
     {

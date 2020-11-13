@@ -36,6 +36,8 @@ public class Ingredient : MonoBehaviour
     public Transform quateredPrefab;
     public Transform blendedPrefab;
 
+    public SpriteRenderer icon;
+
     void Start()
     {
 
@@ -82,6 +84,8 @@ public class Ingredient : MonoBehaviour
         this.colour = thingToCopy.colour;
         this.colourTag = thingToCopy.colourTag;
         this.sweetness = thingToCopy.sweetness;
+
+        this.icon = thingToCopy.icon;
     }
 
     public static void CreateIngredient(Transform originalIngredient, Transform newIngredient, IngredientState state)
