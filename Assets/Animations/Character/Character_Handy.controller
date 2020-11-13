@@ -144,7 +144,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 8926709783210769934, guid: 4764b42075db2b2418fd62274c976ace,
+  m_Motion: {fileID: 1827226128182048838, guid: 41e6161078b3ef54a92fd26ee2c31308,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -172,7 +172,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -3443985681492114326, guid: 4764b42075db2b2418fd62274c976ace,
+  m_Motion: {fileID: 1827226128182048838, guid: 386e767641573a0409de6dca9a8028a5,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -200,7 +200,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -8923488525163985212, guid: 4764b42075db2b2418fd62274c976ace,
+  m_Motion: {fileID: 1827226128182048838, guid: 41e6161078b3ef54a92fd26ee2c31308,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -221,13 +221,13 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: IsPointing
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -341,7 +341,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -3100369314251171874, guid: 4764b42075db2b2418fd62274c976ace,
+  m_Motion: {fileID: 1827226128182048838, guid: 5f46aa469f08f8b42a2a2948e2271fa9,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -398,7 +398,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 4956966899614320297, guid: 4764b42075db2b2418fd62274c976ace,
+  m_Motion: {fileID: 1827226128182048838, guid: 386e767641573a0409de6dca9a8028a5,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 

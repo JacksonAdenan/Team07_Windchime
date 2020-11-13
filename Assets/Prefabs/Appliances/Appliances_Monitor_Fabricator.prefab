@@ -614,9 +614,11 @@ MonoBehaviour:
     name: 
     RGBValue: {x: 0, y: 0, z: 0}
   currentState: 0
-  prefab: {fileID: 0}
-  halfedPrefab: {fileID: 0}
-  quateredPrefab: {fileID: 0}
+  prefab: {fileID: 4134014892645575354, guid: 7c8ccfa6899e09345b14a4f5f27bf2b1, type: 3}
+  halfedPrefab: {fileID: 3934107416861202045, guid: d9a2b16baed342a41ae19e54473c3e53,
+    type: 3}
+  quateredPrefab: {fileID: 6292055364286815936, guid: 9a58991dc61a4a84fa1c576b7ffe28db,
+    type: 3}
   blendedPrefab: {fileID: 0}
 --- !u!1 &7220228977032941567
 GameObject:
@@ -894,9 +896,11 @@ MonoBehaviour:
     name: 
     RGBValue: {x: 0, y: 0, z: 0}
   currentState: 0
-  prefab: {fileID: 0}
-  halfedPrefab: {fileID: 0}
-  quateredPrefab: {fileID: 0}
+  prefab: {fileID: 1633860946880554479, guid: 75b1891c051a2244f8f0397eaeccecaa, type: 3}
+  halfedPrefab: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
+    type: 3}
+  quateredPrefab: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
+    type: 3}
   blendedPrefab: {fileID: 0}
 --- !u!1 &7220228977239780350
 GameObject:
@@ -1149,7 +1153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7220228977418225356
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1533,17 +1537,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientName: Brothleon Meat
   spicyness: 0
-  chunkyness: 4
+  chunkyness: 0
   sweetness: 0
   isMeat: 1
-  colourTag: 0
+  colourTag: 2
   colour:
     name: 
     RGBValue: {x: 0, y: 0, z: 0}
   currentState: 0
-  prefab: {fileID: 0}
-  halfedPrefab: {fileID: 0}
-  quateredPrefab: {fileID: 0}
+  prefab: {fileID: 665449077132107707, guid: 31df8cca60613fd4e8c4d16d0382af1b, type: 3}
+  halfedPrefab: {fileID: 3089107478996846807, guid: 4685373c1982aee44992f478c101caba,
+    type: 3}
+  quateredPrefab: {fileID: 7615018144053310642, guid: 0c436283f15508d4a979c1d9595271fd,
+    type: 3}
   blendedPrefab: {fileID: 0}
 --- !u!1 &7220228977937558202
 GameObject:
@@ -2009,9 +2015,11 @@ MonoBehaviour:
     name: 
     RGBValue: {x: 0, y: 0, z: 0}
   currentState: 0
-  prefab: {fileID: 0}
-  halfedPrefab: {fileID: 0}
-  quateredPrefab: {fileID: 0}
+  prefab: {fileID: 7591500177567294948, guid: 464d768583e306b4ca48242ab2ca6995, type: 3}
+  halfedPrefab: {fileID: 8923445550459775276, guid: abd06a4b37aaf524eafadd098d495d86,
+    type: 3}
+  quateredPrefab: {fileID: 7107926719708265919, guid: 480e199df8d694f4798c56d051466dcc,
+    type: 3}
   blendedPrefab: {fileID: 0}
 --- !u!1 &7220228978480079142
 GameObject:
@@ -2297,9 +2305,11 @@ MonoBehaviour:
     name: 
     RGBValue: {x: 0, y: 0, z: 0}
   currentState: 0
-  prefab: {fileID: 0}
-  halfedPrefab: {fileID: 0}
-  quateredPrefab: {fileID: 0}
+  prefab: {fileID: 7243486945005895310, guid: 3719bd941df421144b3317a5740f6007, type: 3}
+  halfedPrefab: {fileID: 7027524154449994819, guid: 4ea3167349c213e4388b16da43949005,
+    type: 3}
+  quateredPrefab: {fileID: 5330636042665288141, guid: 2a0a8e94c27511742a6424e3897bf599,
+    type: 3}
   blendedPrefab: {fileID: 0}
 --- !u!1 &7220228978554237241
 GameObject:
@@ -2453,7 +2463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7220228978609499937
 RectTransform:
   m_ObjectHideFlags: 0

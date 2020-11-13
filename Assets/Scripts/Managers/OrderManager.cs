@@ -32,9 +32,24 @@ public class OrderManager : MonoBehaviour
     private List<Colour> availableColours;
     // ---------------------------------------------------------------- //
 
+
+    // ---------------------- Alien Dudes ---------------------- //
+    public Transform alien;
+
+
+    public List<AlienAnimation> allAliens;
+
+    public AlienAnimation alien1;
+    public AlienAnimation alien2;
+    public AlienAnimation alienStraggler;
+
     void Start()
     {
         gameManager = GameManager.GetInstance();
+
+        allAliens = new List<AlienAnimation>();
+
+
 
         // Initialising all the lists. //
         requestedOrders = new List<Order>();
@@ -48,6 +63,8 @@ public class OrderManager : MonoBehaviour
 
 
         selectedOrder = null;
+
+     
     }
     void Update()
     {
@@ -59,6 +76,48 @@ public class OrderManager : MonoBehaviour
         {
             OrderTimer();
         }
+
+        AlienMovementAnimation();
+
+
+        for (int i = 0; i < allAliens.Count; i++)
+        {
+            if (allAliens[i].destroy)
+            {
+                allAliens[i].DeleteAlien();
+            }
+        }
+
+        //if (alien1.destroy == true)
+        //{
+        //    alien1.DeleteAlien();
+        //}
+        //if (alien2.destroy == true)
+        //{
+        //    alien2.DeleteAlien();
+        //}
+    }
+    void AlienMovementAnimation()
+    {
+        for (int i = 0; i < allAliens.Count; i++)
+        {
+            allAliens[i].Animate();
+        }
+
+        //if (alien2.currentState == AlienState.WAITING_2 && acceptedOrders.Count != 2)
+        //{
+        //    alien2.currentState = AlienState.WAITING;
+        //}
+        //
+        //
+        //if (alien1.alien != null)
+        //{
+        //    alien1.Animate();
+        //}
+        //if (alien2.alien != null)
+        //{
+        //    alien2.Animate();
+        //}
     }
 
     private void AddAllColours(List<Colour> list)
@@ -120,22 +179,82 @@ public class OrderManager : MonoBehaviour
     }
     public void AcceptOrder(Order orderToAccept)
     {
+        if (requestedOrders.Count == 1)
+        {
+            //alien1.GetComponent<Animator>().SetInteger("AlienPosition", 2);
+            allAliens[0].currentState = AlienState.WAITING;
+        }
+        else if (requestedOrders.Count == 1 && acceptedOrders.Count == 1)
+        {
+            //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 2);
+            allAliens[1].currentState = AlienState.WAITING_2;
+        }
+
+
         acceptedOrders.Add(orderToAccept);
         requestedOrders.Remove(requestedOrders[0]);
         currentScreenState = OrderScreenState.CURRENT_ORDER;
 
         isOrderAvailable = false;
+
+
     }
     public void RejectOrder()
     {
+        if (requestedOrders.Count == 1 && acceptedOrders.Count == 1)
+        {
+            //alien1.GetComponent<Animator>().SetInteger("AlienPosition", 4);
+            alien2.currentState = AlienState.LEAVING;
+            alien2.destroy = true;
+        }
+        else if (requestedOrders.Count == 1)
+        {
+            //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 4);
+            alien1.currentState = AlienState.LEAVING;
+            alien1.destroy = true;
+        }
+
+
         requestedOrders.Remove(requestedOrders[0]);
 
         isOrderAvailable = false;
+
     }
     public void SendOrder(Order orderToAdd)
     {
         requestedOrders.Clear();
         requestedOrders.Add(orderToAdd);
+
+        // Alien animation thingy //
+
+
+
+
+        if (requestedOrders.Count == 1 && acceptedOrders.Count != 1)
+        {
+
+            Debug.Log("Alien created.");
+            //alien1 = Instantiate(alien, alien.transform.parent);
+            //alien1.GetComponent<Animator>().SetInteger("AlienPosition", 1);
+
+            AlienAnimation newAlien = new AlienAnimation();
+            newAlien.CreateAlien(alien);
+            allAliens.Add(newAlien);
+        }
+        else if (requestedOrders.Count == 1 && acceptedOrders.Count == 1)
+        {
+            Debug.Log("Alien created.");
+
+            AlienAnimation newAlien = new AlienAnimation();
+            newAlien.CreateAlien(alien);
+            allAliens.Add(newAlien);
+
+            //alien2 = Instantiate(alien, alien.transform.parent);
+            //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 1);
+            //alien2.CreateAlien(alien);
+        }
+
+
     }
 
     public static Order ManuallyCreateOrder(TMP_Dropdown colourPreference, TMP_Dropdown meatVegPref, TMP_InputField spicy, TMP_InputField chunky)
@@ -290,6 +409,12 @@ public class OrderManager : MonoBehaviour
 
     public void CompleteOrder(Soup soupToSubmit)
     {
+
+        allAliens[0].currentState = AlienState.LEAVING_HAPPILY;
+        allAliens[0].destroy = true;
+        //allAliens.Remove(allAliens[0]);
+
+
         if (CompareOrder(soupToSubmit) == true)
         {
             ScoreManager.currentScore += 500;
