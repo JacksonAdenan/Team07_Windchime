@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 665449077132107707}
   - component: {fileID: 8713613308494193835}
   - component: {fileID: 6087548309569856554}
-  m_Layer: 0
+  - component: {fileID: 8860292115461202690}
+  - component: {fileID: -36149104495248783}
+  - component: {fileID: -2419773004049244373}
+  m_Layer: 8
   m_Name: Food_Steak_Full
-  m_TagString: Untagged
+  m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,3 +82,60 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!54 &8860292115461202690
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568760741368491432}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &-36149104495248783
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568760741368491432}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3191486
+  m_Center: {x: -0.00086594373, y: 0, z: 0.0045954436}
+--- !u!114 &-2419773004049244373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568760741368491432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Brothleon Meat
+  spicyness: 0
+  chunkyness: 0
+  sweetness: 0
+  isMeat: 1
+  colourTag: 2
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 665449077132107707}
+  halfedPrefab: {fileID: 3089107478996846807, guid: 4685373c1982aee44992f478c101caba,
+    type: 3}
+  quateredPrefab: {fileID: 7615018144053310642, guid: 0c436283f15508d4a979c1d9595271fd,
+    type: 3}
+  blendedPrefab: {fileID: 0}

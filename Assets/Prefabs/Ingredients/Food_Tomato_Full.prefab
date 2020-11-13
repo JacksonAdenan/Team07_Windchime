@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 1633860946880554479}
   - component: {fileID: 8095455738958700490}
   - component: {fileID: 94231150659697121}
-  m_Layer: 0
+  - component: {fileID: -249964396050937584}
+  - component: {fileID: -5936461104630784746}
+  - component: {fileID: 4224638028186339234}
+  m_Layer: 8
   m_Name: Food_Tomato_Full
-  m_TagString: Untagged
+  m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,3 +82,60 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!54 &-249964396050937584
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375642236577912828}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &-5936461104630784746
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375642236577912828}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15394652
+  m_Center: {x: -0.00000008940697, y: 0.000000007450581, z: -0.000000037252903}
+--- !u!114 &4224638028186339234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375642236577912828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Tomato
+  spicyness: 1
+  chunkyness: 1
+  sweetness: 2
+  isMeat: 0
+  colourTag: 1
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 1633860946880554479}
+  halfedPrefab: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
+    type: 3}
+  quateredPrefab: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
+    type: 3}
+  blendedPrefab: {fileID: 0}

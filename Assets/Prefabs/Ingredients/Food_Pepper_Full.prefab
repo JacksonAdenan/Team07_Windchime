@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 4134014892645575354}
   - component: {fileID: 3101549235289037719}
   - component: {fileID: 8697893511299277997}
-  m_Layer: 0
+  - component: {fileID: 1931426924261770410}
+  - component: {fileID: 6253291024906687470}
+  - component: {fileID: 5257177431582506583}
+  m_Layer: 8
   m_Name: Food_Pepper_Full
-  m_TagString: Untagged
+  m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,3 +83,60 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!54 &1931426924261770410
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082448842550843561}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!135 &6253291024906687470
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082448842550843561}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.20538902
+  m_Center: {x: 0.0027124733, y: -0.0017082989, z: 0.00013874471}
+--- !u!114 &5257177431582506583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082448842550843561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Volcano Chili
+  spicyness: 3
+  chunkyness: 1
+  sweetness: 0
+  isMeat: 0
+  colourTag: 6
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 4134014892645575354}
+  halfedPrefab: {fileID: 3934107416861202045, guid: d9a2b16baed342a41ae19e54473c3e53,
+    type: 3}
+  quateredPrefab: {fileID: 6292055364286815936, guid: 9a58991dc61a4a84fa1c576b7ffe28db,
+    type: 3}
+  blendedPrefab: {fileID: 0}
