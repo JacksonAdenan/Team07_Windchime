@@ -7351,11 +7351,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1176859857, guid: 5c60787673a29904eb8924e98b508a14, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1176859857, guid: 5c60787673a29904eb8924e98b508a14, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1176859857, guid: 5c60787673a29904eb8924e98b508a14, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1094586945784454139, guid: 5c60787673a29904eb8924e98b508a14,
         type: 3}
@@ -29998,6 +30002,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7220228978314434067, guid: 2163d581f84840b4f9df9e4fa524472c,
+        type: 3}
+      propertyPath: foodIcon
+      value: 
+      objectReference: {fileID: 1465654740}
     - target: {fileID: 7220228978480079193, guid: 2163d581f84840b4f9df9e4fa524472c,
         type: 3}
       propertyPath: colourTag
@@ -33543,6 +33552,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6322904804069925781, guid: d0483d0eb47b1ce4bb23dd7f9259e486,
     type: 3}
   m_PrefabInstance: {fileID: 1465070917}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1465654740 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7220228978193361770, guid: 2163d581f84840b4f9df9e4fa524472c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1291605657}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1465814383 stripped
 Transform:
