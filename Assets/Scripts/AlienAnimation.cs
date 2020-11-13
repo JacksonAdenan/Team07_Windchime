@@ -33,7 +33,7 @@ public class AlienAnimation
         if (timer >= 10)
         {
             GameManager gameManager = GameManager.GetInstance();
-            gameManager.orderManager.allAliens.Remove(gameManager.orderManager.allAliens[0]);
+            gameManager.orderManager.destroyingAliens.Remove(gameManager.orderManager.destroyingAliens[0]);
             GameObject.Destroy(alien.gameObject);
             alien = null;
             destroy = false;
@@ -53,7 +53,7 @@ public class AlienAnimation
                 alien.GetComponent<Animator>().SetInteger("AlienPosition", 2);
                 break;
             case AlienState.WAITING_2:
-                alien.GetComponent<Animator>().SetInteger("AlienPosition", 2);
+                alien.GetComponent<Animator>().SetInteger("AlienPosition", 1);
                 break;
             case AlienState.LEAVING_HAPPILY:
                 alien.GetComponent<Animator>().SetInteger("AlienPosition", 3);
