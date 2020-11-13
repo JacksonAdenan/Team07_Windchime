@@ -37,18 +37,19 @@ public class OrderManager : MonoBehaviour
     public Transform alien;
 
 
-    public List<AlienAnimation> allAliens;
+    public List<AlienAnimation> activeAliens;
+    public List<AlienAnimation> destroyingAliens;
 
-    public AlienAnimation alien1;
-    public AlienAnimation alien2;
-    public AlienAnimation alienStraggler;
+    //public AlienAnimation alien1;
+    //public AlienAnimation alien2;
+    //public AlienAnimation alienStraggler;
 
     void Start()
     {
         gameManager = GameManager.GetInstance();
 
-        allAliens = new List<AlienAnimation>();
-
+        activeAliens = new List<AlienAnimation>();
+        destroyingAliens = new List<AlienAnimation>();
 
 
         // Initialising all the lists. //
@@ -80,11 +81,11 @@ public class OrderManager : MonoBehaviour
         AlienMovementAnimation();
 
 
-        for (int i = 0; i < allAliens.Count; i++)
+        for (int i = 0; i < destroyingAliens.Count; i++)
         {
-            if (allAliens[i].destroy)
+            if (destroyingAliens[i].destroy)
             {
-                allAliens[i].DeleteAlien();
+                destroyingAliens[i].DeleteAlien();
             }
         }
 
@@ -99,15 +100,21 @@ public class OrderManager : MonoBehaviour
     }
     void AlienMovementAnimation()
     {
-        for (int i = 0; i < allAliens.Count; i++)
+        //if (activeAliens.Count > 1 && activeAliens[1].currentState == AlienState.WAITING_2 && acceptedOrders.Count != 2)
+        //{
+        //    activeAliens[0].currentState = AlienState.WAITING;
+        //}
+
+        for (int i = 0; i < activeAliens.Count; i++)
         {
-            allAliens[i].Animate();
+            activeAliens[i].Animate();
         }
 
-        //if (alien2.currentState == AlienState.WAITING_2 && acceptedOrders.Count != 2)
-        //{
-        //    alien2.currentState = AlienState.WAITING;
-        //}
+        for (int i = 0; i < destroyingAliens.Count; i++)
+        {
+            destroyingAliens[i].Animate();
+        }
+
         //
         //
         //if (alien1.alien != null)
@@ -179,15 +186,17 @@ public class OrderManager : MonoBehaviour
     }
     public void AcceptOrder(Order orderToAccept)
     {
-        if (requestedOrders.Count == 1)
+        if (requestedOrders.Count == 1 && acceptedOrders.Count == 0)
         {
             //alien1.GetComponent<Animator>().SetInteger("AlienPosition", 2);
-            allAliens[0].currentState = AlienState.WAITING;
+            activeAliens[0].currentState = AlienState.WAITING;
+            Debug.Log("=============== ALIEN 1 WAITING ==========");
         }
         else if (requestedOrders.Count == 1 && acceptedOrders.Count == 1)
         {
             //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 2);
-            allAliens[1].currentState = AlienState.WAITING_2;
+            Debug.Log("=============== ALIEN 2 WAITING_2 ==========");
+            activeAliens[1].currentState = AlienState.WAITING_2;
         }
 
 
@@ -204,14 +213,27 @@ public class OrderManager : MonoBehaviour
         if (requestedOrders.Count == 1 && acceptedOrders.Count == 1)
         {
             //alien1.GetComponent<Animator>().SetInteger("AlienPosition", 4);
-            alien2.currentState = AlienState.LEAVING;
-            alien2.destroy = true;
+            activeAliens[1].currentState = AlienState.LEAVING;
+
+
+            // Can't really be bothered thinking about the details of where what is in terms of position for the list... but I know that setting the thing to destroy while its still in active list makes it
+            // so we don't have to find it once it's in the destroyingAliens list.
+            activeAliens[1].destroy = true;
+
+            destroyingAliens.Add(activeAliens[1]);
+
+
+            activeAliens.Remove(activeAliens[1]);
         }
-        else if (requestedOrders.Count == 1)
+        else if (requestedOrders.Count == 1 && acceptedOrders.Count == 0)
         {
             //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 4);
-            alien1.currentState = AlienState.LEAVING;
-            alien1.destroy = true;
+            activeAliens[0].currentState = AlienState.LEAVING;
+
+            destroyingAliens.Add(activeAliens[0]);
+            destroyingAliens[0].destroy = true;
+
+            activeAliens.Remove(activeAliens[0]);
         }
 
 
@@ -239,7 +261,7 @@ public class OrderManager : MonoBehaviour
 
             AlienAnimation newAlien = new AlienAnimation();
             newAlien.CreateAlien(alien);
-            allAliens.Add(newAlien);
+            activeAliens.Add(newAlien);
         }
         else if (requestedOrders.Count == 1 && acceptedOrders.Count == 1)
         {
@@ -247,7 +269,7 @@ public class OrderManager : MonoBehaviour
 
             AlienAnimation newAlien = new AlienAnimation();
             newAlien.CreateAlien(alien);
-            allAliens.Add(newAlien);
+            activeAliens.Add(newAlien);
 
             //alien2 = Instantiate(alien, alien.transform.parent);
             //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 1);
@@ -410,9 +432,23 @@ public class OrderManager : MonoBehaviour
     public void CompleteOrder(Soup soupToSubmit)
     {
 
-        allAliens[0].currentState = AlienState.LEAVING_HAPPILY;
-        allAliens[0].destroy = true;
-        //allAliens.Remove(allAliens[0]);
+        activeAliens[0].currentState = AlienState.LEAVING_HAPPILY;
+
+        Debug.Log("ACCEPTED ORDERS COUNT: " + acceptedOrders.Count + "========================");
+        Debug.Log("ACTIVE ALIENS ORDERS COUNT: " + activeAliens.Count + "========================");
+        Debug.Log("ALIEN STATE: " + activeAliens[1].currentState + "========================");
+
+        if (activeAliens.Count > 1 && activeAliens[1].currentState == AlienState.WAITING_2 && acceptedOrders.Count == 2)
+        {
+            Debug.Log("AHHHHHHHHHHHL OOK OVA HERE!");
+            activeAliens[1].currentState = AlienState.WAITING;
+        }
+
+        destroyingAliens.Add(activeAliens[0]);
+        destroyingAliens[0].destroy = true;
+
+        activeAliens.Remove(activeAliens[0]);
+
 
 
         if (CompareOrder(soupToSubmit) == true)

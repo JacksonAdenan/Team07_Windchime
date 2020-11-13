@@ -22,6 +22,8 @@ public class AlienAnimation
 
     public float timer = 0;
     public bool destroy = false;
+
+    public float waitTimer = 0;
     public void CreateAlien(Transform alienTransform)
     {
         alien = GameObject.Instantiate(alienTransform, alienTransform.transform.parent);
@@ -33,7 +35,7 @@ public class AlienAnimation
         if (timer >= 10)
         {
             GameManager gameManager = GameManager.GetInstance();
-            gameManager.orderManager.allAliens.Remove(gameManager.orderManager.allAliens[0]);
+            gameManager.orderManager.destroyingAliens.Remove(gameManager.orderManager.destroyingAliens[0]);
             GameObject.Destroy(alien.gameObject);
             alien = null;
             destroy = false;
@@ -45,15 +47,18 @@ public class AlienAnimation
         {
             case AlienState.ORDERING:
                 alien.GetComponent<Animator>().SetInteger("AlienPosition", 1);
+                alien.GetChild(1).GetComponent<Animator>().SetBool("Ordering", true);
                 break;
             case AlienState.LEAVING:
                 alien.GetComponent<Animator>().SetInteger("AlienPosition", 4);
                 break;
             case AlienState.WAITING:
                 alien.GetComponent<Animator>().SetInteger("AlienPosition", 2);
+                waitTimer += Time.deltaTime;
                 break;
             case AlienState.WAITING_2:
-                alien.GetComponent<Animator>().SetInteger("AlienPosition", 2);
+                alien.GetComponent<Animator>().SetInteger("AlienPosition", 1);
+                waitTimer += Time.deltaTime;
                 break;
             case AlienState.LEAVING_HAPPILY:
                 alien.GetComponent<Animator>().SetInteger("AlienPosition", 3);
