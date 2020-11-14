@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5053109089893533903}
   - component: {fileID: 8183010168727521130}
   - component: {fileID: 6227091995751953312}
-  - component: {fileID: -1816901051587139784}
-  - component: {fileID: -2115434725125959522}
-  - component: {fileID: 1220893511507995967}
+  - component: {fileID: -5848055033449625724}
+  - component: {fileID: 5902822836819959748}
+  - component: {fileID: -6715527983470502715}
   m_Layer: 8
   m_Name: Ingredient_Pumpkin_Full
   m_TagString: Ingredient
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &-1816901051587139784
+--- !u!54 &-5848055033449625724
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,7 +98,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &-2115434725125959522
+--- !u!135 &5902822836819959748
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,9 +109,9 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.04549408
-  m_Center: {x: 0, y: -0.00010227226, z: 0.000000018626451}
---- !u!114 &1220893511507995967
+  m_Radius: 0.4549408
+  m_Center: {x: 0, y: -0.0010227114, z: 0.0000001937151}
+--- !u!114 &-6715527983470502715
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,3 +139,4 @@ MonoBehaviour:
   quateredPrefab: {fileID: 728288263786503173, guid: 7c19acebb67c03546bda01625f580a32,
     type: 3}
   blendedPrefab: {fileID: 0}
+  icon: {fileID: 0}

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1784944027383548045}
   - component: {fileID: 3416752962887337768}
   - component: {fileID: 616511555948327906}
-  - component: {fileID: 2741761688941835867}
-  - component: {fileID: -889631860529885923}
+  - component: {fileID: -1006466291143432993}
+  - component: {fileID: -8404439309476540952}
   m_Layer: 8
   m_Name: Ingredient_Lamb_Half
   m_TagString: Ingredient
@@ -81,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &2741761688941835867
+--- !u!54 &-1006466291143432993
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &-889631860529885923
+--- !u!135 &-8404439309476540952
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,5 +108,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.023154773
-  m_Center: {x: -0.0000000018626451, y: 4.656613e-10, z: -0.000000009313226}
+  m_Radius: 0.23154753
+  m_Center: {x: -0.000000230968, y: 0.000000004656613, z: -0.00000008195639}

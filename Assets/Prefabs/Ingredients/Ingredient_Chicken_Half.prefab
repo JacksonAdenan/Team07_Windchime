@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 290300801794698204}
   - component: {fileID: 3722366515882026105}
   - component: {fileID: 1462675740614201523}
-  - component: {fileID: -7244316307804185695}
+  - component: {fileID: 6814718441065646490}
+  - component: {fileID: 3862772030834714036}
   m_Layer: 8
   m_Name: Ingredient_Chicken_Half
   m_TagString: Ingredient
@@ -80,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &-7244316307804185695
+--- !u!54 &6814718441065646490
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,3 +97,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &3862772030834714036
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1102409554186711398}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.23735145
+  m_Center: {x: 0, y: 0.000000007450581, z: 0}

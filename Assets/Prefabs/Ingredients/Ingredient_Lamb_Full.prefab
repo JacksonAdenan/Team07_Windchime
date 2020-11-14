@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5084994148253819750}
   - component: {fileID: 8160061459076017347}
   - component: {fileID: 6258503611542935561}
-  - component: {fileID: 6198435244597586243}
-  - component: {fileID: 120674169578702716}
-  - component: {fileID: -1554260253281219329}
+  - component: {fileID: 1809795325817923915}
+  - component: {fileID: -3119871855155188056}
+  - component: {fileID: 4926120610914457830}
   m_Layer: 8
   m_Name: Ingredient_Lamb_Full
   m_TagString: Ingredient
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &6198435244597586243
+--- !u!54 &1809795325817923915
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,7 +98,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &120674169578702716
+--- !u!135 &-3119871855155188056
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,9 +109,9 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.039913636
-  m_Center: {x: 0, y: 5.820766e-10, z: 0}
---- !u!114 &-1554260253281219329
+  m_Radius: 0.39913633
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4926120610914457830
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,3 +139,4 @@ MonoBehaviour:
   quateredPrefab: {fileID: 5492416953809621939, guid: 1cfeca8e7d7e22d42bed0963007f867d,
     type: 3}
   blendedPrefab: {fileID: 0}
+  icon: {fileID: 0}

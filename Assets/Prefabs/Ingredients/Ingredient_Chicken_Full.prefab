@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 4741574128212332873}
   - component: {fileID: 8530573168019529452}
   - component: {fileID: 5874479867127966246}
-  - component: {fileID: 2734515389539410910}
-  - component: {fileID: -8519014903282598560}
+  - component: {fileID: -7448553565274477341}
+  - component: {fileID: -637833732458849571}
+  - component: {fileID: 333738866703483122}
   m_Layer: 8
   m_Name: Ingredient_Chicken_Full
   m_TagString: Ingredient
@@ -81,7 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &2734515389539410910
+--- !u!54 &-7448553565274477341
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +98,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-8519014903282598560
+--- !u!135 &-637833732458849571
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5370160065967229939}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.40829694
+  m_Center: {x: 0, y: -0.00000009685755, z: 0}
+--- !u!114 &333738866703483122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,3 +139,4 @@ MonoBehaviour:
   quateredPrefab: {fileID: 3788395051124616423, guid: f02621f1b52bbfa4eb2aa24f96276e38,
     type: 3}
   blendedPrefab: {fileID: 0}
+  icon: {fileID: 0}

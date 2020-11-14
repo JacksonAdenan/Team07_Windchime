@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 525426587484160503}
   - component: {fileID: 3523340102099340882}
   - component: {fileID: 1657778134689643160}
-  - component: {fileID: 3011478275709935262}
-  - component: {fileID: -3687494669578973388}
-  - component: {fileID: -1905247397731367017}
+  - component: {fileID: 2359105437979389238}
+  - component: {fileID: -2156184433971860907}
+  - component: {fileID: -2911419844123889356}
   m_Layer: 8
   m_Name: Ingredient_Eggplant_Full
   m_TagString: Ingredient
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &3011478275709935262
+--- !u!54 &2359105437979389238
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,7 +98,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &-3687494669578973388
+--- !u!135 &-2156184433971860907
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,9 +109,9 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.049709853
-  m_Center: {x: 0, y: 0, z: -0.000000018626451}
---- !u!114 &-1905247397731367017
+  m_Radius: 0.49709854
+  m_Center: {x: 0, y: 0, z: -0.0000001937151}
+--- !u!114 &-2911419844123889356
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,3 +139,4 @@ MonoBehaviour:
   quateredPrefab: {fileID: 6096161546654901685, guid: a1a4c36c7debf31478243f14e8adfa48,
     type: 3}
   blendedPrefab: {fileID: 0}
+  icon: {fileID: 0}

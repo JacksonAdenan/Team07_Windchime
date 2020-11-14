@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 728288263786503173}
   - component: {fileID: 4446387383765275552}
   - component: {fileID: 1896097415074375530}
-  - component: {fileID: 8198960718394684937}
-  - component: {fileID: -5245048874072208841}
+  - component: {fileID: -2938254699928483371}
+  - component: {fileID: 7585329507562474146}
   m_Layer: 8
   m_Name: Ingredient_Pumpkin_Quarter
   m_TagString: Ingredient
@@ -81,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &8198960718394684937
+--- !u!54 &-2938254699928483371
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &-5245048874072208841
+--- !u!135 &7585329507562474146
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,5 +108,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.041502457
-  m_Center: {x: 0.00018568058, y: 0, z: 0.0012847781}
+  m_Radius: 0.41502455
+  m_Center: {x: 0.0018568039, y: 0, z: 0.0128478035}

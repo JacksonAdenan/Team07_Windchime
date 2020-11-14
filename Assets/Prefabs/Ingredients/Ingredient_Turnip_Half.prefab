@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3404519021514871066}
   - component: {fileID: 1770076927529017023}
   - component: {fileID: 4572390433588226677}
-  - component: {fileID: -194336619833484504}
-  - component: {fileID: -5794261273337777517}
+  - component: {fileID: -817586353157168439}
+  - component: {fileID: 2983949834250372392}
   m_Layer: 8
   m_Name: Ingredient_Turnip_Half
   m_TagString: Ingredient
@@ -81,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &-194336619833484504
+--- !u!54 &-817586353157168439
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &-5794261273337777517
+--- !u!135 &2983949834250372392
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,5 +108,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.030178871
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.3017887
+  m_Center: {x: 0, y: -0.0010190457, z: -0.11558685}

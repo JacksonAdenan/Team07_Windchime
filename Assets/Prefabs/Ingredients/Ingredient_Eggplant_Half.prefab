@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2181567891206760283}
   - component: {fileID: 3020129627366091006}
   - component: {fileID: 1012554194732260404}
-  - component: {fileID: 6056245381713294327}
-  - component: {fileID: 151234967242173366}
+  - component: {fileID: 7035931407832908391}
+  - component: {fileID: -1545460101623976294}
   m_Layer: 8
   m_Name: Ingredient_Eggplant_Half
   m_TagString: Ingredient
@@ -81,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &6056245381713294327
+--- !u!54 &7035931407832908391
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &151234967242173366
+--- !u!135 &-1545460101623976294
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,5 +108,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.049709853
-  m_Center: {x: 0, y: 0, z: 0.0005762861}
+  m_Radius: 0.49709854
+  m_Center: {x: 0, y: 0, z: 0.00576286}

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8127109709764938493}
   - component: {fileID: 5144958699221402968}
   - component: {fileID: 6954235005328765330}
-  - component: {fileID: 6759050433915904386}
-  - component: {fileID: 5504693334379691362}
+  - component: {fileID: -8692885010603577967}
+  - component: {fileID: 8275167216951667913}
   m_Layer: 8
   m_Name: Ingredient_Mushroom_Half
   m_TagString: Ingredient
@@ -81,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &6759050433915904386
+--- !u!54 &-8692885010603577967
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &5504693334379691362
+--- !u!135 &8275167216951667913
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,5 +108,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.014929561
-  m_Center: {x: 0.00025998103, y: -0.00033163046, z: -0.0036707958}
+  m_Radius: 0.14929561
+  m_Center: {x: 0.0025998093, y: -0.003316313, z: -0.03670796}

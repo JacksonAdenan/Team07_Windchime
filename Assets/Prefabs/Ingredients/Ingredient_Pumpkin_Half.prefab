@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3633588314132895018}
   - component: {fileID: 415108265792887439}
   - component: {fileID: 2460713127721381445}
-  - component: {fileID: 641332571585899157}
-  - component: {fileID: 489660027525298996}
+  - component: {fileID: 2923197792361373020}
+  - component: {fileID: -251635711753946125}
   m_Layer: 8
   m_Name: Ingredient_Pumpkin_Half
   m_TagString: Ingredient
@@ -81,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &641332571585899157
+--- !u!54 &2923197792361373020
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &489660027525298996
+--- !u!135 &-251635711753946125
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,5 +108,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.047087077
-  m_Center: {x: -0.000000018626451, y: 0, z: 0.0002822876}
+  m_Radius: 0.4708708
+  m_Center: {x: -0.0000001937151, y: 0, z: 0.002822876}

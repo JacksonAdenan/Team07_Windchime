@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3666078865804540944}
   - component: {fileID: 382626590172361653}
   - component: {fileID: 2498279064792942463}
-  - component: {fileID: -1168831647875252330}
-  - component: {fileID: -2042576583874937289}
-  - component: {fileID: -5143761700456853840}
+  - component: {fileID: -8852190806696942192}
+  - component: {fileID: -1245480359529137812}
+  - component: {fileID: -737130244302045693}
   m_Layer: 8
   m_Name: Ingredient_Turnip_Full
   m_TagString: Ingredient
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &-1168831647875252330
+--- !u!54 &-8852190806696942192
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,7 +98,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &-2042576583874937289
+--- !u!135 &-1245480359529137812
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,9 +109,9 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.03028656
-  m_Center: {x: 0, y: 0, z: 0.000000018626451}
---- !u!114 &-5143761700456853840
+  m_Radius: 0.3028656
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-737130244302045693
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,3 +139,4 @@ MonoBehaviour:
   quateredPrefab: {fileID: 3916680118744918623, guid: 350bfdbbf4cfbf94a8327c2f38bfb4a7,
     type: 3}
   blendedPrefab: {fileID: 0}
+  icon: {fileID: 0}

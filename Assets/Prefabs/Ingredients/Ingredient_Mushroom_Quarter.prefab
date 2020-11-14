@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4358393290404749089}
   - component: {fileID: 852240320455921796}
   - component: {fileID: 3186071644478809166}
-  - component: {fileID: -4557606215189474581}
-  - component: {fileID: 7297664353835066100}
+  - component: {fileID: -4325808456350775061}
+  - component: {fileID: -8143517431972868552}
   m_Layer: 8
   m_Name: Ingredient_Mushroom_Quarter
   m_TagString: Ingredient
@@ -81,7 +81,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &-4557606215189474581
+--- !u!54 &-4325808456350775061
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,7 +97,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &7297664353835066100
+--- !u!135 &-8143517431972868552
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,5 +108,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.014929552
-  m_Center: {x: 0.005312421, y: -0.0003316328, z: -0.0034107794}
+  m_Radius: 0.14929551
+  m_Center: {x: 0.053124208, y: -0.0033163354, z: -0.034107804}
