@@ -8,7 +8,8 @@ public enum MonitorType
 { 
     ITEM_FABRICATOR_MONITOR,
     NEW_ORDER_MONITOR,
-    CURRENT_ORDER_MONITOR
+    CURRENT_ORDER_MONITOR,
+    CANON_MONITOR
 }
 public enum ScreenState
 { 
@@ -20,6 +21,8 @@ public class MonitorScreen : MonoBehaviour
 
     GameManager gameManager;
     OrderManager orderManager;
+    Canon theCanon;
+
 
     public Transform mainScreen;
     public Transform secondaryScreen;
@@ -42,7 +45,19 @@ public class MonitorScreen : MonoBehaviour
 
     public SpriteRenderer foodIcon;
 
-    public 
+
+    // Text for canon display. //
+    public TextMeshProUGUI canonTitle;
+
+    public TextMeshProUGUI canonSpicyText;
+    public TextMeshProUGUI canonChunkyText;
+    public TextMeshProUGUI canonMeatText;
+    public TextMeshProUGUI canonColourText;
+
+    public TextMeshProUGUI canonSweetnessText;
+
+
+
 
 
     // Start is called before the first frame update
@@ -50,6 +65,8 @@ public class MonitorScreen : MonoBehaviour
     {
         gameManager = GameManager.GetInstance();
         orderManager = gameManager.orderManager;
+
+        theCanon = gameManager.cookingManager.theCanon;
     }
 
     // Update is called once per frame
@@ -86,6 +103,25 @@ public class MonitorScreen : MonoBehaviour
                         mainScreen.gameObject.SetActive(false);
                     }
                 }
+                else if (thisMonitor == MonitorType.CANON_MONITOR)
+                {
+                    if (orderManager.acceptedOrders.Count > 0)
+                    {
+
+                        if (theCanon.currentSoup != null)
+                        {
+                            DisplayMainMenu(theCanon.currentSoup.theSoup, orderManager.acceptedOrders[0]);
+                        }
+                        else
+                        {
+                            DisplayMainMenu(null, orderManager.acceptedOrders[0]);
+                        }
+                    }
+                    else
+                    {
+                        mainScreen.gameObject.SetActive(false);
+                    }          
+                }
                 else
                 {
                     DisplayMainMenu();
@@ -113,6 +149,50 @@ public class MonitorScreen : MonoBehaviour
         currentIngredientDisplay = null;
     }
 
+    public void DisplayMainMenu(Soup soup, Order orderToDisplay)
+    {
+        DisplayMainMenu(orderToDisplay);
+
+        if (soup != null)
+        {
+            canonSpicyText.text = "Spicy " + "[" + soup.spicyValue.ToString() + "]";
+            canonChunkyText.text = "Chunky " + "[" + soup.chunkyValue.ToString() + "]";
+            canonSweetnessText.text = "Sweet " + "[" + soup.sweetnessValue.ToString() + "]";
+
+            // Displaying meat veg preference //
+            if (soup.ContainsMeat() && soup.ContainsVeg())
+            {
+                canonMeatText.text = "Contains meat and veg";
+            }
+            else if (soup.ContainsMeat())
+            {
+                canonMeatText.text = "Contains meat";
+            }
+            else if (soup.ContainsVeg())
+            {
+                canonMeatText.text = "Contains veg";
+            }
+            else
+            {
+                canonMeatText.text = "Theres no ingredients";
+            }
+            // ----------------------------- //
+
+            canonColourText.text = "Colour " + "[" + soup.colour.name + "]";
+        }
+        else
+        {
+            canonSpicyText.text = "Spicy " + "[" + "-" + "]";
+            canonChunkyText.text = "Chunky " + "[" + "-" + "]";
+            canonSweetnessText.text = "Sweet " + "[" + "-" + "]";
+
+            // Displaying meat veg preference //
+            canonMeatText.text = "Meat/Veg [-]";
+            // ----------------------------- //
+
+            canonColourText.text = "Colour " + "[" + "-" + "]";
+        }
+    }
     public void DisplayMainMenu(Order orderToDisplay)
     {
         if (!mainScreen.gameObject.activeSelf)
