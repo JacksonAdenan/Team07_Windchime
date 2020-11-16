@@ -159,22 +159,86 @@ public class MonitorScreen : MonoBehaviour
             canonChunkyText.text = "Chunky " + "[" + soup.chunkyValue.ToString() + "]";
             canonSweetnessText.text = "Sweet " + "[" + soup.sweetnessValue.ToString() + "]";
 
+
+            if (soup.spicyValue >= OrderManager.CalculateLowerHalf(orderToDisplay.spicyness) && soup.spicyValue <= OrderManager.CalculateUpperHalf(orderToDisplay.spicyness))
+            {
+                canonSpicyText.color = Color.green;
+            }
+            else
+            {
+                canonSpicyText.color = Color.red;
+            }
+
+            if (soup.chunkyValue >= OrderManager.CalculateLowerHalf(orderToDisplay.chunkiness) && soup.chunkyValue <= OrderManager.CalculateUpperHalf(orderToDisplay.chunkiness))
+            {
+                canonChunkyText.color = Color.green;
+            }
+            else
+            {
+                canonChunkyText.color = Color.red;
+            }
+
+            if (soup.sweetnessValue >= OrderManager.CalculateLowerHalf(orderToDisplay.sweetness) && soup.sweetnessValue <= OrderManager.CalculateUpperHalf(orderToDisplay.sweetness))
+            {
+                canonSweetnessText.color = Color.green;
+            }
+            else
+            {
+                canonSweetnessText.color = Color.red;
+            }
+
+
+            if (soup.colour.name == orderToDisplay.colourPreference.name)
+            {
+                canonColourText.color = Color.green;
+            }
+            else
+            {
+                canonColourText.color = Color.red;
+            }
+
             // Displaying meat veg preference //
             if (soup.ContainsMeat() && soup.ContainsVeg())
             {
                 canonMeatText.text = "Contains meat and veg";
+
+                if (!orderToDisplay.noMeat && !orderToDisplay.noVeg)
+                {
+                    canonMeatText.color = Color.green;
+                }
+                else
+                {
+                    canonMeatText.color = Color.red;
+                }
             }
             else if (soup.ContainsMeat())
             {
                 canonMeatText.text = "Contains meat";
+                if (!orderToDisplay.noMeat)
+                {
+                    canonMeatText.color = Color.green;
+                }
+                else
+                {
+                    canonMeatText.color = Color.red;
+                }
             }
             else if (soup.ContainsVeg())
             {
                 canonMeatText.text = "Contains veg";
+                if (!orderToDisplay.noVeg)
+                {
+                    canonMeatText.color = Color.green;
+                }
+                else
+                {
+                    canonMeatText.color = Color.red;
+                }
             }
             else
             {
                 canonMeatText.text = "Theres no ingredients";
+                canonMeatText.color = Color.red;
             }
             // ----------------------------- //
 
@@ -191,6 +255,14 @@ public class MonitorScreen : MonoBehaviour
             // ----------------------------- //
 
             canonColourText.text = "Colour " + "[" + "-" + "]";
+
+            // Resetting Colours //
+            canonSpicyText.color = Color.white;
+            canonSweetnessText.color = Color.white;
+            canonChunkyText.color = Color.white;
+            canonColourText.color = Color.white;
+            canonMeatText.color = Color.white;
+
         }
     }
     public void DisplayMainMenu(Order orderToDisplay)
