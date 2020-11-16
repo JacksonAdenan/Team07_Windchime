@@ -281,15 +281,21 @@ public class MouseLook : MonoBehaviour
                             Debug.Log("REMOVED CATCHER CAPSULE");
                             if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
                             {
-                                Detach(theCatcher.filledAttachedCapsule);
-                            }
-                            else
-                            {
                                 Detach(theCatcher.emptyAttachedCapsule);
+
+                                // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
+                                theCatcher.RemoveCapsule();
                             }
 
-                            // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
-                            theCatcher.RemoveCapsule();
+                            // I commented this out so that way I don't have to handle if the player removes a capsule with incomplete soup. //
+
+                            //else
+                            //{
+                            //    Detach(theCatcher.emptyAttachedCapsule);
+                            //}
+
+                            
+                            
                         }
                     }
                     else if (selectedItem.tag == "CanonCapsule")
@@ -979,6 +985,11 @@ public class MouseLook : MonoBehaviour
     void Detach(Transform itemToPickUp)
     {
         Transform capsule = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
+
+        // Have to set a new material just so that its not using the same material as every other capsule.
+        Material newMaterial = capsule.GetChild(1).GetComponent<SkinnedMeshRenderer>().material;
+        capsule.GetChild(1).GetComponent<SkinnedMeshRenderer>().material = newMaterial;
+
         FindRenderer(capsule).material = defaultMat;
 
         // Giving the capsule appropriate soup data. //
