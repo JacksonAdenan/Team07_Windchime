@@ -121,9 +121,9 @@ public class MonitorScreen : MonoBehaviour
         }
         //secondaryScreen.gameObject.SetActive(false);
 
-        spicyText.text = "Make It Spicy " + "[" + orderToDisplay.spicyness.ToString() + "]";
-        chunkyText.text = "Make It Chunky " + "[" + orderToDisplay.chunkiness.ToString() + "]";
-        sweetnessText.text = "Make It Sweet " + "[" + orderToDisplay.sweetness.ToString() + "]";
+        spicyText.text = "Make It Spicy " + "[" + OrderManager.CalculateLowerHalf(orderToDisplay.spicyness).ToString() + " - " + OrderManager.CalculateUpperHalf(orderToDisplay.spicyness).ToString() + "]";
+        chunkyText.text = "Make It Chunky " + "[" + OrderManager.CalculateLowerHalf(orderToDisplay.chunkiness).ToString() + " - " + OrderManager.CalculateUpperHalf(orderToDisplay.chunkiness).ToString() + "]";
+        sweetnessText.text = "Make It Sweet " + "[" + OrderManager.CalculateLowerHalf(orderToDisplay.sweetness).ToString() + " - " + OrderManager.CalculateUpperHalf(orderToDisplay.sweetness).ToString() + "]";
 
         // Displaying meat veg preference //
         if (orderToDisplay.noMeat == false && orderToDisplay.noVeg == false)

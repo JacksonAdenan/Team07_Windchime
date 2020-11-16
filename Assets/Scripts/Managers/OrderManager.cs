@@ -23,9 +23,36 @@ public class OrderManager : MonoBehaviour
     public static OrderScreenState currentScreenState;
 
     [Header("Order Mechanics")]
+    [HideInInspector]
     public float nextOrderTimer = 0;
     public float newOrderRate = 15;
     private bool isOrderAvailable = false;
+
+
+    public int pointsForSuccessfulOrder = 500;
+    public float timeForSuccessfulOrder = 60;
+
+    public int perfectRequirementPoints = 100;
+    public float perfectRequirementTime = 10;
+
+    public int acaceptableRequirementPoints = 25;
+    public float acceptableRequirementTime = 0;
+
+    [Header("Randomisation Number Things")]
+    public int spicyMin = 0;
+    [Tooltip("Max is exclusive")]
+    public int spicyMax = 6;
+
+    public int sweetnessMin = 0;
+    [Tooltip("Max is exclusive")]
+    public int sweetnessMax = 6;
+
+    public int chunkynessMin = 0;
+    [Tooltip("Max is exclusive")]
+    public int chunkynessMax = 6;
+
+
+
 
 
     // ---------------------- Colour Shenanigans ---------------------- //
@@ -345,9 +372,9 @@ public class OrderManager : MonoBehaviour
         colourNum = Random.Range(0, availableColours.Count);
         desiredColour = availableColours[colourNum];
 
-        desiredSpicyness = Random.Range(1, 6);
-        desiredChunkyness = Random.Range(1, 6);
-        desiredSweetness = Random.Range(1, 6);
+        desiredSpicyness = Random.Range(spicyMin, spicyMax);
+        desiredChunkyness = Random.Range(chunkynessMin, chunkynessMax);
+        desiredSweetness = Random.Range(sweetnessMin, sweetnessMax);
         
 
 
@@ -373,7 +400,7 @@ public class OrderManager : MonoBehaviour
 
     private bool CompareOrder(Soup soupToSubmit)
     {
-        bool isCorrectOrder = true;
+        bool isSuccessfulOrder = true;
 
         int chunkynessDifference;
         int spicynessDifference;
@@ -383,41 +410,123 @@ public class OrderManager : MonoBehaviour
         chunkynessDifference = (int)soupToSubmit.chunkyValue - (int)acceptedOrders[0].chunkiness;
         sweetnessDifference = (int)soupToSubmit.sweetnessValue - (int)acceptedOrders[0].sweetness;
 
-        // Spicyness and chunkyness check.
-        if (spicynessDifference != 0)
+
+        // Early out if the player submitted empty capsule. //
+        if (soupToSubmit.usedIngredients.Count == 0)
         {
-            isCorrectOrder = false;
-        }
-        if (chunkynessDifference != 0)
-        {
-            isCorrectOrder = false;
-        }
-        if (sweetnessDifference != 0)
-        {
-            isCorrectOrder = false;
+            isSuccessfulOrder = false;
+            return false;
         }
 
-        // we do have colours now.
-        if (soupToSubmit.colour.name != acceptedOrders[0].colourPreference.name)
+
+
+        // --------------------------------- Spicyness --------------------------------- //
+        if (spicynessDifference == 0)
         {
-            isCorrectOrder = false;
+            RewardPoints(perfectRequirementPoints);
+            RewardTime(perfectRequirementTime);
+
+            Debug.Log("Perfect spicyness acheived.");
+        }
+        else if (spicynessDifference > CalculateLowerHalf((float)acceptedOrders[0].spicyness) && spicynessDifference < CalculateUpperHalf((int)acceptedOrders[0].spicyness))
+        {
+            RewardPoints(acaceptableRequirementPoints);
+            RewardTime(acceptableRequirementTime);
+
+            Debug.Log("Acceptable spicyness acheived.");
+        }
+        else
+        {
+            Debug.Log("Failed spicyness");
+            isSuccessfulOrder = false;
+        }
+        // ----------------------------------------------------------------------------- //
+
+        // --------------------------------- Chunkyness --------------------------------- //
+        if (chunkynessDifference == 0)
+        {
+            RewardPoints(perfectRequirementPoints);
+            RewardTime(perfectRequirementTime);
+
+            Debug.Log("Perfect chunkyness acheived.");
+        }
+        else if (chunkynessDifference > CalculateLowerHalf((float)acceptedOrders[0].chunkiness) && chunkynessDifference < CalculateUpperHalf((int)acceptedOrders[0].chunkiness))
+        {
+            RewardPoints(acaceptableRequirementPoints);
+            RewardTime(acceptableRequirementTime);
+
+            Debug.Log("Acceptable chunkyness acheived.");
+        }
+        else
+        {
+            Debug.Log("Failed chunkyness");
+            isSuccessfulOrder = false;
+        }
+        // -------------------------------------------------------------------------------- //
+
+        // --------------------------------- Sweetness --------------------------------- //
+        if (sweetnessDifference == 0)
+        {
+            RewardPoints(perfectRequirementPoints);
+            RewardTime(perfectRequirementTime);
+
+            Debug.Log("Perfect sweetness acheived.");
+        }
+        else if (sweetnessDifference > CalculateLowerHalf((float)acceptedOrders[0].sweetness) && sweetnessDifference < CalculateUpperHalf((int)acceptedOrders[0].sweetness))
+        {
+            RewardPoints(acaceptableRequirementPoints);
+            RewardTime(acceptableRequirementTime);
+
+            Debug.Log("Acceptable sweetness acheived.");
+        }
+        else
+        {
+            Debug.Log("Failed sweetness");
+            isSuccessfulOrder = false;
+        }
+        // ------------------------------------------------------------------------------ //
+
+        // --------------------------------- Colours --------------------------------- //
+        if (soupToSubmit.colour.name == acceptedOrders[0].colourPreference.name)
+        {
+            RewardPoints(perfectRequirementPoints);
+            RewardTime(perfectRequirementTime);
+            Debug.Log("Got colour correct.");
+        }
+        else
+        {
+            isSuccessfulOrder = false;
             Debug.Log("Got colour incorrect.");
         }
+        // --------------------------------------------------------------------------- //
 
-        // Meat/Veg points.
-        // -5 points if they give them something they didn't want. +5 if they got it right.
+
+        // --------------------------------- Food Requirement --------------------------------- //
         if (soupToSubmit.ContainsMeat() && acceptedOrders[0].noMeat)
         {
-            isCorrectOrder = false;
+            isSuccessfulOrder = false;
         }
         else if (soupToSubmit.ContainsVeg() && acceptedOrders[0].noVeg)
         {
-            isCorrectOrder = false;
+            isSuccessfulOrder = false;
         }
+        else
+        {
+            // This if statement makes sure the player doesn't just submit empty capsules. //
+            if (soupToSubmit.usedIngredients.Count > 0)
+            { 
+                RewardPoints(perfectRequirementPoints);
+                RewardTime(perfectRequirementTime);
+
+                Debug.Log("Got food specification requirement correct.");
+            }
+        }
+        // ------------------------------------------------------------------------------------- //
 
 
         
-        if (isCorrectOrder)
+        // Returning true or false depending if the order was successful. //
+        if (isSuccessfulOrder)
         {
 
             return true;
@@ -453,8 +562,8 @@ public class OrderManager : MonoBehaviour
 
         if (CompareOrder(soupToSubmit) == true)
         {
-            ScoreManager.currentScore += 500;
-            gameManager.gameTime += 30;
+            RewardPoints(pointsForSuccessfulOrder);
+            RewardTime(timeForSuccessfulOrder);
             Debug.Log("Correct order");
         }
         else
@@ -462,8 +571,32 @@ public class OrderManager : MonoBehaviour
             Debug.Log("Incorrect order.");
         }
 
+
+        // Clearing order from list. //
         acceptedOrders.Remove(acceptedOrders[0]);
         currentScreenState = OrderScreenState.NEW_ORDER;
 
+    }
+
+    private void RewardPoints(int points)
+    {
+        ScoreManager.currentScore += points;
+        Debug.Log("Rewared " + points + " to the player.");
+    }
+    private void RewardTime(float time)
+    {
+        gameManager.gameTime += time;
+        Debug.Log("Rewarded " + time + " seconds to the player.");
+    }
+
+    public static float CalculateLowerHalf(float number)
+    {
+        float half = number / 2;
+        return number - half;
+    }
+    public static float CalculateUpperHalf(float number)
+    {
+        float half = number / 2;
+        return number + half;
     }
 }
