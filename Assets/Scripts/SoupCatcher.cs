@@ -149,5 +149,7 @@ public class SoupCatcher
     {
         hasCapsule = false;
         Debug.Log("hasCapsule is now FALSE");
+
+
     }
 }

@@ -881,8 +881,8 @@ public class MouseLook : MonoBehaviour
 
         // We have to reset the trigger and scale before we traverse to the parent because the parent wont have a collider and transform.
         // If something has changed it's trigger settings or scale, we're going to fix them here. //
-        // And we only want to reset these things for ingredients. //
-        if (currentObj.tag == "Ingredient")
+        // And we only want to reset these things for whole ingredients. //
+        if (currentObj.tag == "Ingredient" && currentObj.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
         { 
             currentObj.GetComponent<Collider>().isTrigger = false;
             currentObj.transform.localScale = Vector3.one;
@@ -1025,6 +1025,7 @@ public class MouseLook : MonoBehaviour
             {
                 Debug.Log("SET CAPSULES SOUP DATA");
                 capsule.gameObject.GetComponent<SoupData>().theSoup = theCatcher.currentPortions[0];
+                capsule.gameObject.GetComponent<SoupData>().currentPortions = theCatcher.currentPortions.Count;
             }
         }
 
