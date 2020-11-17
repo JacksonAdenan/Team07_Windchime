@@ -27,6 +27,18 @@ public class CatcherCapsuleEntry : MonoBehaviour
 
         if (MouseLook.heldItem != parentPrefab && obj.tag == "Capsule" && !theCatcher.hasCapsule)
         {
+            // This if statement prevents the added water from remaining the selected material. //
+            if (MouseLook.selectedItem != null && MouseLook.selectedItem == obj.transform)
+            {
+                obj.gameObject.GetComponent<Renderer>().material = gameManager.playerController.defaultMat;
+            
+                // Have to have this otherwise default mat doesn't reset and the next item you look out will turn into water. //
+                gameManager.playerController.defaultMat = null;
+                MouseLook.selectedItem = null;
+            }
+            // -------------------------------------------------------------------------------- //
+
+
             theCatcher.AttachCapsule();
             Destroy(parentPrefab.gameObject);
         }

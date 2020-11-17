@@ -152,6 +152,9 @@ public class Blender
 
         ingredientToCatch.position = blenderSpawnPoint.position;
         ingredientToCatch.GetComponent<Rigidbody>().isKinematic = true;
+
+        // Disabling the collider so other things don't bounce off of it. I'm doing this by making it a trigger. (I know it's bad.)
+        ingredientToCatch.GetComponent<Collider>().isTrigger = true;
     }
     public void RemoveIngredientFromBlender(Transform ingredientToRemove)
     {

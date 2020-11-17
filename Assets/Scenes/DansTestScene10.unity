@@ -29988,7 +29988,7 @@ PrefabInstance:
     - target: {fileID: 4713568162611675772, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6713570836579110331, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
         type: 3}
@@ -44141,6 +44141,11 @@ PrefabInstance:
         type: 3}
       propertyPath: handFPSPos.x
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: rotationSensitivity
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6999435598105673239, guid: 4555a5c923190204593b33d328f2b91a,
         type: 3}

@@ -279,7 +279,7 @@ public class MouseLook : MonoBehaviour
                         if (gameManager.cookingManager.theCatcher.hasCapsule)
                         {
                             Debug.Log("REMOVED CATCHER CAPSULE");
-                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
+                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE || theCatcher.currentCatcherState == CatcherState.EMPTY_CAPSULE)
                             {
                                 Detach(theCatcher.emptyAttachedCapsule);
 
@@ -689,6 +689,7 @@ public class MouseLook : MonoBehaviour
                 defaultMat = null;
             }
             selectedItem = null;
+            defaultMat = null;
         }
         // Resetting switches //
         if (IsLookingAtSwitch() == null)
@@ -1168,8 +1169,9 @@ public class MouseLook : MonoBehaviour
         
         // I think this if statement is unnecessary?? //
         if (Physics.Raycast(gameObject.transform.position, gameObject.GetComponent<Camera>().transform.forward * 100, 100, ~(1 << 2)))
-        { 
+        {
             throwDirection = (target.point - heldItem.position).normalized;
+
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
 
