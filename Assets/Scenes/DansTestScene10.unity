@@ -300,6 +300,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5566326718945512824, guid: c70c4a34e6e5c4c4fb23a37db88f14fe,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 701539547918257742, guid: c70c4a34e6e5c4c4fb23a37db88f14fe,
         type: 3}
       propertyPath: m_Name
@@ -359,6 +364,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7668864386234971778, guid: c70c4a34e6e5c4c4fb23a37db88f14fe,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c70c4a34e6e5c4c4fb23a37db88f14fe, type: 3}
@@ -4635,6 +4645,14 @@ PrefabInstance:
       propertyPath: theCatcher.skinnedMesh
       value: 
       objectReference: {fileID: 191177064}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theBlender.ingredientShrinkTime
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theBlender.ingredientCenteringSpeed
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name
@@ -28931,6 +28949,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 615060685}
     m_Modifications:
+    - target: {fileID: 380454015, guid: a2ff19db91b5b4b47b3d36476f009fad, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.43292505
+      objectReference: {fileID: 0}
+    - target: {fileID: 380454015, guid: a2ff19db91b5b4b47b3d36476f009fad, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4769226
+      objectReference: {fileID: 0}
+    - target: {fileID: 380454015, guid: a2ff19db91b5b4b47b3d36476f009fad, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.43292505
+      objectReference: {fileID: 0}
     - target: {fileID: 867577116475628551, guid: a2ff19db91b5b4b47b3d36476f009fad,
         type: 3}
       propertyPath: m_Name

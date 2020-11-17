@@ -20,6 +20,9 @@ public class BlenderEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
+        
+
+
         Transform realObj = obj.transform;
         while (realObj.parent != null)
         {
@@ -28,7 +31,7 @@ public class BlenderEntry : MonoBehaviour
 
 
         if (realObj.tag == "Ingredient" && realObj.GetComponent<Ingredient>().currentState != IngredientState.BLENDED)
-        {
+        { 
             gameManager.cookingManager.theBlender.AddIngredientToBlender(realObj.transform);
         }
     }

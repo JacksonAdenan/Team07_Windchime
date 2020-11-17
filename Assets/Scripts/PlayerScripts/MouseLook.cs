@@ -878,13 +878,22 @@ public class MouseLook : MonoBehaviour
 
         isHoldingItem = true;
         Transform currentObj = itemToPickUp;
+
+        // We have to reset the trigger and scale before we traverse to the parent because the parent wont have a collider and transform.
+        // If something has changed it's trigger settings or scale, we're going to fix them here. //
+        currentObj.GetComponent<Collider>().isTrigger = true;
+        currentObj.transform.localScale = Vector3.one;
+
         while (currentObj.parent != null)
         {
             currentObj = currentObj.parent;
         }
         //if (itemToPickUp.parent != null)
         //{
-          
+
+
+
+
         heldItem = currentObj;
         heldItem.SetParent(hand);
         heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);

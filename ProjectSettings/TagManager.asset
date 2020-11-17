@@ -18,6 +18,7 @@ TagManager:
   - NonInteractableWater
   - CanonCapsule
   - Lighting
+  - Shrinking
   layers:
   - Default
   - TransparentFX
