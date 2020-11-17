@@ -881,8 +881,12 @@ public class MouseLook : MonoBehaviour
 
         // We have to reset the trigger and scale before we traverse to the parent because the parent wont have a collider and transform.
         // If something has changed it's trigger settings or scale, we're going to fix them here. //
-        currentObj.GetComponent<Collider>().isTrigger = false;
-        currentObj.transform.localScale = Vector3.one;
+        // And we only want to reset these things for ingredients. //
+        if (currentObj.tag == "Ingredient")
+        { 
+            currentObj.GetComponent<Collider>().isTrigger = false;
+            currentObj.transform.localScale = Vector3.one;
+        }
 
         while (currentObj.parent != null)
         {
