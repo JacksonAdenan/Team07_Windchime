@@ -42,9 +42,6 @@ public class Ingredient : MonoBehaviour
     {
 
         gameManager = GameManager.GetInstance();
-
-
-        Debug.Log("----------------------------- HEYYYYY -------------");
         colour = Colour.ConvertColour(colourTag);
     }
     public Ingredient(string name, float spicy, float chunky, bool isMeat)

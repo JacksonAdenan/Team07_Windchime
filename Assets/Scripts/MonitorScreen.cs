@@ -13,8 +13,10 @@ public enum MonitorType
 }
 public enum ScreenState
 { 
+    
     MAIN_MENU,
-    SECONDARY
+    SECONDARY,
+    OFFLINE,
 }
 public class MonitorScreen : MonoBehaviour
 {
@@ -73,13 +75,34 @@ public class MonitorScreen : MonoBehaviour
     void Update()
     {
         DisplayCurrentScreen();
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            if (currentState == ScreenState.OFFLINE)
+            {
+                currentState = ScreenState.MAIN_MENU;
+            }
+            else
+            {
+                currentState = ScreenState.OFFLINE;
+            }
+        }
     }
 
 
-    public void DisplayCurrentScreen()
+	
+
+
+	public void DisplayCurrentScreen()
     {
         switch (currentState)
         {
+            case ScreenState.OFFLINE:
+                mainScreen.gameObject.SetActive(false);
+                if (secondaryScreen != null)
+                { 
+                    secondaryScreen.gameObject.SetActive(false);
+                }
+                break;
             case ScreenState.MAIN_MENU:
                 if (thisMonitor == MonitorType.NEW_ORDER_MONITOR)
                 {

@@ -223,7 +223,7 @@ public class MouseLook : MonoBehaviour
         UpdatePlayerState();
         InputState();
  
-        Debug.Log(currentPlayerState.ToString());
+   
 
         if (!isCentered)
         {
@@ -335,11 +335,11 @@ public class MouseLook : MonoBehaviour
                 }
                 break;
             case PlayerState.HOLDING_ITEM:
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    DropItem();
-                }
-                else if (Input.GetMouseButtonUp(0))
+                //if (Input.GetKeyDown(KeyCode.E))
+                //{
+                //    DropItem();
+                //}
+                if (Input.GetMouseButtonUp(0))
                 {
                     ThrowItem(ThrowCharge.SUPER_WEAK);
                 }
@@ -508,14 +508,12 @@ public class MouseLook : MonoBehaviour
                 CameraPause();
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
-                Debug.Log("Paused");
 
                 // Un freezing time on pause screen exit. //
                 if (Input.GetKey(KeyCode.Escape))
                 {
                     Time.timeScale = 1;
-                }
-                
+                }      
                 break;
         }
     }
@@ -658,7 +656,6 @@ public class MouseLook : MonoBehaviour
         if(Vector2.Distance(hand.localPosition, handFPSPos) < 0.05f)
         {
             isHandReturning = false;
-            Debug.Log("FALSE");
         }
     }
 
@@ -1447,7 +1444,6 @@ public class MouseLook : MonoBehaviour
     {
         if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
-            Debug.Log("Raycast from hand");
             // Doing raycast from hand //
             Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
             Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
@@ -1456,7 +1452,6 @@ public class MouseLook : MonoBehaviour
         }
         else if (currentCameraMode == CameraMode.FPS_CONTROL)
         {
-            Debug.Log("Raycast from screen.");
             // Doing raycast from screen //
             Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~((1 << 2) | (1 << 9)));
             Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.blue);

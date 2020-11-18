@@ -119,7 +119,6 @@ public class Blender
 
     public void ShrinkIngredients()
     {
-        Debug.Log("========= SHRINKINGINGREDIENTS LIST ========= " + shrinkingIngredients.Count + "========= BLENDEDINGREDIENTS LIST ========= " + currentBlenderIngredients.Count);
         for (int i = shrinkingIngredients.Count - 1; i >= 0; i--)
         {
 

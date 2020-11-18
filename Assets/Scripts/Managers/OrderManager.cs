@@ -215,14 +215,11 @@ public class OrderManager : MonoBehaviour
     {
         if (requestedOrders.Count == 1 && acceptedOrders.Count == 0)
         {
-            //alien1.GetComponent<Animator>().SetInteger("AlienPosition", 2);
+
             activeAliens[0].currentState = AlienState.WAITING;
-            Debug.Log("=============== ALIEN 1 WAITING ==========");
         }
         else if (requestedOrders.Count == 1 && acceptedOrders.Count == 1)
         {
-            //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 2);
-            Debug.Log("=============== ALIEN 2 WAITING_2 ==========");
             activeAliens[1].currentState = AlienState.WAITING_2;
         }
 

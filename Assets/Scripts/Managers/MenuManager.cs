@@ -289,6 +289,17 @@ public class MenuManager : MonoBehaviour
                     currentState = global::MenuState.pauseMenu;
                     Cursor.visible = true;
                 }
+                else if (Input.GetKeyDown(KeyCode.F3))
+                {
+                    if (debugUI.gameObject.activeSelf)
+                    {
+                        debugUI.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        debugUI.gameObject.SetActive(true);
+                    }
+                }
                 break;
             
         }
@@ -345,11 +356,11 @@ public class MenuManager : MonoBehaviour
     {
         if (MouseLook.heldItem)
         {
-            heldItemText.text = MouseLook.heldItem.name;
+            heldItemText.text = "Held Item: " + MouseLook.heldItem.name;
         }
         else
         {
-            heldItemText.text = "None";
+            heldItemText.text = "Held Item: None";
         }
     }
 
@@ -357,7 +368,7 @@ public class MenuManager : MonoBehaviour
     {
         if (MouseLook.selectedItem)
         {
-            selectedItemText.text = MouseLook.selectedItem.name;
+            selectedItemText.text = "Selected Item: " + MouseLook.selectedItem.name;
         }
         else
         {
@@ -369,7 +380,7 @@ public class MenuManager : MonoBehaviour
     {
         if (MouseLook.selectedAppliance)
         {
-            selectedApplianceText.text = MouseLook.selectedAppliance.name;
+            selectedApplianceText.text = "Selected Appliance: " + MouseLook.selectedAppliance.name;
         }
         else
         {
@@ -379,7 +390,7 @@ public class MenuManager : MonoBehaviour
 
     void DisplayCurrentCookingOrbState()
     {
-        currentCookingOrbState.text = gameManager.cookingManager.theOrb.currentCookingOrbState.ToString();
+        currentCookingOrbState.text = "Cooking Orb State: " + gameManager.cookingManager.theOrb.currentCookingOrbState.ToString();
     }
     void DisplayCurrentIngredients()
     {
@@ -389,7 +400,7 @@ public class MenuManager : MonoBehaviour
             ingredientsText = ingredientsText + gameManager.cookingManager.theOrb.currentIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentIngredients.text = ingredientsText;
-        ingredientsText = "";
+        ingredientsText = "Current Ingredients: ";
 
 
         // ----------------- Tracked Ingredients ------------------- //
@@ -398,13 +409,13 @@ public class MenuManager : MonoBehaviour
             trackedIngredientsText = trackedIngredientsText + gameManager.cookingManager.theOrb.currentlyTrackedIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         trackedIngredients.text = trackedIngredientsText;
-        trackedIngredientsText = "";
+        trackedIngredientsText = "Current Ingredients: ";
 
     }
 
     void DisplayCurrentCatcherState()
     {
-        currentCatcherState.text = gameManager.cookingManager.theCatcher.currentCatcherState.ToString();
+        currentCatcherState.text = "Catcher State: " + gameManager.cookingManager.theCatcher.currentCatcherState.ToString();
     }
 
     void DisplayCanonMonitor()
@@ -437,12 +448,16 @@ public class MenuManager : MonoBehaviour
         {
             if (MouseLook.heldItem.GetComponent<SoupData>().theSoup == null)
             {
-                heldCapsuleData.text = "This is soup is null.";
+                heldCapsuleData.text = "Held Capsule Soup Data: True";
             }
             else
             {
-                heldCapsuleData.text = "This soup is NOT null.";
+                heldCapsuleData.text = "Held Capsule Soup Data: False";
             }
+        }
+        else
+        {
+            heldCapsuleData.text = "Held Capsule Soup Data: NULL";
         }
     }
 
@@ -450,15 +465,15 @@ public class MenuManager : MonoBehaviour
     {
         if (theCatcher.currentPortions.Count > 0 && theCatcher.currentPortions[0] == null)
         {
-            currentPortionsData.text = "Portion is null.";
+            currentPortionsData.text = "Soup Catcher Portions: NULL";
         }
         else if (theCatcher.currentPortions.Count > 0 && theCatcher.currentPortions[0] != null)
         {
-            currentPortionsData.text = "Portion is NOT null!";
+            currentPortionsData.text = "Soup Catcher Portions: " + theCatcher.currentPortions.Count;
         }
         else if (theCatcher.currentPortions.Count == 0)
         {
-            currentPortionsData.text = "there are no portions.";
+            currentPortionsData.text = "Soup Catcher Portions: NULL";
         }
     }
 
@@ -542,7 +557,7 @@ public class MenuManager : MonoBehaviour
 
     public void DisplayBlenderState()
     {
-        currentBlenderState.text = gameManager.cookingManager.theBlender.currentBlenderState.ToString();
+        currentBlenderState.text = "Current Blender State: " + gameManager.cookingManager.theBlender.currentBlenderState.ToString();
     }
     public void DisplayBlenderIngredients()
     {
@@ -551,18 +566,18 @@ public class MenuManager : MonoBehaviour
             blenderIngredientsText = blenderIngredientsText + gameManager.cookingManager.theBlender.currentBlenderIngredients[i].GetComponent<Ingredient>().ingredientName + ", ";
         }
         currentBlenderIngredients.text = blenderIngredientsText;
-        blenderIngredientsText = "";
+        blenderIngredientsText = "Current Blender Ingredients: ";
     }
 
     public void DisplayDefaultMaterial()
     {
         if (playerCamera.GetComponent<MouseLook>().defaultMat != null)
         {
-            defaultMaterial.text = playerCamera.GetComponent<MouseLook>().defaultMat.ToString();
+            defaultMaterial.text = "Default Material: " + playerCamera.GetComponent<MouseLook>().defaultMat.ToString();
         }
         else
         {
-            defaultMaterial.text = "NULL";
+            defaultMaterial.text = "Default Material: NULL";
         }
     }
 
@@ -580,21 +595,21 @@ public class MenuManager : MonoBehaviour
 
     public void DisplaySlicerState()
     {
-        currentSlicerState.text = gameManager.cookingManager.theSlicer.currentSlicerState.ToString();
+        currentSlicerState.text = "Slicer State: " + gameManager.cookingManager.theSlicer.currentSlicerState.ToString();
     }
 
     public void DisplayBlenderButtonState()
     {
-        currentBlenderButtonState.text = gameManager.cookingManager.theBlender.currentBlenderButtonState.ToString();
+        currentBlenderButtonState.text = "Blender Button State: " + gameManager.cookingManager.theBlender.currentBlenderButtonState.ToString();
     }
 
     public void DisplayBlenderProgress()
     {
-        blenderProgress.text = gameManager.cookingManager.theBlender.blendProgress.ToString();
-        blendingHalfDone.text = gameManager.cookingManager.theBlender.isHalfBlended.ToString();
-        blendingComplete.text = gameManager.cookingManager.theBlender.isFullBlended.ToString();
-        blendingHalfTimer.text = gameManager.cookingManager.theBlender.continueButtonTimer.ToString();
-        blendingCompleteTimer.text = gameManager.cookingManager.theBlender.completeButtonTimer.ToString();
+        blenderProgress.text = "Blender Progress: " + gameManager.cookingManager.theBlender.blendProgress.ToString();
+        blendingHalfDone.text = "Blending Half Done: " + gameManager.cookingManager.theBlender.isHalfBlended.ToString();
+        blendingComplete.text = "Blending Complete: " + gameManager.cookingManager.theBlender.isFullBlended.ToString();
+        blendingHalfTimer.text = gameManager.cookingManager.theBlender.continueButtonTimer.ToString() + "s";
+        blendingCompleteTimer.text = gameManager.cookingManager.theBlender.completeButtonTimer.ToString() + "s";
     }
 
     public void DisplayThrowMechanics()
@@ -602,6 +617,22 @@ public class MenuManager : MonoBehaviour
         throwCharge.text = "ThrowCharge: " + gameManager.playerController.throwCharge.ToString();
         throwTimer.text = gameManager.playerController.throwingHeldDownTimer.ToString() + "s";
         throwState.text = gameManager.playerController.currentThrowCharge.ToString();
+
+        switch (gameManager.playerController.currentThrowCharge)
+        {
+            case ThrowCharge.WEAK:
+                throwCharge.color = Color.white;
+                throwState.color = Color.white;
+                break;
+            case ThrowCharge.MEDIUM:
+                throwCharge.color = Color.yellow;
+                throwState.color = Color.yellow;
+                break;
+            case ThrowCharge.STRONG:
+                throwCharge.color = Color.red;
+                throwState.color = Color.red;
+                break;
+        }
     }
 
     public void DisplayCanonState()
