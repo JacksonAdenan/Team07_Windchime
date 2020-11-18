@@ -45,6 +45,9 @@ public class CookingOrb
     public Shader waterShader;
 
 
+
+
+    float xRotation;
     // Start is called before the first frame update
     public void Start()
     {
@@ -74,7 +77,9 @@ public class CookingOrb
         if (currentCookingOrbState == CookingOrbState.COOKING)
         {
             cookingTimer += Time.deltaTime;
-            if (cookingTimer >= 3)
+            xRotation += ((360 * Time.deltaTime) / cookingDuration) * 2;
+            cookingOrb.localRotation = Quaternion.Euler(xRotation, cookingOrb.localRotation.y, cookingOrb.localRotation.z);
+            if (cookingTimer >= cookingDuration)
             {
                 // Resetting cookingTimer after cook. //
                 cookingTimer = 0;
