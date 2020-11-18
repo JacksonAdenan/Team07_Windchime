@@ -44222,6 +44222,11 @@ PrefabInstance:
       propertyPath: rotationSensitivity
       value: 150
       objectReference: {fileID: 0}
+    - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: superWeakThrowStrength
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6999435598105673239, guid: 4555a5c923190204593b33d328f2b91a,
         type: 3}
       propertyPath: m_Name

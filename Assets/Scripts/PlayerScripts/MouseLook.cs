@@ -26,6 +26,7 @@ public enum PlayerState
 
 public enum ThrowCharge
 { 
+    SUPER_WEAK,
     WEAK,
     MEDIUM,
     STRONG
@@ -163,6 +164,8 @@ public class MouseLook : MonoBehaviour
     [Tooltip("Charge rate per second. If set to 1, charge rate will increase 1 every second")]
     public float throwingChargeRate = 1;
     public float throwCharge = 0;
+    [Tooltip("superWeakThrowStrength is used for when the player lets go of an ingredient.")]
+    public float superWeakThrowStrength = 1;
     public float weakThrowStrength = 0;
     public float mediumThrowStrength = 5;
     public float strongThrowStrength = 10;
@@ -338,7 +341,7 @@ public class MouseLook : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
-                    ThrowItem();
+                    ThrowItem(ThrowCharge.SUPER_WEAK);
                 }
                 break;
 
@@ -496,9 +499,9 @@ public class MouseLook : MonoBehaviour
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
                 CheckHandReturn();
-                if (Input.GetMouseButton(1))
+                if (Input.GetMouseButton(1) && isHoldingItem == true)
                 {
-                    currentCameraMode = CameraMode.HAND_CONTROL;
+                    ThrowItem(currentThrowCharge);
                 }
                 break;
             case CameraMode.pauseMode:
@@ -1174,7 +1177,7 @@ public class MouseLook : MonoBehaviour
         
     }
 
-    void ThrowItem()
+    void ThrowItem(ThrowCharge charge)
     {
         
 
@@ -1219,16 +1222,20 @@ public class MouseLook : MonoBehaviour
 
 
             // Adding force based on charged throw //
-            if (currentThrowCharge == ThrowCharge.WEAK)
+            if (charge == ThrowCharge.SUPER_WEAK)
+            {
+                heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * superWeakThrowStrength, ForceMode.Impulse);
+            }
+            else if (charge == ThrowCharge.WEAK)
             { 
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * weakThrowStrength, ForceMode.Impulse);
             }
-            else if (currentThrowCharge == ThrowCharge.MEDIUM)
+            else if (charge == ThrowCharge.MEDIUM)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * mediumThrowStrength, ForceMode.Impulse);
 
             }
-            else if (currentThrowCharge == ThrowCharge.STRONG)
+            else if (charge == ThrowCharge.STRONG)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * strongThrowStrength, ForceMode.Impulse);
             }
