@@ -21,9 +21,19 @@ public class CookingOrbEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
-        if (obj.tag == "Ingredient")
+        // Gotta check the tag because the player can be holding the ingredient and it will go up the hirearchy all the way to the player.
+        Transform realObj = obj.transform;
+        while (realObj.parent != null && realObj.parent.tag == "Ingredient")
         {
-            gameManager.cookingManager.theOrb.TrackIngredient(obj.transform);
+            realObj = realObj.parent;
+            Debug.Log("ITERATED THROUGH THE THING");
+        }
+
+        if (obj.tag == "Ingredient" && obj.transform != MouseLook.heldItem)
+        {
+            
+            Debug.Log(realObj.name);
+            gameManager.cookingManager.theOrb.TrackIngredient(realObj.transform);
         }
         if (obj.tag == "Water" && obj.transform != MouseLook.heldItem && (orb.currentCookingOrbState != CookingOrbState.EMPTY_WATER && orb.currentCookingOrbState != CookingOrbState.INGREDIENTS_AND_WATER))
         {
@@ -35,13 +45,20 @@ public class CookingOrbEntry : MonoBehaviour
     {
         if (obj.tag == "Ingredient")
         {
+            Transform realObj = obj.transform;
+            while (realObj.parent != null && realObj.parent.tag == "Ingredient")
+            {
+                realObj = realObj.parent;
+            }
+
+
             if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.EMPTY || gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_NOWATER)
             {
-                gameManager.cookingManager.theOrb.StopTrackingIngredient(obj.transform);
+                gameManager.cookingManager.theOrb.StopTrackingIngredient(realObj.transform);
             }
             else if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.EMPTY_WATER || gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
             {
-                gameManager.cookingManager.theOrb.RemoveIngredient(obj.transform);
+                gameManager.cookingManager.theOrb.RemoveIngredient(realObj.transform);
             }
         }
     }

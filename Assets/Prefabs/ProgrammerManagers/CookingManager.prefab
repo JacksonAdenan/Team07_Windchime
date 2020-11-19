@@ -52,11 +52,17 @@ MonoBehaviour:
     currentlyTrackedIngredients: []
     currentSpicy: 0
     currentChunky: 0
+    currentSweet: 0
+    currentColour:
+      name: 
+      RGBValue: {x: 0, y: 0, z: 0}
     cookingTimer: 0
-    cookingDuration: 3
+    cookingDuration: 5
     waterCenteringSpeed: 0.05
     soupOrb: {fileID: 0}
     water: {fileID: 0}
+    waterShader: {fileID: -6465566751694194690, guid: fa85fc9507af8ef4a8385a8fac36bf36,
+      type: 3}
   theSlicer:
     cutterSkinnedMesh: {fileID: 0}
     cutterGauge1Transform: {fileID: 0}
@@ -75,8 +81,8 @@ MonoBehaviour:
     blenderSpawnPoint: {fileID: 0}
     blenderCover: {fileID: 0}
     isInvulnverable: 1
-    blendCompletionTime: 20
-    continueButtonDuration: 5
+    blendCompletionTime: 10
+    continueButtonDuration: 2
     completeButtonDuration: 5
     continueButtonTimer: 0
     completeButtonTimer: 0
@@ -98,3 +104,5 @@ MonoBehaviour:
   adjustableItemSpawnPoint: {fileID: 0}
   adjustableWater: {fileID: 0}
   ingredientSpawnerLength: 0
+  blendedIngredientPrefab: {fileID: 8748806336590130949, guid: f2a4231f86157384aa5224d420a2dd40,
+    type: 3}

@@ -8,6 +8,7 @@ public class Soup
 {
     public float spicyValue;
     public float chunkyValue;
+    public float sweetnessValue;
     //public Ingredient restrictedIngredient;
     
 
@@ -30,13 +31,14 @@ public class Soup
     //    this.spicyValue = spicyValue;
     //    this.chunkyValue = chunkyValue;
     //}
-    public Soup(float spicyValue, float chunkyValue)
+    public Soup(float spicyValue, float chunkyValue, float sweetnessValue)
     {
         usedIngredients = new List<Ingredient>();
     
     
         this.spicyValue = spicyValue;
         this.chunkyValue = chunkyValue;
+        this.sweetnessValue = sweetnessValue;
         
     }
 

@@ -28,6 +28,9 @@ public class Canon
     // These transforms of capsules are just like a thing to show if the canon is loaded or not. They aren't really a part of the game. //
     public Transform canonCapsule;
 
+
+    // Reference to current SoupData in the canon. //
+    public SoupData currentSoup;
     // Start is called before the first frame update
     public void Start()
     {
@@ -55,12 +58,12 @@ public class Canon
         {
             case CanonState.EMPTY:
                 canonCapsule.gameObject.SetActive(false);
-                canon.GetComponent<Animator>().SetBool("IsOpen", true);
+                canon.GetComponent<Animator>().SetBool("IsOpen", false);
 
                 break;
             case CanonState.LOADED:
                 canonCapsule.gameObject.SetActive(true);
-                canon.GetComponent<Animator>().SetBool("IsOpen", false);
+                canon.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
         }
     }
@@ -86,6 +89,7 @@ public class Canon
         // Actual loading of soup data. //
         canonCapsule.GetComponent<SoupData>().theSoup = theDataToLoad;
         Debug.Log("Canon loaded and received data successfully.");
+        currentSoup = canonCapsule.GetComponent<SoupData>();
     }
 
     public void UnloadCanon()
@@ -93,11 +97,12 @@ public class Canon
         canonCapsule.GetComponent<SoupData>().theSoup = null;
         isLoaded = false;
         Debug.Log("Canon unloaded and removed soup data.");
+        currentSoup = null;
     }
 
     public void ShootCapsule()
     {
-        if (orderManager.acceptedOrders.Count > 0)
+        if (orderManager.acceptedOrders.Count > 0 && isLoaded)
         {
             orderManager.CompleteOrder(canonCapsule.GetComponent<SoupData>().theSoup);
             canonCapsule.GetComponent<SoupData>().theSoup = null;

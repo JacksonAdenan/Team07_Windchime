@@ -5,10 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/ModularToolkit.unity
     guid: c3cde370331c9e54e9ce44285b73b4c1
-  - enabled: 1
-    path: Assets/Scenes/DansTestScene8.unity
-    guid: 468dcc3d0aade6042aa52269c7ea46a7
   m_configObjects: {}

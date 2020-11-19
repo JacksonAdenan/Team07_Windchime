@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class CutterEntry : MonoBehaviour
 {
-    public CookingManager theCookingManager;
+    GameManager gameManager;
+    CookingManager theCookingManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameManager.GetInstance();
+        theCookingManager = gameManager.cookingManager;
     }
 
     // Update is called once per frame
@@ -19,9 +22,15 @@ public class CutterEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider otherObj)
     {
-        if (otherObj.tag == "Ingredient" && otherObj.transform != MouseLook.heldItem)
+
+        Transform realObj = otherObj.transform;
+        while (realObj.parent != null)
         {
-            theCookingManager.theSlicer.Slice(otherObj.transform);
+            realObj = realObj.parent;
+        }
+        if (realObj.tag == "Ingredient" && realObj.transform != MouseLook.heldItem)
+        {
+            theCookingManager.theSlicer.Slice(realObj.transform);
             Debug.Log("Cutter entry trigger activated.");
         }
     }

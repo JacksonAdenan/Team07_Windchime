@@ -59,22 +59,39 @@ public class Blender
     // DO NOT SET THESE IN INSPECTOR, they are only public so that the horrible "menu manager" can access them! //
     [Header("Do not modify these.")]
     [Tooltip("This should be 0.")]
+    [HideInInspector]
     public float continueButtonTimer = 0;
     [Tooltip("This should be 0.")]
+    [HideInInspector]
     public float completeButtonTimer = 0;
 
     // blendProgress increases each time blendingDuration hits 1. blendingDuration increases by deltaTime every frame. //
+    [HideInInspector]
     public float blendProgress = 0;
+    [HideInInspector]
     private float blendingDuration = 0;
+
+    [HideInInspector]
     public bool isHalfBlended = false;
+    [HideInInspector    ]
     public bool isFullBlended = false;
 
     private bool isHalfFinished = false;
     private bool isFullFinished = false;
 
+    [Header("Ingredient Shrinking/Movement")]
+    public float ingredientShrinkTime = 0.01f;
+    public float ingredientCenteringSpeed = 0.01f;
+    public float ingredientShrinkSize = 0.38f;
+
+
+    private List<Transform> shrinkingIngredients;
+
     public void BlenderStart()
     {
         currentBlenderIngredients = new List<Transform>();
+
+        shrinkingIngredients = new List<Transform>();
 
     }
     public void BlenderUpdate()
@@ -94,10 +111,29 @@ public class Blender
             BlendProgress();
         }
 
+
+        // Shrinking ingredients. //
+        ShrinkIngredients();
+
     }
 
-    
 
+    public void ShrinkIngredients()
+    {
+        for (int i = shrinkingIngredients.Count - 1; i >= 0; i--)
+        {
+
+            shrinkingIngredients[i].localScale = Vector3.Lerp(shrinkingIngredients[i].localScale, (Vector3.one * ingredientShrinkSize), ingredientShrinkTime);
+
+            shrinkingIngredients[i].position = Vector3.Lerp(shrinkingIngredients[i].position, blenderSpawnPoint.position, ingredientCenteringSpeed);
+
+            if (Vector3.Distance(shrinkingIngredients[i].localScale, (Vector3.one * ingredientShrinkSize)) < 0.5f && Vector3.Distance(shrinkingIngredients[i].position, blenderSpawnPoint.position) < 0.05f)
+            {
+                shrinkingIngredients[i].tag = "Ingredient";
+                shrinkingIngredients.Remove(shrinkingIngredients[i]);
+            }
+        }
+    }
     public void Invulnerability()
     {
         invulnerabilityTimer += Time.deltaTime;
@@ -147,8 +183,25 @@ public class Blender
 
     public void AddIngredientToBlender(Transform ingredientToCatch)
     {
+
+
+        ingredientToCatch.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        // Making it's tag "shrinking"
+        ingredientToCatch.tag = "Shrinking";
+        
+        // Adding it to the shrinking list.
+        shrinkingIngredients.Add(ingredientToCatch);
+
         currentBlenderIngredients.Add(ingredientToCatch);
         Debug.Log("Ingredient added to blender.");
+
+        //ingredientToCatch.position = blenderSpawnPoint.position;
+        
+        
+        // Disabling the collider so other things don't bounce off of it. I'm doing this by making it a trigger. (I know it's bad.)
+        ingredientToCatch.GetComponent<Collider>().isTrigger = true;
+       
     }
     public void RemoveIngredientFromBlender(Transform ingredientToRemove)
     {
@@ -334,10 +387,23 @@ public class Blender
     public void SpawnBlendedIngredient(Transform oldIngredient, Blend type)
     {
         Ingredient dataToTransfer = oldIngredient.GetComponent<Ingredient>();
-        Transform newBlendedThing = UnityEngine.Object.Instantiate(oldIngredient.GetComponent<Ingredient>().blendedPrefab, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
-
-        // Incase the soupOrb we are copying isnt active. //
+        //Transform newBlendedThing = UnityEngine.Object.Instantiate(oldIngredient.GetComponent<Ingredient>().blendedPrefab, blenderSpawnPoint.position, blenderSpawnPoint.rotation);
+        Transform newBlendedThing = dataToTransfer.CreateBlended(blenderSpawnPoint.position, blenderSpawnPoint.rotation);
+        // Incase the soupOrb we are copying isnt active and is missing important components. //
         newBlendedThing.gameObject.SetActive(true);
+
+        if (newBlendedThing.GetComponent<Rigidbody>() == null)
+        {
+            newBlendedThing.gameObject.AddComponent<Rigidbody>();
+        }
+        if (newBlendedThing.GetComponent<Collider>() == null)
+        {
+            newBlendedThing.gameObject.AddComponent<SphereCollider>();
+        }
+        if (newBlendedThing.gameObject.tag != "Ingredient")
+        {
+            newBlendedThing.gameObject.tag = "Ingredient";
+        }
 
         newBlendedThing.position = blenderSpawnPoint.position;
 
@@ -346,6 +412,7 @@ public class Blender
         newBlendedThing.gameObject.GetComponent<Ingredient>().Copy(dataToTransfer);
         newBlendedThing.tag = "Ingredient";
         newBlendedThing.GetComponent<Rigidbody>().isKinematic = false;
+
 
 
         // Editing the cunkyness value. //
@@ -359,6 +426,9 @@ public class Blender
             newBlendedThing.GetComponent<Ingredient>().chunkyness = 0;
             Debug.Log("BLENDED FULL");
         }
+
+        // Setting it to BLENDED mode. //
+        newBlendedThing.GetComponent<Ingredient>().currentState = IngredientState.BLENDED;
 
     }
 

@@ -23,10 +23,17 @@ public class CatcherCapsuleEntry : MonoBehaviour
     void OnTriggerEnter(Collider obj)
     {
         // Because the item we are holding is actually the parent prefab and the obj the trigger detected is just the mesh, we need to get the parentPrefab manually. 
-        Transform parentPrefab = obj.transform.parent;
+        Transform parentPrefab = obj.transform;
+        if (obj.transform.parent != null)
+        { 
+            parentPrefab = obj.transform.parent;
+        }
 
-        if (MouseLook.heldItem != parentPrefab && obj.tag == "Capsule" && !theCatcher.hasCapsule)
+        if (MouseLook.heldItem != parentPrefab && obj.tag == "Capsule" && !theCatcher.hasCapsule && parentPrefab.GetComponent<SoupData>().currentPortions == 0)
         {
+            
+
+
             theCatcher.AttachCapsule();
             Destroy(parentPrefab.gameObject);
         }

@@ -8,18 +8,26 @@ public enum IngredientState
 { 
     WHOLE,
     HALF,
-    QUARTER
+    QUARTER,
+    BLENDED
 }
 
 //[Serializable]
 public class Ingredient : MonoBehaviour
 {
+    GameManager gameManager;
+
+
     public string ingredientName;
     public float spicyness;
     public float chunkyness;
+    public float sweetness;
 
     public bool isMeat;
-    //Colour colour;
+
+    public Colour_Tag colourTag;
+    [Tooltip("Don't set this colour value. It's automatically set by the colourTag.")]
+    public Colour colour;
 
     public IngredientState currentState;
 
@@ -28,9 +36,13 @@ public class Ingredient : MonoBehaviour
     public Transform quateredPrefab;
     public Transform blendedPrefab;
 
+    public SpriteRenderer icon;
+
     void Start()
-    { 
-        
+    {
+
+        gameManager = GameManager.GetInstance();
+        colour = Colour.ConvertColour(colourTag);
     }
     public Ingredient(string name, float spicy, float chunky, bool isMeat)
     {
@@ -43,6 +55,17 @@ public class Ingredient : MonoBehaviour
         //colour = null;
     }
 
+    public Transform CreateBlended(Vector3 position, Quaternion rotation)
+    {
+        blendedPrefab = Instantiate(gameManager.cookingManager.blendedIngredientPrefab, position, rotation);
+        Debug.Log(ingredientName + "just spawned a blendedPrefab.");
+        // Setting the colour of the occupying soup. //
+        Material newMaterial = new Material(gameManager.cookingManager.theOrb.waterShader);
+        newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(colour));
+        blendedPrefab.GetComponent<Renderer>().material = newMaterial;
+
+        return blendedPrefab;
+    }
     public void Copy(Ingredient thingToCopy)
     {
         this.ingredientName = thingToCopy.ingredientName;
@@ -54,6 +77,12 @@ public class Ingredient : MonoBehaviour
         this.halfedPrefab = thingToCopy.halfedPrefab;
         this.quateredPrefab = thingToCopy.quateredPrefab;
         this.blendedPrefab = thingToCopy.blendedPrefab;
+
+        this.colour = thingToCopy.colour;
+        this.colourTag = thingToCopy.colourTag;
+        this.sweetness = thingToCopy.sweetness;
+
+        this.icon = thingToCopy.icon;
     }
 
     public static void CreateIngredient(Transform originalIngredient, Transform newIngredient, IngredientState state)

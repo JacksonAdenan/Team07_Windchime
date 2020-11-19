@@ -26,6 +26,7 @@ public enum PlayerState
 
 public enum ThrowCharge
 { 
+    SUPER_WEAK,
     WEAK,
     MEDIUM,
     STRONG
@@ -163,6 +164,8 @@ public class MouseLook : MonoBehaviour
     [Tooltip("Charge rate per second. If set to 1, charge rate will increase 1 every second")]
     public float throwingChargeRate = 1;
     public float throwCharge = 0;
+    [Tooltip("superWeakThrowStrength is used for when the player lets go of an ingredient.")]
+    public float superWeakThrowStrength = 1;
     public float weakThrowStrength = 0;
     public float mediumThrowStrength = 5;
     public float strongThrowStrength = 10;
@@ -185,6 +188,7 @@ public class MouseLook : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
 
         // ------------------------------------ Appliance Reference Initialisation ------------------------------------ //
@@ -219,7 +223,7 @@ public class MouseLook : MonoBehaviour
         UpdatePlayerState();
         InputState();
  
-        Debug.Log(currentPlayerState.ToString());
+   
 
         if (!isCentered)
         {
@@ -247,11 +251,11 @@ public class MouseLook : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.LOOKING_AT_ITEM:
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButtonDown(0) && !Input.GetMouseButton(1))
                 {
                     if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover" && selectedItem.tag != "CatcherCapsule" && selectedItem.tag != "CanonCapsule")
                     {
-                        Debug.Log("YOU SHOULD NOT SEE THIS");
+                        //Debug.Log("YOU SHOULD NOT SEE THIS");
                         // If the thing they want to pick up is a water. //
                         // Freeing up the WaterTap so the player can get more water if they want.
                         if (selectedItem.tag == "Water")
@@ -278,17 +282,23 @@ public class MouseLook : MonoBehaviour
                         if (gameManager.cookingManager.theCatcher.hasCapsule)
                         {
                             Debug.Log("REMOVED CATCHER CAPSULE");
-                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
-                            {
-                                Detach(theCatcher.filledAttachedCapsule);
-                            }
-                            else
+                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE || theCatcher.currentCatcherState == CatcherState.EMPTY_CAPSULE)
                             {
                                 Detach(theCatcher.emptyAttachedCapsule);
+
+                                // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
+                                theCatcher.RemoveCapsule();
                             }
 
-                            // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
-                            theCatcher.RemoveCapsule();
+                            // I commented this out so that way I don't have to handle if the player removes a capsule with incomplete soup. //
+
+                            //else
+                            //{
+                            //    Detach(theCatcher.emptyAttachedCapsule);
+                            //}
+
+                            
+                            
                         }
                     }
                     else if (selectedItem.tag == "CanonCapsule")
@@ -325,13 +335,13 @@ public class MouseLook : MonoBehaviour
                 }
                 break;
             case PlayerState.HOLDING_ITEM:
-                if (Input.GetKeyDown(KeyCode.E))
+                //if (Input.GetKeyDown(KeyCode.E))
+                //{
+                //    DropItem();
+                //}
+                if (Input.GetMouseButtonUp(0))
                 {
-                    DropItem();
-                }
-                else if (Input.GetMouseButtonUp(0))
-                {
-                    ThrowItem();
+                    ThrowItem(ThrowCharge.SUPER_WEAK);
                 }
                 break;
 
@@ -489,23 +499,21 @@ public class MouseLook : MonoBehaviour
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
                 CheckHandReturn();
-                if (Input.GetMouseButton(1))
+                if (Input.GetMouseButton(1) && isHoldingItem == true)
                 {
-                    currentCameraMode = CameraMode.HAND_CONTROL;
+                    ThrowItem(currentThrowCharge);
                 }
                 break;
             case CameraMode.pauseMode:
                 CameraPause();
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
-                Debug.Log("Paused");
 
                 // Un freezing time on pause screen exit. //
-                if (Input.GetKey(KeyCode.P))
+                if (Input.GetKey(KeyCode.Escape))
                 {
                     Time.timeScale = 1;
-                }
-                
+                }      
                 break;
         }
     }
@@ -557,6 +565,8 @@ public class MouseLook : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
+  
+
         // Old crosshair placement code. I'm gonna try implement a new way which will be smoother and wont break if the player isn't looking at anything.
         crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
 
@@ -584,8 +594,8 @@ public class MouseLook : MonoBehaviour
         
             xRotation -= rotMouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-            //transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-            gameObject.transform.Rotate(-Vector3.right * rotMouseY);
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            //gameObject.transform.Rotate(-Vector3.right * rotMouseY);
             playerBody.Rotate(Vector3.up * rotMouseX);
         }      
     }
@@ -606,13 +616,15 @@ public class MouseLook : MonoBehaviour
 
         xRotation -= rotMouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        gameObject.transform.Rotate(-Vector3.right * rotMouseY);
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        //gameObject.transform.Rotate(-Vector3.right * rotMouseY);
+
         playerBody.Rotate(Vector3.up * rotMouseX);
 
 
         // Hand swaying in the direction of the camera turn. //
 
-        
+
 
         handAcceleration = mouseX;
         handAcceleration = Mathf.Clamp(handAcceleration, -0.05f, 0.05f);
@@ -644,7 +656,6 @@ public class MouseLook : MonoBehaviour
         if(Vector2.Distance(hand.localPosition, handFPSPos) < 0.05f)
         {
             isHandReturning = false;
-            Debug.Log("FALSE");
         }
     }
 
@@ -678,6 +689,7 @@ public class MouseLook : MonoBehaviour
                 defaultMat = null;
             }
             selectedItem = null;
+            defaultMat = null;
         }
         // Resetting switches //
         if (IsLookingAtSwitch() == null)
@@ -784,6 +796,8 @@ public class MouseLook : MonoBehaviour
             { 
                 if ((target.transform.tag == "Item" || target.transform.tag == "Ingredient" || target.transform.tag == "Water" || target.transform.tag == "Soup" || target.transform.tag == "SoupPortion" || target.transform.tag == "Capsule" || target.transform.tag == "InteractableBlenderCover" || target.transform.tag == "BlenderCover" || target.transform.tag == "CatcherCapsule" || target.transform.tag == "CanonCapsule") && (gameObject.transform.position - target.transform.position).magnitude < FPS_INTERACT_DISTANCE)
                 {
+
+
                     if (target.transform.childCount > 0)
                     {
                         return target.transform.GetChild(0);
@@ -863,26 +877,55 @@ public class MouseLook : MonoBehaviour
         defaultMat = null;
 
         isHoldingItem = true;
-        if (itemToPickUp.parent != null)
-        {
-          
-            heldItem = itemToPickUp.parent;
-            heldItem.SetParent(hand);
-            heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+        Transform currentObj = itemToPickUp;
 
-
-            // this is the parent it doesnt have these things !. So i have to get the children.//
-            heldItem.GetComponent<Rigidbody>().useGravity = false;
-            heldItem.GetComponent<Rigidbody>().isKinematic = true;          
-        }
-        else
+        // We have to reset the trigger and scale before we traverse to the parent because the parent wont have a collider and transform.
+        // If something has changed it's trigger settings or scale, we're going to fix them here. //
+        // And we only want to reset these things for whole ingredients. //
+        if (currentObj.tag == "Ingredient" && currentObj.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
         { 
-            heldItem = itemToPickUp;
-            itemToPickUp.SetParent(hand);
-            itemToPickUp.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+            currentObj.GetComponent<Collider>().isTrigger = false;
+            currentObj.transform.localScale = Vector3.one;
+        }
 
-            itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
-            itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+        while (currentObj.parent != null)
+        {
+            currentObj = currentObj.parent;
+        }
+        //if (itemToPickUp.parent != null)
+        //{
+
+
+
+
+        heldItem = currentObj;
+        heldItem.SetParent(hand);
+        heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+
+
+        // this is the parent it doesnt have these things !. So i have to get the children.//
+        heldItem.GetComponent<Rigidbody>().useGravity = false;
+        heldItem.GetComponent<Rigidbody>().isKinematic = true;
+        //}
+        //else
+        //{ 
+        //    heldItem = itemToPickUp;
+        //    itemToPickUp.SetParent(hand);
+        //    itemToPickUp.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
+        //
+        //    itemToPickUp.GetComponent<Rigidbody>().useGravity = false;
+        //    itemToPickUp.GetComponent<Rigidbody>().isKinematic = true;
+        //}
+
+
+
+
+        // Making it so item is on a ignore-raycast layer if held. //
+        heldItem.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        // Setting all children aswell.
+        for (int i = 0; i < heldItem.childCount; i++)
+        { 
+            heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         }
         
     }
@@ -925,6 +968,15 @@ public class MouseLook : MonoBehaviour
         }
         Debug.Log("CREATED SOUP!");
 
+
+        // Making it so item is on a ignore-raycast layer if held. //
+        heldItem.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        // Setting all children aswell.
+        for (int i = 0; i < heldItem.childCount; i++)
+        {
+            heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+        }
+
     }
 
     void LoadCanon()
@@ -937,7 +989,7 @@ public class MouseLook : MonoBehaviour
         Transform currentObj = obj;
         for (int i = 0; i < currentObj.childCount; i++)
         {
-            if (currentObj.GetChild(i).GetComponent<Renderer>())
+            if (currentObj.GetChild(i).GetComponent<Renderer>() != null)
             {
                 return currentObj.GetChild(i).GetComponent<Renderer>();
             }
@@ -947,6 +999,11 @@ public class MouseLook : MonoBehaviour
     void Detach(Transform itemToPickUp)
     {
         Transform capsule = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
+
+        // Have to set a new material just so that its not using the same material as every other capsule.
+        Material newMaterial = capsule.GetChild(1).GetComponent<SkinnedMeshRenderer>().material;
+        capsule.GetChild(1).GetComponent<SkinnedMeshRenderer>().material = newMaterial;
+
         FindRenderer(capsule).material = defaultMat;
 
         // Giving the capsule appropriate soup data. //
@@ -968,6 +1025,7 @@ public class MouseLook : MonoBehaviour
             {
                 Debug.Log("SET CAPSULES SOUP DATA");
                 capsule.gameObject.GetComponent<SoupData>().theSoup = theCatcher.currentPortions[0];
+                capsule.gameObject.GetComponent<SoupData>().currentPortions = theCatcher.currentPortions.Count;
             }
         }
 
@@ -1058,6 +1116,28 @@ public class MouseLook : MonoBehaviour
     {
         isHoldingItem = false;
 
+
+        // Making it so item is back on default layer if let go. //
+        if (heldItem.GetComponent<Ingredient>() != null)
+        {
+            heldItem.gameObject.layer = LayerMask.NameToLayer("Ingredient");
+            // Setting all children aswell.
+            for (int i = 0; i < heldItem.childCount; i++)
+            {
+                heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Ingredient");
+            }
+        }
+        else
+        { 
+            heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+            // Setting all children aswell.
+            for (int i = 0; i < heldItem.childCount; i++)
+            {
+                heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+            }
+        }
+
+
         // Have to write exception code for capsules since they have children >:( //
         if (heldItem.tag == "Capsule")
         {
@@ -1094,30 +1174,65 @@ public class MouseLook : MonoBehaviour
         
     }
 
-    void ThrowItem()
+    void ThrowItem(ThrowCharge charge)
     {
         
+
+
         Vector3 throwDirection;
         
         // I think this if statement is unnecessary?? //
         if (Physics.Raycast(gameObject.transform.position, gameObject.GetComponent<Camera>().transform.forward * 100, 100, ~(1 << 2)))
-        { 
+        {
             throwDirection = (target.point - heldItem.position).normalized;
+
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
 
+            // Making it so item is back on default layer if let go. //
+            if (heldItem.GetComponent<Ingredient>() != null)
+            {
+                heldItem.gameObject.layer = LayerMask.NameToLayer("Ingredient");
+                // Setting all children aswell.
+                for (int i = 0; i < heldItem.childCount; i++)
+                {
+                    heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Ingredient");
+                }
+            }
+            else
+            {
+                heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+                // Setting all children aswell.
+                for (int i = 0; i < heldItem.childCount; i++)
+                {
+                    heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+                }
+            }
+
+            //// Making it so item is back on default layer if let go. //
+            //heldItem.gameObject.layer = LayerMask.NameToLayer("Default");
+            //// Setting all children aswell.
+            //for (int i = 0; i < heldItem.childCount; i++)
+            //{
+            //    heldItem.GetChild(i).gameObject.layer = LayerMask.NameToLayer("Default");
+            //}
+
 
             // Adding force based on charged throw //
-            if (currentThrowCharge == ThrowCharge.WEAK)
+            if (charge == ThrowCharge.SUPER_WEAK)
+            {
+                heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * superWeakThrowStrength, ForceMode.Impulse);
+            }
+            else if (charge == ThrowCharge.WEAK)
             { 
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * weakThrowStrength, ForceMode.Impulse);
             }
-            else if (currentThrowCharge == ThrowCharge.MEDIUM)
+            else if (charge == ThrowCharge.MEDIUM)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * mediumThrowStrength, ForceMode.Impulse);
 
             }
-            else if (currentThrowCharge == ThrowCharge.STRONG)
+            else if (charge == ThrowCharge.STRONG)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * strongThrowStrength, ForceMode.Impulse);
             }
@@ -1143,6 +1258,10 @@ public class MouseLook : MonoBehaviour
             currentThrowCharge = ThrowCharge.WEAK;
 
             Debug.Log("throw activated");
+
+
+
+
         }    
     }
     private void ThrowTimer()
@@ -1325,7 +1444,6 @@ public class MouseLook : MonoBehaviour
     {
         if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
-            Debug.Log("Raycast from hand");
             // Doing raycast from hand //
             Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
             Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
@@ -1334,7 +1452,6 @@ public class MouseLook : MonoBehaviour
         }
         else if (currentCameraMode == CameraMode.FPS_CONTROL)
         {
-            Debug.Log("Raycast from screen.");
             // Doing raycast from screen //
             Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~((1 << 2) | (1 << 9)));
             Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.blue);

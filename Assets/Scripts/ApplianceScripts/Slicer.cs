@@ -85,8 +85,8 @@ public class Slicer
         {
 
             Ingredient dataToTransfer = ingredientTransform.GetComponent<Ingredient>();
-            Transform half1 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
-            Transform half2 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform half1 = UnityEngine.Object.Instantiate(dataToTransfer.halfedPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform half2 = UnityEngine.Object.Instantiate(dataToTransfer.halfedPrefab, exitTrigger.position, exitTrigger.rotation);
 
             // ======================= NEW INGREDIENT CREATION ===================== //
 
@@ -149,10 +149,10 @@ public class Slicer
         {
 
             Ingredient dataToTransfer = ingredientTransform.GetComponent<Ingredient>();
-            Transform quarter1 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
-            Transform quarter2 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
-            Transform quarter3 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
-            Transform quarter4 = UnityEngine.Object.Instantiate(dataToTransfer.blendedPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform quarter1 = UnityEngine.Object.Instantiate(dataToTransfer.quateredPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform quarter2 = UnityEngine.Object.Instantiate(dataToTransfer.quateredPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform quarter3 = UnityEngine.Object.Instantiate(dataToTransfer.quateredPrefab, exitTrigger.position, exitTrigger.rotation);
+            Transform quarter4 = UnityEngine.Object.Instantiate(dataToTransfer.quateredPrefab, exitTrigger.position, exitTrigger.rotation);
 
             // ======================= NEW INGREDIENT CREATION ===================== //
 

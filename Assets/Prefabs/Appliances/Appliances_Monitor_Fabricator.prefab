@@ -1,5 +1,142 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &594710195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 594710198}
+  - component: {fileID: 594710197}
+  - component: {fileID: 594710196}
+  m_Layer: 5
+  m_Name: Sweet (Text)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &594710198
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594710195}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.037500005, y: 0.0375, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7220228978107352842}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1.25, y: -0.93}
+  m_SizeDelta: {x: 400, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &594710197
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594710195}
+  m_CullTransparentMesh: 0
+--- !u!114 &594710196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594710195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Sweet [8]
+
+
+'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 5fa21737cc2c827498de4277f65bb85f, type: 2}
+  m_sharedMaterial: {fileID: -3565779022318974795, guid: 5fa21737cc2c827498de4277f65bb85f,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 48
+  m_fontSizeBase: 48
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 1
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &4860733406358062813
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +242,7 @@ MonoBehaviour:
   chunkyText: {fileID: 7220228978554237247}
   meatText: {fileID: 7220228978885850356}
   colourText: {fileID: 7220228977239780348}
+  sweetnessText: {fileID: 594710196}
 --- !u!1 &7220228976946599361
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,8 +255,9 @@ GameObject:
   - component: {fileID: 7220228976946599367}
   - component: {fileID: 7220228976946599366}
   - component: {fileID: 7220228976946599365}
+  - component: {fileID: 1418858001}
   m_Layer: 5
-  m_Name: GameObject (7)
+  m_Name: Jelly_Pumpkin_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -222,6 +361,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0, y: 0, z: 0.00000023841858}
+--- !u!114 &1418858001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228976946599361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Jelly Pumpkin
+  spicyness: 0
+  chunkyness: 0
+  sweetness: 3
+  isMeat: 0
+  colourTag: 5
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 0}
+  halfedPrefab: {fileID: 0}
+  quateredPrefab: {fileID: 0}
+  blendedPrefab: {fileID: 0}
 --- !u!1 &7220228976964364320
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,8 +486,9 @@ GameObject:
   - component: {fileID: 7220228977006789485}
   - component: {fileID: 7220228977006789484}
   - component: {fileID: 7220228977006789475}
+  - component: {fileID: 215577334}
   m_Layer: 5
-  m_Name: GameObject (3)
+  m_Name: Volcano_Chili_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -426,6 +592,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0, y: 0, z: 0.00000023841858}
+--- !u!114 &215577334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228977006789487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Volcano Chili
+  spicyness: 3
+  chunkyness: 1
+  sweetness: 0
+  isMeat: 0
+  colourTag: 6
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 4134014892645575354, guid: 7c8ccfa6899e09345b14a4f5f27bf2b1, type: 3}
+  halfedPrefab: {fileID: 3934107416861202045, guid: d9a2b16baed342a41ae19e54473c3e53,
+    type: 3}
+  quateredPrefab: {fileID: 6292055364286815936, guid: 9a58991dc61a4a84fa1c576b7ffe28db,
+    type: 3}
+  blendedPrefab: {fileID: 0}
 --- !u!1 &7220228977032941567
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,8 +768,9 @@ GameObject:
   - component: {fileID: 7220228977215000430}
   - component: {fileID: 7220228977215000429}
   - component: {fileID: 7220228977215000428}
+  - component: {fileID: 2081690057}
   m_Layer: 5
-  m_Name: GameObject (4)
+  m_Name: Tomato_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -679,6 +874,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0, y: 0.000030517578, z: 0}
+--- !u!114 &2081690057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228977215000424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Tomato
+  spicyness: 1
+  chunkyness: 1
+  sweetness: 2
+  isMeat: 0
+  colourTag: 1
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 1633860946880554479, guid: 75b1891c051a2244f8f0397eaeccecaa, type: 3}
+  halfedPrefab: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
+    type: 3}
+  quateredPrefab: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
+    type: 3}
+  blendedPrefab: {fileID: 0}
 --- !u!1 &7220228977239780350
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,7 +1153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7220228977418225356
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1194,8 +1417,9 @@ GameObject:
   - component: {fileID: 7220228977751395367}
   - component: {fileID: 7220228977751395366}
   - component: {fileID: 7220228977751395365}
+  - component: {fileID: 594209225}
   m_Layer: 5
-  m_Name: GameObject (11)
+  m_Name: Brothleon Meat
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1299,6 +1523,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0.000061035156, y: 0.000015258789, z: 0.00000023841858}
+--- !u!114 &594209225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228977751395361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Brothleon Meat
+  spicyness: 0
+  chunkyness: 0
+  sweetness: 0
+  isMeat: 1
+  colourTag: 2
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 665449077132107707, guid: 31df8cca60613fd4e8c4d16d0382af1b, type: 3}
+  halfedPrefab: {fileID: 3089107478996846807, guid: 4685373c1982aee44992f478c101caba,
+    type: 3}
+  quateredPrefab: {fileID: 7615018144053310642, guid: 0c436283f15508d4a979c1d9595271fd,
+    type: 3}
+  blendedPrefab: {fileID: 0}
 --- !u!1 &7220228977937558202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,8 +1563,9 @@ GameObject:
   - component: {fileID: 7220228977937558200}
   - component: {fileID: 7220228977937558207}
   - component: {fileID: 7220228977937558206}
+  - component: {fileID: 3801283}
   m_Layer: 5
-  m_Name: GameObject (6)
+  m_Name: Crying_Onion_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1416,6 +1669,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0.000061035156, y: 0, z: 0.00000023841858}
+--- !u!114 &3801283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228977937558202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Crying Onioin
+  spicyness: 3
+  chunkyness: 1
+  sweetness: 0
+  isMeat: 0
+  colourTag: 4
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 5574112622726231577, guid: cb4f652aba9af4344b48e70207d2cb1c, type: 3}
+  halfedPrefab: {fileID: 5215614544627752562, guid: 4721a15cee892ef4e9c2295e147ffd90,
+    type: 3}
+  quateredPrefab: {fileID: 3028016112202311333, guid: 5f1d241c153115e488e268636ade15e1,
+    type: 3}
+  blendedPrefab: {fileID: 0}
 --- !u!1 &7220228978107352843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1448,6 +1729,7 @@ RectTransform:
   - {fileID: 7220228978554237240}
   - {fileID: 7220228978885850357}
   - {fileID: 7220228977239780349}
+  - {fileID: 594710198}
   m_Father: {fileID: 7220228978609499937}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1605,8 +1887,9 @@ GameObject:
   - component: {fileID: 7220228978250360370}
   - component: {fileID: 7220228978250360369}
   - component: {fileID: 7220228978250360368}
+  - component: {fileID: 756642966}
   m_Layer: 5
-  m_Name: GameObject (9)
+  m_Name: Floppy_Carrot_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1710,6 +1993,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &756642966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228978250360380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Floppy Carrot
+  spicyness: 1
+  chunkyness: 2
+  sweetness: 0
+  isMeat: 0
+  colourTag: 2
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 7591500177567294948, guid: 464d768583e306b4ca48242ab2ca6995, type: 3}
+  halfedPrefab: {fileID: 8923445550459775276, guid: abd06a4b37aaf524eafadd098d495d86,
+    type: 3}
+  quateredPrefab: {fileID: 7107926719708265919, guid: 480e199df8d694f4798c56d051466dcc,
+    type: 3}
+  blendedPrefab: {fileID: 0}
 --- !u!1 &7220228978480079142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,7 +2035,7 @@ GameObject:
   - component: {fileID: 7220228978480079194}
   - component: {fileID: 7220228978480079193}
   m_Layer: 5
-  m_Name: GameObject (1)
+  m_Name: Eye_Fish_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1840,10 +2151,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientName: Face Steak
-  spicyness: 1
-  chunkyness: 0
+  ingredientName: Eye Fish
+  spicyness: 0
+  chunkyness: 3
+  sweetness: 1
   isMeat: 1
+  colourTag: 0
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
   currentState: 0
   prefab: {fileID: 0}
   halfedPrefab: {fileID: 0}
@@ -1861,8 +2177,9 @@ GameObject:
   - component: {fileID: 7220228978503267486}
   - component: {fileID: 7220228978503267485}
   - component: {fileID: 7220228978503267484}
+  - component: {fileID: 654355420}
   m_Layer: 5
-  m_Name: GameObject (8)
+  m_Name: Tentacle_Potato_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1966,6 +2283,34 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &654355420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228978503267480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Tentacle Potato
+  spicyness: 1
+  chunkyness: 3
+  sweetness: 1
+  isMeat: 1
+  colourTag: 5
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 7243486945005895310, guid: 3719bd941df421144b3317a5740f6007, type: 3}
+  halfedPrefab: {fileID: 7027524154449994819, guid: 4ea3167349c213e4388b16da43949005,
+    type: 3}
+  quateredPrefab: {fileID: 5330636042665288141, guid: 2a0a8e94c27511742a6424e3897bf599,
+    type: 3}
+  blendedPrefab: {fileID: 0}
 --- !u!1 &7220228978554237241
 GameObject:
   m_ObjectHideFlags: 0
@@ -2118,7 +2463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7220228978609499937
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2525,8 +2870,9 @@ GameObject:
   - component: {fileID: 7220228978738545870}
   - component: {fileID: 7220228978738545869}
   - component: {fileID: 7220228978738545868}
+  - component: {fileID: 1558797544}
   m_Layer: 5
-  m_Name: GameObject (10)
+  m_Name: Ultraviolet Eggplant
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2630,6 +2976,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0.000061035156, y: 0, z: 0.00000023841858}
+--- !u!114 &1558797544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228978738545864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Ultraviolet Eggplant
+  spicyness: 0
+  chunkyness: 1
+  sweetness: 2
+  isMeat: 0
+  colourTag: 3
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 0}
+  halfedPrefab: {fileID: 0}
+  quateredPrefab: {fileID: 0}
+  blendedPrefab: {fileID: 0}
 --- !u!1 &7220228978820880683
 GameObject:
   m_ObjectHideFlags: 0
@@ -2780,7 +3152,7 @@ GameObject:
   - component: {fileID: 7220228978877147424}
   - component: {fileID: 7220228978877147431}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Furry_Chicken_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2896,10 +3268,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ingredientName: Tomato
-  spicyness: 1
+  ingredientName: Furry Chicken
+  spicyness: 2
   chunkyness: 3
-  isMeat: 0
+  sweetness: 1
+  isMeat: 1
+  colourTag: 1
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
   currentState: 0
   prefab: {fileID: 0}
   halfedPrefab: {fileID: 0}
@@ -2917,8 +3294,9 @@ GameObject:
   - component: {fileID: 7220228978884406623}
   - component: {fileID: 7220228978884406622}
   - component: {fileID: 7220228978884406621}
+  - component: {fileID: 583964605}
   m_Layer: 5
-  m_Name: GameObject (2)
+  m_Name: Bouncy_Mushroom_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3022,6 +3400,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0.000061035156, y: 0, z: 0.00000023841858}
+--- !u!114 &583964605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228978884406617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Bouncy Mushroom
+  spicyness: 0
+  chunkyness: 2
+  sweetness: 1
+  isMeat: 0
+  colourTag: 0
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 0}
+  halfedPrefab: {fileID: 0}
+  quateredPrefab: {fileID: 0}
+  blendedPrefab: {fileID: 0}
 --- !u!1 &7220228978885850358
 GameObject:
   m_ObjectHideFlags: 0
@@ -3170,8 +3574,9 @@ GameObject:
   - component: {fileID: 7220228978897135146}
   - component: {fileID: 7220228978897135145}
   - component: {fileID: 7220228978897135144}
+  - component: {fileID: 1021577959}
   m_Layer: 5
-  m_Name: GameObject (5)
+  m_Name: Horny_Turnip_Button
   m_TagString: Switch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3275,3 +3680,29 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 16.000004, y: 16, z: 0.20000005}
   m_Center: {x: 0, y: 0.000030517578, z: 0}
+--- !u!114 &1021577959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220228978897135156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b1900b007e4734489e384b89dfa415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientName: Horny Turnip
+  spicyness: 0
+  chunkyness: 2
+  sweetness: 1
+  isMeat: 1
+  colourTag: 3
+  colour:
+    name: 
+    RGBValue: {x: 0, y: 0, z: 0}
+  currentState: 0
+  prefab: {fileID: 0}
+  halfedPrefab: {fileID: 0}
+  quateredPrefab: {fileID: 0}
+  blendedPrefab: {fileID: 0}

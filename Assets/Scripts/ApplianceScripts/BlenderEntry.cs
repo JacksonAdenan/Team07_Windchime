@@ -20,17 +20,33 @@ public class BlenderEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
-        if (obj.tag == "Ingredient")
+        
+
+
+        Transform realObj = obj.transform;
+        while (realObj.parent != null)
         {
-            gameManager.cookingManager.theBlender.AddIngredientToBlender(obj.transform);
+            realObj = realObj.parent;
+        }
+
+
+        if (realObj.tag == "Ingredient" && realObj.GetComponent<Ingredient>().currentState != IngredientState.BLENDED)
+        { 
+            gameManager.cookingManager.theBlender.AddIngredientToBlender(realObj.transform);
         }
     }
 
     void OnTriggerExit(Collider obj)
     {
-        if (obj.tag == "Ingredient")
+        Transform realObj = obj.transform;
+        while (realObj.parent != null && realObj.parent.tag == "Ingredient")
         {
-            gameManager.cookingManager.theBlender.RemoveIngredientFromBlender(obj.transform);
+            realObj = realObj.parent;
+        }
+
+        if (realObj.tag == "Ingredient")
+        {
+            gameManager.cookingManager.theBlender.RemoveIngredientFromBlender(realObj.transform);
         }
     }
 }
