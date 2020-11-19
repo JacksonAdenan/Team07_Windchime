@@ -16,6 +16,9 @@ public class Order
     public bool noVeg;
 
     public float sweetness;
+
+    [HideInInspector]
+    public bool isReady = false;
     public Order(Colour colourPreference, float spicyValue, float chunkyValue, bool meatPreference, bool vegPreference, float sweetness)
     {
         this.orderName = "NOT ASSIGNED BY ORDERMANAGER";

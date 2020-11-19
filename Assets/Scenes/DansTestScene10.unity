@@ -1744,6 +1744,11 @@ PrefabInstance:
       propertyPath: alien
       value: 
       objectReference: {fileID: 1960478743}
+    - target: {fileID: 8695368405510417179, guid: 2aeaefb9fc3d69f4682f4b02e417ffdc,
+        type: 3}
+      propertyPath: newOrderRate
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2aeaefb9fc3d69f4682f4b02e417ffdc, type: 3}
 --- !u!114 &81918679 stripped

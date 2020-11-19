@@ -18,7 +18,7 @@ public class OrderManager : MonoBehaviour
     public List<Order> acceptedOrders;
 
     // We have selectedOrder instead of just swapped around the positions of the orders in the array because we still want to keep track of which alien gets what food. //
-    public Order selectedOrder;
+    public int selectedOrder = -1;
 
     public static OrderScreenState currentScreenState;
 
@@ -90,7 +90,7 @@ public class OrderManager : MonoBehaviour
         AddAllColours(availableColours);
 
 
-        selectedOrder = null;
+        selectedOrder = -1;
 
      
     }
@@ -135,6 +135,7 @@ public class OrderManager : MonoBehaviour
         for (int i = 0; i < activeAliens.Count; i++)
         {
             activeAliens[i].Animate();
+            
         }
 
         for (int i = 0; i < destroyingAliens.Count; i++)
@@ -176,13 +177,20 @@ public class OrderManager : MonoBehaviour
         // If they only have one accepted order. //
         if (acceptedOrders.Count == 0)
         {
-            selectedOrder = null;
+            if (selectedOrder != -1)
+            { 
+                selectedOrder = -1;
+            }
+
             Debug.Log("selected order is null");
+            Debug.Log("1accepted orders size: " + acceptedOrders.Count);
         }
-        else if (acceptedOrders.Count == 1)
+        else if (acceptedOrders.Count > 0 && selectedOrder == -1)
         {
-            selectedOrder = acceptedOrders[0];
-            Debug.Log("selected order is NOT null");
+            selectedOrder = 0;
+            Debug.Log("ASSIGNED SELECTED ORDER");
+            
+            
         }
     }
     public void SwapSelectedOrder()
@@ -190,13 +198,15 @@ public class OrderManager : MonoBehaviour
         // If they have 2 accepted orders. //
         if (acceptedOrders.Count > 1)
         {
-            if (selectedOrder == acceptedOrders[0])
+            if (selectedOrder == 0)
             {
-                selectedOrder = acceptedOrders[1];
+                Debug.Log("ASSIGNED SELECTED ORDER");
+                selectedOrder = 1;
             }
             else
             {
-                selectedOrder = acceptedOrders[0];
+                Debug.Log("ASSIGNED SELECTED ORDER");
+                selectedOrder = 0;
             }
         }    
     }
@@ -213,7 +223,23 @@ public class OrderManager : MonoBehaviour
     {
         if (acceptedOrders.Count < 2 && requestedOrders.Count == 0 && isOrderAvailable)
         {
-            SendOrder(CreateOrder());
+            SendOrder(CreateOrder());    
+        }
+
+
+        if (activeAliens.Count > 0 && acceptedOrders.Count == 0 && requestedOrders.Count == 1)
+        {
+            if (activeAliens[0].isOrderReady)
+            {
+                requestedOrders[0].isReady = true;
+            }
+        }
+        else if (activeAliens.Count > 1 && acceptedOrders.Count == 1 && requestedOrders.Count == 1)
+        {
+            if (activeAliens[1].isOrderReady)
+            {
+                requestedOrders[0].isReady = true;
+            }
         }
     }
     public void AcceptOrder(Order orderToAccept)
@@ -271,16 +297,18 @@ public class OrderManager : MonoBehaviour
         isOrderAvailable = false;
 
     }
+
+    public void OrderAppear()
+    {
+        
+    }
     public void SendOrder(Order orderToAdd)
     {
+        
         requestedOrders.Clear();
         requestedOrders.Add(orderToAdd);
 
         // Alien animation thingy //
-
-
-
-
         if (requestedOrders.Count == 1 && acceptedOrders.Count != 1)
         {
 
@@ -304,8 +332,6 @@ public class OrderManager : MonoBehaviour
             //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 1);
             //alien2.CreateAlien(alien);
         }
-
-
     }
 
     public Order ManuallyCreateOrder(TMP_Dropdown colourPreference, TMP_Dropdown meatVegPref, TMP_InputField spicy, TMP_InputField chunky)
