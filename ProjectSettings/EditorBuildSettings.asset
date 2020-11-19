@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ModularToolkit.unity
     guid: c3cde370331c9e54e9ce44285b73b4c1
+  - enabled: 1
+    path: Assets/Scenes/MMTestScene.unity
+    guid: b674fb7566db2c84abc1088d9ed7660d
+  - enabled: 1
+    path: Assets/Scenes/DJsTestScene.unity
+    guid: 43c5fb1296ee9c74b8f5e906580a291b
   m_configObjects: {}
