@@ -19,6 +19,9 @@ public enum CatcherState
 public class SoupCatcher
 {
 
+    GameManager gameManager;
+
+
     // Soup catcher stats and current things. //
     public List<Soup> currentPortions;
     public CatcherState currentCatcherState = CatcherState.EMPTY;
@@ -33,6 +36,8 @@ public class SoupCatcher
     // Start is called before the first frame update
     public void Start()
     {
+        gameManager = GameManager.GetInstance();
+
         // Initialising catcher things. //
         currentPortions = new List<Soup>();
     }
@@ -135,7 +140,7 @@ public class SoupCatcher
         { 
             Material newMaterial = skinnedMesh.material;
 
-            newMaterial.color = Colour.ConvertColour(currentPortions[0].colour);
+            newMaterial.color = gameManager.colourManager.ConvertColour(currentPortions[0].colour);
             skinnedMesh.material = newMaterial;
         }
     }

@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     public MenuManager menuManager;
     public MouseLook playerController;
+    public ColourManager colourManager;
+    
 
     public float gameTime = 5;
     float timer = 0;
@@ -48,7 +50,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
 
-        Colour.InitColours();
+        //ColourManager.InitColours();
     }
 
     // Update is called once per frame

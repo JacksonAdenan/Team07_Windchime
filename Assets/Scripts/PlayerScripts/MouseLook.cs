@@ -884,9 +884,10 @@ public class MouseLook : MonoBehaviour
         // And we only want to reset these things for whole ingredients. //
         if (currentObj.tag == "Ingredient" && currentObj.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
         { 
-            currentObj.GetComponent<Collider>().isTrigger = false;
             currentObj.transform.localScale = Vector3.one;
         }
+        // This is outside of the if statement because regardless of whether or not the item is an ingredient, whole or whatever, we stil want to make it's trigger true.
+        currentObj.GetComponent<Collider>().isTrigger = false;
 
         while (currentObj.parent != null)
         {

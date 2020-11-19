@@ -156,13 +156,18 @@ public class OrderManager : MonoBehaviour
 
     private void AddAllColours(List<Colour> list)
     {
-        list.Add(Colour.blue);
-        list.Add(Colour.red);
-        list.Add(Colour.green);
-        list.Add(Colour.orange);
-        list.Add(Colour.pink);
-        list.Add(Colour.purple);
-        list.Add(Colour.yellow);
+        list.Add(gameManager.colourManager.blue);
+        list.Add(gameManager.colourManager.red);
+        list.Add(gameManager.colourManager.lightGreen);
+        list.Add(gameManager.colourManager.darkGreen);
+        list.Add(gameManager.colourManager.orange);
+        list.Add(gameManager.colourManager.pink);
+        list.Add(gameManager.colourManager.orchid);
+        list.Add(gameManager.colourManager.yellow);
+        list.Add(gameManager.colourManager.salmon);
+        list.Add(gameManager.colourManager.violet);
+        list.Add(gameManager.colourManager.aqua);
+        list.Add(gameManager.colourManager.darkRed);
 
     }
 
@@ -303,12 +308,12 @@ public class OrderManager : MonoBehaviour
 
     }
 
-    public static Order ManuallyCreateOrder(TMP_Dropdown colourPreference, TMP_Dropdown meatVegPref, TMP_InputField spicy, TMP_InputField chunky)
+    public Order ManuallyCreateOrder(TMP_Dropdown colourPreference, TMP_Dropdown meatVegPref, TMP_InputField spicy, TMP_InputField chunky)
     {
         Order newOrder = new Order();
 
         //newOrder.mainSoup = GetSoupFromDropdown(soup.value, soup);
-        newOrder.colourPreference = Colour.blue;
+        newOrder.colourPreference = gameManager.colourManager.blue;
 
         try
         {

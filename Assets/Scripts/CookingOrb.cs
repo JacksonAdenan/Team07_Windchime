@@ -23,7 +23,7 @@ public class CookingOrb
     public float currentSpicy;
     public float currentChunky;
     public float currentSweet;
-    public Colour currentColour;
+    public ColourManager currentColour;
 
     [Header("Don't modify the timer. If you want to increase cooking time change Cooking Duration")]
     public float cookingTimer = 0;
@@ -323,7 +323,7 @@ public class CookingOrb
 
         // Setting the colour of the occupying soup. //
         Material newMaterial = new Material(waterShader);
-        newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(newSoup.colour));
+        newMaterial.SetColor("Color_6EDA1D08", gameManager.colourManager.ConvertColour(newSoup.colour));
         occupyingSoup.GetComponent<Renderer>().material = newMaterial;
 
 

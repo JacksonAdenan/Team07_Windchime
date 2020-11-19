@@ -321,7 +321,7 @@ public class MenuManager : MonoBehaviour
     // This is the super old way of creating orders. //
     public void CreateOrder()
     {
-        orderManager.SendOrder(OrderManager.ManuallyCreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
+        orderManager.SendOrder(orderManager.ManuallyCreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
         orderCreatedText.gameObject.SetActive(true);
         orderCreatedTextTimer = 0;
 
