@@ -80,8 +80,9 @@ public class Blender
     private bool isFullFinished = false;
 
     [Header("Ingredient Shrinking/Movement")]
-    public float ingredientShrinkTime = 3;
-    public float ingredientCenteringSpeed = 0.25f;
+    public float ingredientShrinkTime = 0.01f;
+    public float ingredientCenteringSpeed = 0.01f;
+    public float ingredientShrinkSize = 0.38f;
 
 
     private List<Transform> shrinkingIngredients;
@@ -122,11 +123,11 @@ public class Blender
         for (int i = shrinkingIngredients.Count - 1; i >= 0; i--)
         {
 
-            shrinkingIngredients[i].localScale = Vector3.Lerp(shrinkingIngredients[i].localScale, (currentBlenderIngredients[i].transform.localScale * 0.6f), ingredientShrinkTime);
+            shrinkingIngredients[i].localScale = Vector3.Lerp(shrinkingIngredients[i].localScale, (Vector3.one * ingredientShrinkSize), ingredientShrinkTime);
 
             shrinkingIngredients[i].position = Vector3.Lerp(shrinkingIngredients[i].position, blenderSpawnPoint.position, ingredientCenteringSpeed);
 
-            if (Vector3.Distance(shrinkingIngredients[i].localScale, (shrinkingIngredients[i].localScale * 0.75f)) < 0.25f && Vector3.Distance(shrinkingIngredients[i].position, blenderSpawnPoint.position) < 0.05f)
+            if (Vector3.Distance(shrinkingIngredients[i].localScale, (Vector3.one * ingredientShrinkSize)) < 0.5f && Vector3.Distance(shrinkingIngredients[i].position, blenderSpawnPoint.position) < 0.05f)
             {
                 shrinkingIngredients[i].tag = "Ingredient";
                 shrinkingIngredients.Remove(shrinkingIngredients[i]);

@@ -29,7 +29,7 @@ public class CookingOrbEntry : MonoBehaviour
             Debug.Log("ITERATED THROUGH THE THING");
         }
 
-        if (obj.tag == "Ingredient")
+        if (obj.tag == "Ingredient" && obj.transform != MouseLook.heldItem)
         {
             
             Debug.Log(realObj.name);

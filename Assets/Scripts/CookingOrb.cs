@@ -44,6 +44,13 @@ public class CookingOrb
     [Header("Soup Colour Things")]
     public Shader waterShader;
 
+    [Header("Ingredient Shrinking/Movement")]
+    public float ingredientShrinkTime = 0.01f;
+    public float ingredientCenteringSpeed = 0.01f;
+    public float ingredientShrinkSize = 0.38f;
+
+    private List<Transform> shrinkingIngredients;
+
 
 
 
@@ -62,6 +69,9 @@ public class CookingOrb
         currentSpicy = 0;
         currentChunky = 0;
         currentSweet = 0;
+
+
+        shrinkingIngredients = new List<Transform>();
     }
 
     // Update is called once per frame
@@ -104,8 +114,27 @@ public class CookingOrb
 
         UpdateCookingOrbAnimation();
 
+
+        ShrinkIngredients();
+
     }
 
+    public void ShrinkIngredients()
+    {
+        for (int i = shrinkingIngredients.Count - 1; i >= 0; i--)
+        {
+
+            shrinkingIngredients[i].localScale = Vector3.Lerp(shrinkingIngredients[i].localScale, (Vector3.one * ingredientShrinkSize), ingredientShrinkTime);
+
+            shrinkingIngredients[i].position = Vector3.Lerp(shrinkingIngredients[i].position, soupOrb.position, ingredientCenteringSpeed);
+
+            if (Vector3.Distance(shrinkingIngredients[i].localScale, (Vector3.one * ingredientShrinkSize)) < 0.5f && Vector3.Distance(shrinkingIngredients[i].position, soupOrb.position) < 0.05f)
+            {
+                shrinkingIngredients[i].tag = "Ingredient";
+                shrinkingIngredients.Remove(shrinkingIngredients[i]);
+            }
+        }
+    }
     void UpdateCookingOrbAnimation()
     {
         switch (currentCookingOrbState)
@@ -178,8 +207,21 @@ public class CookingOrb
     }
     public void TrackIngredient(Transform ingredientToTrack)
     {
+
+        ingredientToTrack.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        // Making it's tag "shrinking"
+        ingredientToTrack.tag = "Shrinking";
+
+        // Adding it to the shrinking list.
+        shrinkingIngredients.Add(ingredientToTrack);
+
         currentlyTrackedIngredients.Add(ingredientToTrack);
         Debug.Log("Ingredient being tracked by cooking orb.");
+
+
+        // Disabling the collider so other things don't bounce off of it. I'm doing this by making it a trigger. (I know it's bad.)
+        ingredientToTrack.GetComponent<Collider>().isTrigger = true;
     }
     public void StopTrackingIngredient(Transform ingredientToTrack)
     {
@@ -188,8 +230,16 @@ public class CookingOrb
     }
     public void AddIngredient(Transform ingredient)
     {
+
+        
+
+
         currentIngredients.Add(ingredient);
         Debug.Log("Ingredient added to cooking orb.");
+
+
+
+
     }
 
     public void RemoveIngredient(Transform ingredient)

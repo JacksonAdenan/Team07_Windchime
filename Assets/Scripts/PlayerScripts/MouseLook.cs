@@ -251,7 +251,7 @@ public class MouseLook : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.LOOKING_AT_ITEM:
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButtonDown(0) && !Input.GetMouseButton(1))
                 {
                     if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover" && selectedItem.tag != "CatcherCapsule" && selectedItem.tag != "CanonCapsule")
                     {

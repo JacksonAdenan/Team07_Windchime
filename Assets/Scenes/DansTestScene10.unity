@@ -4647,10 +4647,18 @@ PrefabInstance:
       objectReference: {fileID: 191177064}
     - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
       propertyPath: theBlender.ingredientShrinkTime
-      value: 0.01
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
       propertyPath: theBlender.ingredientCenteringSpeed
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theOrb.ingredientShrinkTime
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theOrb.ingredientCenteringSpeed
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
