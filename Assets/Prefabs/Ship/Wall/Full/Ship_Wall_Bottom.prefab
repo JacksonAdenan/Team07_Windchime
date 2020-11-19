@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6322904804069925781}
   - component: {fileID: 3981626110103557576}
   - component: {fileID: 3311493347017144775}
-  - component: {fileID: -8156517290617196569}
+  - component: {fileID: -4965013564568454527}
   m_Layer: 0
   m_Name: Ship_Wall_Bottom
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &-8156517290617196569
+--- !u!65 &-4965013564568454527
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,5 +91,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0000011, y: 0.99937093, z: 0.5}
-  m_Center: {x: -0.49999994, y: -0.49968547, z: -0.2500248}
+  m_Size: {x: 1.0000011, y: 0.999371, z: 0.5054146}
+  m_Center: {x: -0.49999994, y: -0.49968544, z: -0.25003713}

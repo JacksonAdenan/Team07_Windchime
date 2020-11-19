@@ -25,7 +25,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 560533b8cdef8e34aa174a4dc29b315f, type: 3}
+        m_Texture: {fileID: 2800000, guid: ccb0dc38952e19e4aafc40c43de5475d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
