@@ -124,7 +124,7 @@ public class SwitchData : MonoBehaviour
                     onCooldown = true;
                     if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
                     {
-                        gameManager.cookingManager.theOrb.MakeSoup();
+                        gameManager.cookingManager.theOrb.BeginCooking();
                     }
                     break;
             }
