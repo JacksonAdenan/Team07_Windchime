@@ -121,7 +121,7 @@ MonoBehaviour:
     water: {fileID: 0}
     waterShader: {fileID: -6465566751694194690, guid: fa85fc9507af8ef4a8385a8fac36bf36,
       type: 3}
-    ingredientShrinkTime: 0.025
+    ingredientShrinkTime: 0.05
     ingredientCenteringSpeed: 0.01
     ingredientShrinkSize: 0.38
     spinningStartTime: 0.75

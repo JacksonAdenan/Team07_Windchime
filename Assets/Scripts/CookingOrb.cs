@@ -45,7 +45,7 @@ public class CookingOrb
     public Shader waterShader;
 
     [Header("Ingredient Shrinking/Movement")]
-    public float ingredientShrinkTime = 0.01f;
+    public float ingredientShrinkTime = 0.05f;
     public float ingredientCenteringSpeed = 0.01f;
     public float ingredientShrinkSize = 0.38f;
 
