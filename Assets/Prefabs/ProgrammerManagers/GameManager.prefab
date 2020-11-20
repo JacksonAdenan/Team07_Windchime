@@ -49,4 +49,65 @@ MonoBehaviour:
   scoreManager: {fileID: 0}
   menuManager: {fileID: 0}
   playerController: {fileID: 0}
+  colourManager:
+    blue:
+      name: blue
+      RGBValue:
+        serializedVersion: 2
+        rgba: 16404545
+    red:
+      name: red
+      RGBValue:
+        serializedVersion: 2
+        rgba: 3224063
+    lightGreen:
+      name: lightGreen
+      RGBValue:
+        serializedVersion: 2
+        rgba: 6684095
+    darkGreen:
+      name: darkGreen
+      RGBValue:
+        serializedVersion: 2
+        rgba: 1467136
+    yellow:
+      name: yellow
+      RGBValue:
+        serializedVersion: 2
+        rgba: 7459301
+    pink:
+      name: pink
+      RGBValue:
+        serializedVersion: 2
+        rgba: 9502975
+    orange:
+      name: orange
+      RGBValue:
+        serializedVersion: 2
+        rgba: 2519015
+    darkRed:
+      name: darkRed
+      RGBValue:
+        serializedVersion: 2
+        rgba: 460647
+    aqua:
+      name: aqua
+      RGBValue:
+        serializedVersion: 2
+        rgba: 13492295
+    orchid:
+      name: orchid
+      RGBValue:
+        serializedVersion: 2
+        rgba: 16726493
+    salmon:
+      name: salmon
+      RGBValue:
+        serializedVersion: 2
+        rgba: 7171583
+    violet:
+      name: violet
+      RGBValue:
+        serializedVersion: 2
+        rgba: 16711828
   gameTime: 360

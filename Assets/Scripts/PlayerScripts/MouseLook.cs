@@ -29,7 +29,8 @@ public enum ThrowCharge
     SUPER_WEAK,
     WEAK,
     MEDIUM,
-    STRONG
+    STRONG,
+    NOT_THROWING
 }
 
 
@@ -50,6 +51,8 @@ public class MouseLook : MonoBehaviour
     public float handControlSensitivity = 100f;
     public float roationLerpSpeed;
     public float handReturnSpeed = 0.05f;
+    public float handSwaySpeed = 1;
+    public float handSwayHorizontalClamp = 0.3f;
 
     [Header("Hand Deadzones")]
     public float handZDistance = 0.7f;
@@ -170,11 +173,15 @@ public class MouseLook : MonoBehaviour
     public float mediumThrowStrength = 5;
     public float strongThrowStrength = 10;
 
-    public float weakThrowThreshold = 0;
-    public float mediumThrowThreshold = 2;
-    public float strongthrowThreshold = 4;
+    public float weakThrowThreshold = 0.5f;
+    public float mediumThrowThreshold = 1;
+    public float strongthrowThreshold = 2;
 
     public ThrowCharge currentThrowCharge = ThrowCharge.WEAK;
+
+
+    [Header("Throw Animation Things")]
+    public Material eyesMaterial;
 
 
     [Header("Old Throwing Mechanics")]
@@ -239,10 +246,18 @@ public class MouseLook : MonoBehaviour
             gameManager.RestartGame();
         }
 
-        // Charging up throw. //
-        if (isHoldingItem)
+        
+
+        if(!isHoldingItem)
         {
-            ThrowTimer();
+            // Do idle hand eye thingy. //
+            currentThrowCharge = ThrowCharge.SUPER_WEAK;
+
+            eyesMaterial.SetInt("_Idle", 1);
+            eyesMaterial.SetInt("_Throw", 0);
+            eyesMaterial.SetInt("_Charge", 0);
+
+            Debug.Log("no threshold");
         }
     }
 
@@ -335,10 +350,11 @@ public class MouseLook : MonoBehaviour
                 }
                 break;
             case PlayerState.HOLDING_ITEM:
-                //if (Input.GetKeyDown(KeyCode.E))
-                //{
-                //    DropItem();
-                //}
+                if (Input.GetMouseButton(1))
+                {
+                    // Charging up throw. //
+                    ThrowTimer();
+                }
                 if (Input.GetMouseButtonUp(0))
                 {
                     ThrowItem(ThrowCharge.SUPER_WEAK);
@@ -499,7 +515,7 @@ public class MouseLook : MonoBehaviour
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
                 CheckHandReturn();
-                if (Input.GetMouseButton(1) && isHoldingItem == true)
+                if ((Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(0)) && isHoldingItem == true)
                 {
                     ThrowItem(currentThrowCharge);
                 }
@@ -627,8 +643,8 @@ public class MouseLook : MonoBehaviour
 
 
         handAcceleration = mouseX;
-        handAcceleration = Mathf.Clamp(handAcceleration, -0.05f, 0.05f);
-        handVelocity += (handAcceleration) * Time.deltaTime;
+        handAcceleration = Mathf.Clamp(handAcceleration, -0.005f, 0.005f);
+        handVelocity += (handAcceleration * handSwaySpeed) * Time.deltaTime;
 
 
 
@@ -637,7 +653,7 @@ public class MouseLook : MonoBehaviour
         if (handAcceleration != 0 && isHandReturning == false)
         {
             float newHandX = hand.localPosition.x + handVelocity;
-            newHandX = Mathf.Clamp(newHandX, handFPSPos.x - 0.3f, handFPSPos.x + 0.3f);
+            newHandX = Mathf.Clamp(newHandX, handFPSPos.x - handSwayHorizontalClamp, handFPSPos.x + handSwayHorizontalClamp);
             hand.localPosition = new Vector3(newHandX, hand.localPosition.y, hand.localPosition.z);
         }
         else
@@ -884,9 +900,10 @@ public class MouseLook : MonoBehaviour
         // And we only want to reset these things for whole ingredients. //
         if (currentObj.tag == "Ingredient" && currentObj.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
         { 
-            currentObj.GetComponent<Collider>().isTrigger = false;
             currentObj.transform.localScale = Vector3.one;
         }
+        // This is outside of the if statement because regardless of whether or not the item is an ingredient, whole or whatever, we stil want to make it's trigger true.
+        currentObj.GetComponent<Collider>().isTrigger = false;
 
         while (currentObj.parent != null)
         {
@@ -1222,19 +1239,23 @@ public class MouseLook : MonoBehaviour
             if (charge == ThrowCharge.SUPER_WEAK)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * superWeakThrowStrength, ForceMode.Impulse);
+ 
             }
             else if (charge == ThrowCharge.WEAK)
             { 
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * weakThrowStrength, ForceMode.Impulse);
+                
             }
             else if (charge == ThrowCharge.MEDIUM)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * mediumThrowStrength, ForceMode.Impulse);
 
+
             }
             else if (charge == ThrowCharge.STRONG)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * strongThrowStrength, ForceMode.Impulse);
+
             }
 
 
@@ -1267,25 +1288,49 @@ public class MouseLook : MonoBehaviour
     private void ThrowTimer()
     {
         throwingHeldDownTimer += Time.deltaTime;
-        if (throwingHeldDownTimer >= throwingChargeRate && throwCharge <= strongthrowThreshold)
+        if (throwCharge <= strongthrowThreshold)
         {
-            throwCharge += 1;
-            throwingHeldDownTimer = 0;
+            throwCharge += Time.deltaTime;
         }
+        //if (throwingHeldDownTimer >= throwingChargeRate && throwCharge <= strongthrowThreshold)
+        //{
+        //    throwCharge += 1;
+        //    throwingHeldDownTimer = 0;
+        //}
+
 
 
         if (throwCharge >= strongthrowThreshold)
         {
             currentThrowCharge = ThrowCharge.STRONG;
+            eyesMaterial.SetInt("_Idle", 0);
+            eyesMaterial.SetInt("_Throw", 1);
+            eyesMaterial.SetInt("_Charge", 0);
+
+            Debug.Log("strong threshold");
+
         }
         else if (throwCharge >= mediumThrowThreshold)
         {
             currentThrowCharge = ThrowCharge.MEDIUM;
+            eyesMaterial.SetInt("_Idle", 1);
+            eyesMaterial.SetInt("_Throw", 1);
+            eyesMaterial.SetInt("_Charge", 1);
+
+            Debug.Log("med threshold");
         }
         else if (throwCharge >= weakThrowThreshold)
         {
             currentThrowCharge = ThrowCharge.WEAK;
+            eyesMaterial.SetInt("_Idle", 0);
+
+            Debug.Log("weak threshold");
         }
+        else
+        {
+            currentThrowCharge = ThrowCharge.SUPER_WEAK;
+        }
+
     }
 
 

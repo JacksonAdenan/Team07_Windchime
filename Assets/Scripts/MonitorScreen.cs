@@ -106,7 +106,7 @@ public class MonitorScreen : MonoBehaviour
             case ScreenState.MAIN_MENU:
                 if (thisMonitor == MonitorType.NEW_ORDER_MONITOR)
                 {
-                    if (orderManager.requestedOrders.Count > 0)
+                    if (orderManager.requestedOrders.Count > 0 && orderManager.requestedOrders[0].isReady)
                     {
                         DisplayMainMenu(orderManager.requestedOrders[0]);
                     }
@@ -117,9 +117,9 @@ public class MonitorScreen : MonoBehaviour
                 }
                 else if (thisMonitor == MonitorType.CURRENT_ORDER_MONITOR)
                 {
-                    if (orderManager.selectedOrder != null)
+                    if (orderManager.selectedOrder != -1)
                     {
-                        DisplayMainMenu(orderManager.selectedOrder);
+                        DisplayMainMenu(orderManager.acceptedOrders[orderManager.selectedOrder]);
                     }
                     else
                     {
@@ -320,7 +320,7 @@ public class MonitorScreen : MonoBehaviour
         // ----------------- Displaying proper title for the current order monitor ----------------- //
         if (thisMonitor == MonitorType.CURRENT_ORDER_MONITOR)
         {
-            if (orderManager.acceptedOrders.Count > 0 && orderManager.selectedOrder == orderManager.acceptedOrders[0])
+            if (orderManager.acceptedOrders.Count > 0 && orderManager.selectedOrder == 0)
             {
                 title.text = "Current Order";
             }

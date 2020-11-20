@@ -321,7 +321,7 @@ public class MenuManager : MonoBehaviour
     // This is the super old way of creating orders. //
     public void CreateOrder()
     {
-        orderManager.SendOrder(OrderManager.ManuallyCreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
+        orderManager.SendOrder(orderManager.ManuallyCreateOrder(colourDropdown, meatVegDropdown, spicyInput, chunkyInput));
         orderCreatedText.gameObject.SetActive(true);
         orderCreatedTextTimer = 0;
 
@@ -631,6 +631,10 @@ public class MenuManager : MonoBehaviour
             case ThrowCharge.STRONG:
                 throwCharge.color = Color.red;
                 throwState.color = Color.red;
+                break;
+            default:
+                throwCharge.color = Color.white;
+                throwState.color = Color.white;
                 break;
         }
     }

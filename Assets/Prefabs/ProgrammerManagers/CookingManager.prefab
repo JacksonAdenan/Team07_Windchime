@@ -54,8 +54,66 @@ MonoBehaviour:
     currentChunky: 0
     currentSweet: 0
     currentColour:
-      name: 
-      RGBValue: {x: 0, y: 0, z: 0}
+      blue:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      red:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      lightGreen:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      darkGreen:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      yellow:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      pink:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      orange:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      darkRed:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      aqua:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      orchid:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      salmon:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
+      violet:
+        name: 
+        RGBValue:
+          serializedVersion: 2
+          rgba: 0
     cookingTimer: 0
     cookingDuration: 5
     waterCenteringSpeed: 0.05
@@ -63,6 +121,11 @@ MonoBehaviour:
     water: {fileID: 0}
     waterShader: {fileID: -6465566751694194690, guid: fa85fc9507af8ef4a8385a8fac36bf36,
       type: 3}
+    ingredientShrinkTime: 0.05
+    ingredientCenteringSpeed: 0.01
+    ingredientShrinkSize: 0.38
+    spinningStartTime: 0.75
+    spinningSpeed: 2
   theSlicer:
     cutterSkinnedMesh: {fileID: 0}
     cutterGauge1Transform: {fileID: 0}
@@ -89,17 +152,21 @@ MonoBehaviour:
     blendProgress: 0
     isHalfBlended: 0
     isFullBlended: 0
+    ingredientShrinkTime: 0.05
+    ingredientCenteringSpeed: 0.01
+    ingredientShrinkSize: 0.38
   theCatcher:
     currentPortions: []
     currentCatcherState: 1
     emptyAttachedCapsule: {fileID: 0}
-    filledAttachedCapsule: {fileID: 0}
     hasCapsule: 1
+    skinnedMesh: {fileID: 0}
   theCanon:
     canon: {fileID: 0}
     currentCanonState: 0
     isLoaded: 0
     canonCapsule: {fileID: 0}
+    currentSoup: {fileID: 0}
   itemFabricator: {fileID: 0}
   adjustableItemSpawnPoint: {fileID: 0}
   adjustableWater: {fileID: 0}
