@@ -44516,7 +44516,27 @@ PrefabInstance:
     - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
         type: 3}
       propertyPath: superWeakThrowStrength
-      value: 0.2
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: eyesMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: cf8f78e80e28ccb4aa591cebcc0c6c9f, type: 2}
+    - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: weakThrowThreshold
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: handReturnSpeed
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4471720074312886733, guid: 4555a5c923190204593b33d328f2b91a,
+        type: 3}
+      propertyPath: handSwayHorizontalClamp
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6999435598105673239, guid: 4555a5c923190204593b33d328f2b91a,
         type: 3}

@@ -29,7 +29,8 @@ public enum ThrowCharge
     SUPER_WEAK,
     WEAK,
     MEDIUM,
-    STRONG
+    STRONG,
+    NOT_THROWING
 }
 
 
@@ -50,6 +51,8 @@ public class MouseLook : MonoBehaviour
     public float handControlSensitivity = 100f;
     public float roationLerpSpeed;
     public float handReturnSpeed = 0.05f;
+    public float handSwaySpeed = 1;
+    public float handSwayHorizontalClamp = 0.3f;
 
     [Header("Hand Deadzones")]
     public float handZDistance = 0.7f;
@@ -177,6 +180,10 @@ public class MouseLook : MonoBehaviour
     public ThrowCharge currentThrowCharge = ThrowCharge.WEAK;
 
 
+    [Header("Throw Animation Things")]
+    public Material eyesMaterial;
+
+
     [Header("Old Throwing Mechanics")]
     public float tempThrowForce = 0;
     // ------------------------------------------------------------------------------------------------- //
@@ -243,6 +250,16 @@ public class MouseLook : MonoBehaviour
         if (isHoldingItem)
         {
             ThrowTimer();
+        }
+        else
+        {
+            // Do idle hand eye thingy. //
+
+            eyesMaterial.SetInt("_Idle", 1);
+            eyesMaterial.SetInt("_Throw", 0);
+            eyesMaterial.SetInt("_Charge", 0);
+
+            Debug.Log("no threshold");
         }
     }
 
@@ -627,8 +644,8 @@ public class MouseLook : MonoBehaviour
 
 
         handAcceleration = mouseX;
-        handAcceleration = Mathf.Clamp(handAcceleration, -0.05f, 0.05f);
-        handVelocity += (handAcceleration) * Time.deltaTime;
+        handAcceleration = Mathf.Clamp(handAcceleration, -0.005f, 0.005f);
+        handVelocity += (handAcceleration * handSwaySpeed) * Time.deltaTime;
 
 
 
@@ -637,7 +654,7 @@ public class MouseLook : MonoBehaviour
         if (handAcceleration != 0 && isHandReturning == false)
         {
             float newHandX = hand.localPosition.x + handVelocity;
-            newHandX = Mathf.Clamp(newHandX, handFPSPos.x - 0.3f, handFPSPos.x + 0.3f);
+            newHandX = Mathf.Clamp(newHandX, handFPSPos.x - handSwayHorizontalClamp, handFPSPos.x + handSwayHorizontalClamp);
             hand.localPosition = new Vector3(newHandX, hand.localPosition.y, hand.localPosition.z);
         }
         else
@@ -1223,19 +1240,23 @@ public class MouseLook : MonoBehaviour
             if (charge == ThrowCharge.SUPER_WEAK)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * superWeakThrowStrength, ForceMode.Impulse);
+ 
             }
             else if (charge == ThrowCharge.WEAK)
             { 
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * weakThrowStrength, ForceMode.Impulse);
+                
             }
             else if (charge == ThrowCharge.MEDIUM)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * mediumThrowStrength, ForceMode.Impulse);
 
+
             }
             else if (charge == ThrowCharge.STRONG)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * strongThrowStrength, ForceMode.Impulse);
+
             }
 
 
@@ -1278,15 +1299,34 @@ public class MouseLook : MonoBehaviour
         if (throwCharge >= strongthrowThreshold)
         {
             currentThrowCharge = ThrowCharge.STRONG;
+            eyesMaterial.SetInt("_Idle", 0);
+            eyesMaterial.SetInt("_Throw", 1);
+            eyesMaterial.SetInt("_Charge", 0);
+
+            Debug.Log("strong threshold");
+
         }
         else if (throwCharge >= mediumThrowThreshold)
         {
             currentThrowCharge = ThrowCharge.MEDIUM;
+            eyesMaterial.SetInt("_Idle", 1);
+            eyesMaterial.SetInt("_Throw", 1);
+            eyesMaterial.SetInt("_Charge", 1);
+
+            Debug.Log("med threshold");
         }
         else if (throwCharge >= weakThrowThreshold)
         {
             currentThrowCharge = ThrowCharge.WEAK;
+            eyesMaterial.SetInt("_Idle", 0);
+
+            Debug.Log("weak threshold");
         }
+        else
+        {
+            currentThrowCharge = ThrowCharge.SUPER_WEAK;
+        }
+
     }
 
 
