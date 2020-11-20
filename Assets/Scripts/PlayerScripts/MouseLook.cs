@@ -173,9 +173,9 @@ public class MouseLook : MonoBehaviour
     public float mediumThrowStrength = 5;
     public float strongThrowStrength = 10;
 
-    public float weakThrowThreshold = 0;
-    public float mediumThrowThreshold = 2;
-    public float strongthrowThreshold = 4;
+    public float weakThrowThreshold = 0.5f;
+    public float mediumThrowThreshold = 1;
+    public float strongthrowThreshold = 2;
 
     public ThrowCharge currentThrowCharge = ThrowCharge.WEAK;
 
@@ -251,6 +251,7 @@ public class MouseLook : MonoBehaviour
         if(!isHoldingItem)
         {
             // Do idle hand eye thingy. //
+            currentThrowCharge = ThrowCharge.SUPER_WEAK;
 
             eyesMaterial.SetInt("_Idle", 1);
             eyesMaterial.SetInt("_Throw", 0);
@@ -514,7 +515,7 @@ public class MouseLook : MonoBehaviour
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
                 CheckHandReturn();
-                if (Input.GetMouseButtonUp(1) && isHoldingItem == true)
+                if ((Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(0)) && isHoldingItem == true)
                 {
                     ThrowItem(currentThrowCharge);
                 }
@@ -1287,11 +1288,16 @@ public class MouseLook : MonoBehaviour
     private void ThrowTimer()
     {
         throwingHeldDownTimer += Time.deltaTime;
-        if (throwingHeldDownTimer >= throwingChargeRate && throwCharge <= strongthrowThreshold)
+        if (throwCharge <= strongthrowThreshold)
         {
-            throwCharge += 1;
-            throwingHeldDownTimer = 0;
+            throwCharge += Time.deltaTime;
         }
+        //if (throwingHeldDownTimer >= throwingChargeRate && throwCharge <= strongthrowThreshold)
+        //{
+        //    throwCharge += 1;
+        //    throwingHeldDownTimer = 0;
+        //}
+
 
 
         if (throwCharge >= strongthrowThreshold)

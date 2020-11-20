@@ -632,6 +632,10 @@ public class MenuManager : MonoBehaviour
                 throwCharge.color = Color.red;
                 throwState.color = Color.red;
                 break;
+            default:
+                throwCharge.color = Color.white;
+                throwState.color = Color.white;
+                break;
         }
     }
 
