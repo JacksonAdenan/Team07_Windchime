@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1233135960302340317
 Transform:
@@ -60,8 +60,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3f94dba35dd81f04b9e1ba8eec9d1ea9, type: 2}
-  - {fileID: 2100000, guid: b0fa7a77ddfef844aaa1340bc30811c8, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,6 +105,8 @@ MonoBehaviour:
   chunkyText: {fileID: 0}
   meatText: {fileID: 0}
   colourText: {fileID: 0}
+  sweetnessText: {fileID: 0}
+  foodIcon: {fileID: 0}
 --- !u!114 &4450014002247262425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,3 +130,5 @@ MonoBehaviour:
   chunkyText: {fileID: 0}
   meatText: {fileID: 0}
   colourText: {fileID: 0}
+  sweetnessText: {fileID: 0}
+  foodIcon: {fileID: 0}

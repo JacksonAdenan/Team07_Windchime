@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 6865250992737487538}
   - component: {fileID: 6778358607745107482}
   - component: {fileID: 7195564576284741768}
-  - component: {fileID: -2030124944382698053}
   m_Layer: 0
   m_Name: Ship_Floor_Quarter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6865250992737487538
 Transform:
@@ -59,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ba0efb86dfe5e914d961c477d1c0d51a, type: 2}
+  - {fileID: 2100000, guid: b8105a880c22a464c90da19b389bbb18, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,16 +79,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &-2030124944382698053
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8370718003791093411}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: -0.25, z: 0}

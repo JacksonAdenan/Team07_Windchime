@@ -194,8 +194,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3f94dba35dd81f04b9e1ba8eec9d1ea9, type: 2}
-  - {fileID: 2100000, guid: b0fa7a77ddfef844aaa1340bc30811c8, type: 2}
+  - {fileID: 0}
+  - {fileID: 2100000, guid: 443dd08fe0fbd394e8f70a214ff6e008, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -240,6 +240,7 @@ MonoBehaviour:
   meatText: {fileID: 3086330048251366708}
   colourText: {fileID: 3086330048445111517}
   sweetnessText: {fileID: 174093432}
+  foodIcon: {fileID: 0}
 --- !u!1 &3086330047560109607
 GameObject:
   m_ObjectHideFlags: 0
