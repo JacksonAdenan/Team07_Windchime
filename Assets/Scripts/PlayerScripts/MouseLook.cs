@@ -246,12 +246,9 @@ public class MouseLook : MonoBehaviour
             gameManager.RestartGame();
         }
 
-        // Charging up throw. //
-        if (isHoldingItem)
-        {
-            ThrowTimer();
-        }
-        else
+        
+
+        if(!isHoldingItem)
         {
             // Do idle hand eye thingy. //
 
@@ -352,10 +349,11 @@ public class MouseLook : MonoBehaviour
                 }
                 break;
             case PlayerState.HOLDING_ITEM:
-                //if (Input.GetKeyDown(KeyCode.E))
-                //{
-                //    DropItem();
-                //}
+                if (Input.GetMouseButton(1))
+                {
+                    // Charging up throw. //
+                    ThrowTimer();
+                }
                 if (Input.GetMouseButtonUp(0))
                 {
                     ThrowItem(ThrowCharge.SUPER_WEAK);
@@ -516,7 +514,7 @@ public class MouseLook : MonoBehaviour
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
                 CheckHandReturn();
-                if (Input.GetMouseButton(1) && isHoldingItem == true)
+                if (Input.GetMouseButtonUp(1) && isHoldingItem == true)
                 {
                     ThrowItem(currentThrowCharge);
                 }
