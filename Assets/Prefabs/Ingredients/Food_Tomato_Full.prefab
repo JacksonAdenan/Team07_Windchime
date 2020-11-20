@@ -131,7 +131,9 @@ MonoBehaviour:
   colourTag: 1
   colour:
     name: 
-    RGBValue: {x: 0, y: 0, z: 0}
+    RGBValue:
+      serializedVersion: 2
+      rgba: 0
   currentState: 0
   prefab: {fileID: 1633860946880554479}
   halfedPrefab: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
@@ -139,3 +141,4 @@ MonoBehaviour:
   quateredPrefab: {fileID: 7902473618771109456, guid: 792620cf39df8d243911db4e187d44d3,
     type: 3}
   blendedPrefab: {fileID: 0}
+  icon: {fileID: 0}

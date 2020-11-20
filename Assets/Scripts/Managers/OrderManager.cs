@@ -18,14 +18,41 @@ public class OrderManager : MonoBehaviour
     public List<Order> acceptedOrders;
 
     // We have selectedOrder instead of just swapped around the positions of the orders in the array because we still want to keep track of which alien gets what food. //
-    public Order selectedOrder;
+    public int selectedOrder = -1;
 
     public static OrderScreenState currentScreenState;
 
     [Header("Order Mechanics")]
+    [HideInInspector]
     public float nextOrderTimer = 0;
     public float newOrderRate = 15;
     private bool isOrderAvailable = false;
+
+
+    public int pointsForSuccessfulOrder = 500;
+    public float timeForSuccessfulOrder = 60;
+
+    public int perfectRequirementPoints = 100;
+    public float perfectRequirementTime = 10;
+
+    public int acaceptableRequirementPoints = 25;
+    public float acceptableRequirementTime = 0;
+
+    [Header("Randomisation Number Things")]
+    public int spicyMin = 0;
+    [Tooltip("Max is exclusive")]
+    public int spicyMax = 6;
+
+    public int sweetnessMin = 0;
+    [Tooltip("Max is exclusive")]
+    public int sweetnessMax = 6;
+
+    public int chunkynessMin = 0;
+    [Tooltip("Max is exclusive")]
+    public int chunkynessMax = 6;
+
+
+
 
 
     // ---------------------- Colour Shenanigans ---------------------- //
@@ -63,7 +90,7 @@ public class OrderManager : MonoBehaviour
         AddAllColours(availableColours);
 
 
-        selectedOrder = null;
+        selectedOrder = -1;
 
      
     }
@@ -108,6 +135,7 @@ public class OrderManager : MonoBehaviour
         for (int i = 0; i < activeAliens.Count; i++)
         {
             activeAliens[i].Animate();
+            
         }
 
         for (int i = 0; i < destroyingAliens.Count; i++)
@@ -129,13 +157,18 @@ public class OrderManager : MonoBehaviour
 
     private void AddAllColours(List<Colour> list)
     {
-        list.Add(Colour.blue);
-        list.Add(Colour.red);
-        list.Add(Colour.green);
-        list.Add(Colour.orange);
-        list.Add(Colour.pink);
-        list.Add(Colour.purple);
-        list.Add(Colour.yellow);
+        list.Add(gameManager.colourManager.blue);
+        list.Add(gameManager.colourManager.red);
+        list.Add(gameManager.colourManager.lightGreen);
+        list.Add(gameManager.colourManager.darkGreen);
+        list.Add(gameManager.colourManager.orange);
+        list.Add(gameManager.colourManager.pink);
+        list.Add(gameManager.colourManager.orchid);
+        list.Add(gameManager.colourManager.yellow);
+        list.Add(gameManager.colourManager.salmon);
+        list.Add(gameManager.colourManager.violet);
+        list.Add(gameManager.colourManager.aqua);
+        list.Add(gameManager.colourManager.darkRed);
 
     }
 
@@ -144,13 +177,20 @@ public class OrderManager : MonoBehaviour
         // If they only have one accepted order. //
         if (acceptedOrders.Count == 0)
         {
-            selectedOrder = null;
+            if (selectedOrder != -1)
+            { 
+                selectedOrder = -1;
+            }
+
             Debug.Log("selected order is null");
+            Debug.Log("1accepted orders size: " + acceptedOrders.Count);
         }
-        else if (acceptedOrders.Count == 1)
+        else if (acceptedOrders.Count > 0 && selectedOrder == -1)
         {
-            selectedOrder = acceptedOrders[0];
-            Debug.Log("selected order is NOT null");
+            selectedOrder = 0;
+            Debug.Log("ASSIGNED SELECTED ORDER");
+            
+            
         }
     }
     public void SwapSelectedOrder()
@@ -158,13 +198,15 @@ public class OrderManager : MonoBehaviour
         // If they have 2 accepted orders. //
         if (acceptedOrders.Count > 1)
         {
-            if (selectedOrder == acceptedOrders[0])
+            if (selectedOrder == 0)
             {
-                selectedOrder = acceptedOrders[1];
+                Debug.Log("ASSIGNED SELECTED ORDER");
+                selectedOrder = 1;
             }
             else
             {
-                selectedOrder = acceptedOrders[0];
+                Debug.Log("ASSIGNED SELECTED ORDER");
+                selectedOrder = 0;
             }
         }    
     }
@@ -181,21 +223,34 @@ public class OrderManager : MonoBehaviour
     {
         if (acceptedOrders.Count < 2 && requestedOrders.Count == 0 && isOrderAvailable)
         {
-            SendOrder(CreateOrder());
+            SendOrder(CreateOrder());    
+        }
+
+
+        if (activeAliens.Count > 0 && acceptedOrders.Count == 0 && requestedOrders.Count == 1)
+        {
+            if (activeAliens[0].isOrderReady)
+            {
+                requestedOrders[0].isReady = true;
+            }
+        }
+        else if (activeAliens.Count > 1 && acceptedOrders.Count == 1 && requestedOrders.Count == 1)
+        {
+            if (activeAliens[1].isOrderReady)
+            {
+                requestedOrders[0].isReady = true;
+            }
         }
     }
     public void AcceptOrder(Order orderToAccept)
     {
         if (requestedOrders.Count == 1 && acceptedOrders.Count == 0)
         {
-            //alien1.GetComponent<Animator>().SetInteger("AlienPosition", 2);
+
             activeAliens[0].currentState = AlienState.WAITING;
-            Debug.Log("=============== ALIEN 1 WAITING ==========");
         }
         else if (requestedOrders.Count == 1 && acceptedOrders.Count == 1)
         {
-            //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 2);
-            Debug.Log("=============== ALIEN 2 WAITING_2 ==========");
             activeAliens[1].currentState = AlienState.WAITING_2;
         }
 
@@ -242,16 +297,18 @@ public class OrderManager : MonoBehaviour
         isOrderAvailable = false;
 
     }
+
+    public void OrderAppear()
+    {
+        
+    }
     public void SendOrder(Order orderToAdd)
     {
+        
         requestedOrders.Clear();
         requestedOrders.Add(orderToAdd);
 
         // Alien animation thingy //
-
-
-
-
         if (requestedOrders.Count == 1 && acceptedOrders.Count != 1)
         {
 
@@ -275,16 +332,14 @@ public class OrderManager : MonoBehaviour
             //alien2.GetComponent<Animator>().SetInteger("AlienPosition", 1);
             //alien2.CreateAlien(alien);
         }
-
-
     }
 
-    public static Order ManuallyCreateOrder(TMP_Dropdown colourPreference, TMP_Dropdown meatVegPref, TMP_InputField spicy, TMP_InputField chunky)
+    public Order ManuallyCreateOrder(TMP_Dropdown colourPreference, TMP_Dropdown meatVegPref, TMP_InputField spicy, TMP_InputField chunky)
     {
         Order newOrder = new Order();
 
         //newOrder.mainSoup = GetSoupFromDropdown(soup.value, soup);
-        newOrder.colourPreference = Colour.blue;
+        newOrder.colourPreference = gameManager.colourManager.blue;
 
         try
         {
@@ -345,9 +400,9 @@ public class OrderManager : MonoBehaviour
         colourNum = Random.Range(0, availableColours.Count);
         desiredColour = availableColours[colourNum];
 
-        desiredSpicyness = Random.Range(1, 6);
-        desiredChunkyness = Random.Range(1, 6);
-        desiredSweetness = Random.Range(1, 6);
+        desiredSpicyness = Random.Range(spicyMin, spicyMax);
+        desiredChunkyness = Random.Range(chunkynessMin, chunkynessMax);
+        desiredSweetness = Random.Range(sweetnessMin, sweetnessMax);
         
 
 
@@ -373,7 +428,7 @@ public class OrderManager : MonoBehaviour
 
     private bool CompareOrder(Soup soupToSubmit)
     {
-        bool isCorrectOrder = true;
+        bool isSuccessfulOrder = true;
 
         int chunkynessDifference;
         int spicynessDifference;
@@ -383,41 +438,123 @@ public class OrderManager : MonoBehaviour
         chunkynessDifference = (int)soupToSubmit.chunkyValue - (int)acceptedOrders[0].chunkiness;
         sweetnessDifference = (int)soupToSubmit.sweetnessValue - (int)acceptedOrders[0].sweetness;
 
-        // Spicyness and chunkyness check.
-        if (spicynessDifference != 0)
+
+        // Early out if the player submitted empty capsule. //
+        if (soupToSubmit.usedIngredients.Count == 0)
         {
-            isCorrectOrder = false;
-        }
-        if (chunkynessDifference != 0)
-        {
-            isCorrectOrder = false;
-        }
-        if (sweetnessDifference != 0)
-        {
-            isCorrectOrder = false;
+            isSuccessfulOrder = false;
+            return false;
         }
 
-        // we do have colours now.
-        if (soupToSubmit.colour.name != acceptedOrders[0].colourPreference.name)
+
+
+        // --------------------------------- Spicyness --------------------------------- //
+        if (spicynessDifference == 0)
         {
-            isCorrectOrder = false;
+            RewardPoints(perfectRequirementPoints);
+            RewardTime(perfectRequirementTime);
+
+            Debug.Log("Perfect spicyness acheived.");
+        }
+        else if (spicynessDifference > CalculateLowerHalf((float)acceptedOrders[0].spicyness) && spicynessDifference < CalculateUpperHalf((int)acceptedOrders[0].spicyness))
+        {
+            RewardPoints(acaceptableRequirementPoints);
+            RewardTime(acceptableRequirementTime);
+
+            Debug.Log("Acceptable spicyness acheived.");
+        }
+        else
+        {
+            Debug.Log("Failed spicyness");
+            isSuccessfulOrder = false;
+        }
+        // ----------------------------------------------------------------------------- //
+
+        // --------------------------------- Chunkyness --------------------------------- //
+        if (chunkynessDifference == 0)
+        {
+            RewardPoints(perfectRequirementPoints);
+            RewardTime(perfectRequirementTime);
+
+            Debug.Log("Perfect chunkyness acheived.");
+        }
+        else if (chunkynessDifference > CalculateLowerHalf((float)acceptedOrders[0].chunkiness) && chunkynessDifference < CalculateUpperHalf((int)acceptedOrders[0].chunkiness))
+        {
+            RewardPoints(acaceptableRequirementPoints);
+            RewardTime(acceptableRequirementTime);
+
+            Debug.Log("Acceptable chunkyness acheived.");
+        }
+        else
+        {
+            Debug.Log("Failed chunkyness");
+            isSuccessfulOrder = false;
+        }
+        // -------------------------------------------------------------------------------- //
+
+        // --------------------------------- Sweetness --------------------------------- //
+        if (sweetnessDifference == 0)
+        {
+            RewardPoints(perfectRequirementPoints);
+            RewardTime(perfectRequirementTime);
+
+            Debug.Log("Perfect sweetness acheived.");
+        }
+        else if (sweetnessDifference > CalculateLowerHalf((float)acceptedOrders[0].sweetness) && sweetnessDifference < CalculateUpperHalf((int)acceptedOrders[0].sweetness))
+        {
+            RewardPoints(acaceptableRequirementPoints);
+            RewardTime(acceptableRequirementTime);
+
+            Debug.Log("Acceptable sweetness acheived.");
+        }
+        else
+        {
+            Debug.Log("Failed sweetness");
+            isSuccessfulOrder = false;
+        }
+        // ------------------------------------------------------------------------------ //
+
+        // --------------------------------- Colours --------------------------------- //
+        if (soupToSubmit.colour.name == acceptedOrders[0].colourPreference.name)
+        {
+            RewardPoints(perfectRequirementPoints);
+            RewardTime(perfectRequirementTime);
+            Debug.Log("Got colour correct.");
+        }
+        else
+        {
+            isSuccessfulOrder = false;
             Debug.Log("Got colour incorrect.");
         }
+        // --------------------------------------------------------------------------- //
 
-        // Meat/Veg points.
-        // -5 points if they give them something they didn't want. +5 if they got it right.
+
+        // --------------------------------- Food Requirement --------------------------------- //
         if (soupToSubmit.ContainsMeat() && acceptedOrders[0].noMeat)
         {
-            isCorrectOrder = false;
+            isSuccessfulOrder = false;
         }
         else if (soupToSubmit.ContainsVeg() && acceptedOrders[0].noVeg)
         {
-            isCorrectOrder = false;
+            isSuccessfulOrder = false;
         }
+        else
+        {
+            // This if statement makes sure the player doesn't just submit empty capsules. //
+            if (soupToSubmit.usedIngredients.Count > 0)
+            { 
+                RewardPoints(perfectRequirementPoints);
+                RewardTime(perfectRequirementTime);
+
+                Debug.Log("Got food specification requirement correct.");
+            }
+        }
+        // ------------------------------------------------------------------------------------- //
 
 
         
-        if (isCorrectOrder)
+        // Returning true or false depending if the order was successful. //
+        if (isSuccessfulOrder)
         {
 
             return true;
@@ -436,7 +573,7 @@ public class OrderManager : MonoBehaviour
 
         Debug.Log("ACCEPTED ORDERS COUNT: " + acceptedOrders.Count + "========================");
         Debug.Log("ACTIVE ALIENS ORDERS COUNT: " + activeAliens.Count + "========================");
-        Debug.Log("ALIEN STATE: " + activeAliens[1].currentState + "========================");
+
 
         if (activeAliens.Count > 1 && activeAliens[1].currentState == AlienState.WAITING_2 && acceptedOrders.Count == 2)
         {
@@ -453,8 +590,8 @@ public class OrderManager : MonoBehaviour
 
         if (CompareOrder(soupToSubmit) == true)
         {
-            ScoreManager.currentScore += 500;
-            gameManager.gameTime += 30;
+            RewardPoints(pointsForSuccessfulOrder);
+            RewardTime(timeForSuccessfulOrder);
             Debug.Log("Correct order");
         }
         else
@@ -462,8 +599,33 @@ public class OrderManager : MonoBehaviour
             Debug.Log("Incorrect order.");
         }
 
+
+        // Clearing order from list. //
+        selectedOrder = -1;
         acceptedOrders.Remove(acceptedOrders[0]);
         currentScreenState = OrderScreenState.NEW_ORDER;
 
+    }
+
+    private void RewardPoints(int points)
+    {
+        ScoreManager.currentScore += points;
+        Debug.Log("Rewared " + points + " to the player.");
+    }
+    private void RewardTime(float time)
+    {
+        gameManager.gameTime += time;
+        Debug.Log("Rewarded " + time + " seconds to the player.");
+    }
+
+    public static float CalculateLowerHalf(float number)
+    {
+        float half = number / 2;
+        return number - half;
+    }
+    public static float CalculateUpperHalf(float number)
+    {
+        float half = number / 2;
+        return number + half;
     }
 }

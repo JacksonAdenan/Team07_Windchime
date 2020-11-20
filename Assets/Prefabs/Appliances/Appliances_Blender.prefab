@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 380454014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.016, z: 0}
-  m_LocalScale: {x: 0.39002255, y: 0.42966, z: 0.39002255}
+  m_LocalScale: {x: 0.43292505, y: 0.4769226, z: 0.43292505}
   m_Children: []
   m_Father: {fileID: 5724860373564231781}
   m_RootOrder: 2
@@ -277,6 +277,50 @@ MonoBehaviour:
   switchSpamCooldown: 0
   switchCooldownTimer: 0
   onCooldown: 0
+--- !u!64 &8430455247461622456
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435839747876919494}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5447036705194824928, guid: 9e3611b2dabf2ae40a2ea675b102525f, type: 3}
+--- !u!114 &8621882620997986048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435839747876919494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8191ff5ba031f8e4e8641ef978a349cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 6
+  switchSpamCooldown: 0
+  switchCooldownTimer: 0
+  onCooldown: 0
+--- !u!64 &806557119
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4529207647471320258}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7065439566198968859, guid: 9e3611b2dabf2ae40a2ea675b102525f, type: 3}
 --- !u!54 &806557118
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -293,7 +337,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &806557119
+--- !u!64 &2610988689166711996
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -407,7 +451,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 52ac46ea00ff39e4dae666f6d7e8ade0, type: 2}
+      objectReference: {fileID: 2100000, guid: f816b047d4a7f2344acac0dd96af6ed6, type: 2}
     - target: {fileID: -927199367670048503, guid: 9e3611b2dabf2ae40a2ea675b102525f,
         type: 3}
       propertyPath: m_Name

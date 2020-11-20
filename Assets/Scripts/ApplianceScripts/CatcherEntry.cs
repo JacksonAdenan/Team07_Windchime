@@ -24,8 +24,15 @@ public class CatcherEntry : MonoBehaviour
     {
         if (obj.tag == "SoupPortion" && theCatcher.currentPortions.Count < 5 && theCatcher.currentCatcherState != CatcherState.EMPTY)
         {
-            theCatcher.CatchSoup(obj.transform);
-            
+            // These two if statements will stop different soups from mixing into the one capsule.
+            if (theCatcher.currentPortions.Count >= 1 && obj.GetComponent<SoupData>().theSoup.colour.name == theCatcher.currentPortions[0].colour.name)
+            {
+                theCatcher.CatchSoup(obj.transform);
+            }
+            else if (theCatcher.currentPortions.Count == 0)
+            {
+                theCatcher.CatchSoup(obj.transform);
+            }        
         }
         
     }

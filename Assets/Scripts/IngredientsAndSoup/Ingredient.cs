@@ -26,7 +26,8 @@ public class Ingredient : MonoBehaviour
     public bool isMeat;
 
     public Colour_Tag colourTag;
-    [Tooltip("Don't set this colour value. It's automatically set by the colourTag.")]
+    //[Tooltip("Don't set this colour value. It's automatically set by the colourTag.")]
+    [HideInInspector]
     public Colour colour;
 
     public IngredientState currentState;
@@ -34,6 +35,8 @@ public class Ingredient : MonoBehaviour
     public Transform prefab;
     public Transform halfedPrefab;
     public Transform quateredPrefab;
+
+    [HideInInspector]
     public Transform blendedPrefab;
 
     public SpriteRenderer icon;
@@ -42,10 +45,7 @@ public class Ingredient : MonoBehaviour
     {
 
         gameManager = GameManager.GetInstance();
-
-
-        Debug.Log("----------------------------- HEYYYYY -------------");
-        colour = Colour.ConvertColour(colourTag);
+        colour = gameManager.colourManager.ConvertColour(colourTag);
     }
     public Ingredient(string name, float spicy, float chunky, bool isMeat)
     {
@@ -64,7 +64,7 @@ public class Ingredient : MonoBehaviour
         Debug.Log(ingredientName + "just spawned a blendedPrefab.");
         // Setting the colour of the occupying soup. //
         Material newMaterial = new Material(gameManager.cookingManager.theOrb.waterShader);
-        newMaterial.SetColor("Color_6EDA1D08", Colour.ConvertColour(colour));
+        newMaterial.SetColor("Color_6EDA1D08", gameManager.colourManager.ConvertColour(colour));
         blendedPrefab.GetComponent<Renderer>().material = newMaterial;
 
         return blendedPrefab;

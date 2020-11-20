@@ -19,19 +19,25 @@ public enum CatcherState
 public class SoupCatcher
 {
 
+    GameManager gameManager;
+
+
     // Soup catcher stats and current things. //
     public List<Soup> currentPortions;
     public CatcherState currentCatcherState = CatcherState.EMPTY;
 
     public Transform emptyAttachedCapsule;
-    public Transform filledAttachedCapsule;
+    //public Transform filledAttachedCapsule;
 
     public bool hasCapsule = true;
 
+    public SkinnedMeshRenderer skinnedMesh;
 
     // Start is called before the first frame update
     public void Start()
     {
+        gameManager = GameManager.GetInstance();
+
         // Initialising catcher things. //
         currentPortions = new List<Soup>();
     }
@@ -50,6 +56,7 @@ public class SoupCatcher
         {
             currentPortions.Clear();
             currentCatcherState = CatcherState.EMPTY;
+            //skinnedMesh.material.color = Color.clear;
         }
         else if (currentPortions.Count == 0)
         {
@@ -82,26 +89,60 @@ public class SoupCatcher
         if (currentCatcherState == CatcherState.EMPTY)
         {
             emptyAttachedCapsule.gameObject.SetActive(false);
-            filledAttachedCapsule.gameObject.SetActive(false);
+            //filledAttachedCapsule.gameObject.SetActive(false);
+
         }
-        else if ((int)currentCatcherState >= 1 && (int)currentCatcherState < 5)
+        else if ((int)currentCatcherState == 1)
         {
             emptyAttachedCapsule.gameObject.SetActive(true);
-            filledAttachedCapsule.gameObject.SetActive(false);
+            //filledAttachedCapsule.gameObject.SetActive(false);
+
+            skinnedMesh.SetBlendShapeWeight(0, 0);
+        }
+        else if ((int)currentCatcherState == 2)
+        {
+            skinnedMesh.SetBlendShapeWeight(0, 20);
+
+        }
+        else if ((int)currentCatcherState == 3)
+        {
+            skinnedMesh.SetBlendShapeWeight(0, 40);
+        }
+        else if ((int)currentCatcherState == 4)
+        {
+            skinnedMesh.SetBlendShapeWeight(0, 60);
+        }
+        else if ((int)currentCatcherState == 5)
+        {
+            skinnedMesh.SetBlendShapeWeight(0, 80);
         }
         else if (currentCatcherState == CatcherState.FULL_CAPSULE)
         {
-            emptyAttachedCapsule.gameObject.SetActive(false);
-            filledAttachedCapsule.gameObject.SetActive(true);
+            //emptyAttachedCapsule.gameObject.SetActive(false);
+            //filledAttachedCapsule.gameObject.SetActive(true);
+
+            skinnedMesh.SetBlendShapeWeight(0, 100);
         }
 
     }
 
     public void CatchSoup(Transform soupToCatch)
     {
+
+
         currentPortions.Add(soupToCatch.GetComponent<SoupData>().theSoup);
         soupToCatch.gameObject.SetActive(false);
         Debug.Log("Caught a portion of soup.");
+
+
+        // Setting the colour if its the first portion in the catcher. //
+        if (currentPortions.Count == 1)
+        { 
+            Material newMaterial = skinnedMesh.material;
+
+            newMaterial.color = gameManager.colourManager.ConvertColour(currentPortions[0].colour);
+            skinnedMesh.material = newMaterial;
+        }
     }
 
     public void AttachCapsule()
@@ -113,5 +154,7 @@ public class SoupCatcher
     {
         hasCapsule = false;
         Debug.Log("hasCapsule is now FALSE");
+
+
     }
 }

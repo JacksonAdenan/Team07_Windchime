@@ -26,9 +26,11 @@ public enum PlayerState
 
 public enum ThrowCharge
 { 
+    SUPER_WEAK,
     WEAK,
     MEDIUM,
-    STRONG
+    STRONG,
+    NOT_THROWING
 }
 
 
@@ -49,6 +51,8 @@ public class MouseLook : MonoBehaviour
     public float handControlSensitivity = 100f;
     public float roationLerpSpeed;
     public float handReturnSpeed = 0.05f;
+    public float handSwaySpeed = 1;
+    public float handSwayHorizontalClamp = 0.3f;
 
     [Header("Hand Deadzones")]
     public float handZDistance = 0.7f;
@@ -163,15 +167,21 @@ public class MouseLook : MonoBehaviour
     [Tooltip("Charge rate per second. If set to 1, charge rate will increase 1 every second")]
     public float throwingChargeRate = 1;
     public float throwCharge = 0;
+    [Tooltip("superWeakThrowStrength is used for when the player lets go of an ingredient.")]
+    public float superWeakThrowStrength = 1;
     public float weakThrowStrength = 0;
     public float mediumThrowStrength = 5;
     public float strongThrowStrength = 10;
 
-    public float weakThrowThreshold = 0;
-    public float mediumThrowThreshold = 2;
-    public float strongthrowThreshold = 4;
+    public float weakThrowThreshold = 0.5f;
+    public float mediumThrowThreshold = 1;
+    public float strongthrowThreshold = 2;
 
     public ThrowCharge currentThrowCharge = ThrowCharge.WEAK;
+
+
+    [Header("Throw Animation Things")]
+    public Material eyesMaterial;
 
 
     [Header("Old Throwing Mechanics")]
@@ -220,7 +230,7 @@ public class MouseLook : MonoBehaviour
         UpdatePlayerState();
         InputState();
  
-        Debug.Log(currentPlayerState.ToString());
+   
 
         if (!isCentered)
         {
@@ -236,10 +246,18 @@ public class MouseLook : MonoBehaviour
             gameManager.RestartGame();
         }
 
-        // Charging up throw. //
-        if (isHoldingItem)
+        
+
+        if(!isHoldingItem)
         {
-            ThrowTimer();
+            // Do idle hand eye thingy. //
+            currentThrowCharge = ThrowCharge.SUPER_WEAK;
+
+            eyesMaterial.SetInt("_Idle", 1);
+            eyesMaterial.SetInt("_Throw", 0);
+            eyesMaterial.SetInt("_Charge", 0);
+
+            Debug.Log("no threshold");
         }
     }
 
@@ -248,7 +266,7 @@ public class MouseLook : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.LOOKING_AT_ITEM:
-                if (Input.GetMouseButton(0))
+                if (Input.GetMouseButtonDown(0) && !Input.GetMouseButton(1))
                 {
                     if (selectedItem.tag != "Soup" && selectedItem.tag != "BlenderCover" && selectedItem.tag != "CatcherCapsule" && selectedItem.tag != "CanonCapsule")
                     {
@@ -279,17 +297,23 @@ public class MouseLook : MonoBehaviour
                         if (gameManager.cookingManager.theCatcher.hasCapsule)
                         {
                             Debug.Log("REMOVED CATCHER CAPSULE");
-                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE)
-                            {
-                                Detach(theCatcher.filledAttachedCapsule);
-                            }
-                            else
+                            if (theCatcher.currentCatcherState == CatcherState.FULL_CAPSULE || theCatcher.currentCatcherState == CatcherState.EMPTY_CAPSULE)
                             {
                                 Detach(theCatcher.emptyAttachedCapsule);
+
+                                // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
+                                theCatcher.RemoveCapsule();
                             }
 
-                            // REMEMBER TO RUN REMOVE CAPSULE FUNCTION TO CLEAR THE CATCHER. //
-                            theCatcher.RemoveCapsule();
+                            // I commented this out so that way I don't have to handle if the player removes a capsule with incomplete soup. //
+
+                            //else
+                            //{
+                            //    Detach(theCatcher.emptyAttachedCapsule);
+                            //}
+
+                            
+                            
                         }
                     }
                     else if (selectedItem.tag == "CanonCapsule")
@@ -326,13 +350,14 @@ public class MouseLook : MonoBehaviour
                 }
                 break;
             case PlayerState.HOLDING_ITEM:
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButton(1))
                 {
-                    DropItem();
+                    // Charging up throw. //
+                    ThrowTimer();
                 }
-                else if (Input.GetMouseButtonUp(0))
+                if (Input.GetMouseButtonUp(0))
                 {
-                    ThrowItem();
+                    ThrowItem(ThrowCharge.SUPER_WEAK);
                 }
                 break;
 
@@ -490,23 +515,21 @@ public class MouseLook : MonoBehaviour
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
                 CheckHandReturn();
-                if (Input.GetMouseButton(1))
+                if ((Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(0)) && isHoldingItem == true)
                 {
-                    currentCameraMode = CameraMode.HAND_CONTROL;
+                    ThrowItem(currentThrowCharge);
                 }
                 break;
             case CameraMode.pauseMode:
                 CameraPause();
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
-                Debug.Log("Paused");
 
                 // Un freezing time on pause screen exit. //
                 if (Input.GetKey(KeyCode.Escape))
                 {
                     Time.timeScale = 1;
-                }
-                
+                }      
                 break;
         }
     }
@@ -620,8 +643,8 @@ public class MouseLook : MonoBehaviour
 
 
         handAcceleration = mouseX;
-        handAcceleration = Mathf.Clamp(handAcceleration, -0.05f, 0.05f);
-        handVelocity += (handAcceleration) * Time.deltaTime;
+        handAcceleration = Mathf.Clamp(handAcceleration, -0.005f, 0.005f);
+        handVelocity += (handAcceleration * handSwaySpeed) * Time.deltaTime;
 
 
 
@@ -630,7 +653,7 @@ public class MouseLook : MonoBehaviour
         if (handAcceleration != 0 && isHandReturning == false)
         {
             float newHandX = hand.localPosition.x + handVelocity;
-            newHandX = Mathf.Clamp(newHandX, handFPSPos.x - 0.3f, handFPSPos.x + 0.3f);
+            newHandX = Mathf.Clamp(newHandX, handFPSPos.x - handSwayHorizontalClamp, handFPSPos.x + handSwayHorizontalClamp);
             hand.localPosition = new Vector3(newHandX, hand.localPosition.y, hand.localPosition.z);
         }
         else
@@ -649,7 +672,6 @@ public class MouseLook : MonoBehaviour
         if(Vector2.Distance(hand.localPosition, handFPSPos) < 0.05f)
         {
             isHandReturning = false;
-            Debug.Log("FALSE");
         }
     }
 
@@ -683,6 +705,7 @@ public class MouseLook : MonoBehaviour
                 defaultMat = null;
             }
             selectedItem = null;
+            defaultMat = null;
         }
         // Resetting switches //
         if (IsLookingAtSwitch() == null)
@@ -871,13 +894,27 @@ public class MouseLook : MonoBehaviour
 
         isHoldingItem = true;
         Transform currentObj = itemToPickUp;
+
+        // We have to reset the trigger and scale before we traverse to the parent because the parent wont have a collider and transform.
+        // If something has changed it's trigger settings or scale, we're going to fix them here. //
+        // And we only want to reset these things for whole ingredients. //
+        if (currentObj.tag == "Ingredient" && currentObj.GetComponent<Ingredient>().currentState == IngredientState.WHOLE)
+        { 
+            currentObj.transform.localScale = Vector3.one;
+        }
+        // This is outside of the if statement because regardless of whether or not the item is an ingredient, whole or whatever, we stil want to make it's trigger true.
+        currentObj.GetComponent<Collider>().isTrigger = false;
+
         while (currentObj.parent != null)
         {
             currentObj = currentObj.parent;
         }
         //if (itemToPickUp.parent != null)
         //{
-          
+
+
+
+
         heldItem = currentObj;
         heldItem.SetParent(hand);
         heldItem.localPosition = new Vector3(heldItemPosX, heldItemPosY, heldItemPosZ);
@@ -979,6 +1016,11 @@ public class MouseLook : MonoBehaviour
     void Detach(Transform itemToPickUp)
     {
         Transform capsule = Instantiate(itemToPickUp, itemToPickUp.position, itemToPickUp.rotation);
+
+        // Have to set a new material just so that its not using the same material as every other capsule.
+        Material newMaterial = capsule.GetChild(1).GetComponent<SkinnedMeshRenderer>().material;
+        capsule.GetChild(1).GetComponent<SkinnedMeshRenderer>().material = newMaterial;
+
         FindRenderer(capsule).material = defaultMat;
 
         // Giving the capsule appropriate soup data. //
@@ -1000,6 +1042,7 @@ public class MouseLook : MonoBehaviour
             {
                 Debug.Log("SET CAPSULES SOUP DATA");
                 capsule.gameObject.GetComponent<SoupData>().theSoup = theCatcher.currentPortions[0];
+                capsule.gameObject.GetComponent<SoupData>().currentPortions = theCatcher.currentPortions.Count;
             }
         }
 
@@ -1148,7 +1191,7 @@ public class MouseLook : MonoBehaviour
         
     }
 
-    void ThrowItem()
+    void ThrowItem(ThrowCharge charge)
     {
         
 
@@ -1157,8 +1200,9 @@ public class MouseLook : MonoBehaviour
         
         // I think this if statement is unnecessary?? //
         if (Physics.Raycast(gameObject.transform.position, gameObject.GetComponent<Camera>().transform.forward * 100, 100, ~(1 << 2)))
-        { 
+        {
             throwDirection = (target.point - heldItem.position).normalized;
+
             heldItem.GetComponent<Rigidbody>().useGravity = false;
             heldItem.GetComponent<Rigidbody>().isKinematic = false;
 
@@ -1192,18 +1236,26 @@ public class MouseLook : MonoBehaviour
 
 
             // Adding force based on charged throw //
-            if (currentThrowCharge == ThrowCharge.WEAK)
+            if (charge == ThrowCharge.SUPER_WEAK)
+            {
+                heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * superWeakThrowStrength, ForceMode.Impulse);
+ 
+            }
+            else if (charge == ThrowCharge.WEAK)
             { 
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * weakThrowStrength, ForceMode.Impulse);
+                
             }
-            else if (currentThrowCharge == ThrowCharge.MEDIUM)
+            else if (charge == ThrowCharge.MEDIUM)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * mediumThrowStrength, ForceMode.Impulse);
 
+
             }
-            else if (currentThrowCharge == ThrowCharge.STRONG)
+            else if (charge == ThrowCharge.STRONG)
             {
                 heldItem.GetComponent<Rigidbody>().AddForce(throwDirection * strongThrowStrength, ForceMode.Impulse);
+
             }
 
 
@@ -1236,25 +1288,49 @@ public class MouseLook : MonoBehaviour
     private void ThrowTimer()
     {
         throwingHeldDownTimer += Time.deltaTime;
-        if (throwingHeldDownTimer >= throwingChargeRate && throwCharge <= strongthrowThreshold)
+        if (throwCharge <= strongthrowThreshold)
         {
-            throwCharge += 1;
-            throwingHeldDownTimer = 0;
+            throwCharge += Time.deltaTime;
         }
+        //if (throwingHeldDownTimer >= throwingChargeRate && throwCharge <= strongthrowThreshold)
+        //{
+        //    throwCharge += 1;
+        //    throwingHeldDownTimer = 0;
+        //}
+
 
 
         if (throwCharge >= strongthrowThreshold)
         {
             currentThrowCharge = ThrowCharge.STRONG;
+            eyesMaterial.SetInt("_Idle", 0);
+            eyesMaterial.SetInt("_Throw", 1);
+            eyesMaterial.SetInt("_Charge", 0);
+
+            Debug.Log("strong threshold");
+
         }
         else if (throwCharge >= mediumThrowThreshold)
         {
             currentThrowCharge = ThrowCharge.MEDIUM;
+            eyesMaterial.SetInt("_Idle", 1);
+            eyesMaterial.SetInt("_Throw", 1);
+            eyesMaterial.SetInt("_Charge", 1);
+
+            Debug.Log("med threshold");
         }
         else if (throwCharge >= weakThrowThreshold)
         {
             currentThrowCharge = ThrowCharge.WEAK;
+            eyesMaterial.SetInt("_Idle", 0);
+
+            Debug.Log("weak threshold");
         }
+        else
+        {
+            currentThrowCharge = ThrowCharge.SUPER_WEAK;
+        }
+
     }
 
 
@@ -1413,7 +1489,6 @@ public class MouseLook : MonoBehaviour
     {
         if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
-            Debug.Log("Raycast from hand");
             // Doing raycast from hand //
             Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
             Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
@@ -1422,7 +1497,6 @@ public class MouseLook : MonoBehaviour
         }
         else if (currentCameraMode == CameraMode.FPS_CONTROL)
         {
-            Debug.Log("Raycast from screen.");
             // Doing raycast from screen //
             Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~((1 << 2) | (1 << 9)));
             Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.blue);

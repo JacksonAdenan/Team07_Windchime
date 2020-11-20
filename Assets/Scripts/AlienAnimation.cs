@@ -13,20 +13,29 @@ public enum AlienState
     LEAVING_HAPPILY
 }
 
+
 [Serializable]
 public class AlienAnimation
 {
     public AlienState currentState = AlienState.ORDERING;
     public Transform alien;
+    [HideInInspector]
+    public Animator alienAnimator;
 
 
     public float timer = 0;
     public bool destroy = false;
 
     public float waitTimer = 0;
+
+
+
+    [HideInInspector]
+    public bool isOrderReady = false;
     public void CreateAlien(Transform alienTransform)
     {
         alien = GameObject.Instantiate(alienTransform, alienTransform.transform.parent);
+        alienAnimator = alien.GetComponent<Animator>();
     }
     // Start is called before the first frame update
     public void DeleteAlien()
@@ -48,6 +57,7 @@ public class AlienAnimation
             case AlienState.ORDERING:
                 alien.GetComponent<Animator>().SetInteger("AlienPosition", 1);
                 alien.GetChild(1).GetComponent<Animator>().SetBool("Ordering", true);
+                CheckIfOrderComplete();
                 break;
             case AlienState.LEAVING:
                 alien.GetComponent<Animator>().SetInteger("AlienPosition", 4);
@@ -65,6 +75,16 @@ public class AlienAnimation
                 break;
         }
     }
+
+    void CheckIfOrderComplete()
+    {
+        if (alienAnimator.GetCurrentAnimatorStateInfo(0).IsName("SpawnToOrder") && alienAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            isOrderReady = true;
+            Debug.Log("Reaaaaaaaaaaady");
+        }
+    }
+
     void Start()
     {
         

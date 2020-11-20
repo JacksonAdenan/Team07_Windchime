@@ -128,10 +128,12 @@ MonoBehaviour:
   chunkyness: 1
   sweetness: 2
   isMeat: 0
-  colourTag: 3
+  colourTag: 11
   colour:
     name: 
-    RGBValue: {x: 0, y: 0, z: 0}
+    RGBValue:
+      serializedVersion: 2
+      rgba: 0
   currentState: 0
   prefab: {fileID: 525426587484160503}
   halfedPrefab: {fileID: 2181567891206760283, guid: c48bbf5e10834f64ea6e460a788536aa,

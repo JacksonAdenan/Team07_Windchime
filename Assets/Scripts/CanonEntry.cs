@@ -20,8 +20,12 @@ public class CanonEntry : MonoBehaviour
 
     void OnTriggerEnter(Collider obj)
     {
+        Transform parentPrefab = obj.transform;
         // Because the item we are holding is actually the parent prefab and the obj the trigger detected is just the mesh, we need to get the parentPrefab manually. 
-        Transform parentPrefab = obj.transform.parent;
+        if (obj.transform.parent != null)
+        { 
+            parentPrefab = obj.transform.parent;
+        }
 
         if (parentPrefab.tag == "Capsule" && MouseLook.heldItem != parentPrefab.gameObject.transform && !gameManager.cookingManager.theCanon.isLoaded)
         {
