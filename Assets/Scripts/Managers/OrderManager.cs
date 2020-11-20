@@ -573,7 +573,7 @@ public class OrderManager : MonoBehaviour
 
         Debug.Log("ACCEPTED ORDERS COUNT: " + acceptedOrders.Count + "========================");
         Debug.Log("ACTIVE ALIENS ORDERS COUNT: " + activeAliens.Count + "========================");
-        Debug.Log("ALIEN STATE: " + activeAliens[1].currentState + "========================");
+
 
         if (activeAliens.Count > 1 && activeAliens[1].currentState == AlienState.WAITING_2 && acceptedOrders.Count == 2)
         {
@@ -601,6 +601,7 @@ public class OrderManager : MonoBehaviour
 
 
         // Clearing order from list. //
+        selectedOrder = -1;
         acceptedOrders.Remove(acceptedOrders[0]);
         currentScreenState = OrderScreenState.NEW_ORDER;
 
