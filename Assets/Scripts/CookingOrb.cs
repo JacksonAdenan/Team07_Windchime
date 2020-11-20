@@ -300,7 +300,7 @@ public class CookingOrb
         }
 
         // Setting the colour by last ingredient in the soup //
-        newSoup.colour = newSoup.usedIngredients[newSoup.usedIngredients.Count - 1].colour;
+        newSoup.colour = newSoup.usedIngredients[0].colour;
 
         return newSoup;
     }
