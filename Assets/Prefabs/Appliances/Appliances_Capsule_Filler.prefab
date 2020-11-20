@@ -582,6 +582,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3182678135804923442}
     m_Modifications:
+    - target: {fileID: -9138384822779237652, guid: 312d96907be46ed4789a11fc3407b296,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 312d96907be46ed4789a11fc3407b296,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -641,6 +646,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Appliances_Capsule_Filler
+      objectReference: {fileID: 0}
+    - target: {fileID: -348602141123326254, guid: 312d96907be46ed4789a11fc3407b296,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 312d96907be46ed4789a11fc3407b296, type: 3}

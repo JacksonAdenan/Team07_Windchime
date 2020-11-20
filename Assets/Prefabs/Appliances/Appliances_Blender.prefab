@@ -333,6 +333,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5724860373564231781}
     m_Modifications:
+    - target: {fileID: -9138384822779237652, guid: 9e3611b2dabf2ae40a2ea675b102525f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: -7705851306704809388, guid: 9e3611b2dabf2ae40a2ea675b102525f,
         type: 3}
       propertyPath: m_TagString
