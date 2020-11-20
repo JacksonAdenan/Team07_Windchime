@@ -90,7 +90,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701539547918257742}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -110,12 +110,20 @@ MonoBehaviour:
   ingredientName: apple
   spicyness: 0
   chunkyness: 3
+  sweetness: 0
   isMeat: 0
+  colourTag: 0
+  colour:
+    name: 
+    RGBValue:
+      serializedVersion: 2
+      rgba: 0
   currentState: 0
   prefab: {fileID: 884400586295720880}
   halfedPrefab: {fileID: 0}
   quateredPrefab: {fileID: 0}
   blendedPrefab: {fileID: 884400586295720880}
+  icon: {fileID: 0}
 --- !u!54 &-5566326718945512824
 Rigidbody:
   m_ObjectHideFlags: 0

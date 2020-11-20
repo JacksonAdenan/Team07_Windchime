@@ -45,15 +45,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requestedOrders: []
   acceptedOrders: []
-  selectedOrder:
-    orderName: 
-    colourPreference:
-      name: 
-      RGBValue: {x: 0, y: 0, z: 0}
-    spicyness: 0
-    chunkiness: 0
-    noMeat: 0
-    noVeg: 0
-    sweetness: 0
+  selectedOrder: -1
   nextOrderTimer: 0
-  newOrderRate: 0
+  newOrderRate: 5
+  pointsForSuccessfulOrder: 500
+  timeForSuccessfulOrder: 60
+  perfectRequirementPoints: 100
+  perfectRequirementTime: 10
+  acaceptableRequirementPoints: 25
+  acceptableRequirementTime: 0
+  spicyMin: 0
+  spicyMax: 6
+  sweetnessMin: 0
+  sweetnessMax: 6
+  chunkynessMin: 0
+  chunkynessMax: 6
+  alien: {fileID: 0}
+  activeAliens: []
+  destroyingAliens: []

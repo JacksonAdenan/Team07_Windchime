@@ -1618,7 +1618,9 @@ MonoBehaviour:
   colourTag: 0
   colour:
     name: 
-    RGBValue: {x: 0, y: 0, z: 0}
+    RGBValue:
+      serializedVersion: 2
+      rgba: 0
   currentState: 0
   prefab: {fileID: 884400586295720880, guid: c70c4a34e6e5c4c4fb23a37db88f14fe, type: 3}
   halfedPrefab: {fileID: 0}
@@ -1645,7 +1647,9 @@ MonoBehaviour:
   colourTag: 0
   colour:
     name: 
-    RGBValue: {x: 0, y: 0, z: 0}
+    RGBValue:
+      serializedVersion: 2
+      rgba: 0
   currentState: 0
   prefab: {fileID: 1475184736236626467, guid: 44d827bf43d2b264ebc0138482af0a39, type: 3}
   halfedPrefab: {fileID: 0}
@@ -1715,7 +1719,9 @@ MonoBehaviour:
   colourTag: 0
   colour:
     name: 
-    RGBValue: {x: 0, y: 0, z: 0}
+    RGBValue:
+      serializedVersion: 2
+      rgba: 0
   currentState: 0
   prefab: {fileID: 7864837139659601100, guid: 69a1ccd1a92218a43b3ecea70472eaf5, type: 3}
   halfedPrefab: {fileID: 0}
@@ -2341,6 +2347,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4000996055713155449}
     m_Modifications:
+    - target: {fileID: 544629423, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 230
+      objectReference: {fileID: 0}
+    - target: {fileID: 544629423, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 544629424, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 544629424, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 609708863, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: 609708863, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 609708864, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 609708864, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 706021743, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 230
+      objectReference: {fileID: 0}
+    - target: {fileID: 706021743, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 706021744, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 706021744, guid: a70408054f46c314aac963ec07d50141, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 8570229091375481698, guid: a70408054f46c314aac963ec07d50141,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2621,6 +2675,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4000996054146749253 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 620810839, guid: a70408054f46c314aac963ec07d50141,
+    type: 3}
+  m_PrefabInstance: {fileID: 4000996054733996306}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4000996055405191172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2013438230, guid: a70408054f46c314aac963ec07d50141,
+    type: 3}
+  m_PrefabInstance: {fileID: 4000996054733996306}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4000996055089365569 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1837073235, guid: a70408054f46c314aac963ec07d50141,
@@ -2657,30 +2735,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4000996053987857123 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 797398001, guid: a70408054f46c314aac963ec07d50141,
-    type: 3}
-  m_PrefabInstance: {fileID: 4000996054733996306}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4000996054146749253 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 620810839, guid: a70408054f46c314aac963ec07d50141,
-    type: 3}
-  m_PrefabInstance: {fileID: 4000996054733996306}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4000996055429992750 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2039222332, guid: a70408054f46c314aac963ec07d50141,
@@ -2705,9 +2759,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4000996055405191172 stripped
+--- !u!114 &4000996053987857123 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2013438230, guid: a70408054f46c314aac963ec07d50141,
+  m_CorrespondingSourceObject: {fileID: 797398001, guid: a70408054f46c314aac963ec07d50141,
     type: 3}
   m_PrefabInstance: {fileID: 4000996054733996306}
   m_PrefabAsset: {fileID: 0}
