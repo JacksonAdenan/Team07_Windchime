@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 6422064198650740692}
   - component: {fileID: 2717902200799479586}
   - component: {fileID: 7734346059319562850}
-  - component: {fileID: -2089612284193358333}
+  - component: {fileID: -2409163021763329557}
   m_Layer: 0
   m_Name: Ship_Wall_Middle_Long
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6422064198650740692
 Transform:
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &-2089612284193358333
+--- !u!65 &-2409163021763329557
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,4 +92,4 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.0000653, y: 3, z: 0.5}
-  m_Center: {x: -0.49996737, y: 1.5, z: -0.25}
+  m_Center: {x: -0.49996734, y: 1.5, z: -0.25}

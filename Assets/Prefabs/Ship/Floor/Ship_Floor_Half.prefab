@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 1994932028049478626}
   - component: {fileID: 7418671735374834132}
   - component: {fileID: 3875597929514571053}
-  - component: {fileID: -4102394411388810956}
   m_Layer: 0
   m_Name: Ship_Floor_Half
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1994932028049478626
 Transform:
@@ -59,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c277f3f6e15aa924aae30c3f66ff7900, type: 2}
+  - {fileID: 2100000, guid: b8105a880c22a464c90da19b389bbb18, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,17 +79,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &-4102394411388810956
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3311330745400074737}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1130151769033843964, guid: 0d1148a7d3a85784cb8be308c89e30b3, type: 3}

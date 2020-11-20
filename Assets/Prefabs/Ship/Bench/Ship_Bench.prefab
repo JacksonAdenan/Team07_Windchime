@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 5041461978832532689}
   - component: {fileID: 4033799612020576986}
   - component: {fileID: 8856931657502458394}
-  - component: {fileID: -6933657937288871918}
+  - component: {fileID: 4050072454938421616}
   m_Layer: 0
   m_Name: Ship_Bench
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5041461978832532689
 Transform:
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &-6933657937288871918
+--- !u!64 &4050072454938421616
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,7 +90,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4571780902318195944, guid: b75038307cacd5d448d97bf6ab9436d5, type: 3}
