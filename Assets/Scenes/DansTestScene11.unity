@@ -6253,6 +6253,10 @@ PrefabInstance:
       propertyPath: theCanon.canonButton
       value: 
       objectReference: {fileID: 1658508365}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theOrb.fireParticles
+      value: 
+      objectReference: {fileID: 493194227}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name
@@ -14922,6 +14926,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2181865958355692278, guid: 35ad19dad1b405047bf346473345ea5a,
     type: 3}
   m_PrefabInstance: {fileID: 490842570}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &493194227 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9135151311475051030, guid: 5c60787673a29904eb8924e98b508a14,
+    type: 3}
+  m_PrefabInstance: {fileID: 320258803}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &496761051
 PrefabInstance:

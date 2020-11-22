@@ -57,6 +57,10 @@ public class CookingOrb
     public float spinningSpeed = 2;
 
 
+    // Reference to fire particles so I can turn them on/off at the right moment. //
+    public Transform fireParticles;
+
+
 
 
 
@@ -82,6 +86,9 @@ public class CookingOrb
 
 
         shrinkingIngredients = new List<Transform>();
+
+        // Turning off the fire particles. //
+        fireParticles.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -104,6 +111,9 @@ public class CookingOrb
             }
             if (cookingTimer >= cookingDuration)
             {
+                // De-activating the fire particles. //
+                fireParticles.gameObject.SetActive(false);
+
 
                 SoundManager.StopPlayingSound(soundManager.cookingOrbSource);
                 SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbSuccessSound, false);
@@ -361,6 +371,9 @@ public class CookingOrb
     {
         // Making the cooking orb state OCCUPIED. //
         currentCookingOrbState = CookingOrbState.COOKING;
+
+        // Activating the fire particles. //
+        fireParticles.gameObject.SetActive(true);
 
         SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbCookingSound, true);
         SoundManager.PlaySound(soundManager.cookingOrbSource);
