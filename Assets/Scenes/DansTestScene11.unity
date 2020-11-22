@@ -6257,6 +6257,10 @@ PrefabInstance:
       propertyPath: theOrb.fireParticles
       value: 
       objectReference: {fileID: 493194227}
+    - target: {fileID: 1549842700, guid: 88736474dad34ba498a99071006082bd, type: 3}
+      propertyPath: theCanon.canonParticles
+      value: 
+      objectReference: {fileID: 1018364059}
     - target: {fileID: 3400544228088006549, guid: 88736474dad34ba498a99071006082bd,
         type: 3}
       propertyPath: m_Name
@@ -15998,6 +16002,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2073764804006277445, guid: ab776b9769eaea943b1606065c39fefb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2211205938021962382, guid: ab776b9769eaea943b1606065c39fefb,
         type: 3}
@@ -29922,6 +29931,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6322904804069925781, guid: d0483d0eb47b1ce4bb23dd7f9259e486,
     type: 3}
   m_PrefabInstance: {fileID: 1015132836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1018364059 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2073764804006277444, guid: ab776b9769eaea943b1606065c39fefb,
+    type: 3}
+  m_PrefabInstance: {fileID: 540767736}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1019269923
 PrefabInstance:
@@ -51597,7 +51612,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0

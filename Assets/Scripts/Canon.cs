@@ -39,6 +39,12 @@ public class Canon
     public Transform canonButton;
 
 
+    // Confetti particle stuff. //
+    public Transform canonParticles;
+    private float confetiiTimer = 0;
+    private bool displayParticles = false;
+
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -59,6 +65,10 @@ public class Canon
         // Canon updates //
         UpdateCanonState();
         UpdateCanonCapsule();
+
+
+        // Displaying confetii. //
+        DisplayConfetii();
     }
 
     void UpdateCanonCapsule()
@@ -109,6 +119,24 @@ public class Canon
         currentSoup = null;
     }
 
+    private void DisplayConfetii()
+    {
+        confetiiTimer += Time.deltaTime;
+        // Turning particles on.
+        if (!canonParticles.gameObject.activeSelf && displayParticles == true)
+        {
+            canonParticles.gameObject.SetActive(true);
+        }
+
+        // Turning particles off.
+        if (confetiiTimer >= 2)
+        {
+            displayParticles = false;
+            confetiiTimer = 0;
+            canonParticles.gameObject.SetActive(false);
+        }
+    }
+
     public void ShootCapsule()
     {
         if (orderManager.acceptedOrders.Count > 0 && isLoaded)
@@ -130,6 +158,10 @@ public class Canon
 
             // Display points
             MenuManager.DisplayOrderSubmittedText();
+
+
+            // Displaying confetti. //
+            displayParticles = true;
         }
         else
         {
