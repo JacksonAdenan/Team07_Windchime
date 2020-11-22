@@ -23,6 +23,7 @@ public class MonitorScreen : MonoBehaviour
 
     GameManager gameManager;
     OrderManager orderManager;
+    SoundManager soundManager;
     Canon theCanon;
 
 
@@ -60,13 +61,12 @@ public class MonitorScreen : MonoBehaviour
 
 
 
-
-
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameManager.GetInstance();
         orderManager = gameManager.orderManager;
+        soundManager = gameManager.soundManager;
 
         theCanon = gameManager.cookingManager.theCanon;
     }

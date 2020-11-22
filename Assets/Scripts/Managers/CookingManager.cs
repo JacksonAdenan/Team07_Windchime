@@ -60,6 +60,7 @@ public class CookingManager : MonoBehaviour
 
     public Transform adjustableWater;
     public static Transform water;
+    public Transform waterTap;
 
     public static WaterTapState currentWaterTapState;
 
@@ -145,6 +146,7 @@ public class CookingManager : MonoBehaviour
             Transform newWater = Object.Instantiate(water, water.position, water.rotation);
             newWater.gameObject.SetActive(true);
             currentWaterTapState = WaterTapState.OCCUPIED;
+            SoundManager.PlaySound(newWater.GetComponent<AudioSource>());
         }
         else
         {

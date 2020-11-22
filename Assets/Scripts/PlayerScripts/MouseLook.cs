@@ -628,7 +628,7 @@ public class MouseLook : MonoBehaviour
         float rotMouseX = Input.GetAxis("Mouse X") * rotationSensitivity * Time.deltaTime;
         float rotMouseY = Input.GetAxis("Mouse Y") * rotationSensitivity * Time.deltaTime;
 
-        
+
 
         xRotation -= rotMouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -905,7 +905,7 @@ public class MouseLook : MonoBehaviour
         // This is outside of the if statement because regardless of whether or not the item is an ingredient, whole or whatever, we stil want to make it's trigger true.
         currentObj.GetComponent<Collider>().isTrigger = false;
 
-        while (currentObj.parent != null)
+        while (currentObj.parent != null && currentObj.parent.tag == currentObj.tag)
         {
             currentObj = currentObj.parent;
         }

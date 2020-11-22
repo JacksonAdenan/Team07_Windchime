@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     public MenuManager menuManager;
     public MouseLook playerController;
     public ColourManager colourManager;
+    public SoundManager soundManager;
+    public MonitorManager monitorManager;
     
 
     public float gameTime = 5;

@@ -32,6 +32,10 @@ public enum BlenderButtonState
 [Serializable]
 public class Blender
 {
+
+    GameManager gameManager;
+    SoundManager soundManager;
+
     public Transform blender;
 
     // Triggers and stats for blender appliance. //
@@ -87,8 +91,18 @@ public class Blender
 
     private List<Transform> shrinkingIngredients;
 
+
+    [Header("Blender Part Reference For Sound")]
+    public Transform blenderButton;
+
+
+
     public void BlenderStart()
     {
+
+        gameManager = GameManager.GetInstance();
+        soundManager = gameManager.soundManager;
+
         currentBlenderIngredients = new List<Transform>();
 
         shrinkingIngredients = new List<Transform>();
@@ -220,6 +234,12 @@ public class Blender
     
     public void PopBlenderCover()
     {
+
+        // Popping sound //
+        SoundManager.SetSound(soundManager.blenderSource, soundManager.blendingLaunchSound, false);
+        SoundManager.PlaySound(soundManager.blenderSource);
+
+
         // Must set blender to invulnerable so that the cover doesn't reattach straight away. //
         isInvulnverable = true;
 
@@ -288,11 +308,19 @@ public class Blender
 
     public void ContinueBlend()
     {
+        SoundManager.StopPlayingSound(soundManager.blenderSource);
+
+        SoundManager.SetSound(soundManager.blenderSource, soundManager.blendingSound, true);
+        SoundManager.PlaySound(soundManager.blenderSource);
+
         isHalfBlended = false;
     }
 
     public void CompleteDuration()
     {
+        SoundManager.SetSound(soundManager.blenderSource, soundManager.blendingPromptSound, true);
+        SoundManager.PlaySound(soundManager.blenderSource);
+
         completeButtonTimer += Time.deltaTime;
         if (completeButtonTimer >= completeButtonDuration)
         {
@@ -304,6 +332,10 @@ public class Blender
     }
     public void ContinueDuration()
     {
+
+        SoundManager.SetSound(soundManager.blenderSource, soundManager.blendingPromptSound, true);
+        SoundManager.PlaySound(soundManager.blenderSource);
+
         continueButtonTimer += Time.deltaTime;
         if (continueButtonTimer >= continueButtonDuration)
         {
@@ -365,9 +397,13 @@ public class Blender
     public void StartBlending()
     {
         currentBlenderState = BlenderState.BLENDING;
+        SoundManager.SetSound(soundManager.blenderSource, soundManager.blendingSound, true);
+        SoundManager.PlaySound(soundManager.blenderSource);
     }
     public void Blend(Blend type)
     {
+        SoundManager.StopPlayingSound(soundManager.blenderSource);
+
 
         Debug.Log("Blender activated");
         for (int i = currentBlenderIngredients.Count - 1; i > -1; i--)

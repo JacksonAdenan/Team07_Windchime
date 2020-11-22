@@ -13,6 +13,7 @@ public class OrderManager : MonoBehaviour
 {
 
     GameManager gameManager;
+    SoundManager soundManager;
 
     public List<Order> requestedOrders;
     public List<Order> acceptedOrders;
@@ -74,6 +75,7 @@ public class OrderManager : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.GetInstance();
+        soundManager = gameManager.soundManager;
 
         activeAliens = new List<AlienAnimation>();
         destroyingAliens = new List<AlienAnimation>();

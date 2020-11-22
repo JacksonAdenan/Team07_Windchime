@@ -7,6 +7,7 @@ using System;
 public class CookingOrb
 {
     GameManager gameManager;
+    SoundManager soundManager;
 
     // Appliance prefab. //
     public Transform cookingOrb;
@@ -58,12 +59,17 @@ public class CookingOrb
 
 
 
+
+
+
     float xRotation;
     // Start is called before the first frame update
     public void Start()
     {
 
         gameManager = GameManager.GetInstance();
+        soundManager = gameManager.soundManager;
+
 
         currentIngredients = new List<Transform>();
         currentlyTrackedIngredients = new List<Transform>();
@@ -98,6 +104,14 @@ public class CookingOrb
             }
             if (cookingTimer >= cookingDuration)
             {
+
+                SoundManager.StopPlayingSound(soundManager.cookingOrbSource);
+                SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbSuccessSound, false);
+                SoundManager.PlaySound(soundManager.cookingOrbSource);
+
+                SoundManager.SetSound(soundManager.cookingOrbHatchSource, soundManager.hatchOpen, false);
+                SoundManager.PlaySound(soundManager.cookingOrbHatchSource);
+
                 MakeSoup();
 
                 // Resetting cookingTimer after cook. //
@@ -347,6 +361,12 @@ public class CookingOrb
     {
         // Making the cooking orb state OCCUPIED. //
         currentCookingOrbState = CookingOrbState.COOKING;
+
+        SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbCookingSound, true);
+        SoundManager.PlaySound(soundManager.cookingOrbSource);
+
+        SoundManager.SetSound(soundManager.cookingOrbHatchSource, soundManager.hatchOpen, false);
+        SoundManager.PlaySound(soundManager.cookingOrbHatchSource);
     }
     public void AddWater(Transform waterOrb)
     {
