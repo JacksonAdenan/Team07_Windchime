@@ -17,6 +17,7 @@ public enum SwitchType
     NEXT_ORDER,
     COOKING_ORB_HATCH,
     CAPSULE_VENDOR,
+    CANON_INCINERATE_BUTTON,
 
     ERROR
 }
@@ -95,10 +96,11 @@ public class SwitchData : MonoBehaviour
                     break;
                 case SwitchType.CANON_BUTTON:
                     onCooldown = true;
-
-                    SoundManager.PlaySound(soundManager.newOrderMonitorSource);
-
                     cookingManager.theCanon.ShootCapsule();
+                    break;
+                case SwitchType.CANON_INCINERATE_BUTTON:
+                    onCooldown = true;
+                    cookingManager.theCanon.IncinerateCapsule();
                     break;
                 case SwitchType.BLENDER_BUTTON:
                     onCooldown = true;

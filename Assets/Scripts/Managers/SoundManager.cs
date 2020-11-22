@@ -68,7 +68,7 @@ public class SoundManager : MonoBehaviour
 
     [Header("Canon Sounds")]
     public AudioClip cannonShotSound;
-    public AudioClip cannonIncinerationSound;
+    public AudioClip canonIncinerationSound;
     public AudioClip canonButtonSound;
     public AudioClip canonButtonFailSound;
 

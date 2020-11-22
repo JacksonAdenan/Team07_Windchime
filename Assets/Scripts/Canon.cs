@@ -141,4 +141,32 @@ public class Canon
         }
 
     }
+
+    public void IncinerateCapsule()
+    {
+        if (isLoaded)
+        {
+
+            // Launch sound. //
+            SoundManager.SetSound(soundManager.canonSource, soundManager.canonIncinerationSound, false);
+            SoundManager.PlaySound(soundManager.canonSource);
+
+            // Button press sound. //
+            SoundManager.SetSound(soundManager.canonButtonSource, soundManager.canonButtonSound, false);
+            SoundManager.PlaySound(soundManager.canonButtonSource);
+
+
+            canonCapsule.GetComponent<SoupData>().theSoup = null;
+            isLoaded = false;
+            Debug.Log("Canon incinerated capsule.");
+        }
+        else
+        {
+            // Button fail sound. //
+            SoundManager.SetSound(soundManager.canonButtonSource, soundManager.canonButtonFailSound, false);
+            SoundManager.PlaySound(soundManager.canonButtonSource);
+
+            Debug.Log("Tried to incinerate capsule but you do not currently have any capsules loaded.");
+        }
+    }
 }

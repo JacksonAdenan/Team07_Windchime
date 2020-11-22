@@ -13,20 +13,27 @@ public class CookingOrb
     public Transform cookingOrb;
 
     // I don't know why I have this?? Okay I think I'm using this as some sort of weird boolean where if it's set to null I treat that as false. I will probably change this to a real boolean one day. //
+    [HideInInspector]
     public Transform occupyingSoup;
 
     // Cookingorb stats and current things. //
+    [HideInInspector]
     public CookingOrbState currentCookingOrbState;
     public List<Transform> currentIngredients;
     public List<Transform> currentlyTrackedIngredients;
 
-    [Header("Don't modify these in inspector.")]
+    //[Header("Don't modify these in inspector.")]
+    [HideInInspector]
     public float currentSpicy;
+    [HideInInspector]
     public float currentChunky;
+    [HideInInspector]
     public float currentSweet;
+    [HideInInspector]
     public ColourManager currentColour;
 
-    [Header("Don't modify the timer. If you want to increase cooking time change Cooking Duration")]
+    //[Header("Don't modify the timer. If you want to increase cooking time change Cooking Duration")]
+    [HideInInspector]
     public float cookingTimer = 0;
     [Tooltip("The time it takes to cook a soup.")]
     public float cookingDuration = 0;
@@ -39,7 +46,8 @@ public class CookingOrb
     public Transform soupOrb;
 
     // DONT SET THIS INSPECTOR //
-    [Tooltip("Please don't set this in inspector.")]
+    //[Tooltip("Please don't set this in inspector.")]
+    [HideInInspector]
     public Transform water;
 
     [Header("Soup Colour Things")]

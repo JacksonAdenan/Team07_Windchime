@@ -5445,7 +5445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8191ff5ba031f8e4e8641ef978a349cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 3
+  type: 13
   switchSpamCooldown: 0
   switchCooldownTimer: 0
   onCooldown: 0
@@ -59930,7 +59930,7 @@ MonoBehaviour:
   newOrderSound: {fileID: 8300000, guid: 2b3ca423c8f3bf341ab40517f70796f1, type: 3}
   orderSource: {fileID: 0}
   cannonShotSound: {fileID: 8300000, guid: 671436d1f4528b249989a181a48d6b13, type: 3}
-  cannonIncinerationSound: {fileID: 8300000, guid: 51394669ff9e27d4e80fedced6c62c32,
+  canonIncinerationSound: {fileID: 8300000, guid: 51394669ff9e27d4e80fedced6c62c32,
     type: 3}
   canonButtonSound: {fileID: 8300000, guid: 0c6d51bb36a6743469957dc9f6abe774, type: 3}
   canonButtonFailSound: {fileID: 8300000, guid: a990693f7d13f984fa0f8bd5e1e1f40a,
