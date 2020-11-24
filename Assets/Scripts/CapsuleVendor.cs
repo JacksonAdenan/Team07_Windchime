@@ -8,9 +8,11 @@ public class CapsuleVendor
 {
 
     public Transform capsule;
+    public Transform capsuleSpawnLocation;
     public void SpawnCapsule()
-    { 
-
+    {
+        Transform newCapsule = GameObject.Instantiate(capsule, capsuleSpawnLocation.position, capsuleSpawnLocation.rotation);
+        newCapsule.gameObject.SetActive(true);
     }
     // Start is called before the first frame update
     void Start()

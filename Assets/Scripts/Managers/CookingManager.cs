@@ -43,6 +43,7 @@ public class CookingManager : MonoBehaviour
     public Blender theBlender;
     public SoupCatcher theCatcher;
     public Canon theCanon;
+    public CapsuleVendor theVendor;
     // ------------------------------------------------------------------------------------------------------------------------------------------------------ //
 
     [Header("Monitors")]

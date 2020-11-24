@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 
 [Serializable]
 public class CookingOrb
@@ -69,8 +70,13 @@ public class CookingOrb
     public Transform fireParticles;
 
 
+    [Header("Cooking Orb Stat Display")]
+    public Canvas statCanvas;
+    public TextMeshProUGUI statTextbox;
 
-
+    private float calculatedSpicy;
+    private float calculatedChunky;
+    private float calculatedSweet;
 
 
 
@@ -157,6 +163,9 @@ public class CookingOrb
 
 
         ShrinkIngredients();
+
+        // Displaying current calculated stats. //
+        DisplaySoupStats(calculatedSpicy, calculatedChunky, calculatedSweet);
 
     }
 
@@ -245,8 +254,16 @@ public class CookingOrb
     {
         for (int i = currentlyTrackedIngredients.Count - 1; i > -1; i--)
         {
+            // Calculating stats.
+            Ingredient actualIngredient = currentlyTrackedIngredients[i].GetComponent<Ingredient>();
+            calculatedSpicy += actualIngredient.spicyness;
+            calculatedChunky += actualIngredient.chunkyness;
+            calculatedSweet += actualIngredient.sweetness;
+
+
             currentIngredients.Add(currentlyTrackedIngredients[i]);
             currentlyTrackedIngredients.Remove(currentlyTrackedIngredients[i]);
+
         }
     }
     public void TrackIngredient(Transform ingredientToTrack)
@@ -272,24 +289,24 @@ public class CookingOrb
         currentlyTrackedIngredients.Remove(ingredientToTrack);
         Debug.Log("Ingredient stopped being tracked by cooking orb.");
     }
+
+    // This function actually isn't being used anymore. It has been replaced by AddTrackedIngredients()
     public void AddIngredient(Transform ingredient)
     {
-
-        
-
-
         currentIngredients.Add(ingredient);
         Debug.Log("Ingredient added to cooking orb.");
-
-
-
-
     }
 
     public void RemoveIngredient(Transform ingredient)
     {
         currentIngredients.Remove(ingredient);
         Debug.Log("Ingredient removed from cooking orb.");
+
+        // Calculating stats.
+        Ingredient actualIngredient = ingredient.GetComponent<Ingredient>();
+        calculatedSpicy -= actualIngredient.spicyness;
+        calculatedChunky -= actualIngredient.chunkyness;
+        calculatedSweet -= actualIngredient.sweetness;
     }
 
     public void CombineIngredient(Ingredient ingredient)
@@ -322,6 +339,10 @@ public class CookingOrb
         currentSpicy = 0;
         currentChunky = 0;
         currentSweet = 0;
+
+        calculatedSweet = 0;
+        calculatedSpicy = 0;
+        calculatedChunky = 0;
         
         //currentCookingOrbState = CookingOrbState.EMPTY;
 
@@ -440,5 +461,10 @@ public class CookingOrb
         GameObject.Destroy(water.gameObject);
         water = null;
         isCentered = false;
+    }
+
+    private void DisplaySoupStats(float spicy, float chunky, float sweet)
+    {
+        statTextbox.text = "CH: " + chunky + "\n" + "SP: " + spicy + "\n" + "SW: " + sweet;
     }
 }

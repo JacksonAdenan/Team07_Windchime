@@ -912,7 +912,17 @@ public class MouseLook : MonoBehaviour
         //if (itemToPickUp.parent != null)
         //{
 
-
+        // Removing ingredient from cooking orb if you picked up from the orb.
+        if (currentObj.tag == "Ingredient")
+        {
+            for (int i = 0; i < theCookingManager.theOrb.currentIngredients.Count; i++)
+            {
+                if (currentObj.transform == theCookingManager.theOrb.currentIngredients[i])
+                {
+                    gameManager.cookingManager.theOrb.RemoveIngredient(currentObj.transform);
+                }
+            }
+        }
 
 
         heldItem = currentObj;

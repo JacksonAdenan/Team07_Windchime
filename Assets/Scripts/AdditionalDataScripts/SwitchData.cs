@@ -161,10 +161,7 @@ public class SwitchData : MonoBehaviour
                     break;
                 case SwitchType.CAPSULE_VENDOR:
                     onCooldown = true;
-                    if (gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER)
-                    {
-                        gameManager.cookingManager.theOrb.BeginCooking();
-                    }
+                    gameManager.cookingManager.theVendor.SpawnCapsule();
                     break;
             }
         }
