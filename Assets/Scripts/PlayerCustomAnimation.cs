@@ -28,6 +28,7 @@ public class PlayerCustomAnimation : MonoBehaviour
         gameManager = GameManager.GetInstance();
         playerController = gameManager.playerController;
         playerController.isCentered = false;
+        Debug.Log(currentNodeIndex + "=========== CURRENT NODE INDEX ==========");
     }
 
     // Update is called once per frame
@@ -76,9 +77,12 @@ public class PlayerCustomAnimation : MonoBehaviour
 
         else if (hasReachedNextNode)
         {
+            Debug.Log("+++++++++++++ [BEFORE] ++++++++++ " + currentNodeIndex);
             if (currentNodeIndex + 1 < nodeCount)
             {
                 currentNodeIndex += 1;
+                Debug.Log("+++++++++++++ [AFTER] ++++++++++ " + currentNodeIndex);
+                Debug.Log("========MOVING TO NEXT NODE ======== " + (currentNodeIndex + 1));
                 hasReachedNextNode = false;
             }
             else
