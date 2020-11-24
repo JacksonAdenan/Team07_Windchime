@@ -10,7 +10,8 @@ public enum CameraMode
     FPS_CONTROL,
     HAND_CONTROL,
     NEWMODE,
-    pauseMode
+    pauseMode,
+    ANIMATION
 }
 
 public enum PlayerState
@@ -136,7 +137,8 @@ public class MouseLook : MonoBehaviour
     Vector3 heldItemOriginalPos;
     Vector3 previousHandMovementDir;
     Vector3 previousHandPos;
-    bool isCentered = true;
+    [HideInInspector]
+    public bool isCentered = true;
 
     Vector3 handMovement;
     RaycastHit target;
@@ -190,6 +192,9 @@ public class MouseLook : MonoBehaviour
 
     private bool isHandReturning = false;
 
+    [Header("Custom Player Animation")]
+    private PlayerCustomAnimation customPlayerAnimator;
+
 
     // Start is called before the first frame update
     void Start()
@@ -206,6 +211,17 @@ public class MouseLook : MonoBehaviour
 
         // Setting the hand to the correct position. //
         hand.localPosition = handFPSPos;
+
+        // Hooking up the custom player animation script;
+        if (gameObject.transform.parent.GetComponent<PlayerCustomAnimation>() != null)
+        {
+            customPlayerAnimator = gameObject.transform.parent.GetComponent<PlayerCustomAnimation>();
+            Debug.Log("Found and hooked up PlayerCustomAnimation.");
+        }
+        else
+        {
+            Debug.Log("Failed to find PlayerCustomAnimation.");
+        }
     }
 
     // Update is called once per frame
@@ -231,11 +247,12 @@ public class MouseLook : MonoBehaviour
         InputState();
  
    
+        // No longer centering camera in here, however we are in PlayerCustomAnimation.cs. //
 
-        if (!isCentered)
-        {
-            CentreCamera(heldItemOriginalPos);
-        }
+        //if (!isCentered)
+        //{
+        //    CentreCamera(heldItemOriginalPos);
+        //}
 
         // Acceleration timer counting. //
         accelerationTimer += Time.deltaTime;
@@ -246,9 +263,15 @@ public class MouseLook : MonoBehaviour
             gameManager.RestartGame();
         }
 
-        
+        //  Very sketchy restart system. //
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            customPlayerAnimator.StartAnimation();
+        }
 
-        if(!isHoldingItem)
+
+
+        if (!isHoldingItem)
         {
             // Do idle hand eye thingy. //
             currentThrowCharge = ThrowCharge.SUPER_WEAK;
@@ -531,11 +554,16 @@ public class MouseLook : MonoBehaviour
                     Time.timeScale = 1;
                 }      
                 break;
+            case CameraMode.ANIMATION:
+                previousHandPos = hand.position;
+
+
+                break;
         }
     }
 
     
-    void CentreCamera(Vector3 targetPos)
+    public void CentreCamera(Vector3 targetPos)
     {
         isCentered = false;
 
@@ -557,18 +585,31 @@ public class MouseLook : MonoBehaviour
 
 
         // Keeping hand in place //
-        hand.position = previousHandPos;
+        //hand.position = previousHandPos;
 
         // Breaking out of centering mechanic. //
 
-        float dot = Vector3.Dot(-direction.normalized, gameObject.transform.forward);
-        if (dot < 1 && dot > 0.99)
-        {
-            isCentered = true;
-            Debug.Log("Centre finished");
-        }
+
+        // I recently commented this out and it seems to still work so yeah...
+
+        //float dot = Vector3.Dot(-direction.normalized, gameObject.transform.forward);
+        //if (dot < 1 && dot > 0.99)
+        //{
+        //    isCentered = true;
+        //    Debug.Log("Centre finished");
+        //}
 
         
+    }
+
+    public void FinishCameraCenter(Vector3 positionOne, Vector3 positionTwo)
+    {
+        Vector3 test = positionOne - positionTwo;
+        if (Vector3.Dot(-test.normalized, gameObject.transform.forward) <= cameraCenteringDeadZone)
+        {
+            isCentered = false;
+        }
+
     }
     void CameraLook()
     {
