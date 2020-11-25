@@ -192,8 +192,9 @@ public class MouseLook : MonoBehaviour
 
     private bool isHandReturning = false;
 
-    [Header("Custom Player Animation")]
-    private PlayerCustomAnimation customPlayerAnimator;
+    //[Header("Custom Player Animation")]
+    [HideInInspector]
+    public PlayerCustomAnimation customPlayerAnimator;
 
 
     // Start is called before the first frame update

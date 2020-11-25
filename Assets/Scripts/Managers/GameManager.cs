@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        currentGameState = GameState.PLAYING;
+        currentGameState = GameState.WAITING;
         
     }
 
@@ -59,12 +59,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameTime >= 1)
-        { 
-            timer += Time.deltaTime;
-        }
+        //if (gameTime >= 1)
+        //{ 
+        //    timer += Time.deltaTime;
+        //}
 
-        Countdown();
+        if (currentGameState == GameState.PLAYING)
+        { 
+            Countdown();
+        }
         if (gameTime <= 0)
         {
             menuManager.DisplayGameOver();
@@ -74,6 +77,7 @@ public class GameManager : MonoBehaviour
 
     void Countdown()
     {
+        timer += Time.deltaTime;
         if (timer >= 1)
         {
             gameTime -= 1;
@@ -89,5 +93,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Game started.");
+        currentGameState = GameState.PLAYING;
+        playerController.customPlayerAnimator.StartAnimation();
     }
 }
