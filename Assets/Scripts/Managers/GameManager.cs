@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public enum GameState
 { 
     PLAYING,
-    GAMEOVER
+    GAMEOVER,
+    WAITING
 }
 public class GameManager : MonoBehaviour
 {
@@ -83,5 +84,10 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene("ModularToolKit");
+    }
+
+    public void StartGame()
+    {
+        Debug.Log("Game started.");
     }
 }

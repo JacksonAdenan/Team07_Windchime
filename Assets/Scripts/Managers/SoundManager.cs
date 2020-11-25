@@ -6,7 +6,12 @@ public class SoundManager : MonoBehaviour
 {
 
     GameManager gameManager;
-    
+
+    [Header("Main Menu Sounds")]
+    public AudioClip menuButtonSound;
+
+    [HideInInspector]
+    public AudioSource mainMenuSource;
 
     [Header("Player Sounds")]
     public List<AudioClip> playerSounds;
@@ -80,6 +85,9 @@ public class SoundManager : MonoBehaviour
 
     [HideInInspector]
     public AudioSource capsuleVendorSource;
+
+    [HideInInspector]
+    public AudioSource playerSource;
 
 
 
@@ -163,6 +171,9 @@ public class SoundManager : MonoBehaviour
 
         SetAudioSource(gameManager.monitorManager.itemFabricator, out itemFabMonitorSource);
         SetSound(itemFabMonitorSource, UI_Interaction_1, false);
+
+        SetAudioSource(gameManager.monitorManager.mainMenuMonitor, out mainMenuSource);
+        SetSound(mainMenuSource, menuButtonSound, false);
         // ------------------------------------------------------------------------------------ //
 
         // ----------------------------- Order Sound Setup ----------------------------- //
@@ -178,6 +189,10 @@ public class SoundManager : MonoBehaviour
         // ----------------------------- Capsule Vendor Sound Setup ----------------------------- //
         SetAudioSource(gameManager.cookingManager.theCanon.canon, out capsuleVendorSource);
         SetSound(capsuleVendorSource, buttonPressSound, false);
+        // ------------------------------------------------------------------------------------ //
+
+        // ----------------------------- Player Source Sound Setup ----------------------------- //
+        SetAudioSource(gameManager.playerController.transform.parent, out playerSource);
         // ------------------------------------------------------------------------------------ //
 
     }

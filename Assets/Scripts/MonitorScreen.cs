@@ -9,7 +9,8 @@ public enum MonitorType
     ITEM_FABRICATOR_MONITOR,
     NEW_ORDER_MONITOR,
     CURRENT_ORDER_MONITOR,
-    CANON_MONITOR
+    CANON_MONITOR,
+
 }
 public enum ScreenState
 { 

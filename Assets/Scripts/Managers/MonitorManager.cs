@@ -9,6 +9,7 @@ public class MonitorManager : MonoBehaviour
     public Transform canonMonitor;
     public Transform newOrderMonitor;
     public Transform currentOrderMonitor;
+    public Transform mainMenuMonitor;
 
     // Start is called before the first frame update
     void Start()

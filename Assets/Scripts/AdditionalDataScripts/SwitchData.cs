@@ -19,6 +19,11 @@ public enum SwitchType
     CAPSULE_VENDOR,
     CANON_INCINERATE_BUTTON,
 
+    // ------- MAIN MENU BUTTONS ------- //
+    MAIN_MENU_PLAY,
+    MAIN_MENU_QUIT,
+    MAIN_MENU_OPTIONS,
+
     ERROR
 }
 public class SwitchData : MonoBehaviour
@@ -164,6 +169,29 @@ public class SwitchData : MonoBehaviour
                     SoundManager.StopPlayingSound(soundManager.capsuleVendorSource);
                     SoundManager.PlaySound(soundManager.capsuleVendorSource);
                     gameManager.cookingManager.theVendor.SpawnCapsule();
+                    break;
+                case SwitchType.MAIN_MENU_PLAY:
+                    onCooldown = true;
+                    SoundManager.StopPlayingSound(soundManager.mainMenuSource);
+                    SoundManager.PlaySound(soundManager.mainMenuSource);
+                    gameManager.StartGame();
+
+                    gameManager.playerController.selectedSwitch = null;
+                    break;
+                case SwitchType.MAIN_MENU_QUIT:
+                    onCooldown = true;
+                    SoundManager.StopPlayingSound(soundManager.mainMenuSource);
+                    SoundManager.PlaySound(soundManager.mainMenuSource);
+                    Application.Quit();
+                    Debug.Log("Quitting game...");
+                    gameManager.playerController.selectedSwitch = null;
+                    break;
+                case SwitchType.MAIN_MENU_OPTIONS:
+                    onCooldown = true;
+                    SoundManager.StopPlayingSound(soundManager.mainMenuSource);
+                    SoundManager.PlaySound(soundManager.mainMenuSource);
+                    gameManager.menuManager.ActivateMenu(MenuState.optionMenu);
+                    gameManager.playerController.selectedSwitch = null;
                     break;
             }
         }

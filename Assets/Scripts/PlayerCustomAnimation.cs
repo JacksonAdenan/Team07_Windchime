@@ -24,13 +24,12 @@ public class PlayerCustomAnimation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (isActive)
+        if (movementNodes != null && movementNodes.Count > 0)
         { 
             nodeCount = movementNodes.Count;
             gameManager = GameManager.GetInstance();
             playerController = gameManager.playerController;
             playerController.isCentered = false;
-            Debug.Log(currentNodeIndex + "=========== CURRENT NODE INDEX ==========");
         }
     }
 
@@ -107,7 +106,10 @@ public class PlayerCustomAnimation : MonoBehaviour
 
     public void StartAnimation()
     {
-        playerController.currentCameraMode = CameraMode.ANIMATION;
-        isActive = true;
+        if (movementNodes != null && movementNodes.Count > 0)
+        { 
+            playerController.currentCameraMode = CameraMode.ANIMATION;
+            isActive = true;
+        }
     }
 }

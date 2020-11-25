@@ -238,7 +238,7 @@ public class MouseLook : MonoBehaviour
         
         CameraState(); // This is the old camera state swapping thing.
 
-        if (!isHoldingItem)
+        if (!isHoldingItem && gameManager.menuManager.currentState == MenuState.none)
         { 
             NewSelectObj();
         }
@@ -547,7 +547,7 @@ public class MouseLook : MonoBehaviour
                 CameraPause();
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
-
+   
                 // Un freezing time on pause screen exit. //
                 if (Input.GetKey(KeyCode.Escape))
                 {
