@@ -132,6 +132,9 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI throwState;
 
 
+    [Header("Pause Menu Stuff")]
+    public Canvas pauseMenuCanvas;
+
     // Seperators for ease of access //
     Transform soupOrganiser;
     Transform orderOrganiser;
@@ -656,6 +659,29 @@ public class MenuManager : MonoBehaviour
     public void DisplayCookingOrbTimer() 
     {
         cookingOrbTimer.text = "CookingTimer: " + cookingManager.theOrb.cookingTimer.ToString() + "s";
+    }
+
+    private void ActivateCanvas(Canvas theCanvas)
+    {
+        theCanvas.gameObject.SetActive(true);
+    }
+    private void DeactivateCanvas(Canvas theCanvas)
+    {
+        theCanvas.gameObject.SetActive(false);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ResumeGame()
+    {
+        currentState = global::MenuState.none;
+        playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1;
     }
 
 

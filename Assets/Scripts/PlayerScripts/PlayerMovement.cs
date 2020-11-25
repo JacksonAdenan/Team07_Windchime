@@ -36,8 +36,10 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-
-        controller.Move(move * speed * Time.deltaTime);
+        if (move.magnitude > 0.01f)
+        { 
+            controller.Move(move * speed * Time.deltaTime);
+        }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);

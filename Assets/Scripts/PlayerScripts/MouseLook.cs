@@ -666,8 +666,9 @@ public class MouseLook : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * handControlSensitivity * Time.deltaTime;
 
 
-        float rotMouseX = Input.GetAxis("Mouse X") * rotationSensitivity * Time.deltaTime;
-        float rotMouseY = Input.GetAxis("Mouse Y") * rotationSensitivity * Time.deltaTime;
+        // This used to be multiplied by deltaTime.
+        float rotMouseX = Input.GetAxis("Mouse X") * rotationSensitivity * 0.0167f;
+        float rotMouseY = Input.GetAxis("Mouse Y") * rotationSensitivity * 0.0167f;
 
 
 

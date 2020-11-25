@@ -107,6 +107,12 @@ MonoBehaviour:
   colourText: {fileID: 0}
   sweetnessText: {fileID: 0}
   foodIcon: {fileID: 0}
+  canonTitle: {fileID: 0}
+  canonSpicyText: {fileID: 0}
+  canonChunkyText: {fileID: 0}
+  canonMeatText: {fileID: 0}
+  canonColourText: {fileID: 0}
+  canonSweetnessText: {fileID: 0}
 --- !u!114 &4450014002247262425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,3 +138,9 @@ MonoBehaviour:
   colourText: {fileID: 0}
   sweetnessText: {fileID: 0}
   foodIcon: {fileID: 0}
+  canonTitle: {fileID: 0}
+  canonSpicyText: {fileID: 0}
+  canonChunkyText: {fileID: 0}
+  canonMeatText: {fileID: 0}
+  canonColourText: {fileID: 0}
+  canonSweetnessText: {fileID: 0}

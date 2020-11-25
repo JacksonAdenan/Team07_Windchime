@@ -41,9 +41,6 @@ public class SoundManager : MonoBehaviour
 
     [HideInInspector]
     public AudioSource catcherSource;
-  
-
-    public List<AudioClip> applanceSounds;
 
     [Header("UI Clicky Sounds")]
     public AudioClip UI_Interaction_1;
@@ -78,8 +75,11 @@ public class SoundManager : MonoBehaviour
     public AudioSource canonButtonSource;
 
 
-    [Header("Other Sounds")]
-    public List<AudioClip> otherSounds;
+    [Header("Button Press Sounds")]
+    public AudioClip buttonPressSound;
+
+    [HideInInspector]
+    public AudioSource capsuleVendorSource;
 
 
 
@@ -175,7 +175,10 @@ public class SoundManager : MonoBehaviour
         SetAudioSource(gameManager.cookingManager.theCanon.canon, out canonButtonSource);
         // ------------------------------------------------------------------------------------ //
 
-
+        // ----------------------------- Capsule Vendor Sound Setup ----------------------------- //
+        SetAudioSource(gameManager.cookingManager.theCanon.canon, out capsuleVendorSource);
+        SetSound(capsuleVendorSource, buttonPressSound, false);
+        // ------------------------------------------------------------------------------------ //
 
     }
 
