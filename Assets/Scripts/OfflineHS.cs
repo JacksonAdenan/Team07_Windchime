@@ -9,14 +9,18 @@ public class OfflineHS : MonoBehaviour
     public Transform entryContainer;
     public Transform entryTemplate;
     private List<Transform> highscoreEntryTransformList;
-    Highscores highscores;
+    Highscore highScoreContainer;
 
     private void Start()
     {
+
+        highScoreContainer = new Highscore();
+        highScoreContainer.Start();
+
         //entryContainer = transform.Find("highscoreEntryContainer");
         //entryTemplate = entryContainer.Find("highscoreEntryTemplate");
 
-        entryTemplate.gameObject.SetActive(false);
+        //entryTemplate.gameObject.SetActive(true);
 
         
         AddHighscoreEntry(1000, "Jorb");
@@ -28,24 +32,24 @@ public class OfflineHS : MonoBehaviour
         
 
         string jsonString = PlayerPrefs.GetString("highscoreTable");
-        Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+        //highScoreContainer = JsonUtility.FromJson<Highscore>(jsonString);
 
         // Sort entry list by score
-        for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
+        for (int i = 0; i < highScoreContainer.highscoreEntries.Count; i++)
         {
-            for(int j = i + 1; j < highscores.highscoreEntryList.Count; j++)
+            for(int j = i + 1; j < highScoreContainer.highscoreEntries.Count; j++)
             {
-                if(highscores.highscoreEntryList[j].score > highscores.highscoreEntryList[i].score)
+                if(highScoreContainer.highscoreEntries[j].score > highScoreContainer.highscoreEntries[i].score)
                 {
                     //swap
-                    HighscoreEntry tmp = highscores.highscoreEntryList[i];
-                    highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
-                    highscores.highscoreEntryList[j] = tmp;
+                    HighscoreEntry tmp = highScoreContainer.highscoreEntries[i];
+                    highScoreContainer.highscoreEntries[i] = highScoreContainer.highscoreEntries[j];
+                    highScoreContainer.highscoreEntries[j] = tmp;
                 }
             }
         }
         highscoreEntryTransformList = new List<Transform>();
-        foreach(HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
+        foreach(HighscoreEntry highscoreEntry in highScoreContainer.highscoreEntries)
         {
             CreateHighscoreEntryTransform(highscoreEntry, entryContainer, highscoreEntryTransformList);
         }
@@ -83,33 +87,18 @@ public class OfflineHS : MonoBehaviour
     private void AddHighscoreEntry(int score, string name)
     {
         //create highscoreEntry
-        HighscoreEntry highscoreEntry = new HighscoreEntry { score = score, name = name };
+        HighscoreEntry highscoreEntry = new HighscoreEntry(score, name);
 
         //Load saved Highscores
-        string jsonString = PlayerPrefs.GetString("highscoreTable");
-        Highscores highscore = JsonUtility.FromJson<Highscores>(jsonString);
+        //string jsonString = PlayerPrefs.GetString("highscoreTable");
+        //Highscore highscore = JsonUtility.FromJson<Highscore>(jsonString);
 
         //Add new entry to Highscores
-        highscore.highscoreEntryList.Add(highscoreEntry);
+        highScoreContainer.highscoreEntries.Add(highscoreEntry);
 
         //save updated Highscores
         //string json = JsonUtility.ToJson(highscore);
         //PlayerPrefs.SetString("highscoreTable", json);
         //PlayerPrefs.Save();
     }
-
-    private class Highscores
-    {
-        public List<HighscoreEntry> highscoreEntryList;
-    }
-
-
-    [System.Serializable]
-    private class HighscoreEntry
-    {
-        public int score;
-        public string name;
-    }
-
-
 }
