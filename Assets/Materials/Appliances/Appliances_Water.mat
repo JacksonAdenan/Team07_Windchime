@@ -8,19 +8,23 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Appliances_Water
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e1f553e7d077b0843b6298d0046ac7a7,
+    type: 3}
   m_ShaderKeywords: _RECEIVE_SHADOWS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3050
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_17943765:
+        m_Texture: {fileID: 2800000, guid: 4f32b69e77edd474d8c1f735463c375c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 664ae0fe3d171774788459b155a15fa4, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -50,6 +54,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_329FA832: 1
+    - Vector1_9042A6B4: 0.81
+    - Vector1_EFD2A97A: 0.053
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -72,6 +79,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
+    - Color_D57330D4: {r: 0.34015664, g: 0.5301161, b: 0.7924528, a: 0}
     - _BaseColor: {r: 0, g: 0.21600008, b: 1, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
