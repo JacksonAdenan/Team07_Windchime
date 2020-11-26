@@ -13,6 +13,7 @@ public class OrderManager : MonoBehaviour
 {
 
     GameManager gameManager;
+    SoundManager soundManager;
 
     public List<Order> requestedOrders;
     public List<Order> acceptedOrders;
@@ -74,6 +75,7 @@ public class OrderManager : MonoBehaviour
     void Start()
     {
         gameManager = GameManager.GetInstance();
+        soundManager = gameManager.soundManager;
 
         activeAliens = new List<AlienAnimation>();
         destroyingAliens = new List<AlienAnimation>();
@@ -182,15 +184,10 @@ public class OrderManager : MonoBehaviour
                 selectedOrder = -1;
             }
 
-            Debug.Log("selected order is null");
-            Debug.Log("1accepted orders size: " + acceptedOrders.Count);
         }
         else if (acceptedOrders.Count > 0 && selectedOrder == -1)
         {
             selectedOrder = 0;
-            Debug.Log("ASSIGNED SELECTED ORDER");
-            
-            
         }
     }
     public void SwapSelectedOrder()

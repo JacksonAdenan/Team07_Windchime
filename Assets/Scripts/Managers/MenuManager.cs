@@ -8,7 +8,9 @@ public enum MenuState
 { 
     pauseMenu,
     orderMenu,
-    none
+    optionMenu,
+
+    none,
 }
 
 public class MenuManager : MonoBehaviour
@@ -17,13 +19,14 @@ public class MenuManager : MonoBehaviour
     GameManager gameManager;
     CookingManager cookingManager;
     OrderManager orderManager;
+    SoundManager soundManager;
 
     // ----------------------- Appliance References ----------------------- //
     SoupCatcher theCatcher;
     // -------------------------------------------------------------------- //
 
-
-    private MenuState currentState = global::MenuState.none;
+    [HideInInspector]
+    public MenuState currentState = global::MenuState.none;
 
     private MouseLook playersMouseLook;
    
@@ -132,6 +135,10 @@ public class MenuManager : MonoBehaviour
     public TextMeshProUGUI throwState;
 
 
+    [Header("Pause Menu and Option Menu Stuff")]
+    public Canvas pauseMenuCanvas;
+    public Canvas optionsCanvas;
+
     // Seperators for ease of access //
     Transform soupOrganiser;
     Transform orderOrganiser;
@@ -144,6 +151,7 @@ public class MenuManager : MonoBehaviour
         gameManager = GameManager.GetInstance();
         cookingManager = gameManager.cookingManager;
         orderManager = gameManager.orderManager;
+        soundManager = gameManager.soundManager;
 
         // Setting my timers to 0 safely //
         orderSubmittedTextTimer = 0;
@@ -254,8 +262,24 @@ public class MenuManager : MonoBehaviour
             case global::MenuState.pauseMenu:
                 orderUI.gameObject.SetActive(false);
                 pauseUI.gameObject.SetActive(true);
+                DeactivateCanvas(optionsCanvas);
                 playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.pauseMode;
               
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    currentState = global::MenuState.none;
+                    playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                    Time.timeScale = 1;
+                }
+                break;
+            case global::MenuState.optionMenu:
+                orderUI.gameObject.SetActive(false);
+                pauseUI.gameObject.SetActive(false);
+                ActivateCanvas(optionsCanvas);
+                playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.pauseMode;
+                Cursor.visible = true;
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     currentState = global::MenuState.none;
@@ -268,6 +292,7 @@ public class MenuManager : MonoBehaviour
             case global::MenuState.orderMenu:
                 orderUI.gameObject.SetActive(true);
                 pauseUI.gameObject.SetActive(false);
+                DeactivateCanvas(optionsCanvas);
                 playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.pauseMode;
                 if (Input.GetKeyDown(KeyCode.O))
                 {
@@ -279,6 +304,7 @@ public class MenuManager : MonoBehaviour
             case global::MenuState.none:        
                 orderUI.gameObject.SetActive(false);
                 pauseUI.gameObject.SetActive(false);
+                DeactivateCanvas(optionsCanvas);
 
                 if (Input.GetKeyDown(KeyCode.O))
                 {
@@ -656,6 +682,45 @@ public class MenuManager : MonoBehaviour
     public void DisplayCookingOrbTimer() 
     {
         cookingOrbTimer.text = "CookingTimer: " + cookingManager.theOrb.cookingTimer.ToString() + "s";
+    }
+
+    private void ActivateCanvas(Canvas theCanvas)
+    {
+        theCanvas.gameObject.SetActive(true);
+    }
+    private void DeactivateCanvas(Canvas theCanvas)
+    {
+        theCanvas.gameObject.SetActive(false);
+    }
+
+    public void QuitGame()
+    {
+        SoundManager.SetSound(soundManager.playerSource, soundManager.menuButtonSound, false);
+        SoundManager.PlaySound(soundManager.playerSource);
+        Application.Quit();
+    }
+
+    public void ResumeGame()
+    {
+        SoundManager.SetSound(soundManager.playerSource, soundManager.menuButtonSound, false);
+        SoundManager.PlaySound(soundManager.playerSource);
+
+        currentState = global::MenuState.none;
+        playerCamera.GetComponent<MouseLook>().currentCameraMode = CameraMode.FPS_CONTROL;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1;
+    }
+
+    public void ActivateMenu(MenuState menu)
+    {
+        switch (menu)
+        {
+            case global::MenuState.optionMenu:
+                currentState = global::MenuState.optionMenu;
+                break;
+
+        }
     }
 
 

@@ -2,30 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 
 [Serializable]
 public class CookingOrb
 {
     GameManager gameManager;
+    SoundManager soundManager;
 
     // Appliance prefab. //
     public Transform cookingOrb;
 
     // I don't know why I have this?? Okay I think I'm using this as some sort of weird boolean where if it's set to null I treat that as false. I will probably change this to a real boolean one day. //
+    [HideInInspector]
     public Transform occupyingSoup;
 
     // Cookingorb stats and current things. //
+    [HideInInspector]
     public CookingOrbState currentCookingOrbState;
     public List<Transform> currentIngredients;
     public List<Transform> currentlyTrackedIngredients;
 
-    [Header("Don't modify these in inspector.")]
+    //[Header("Don't modify these in inspector.")]
+    [HideInInspector]
     public float currentSpicy;
+    [HideInInspector]
     public float currentChunky;
+    [HideInInspector]
     public float currentSweet;
+    [HideInInspector]
     public ColourManager currentColour;
 
-    [Header("Don't modify the timer. If you want to increase cooking time change Cooking Duration")]
+    //[Header("Don't modify the timer. If you want to increase cooking time change Cooking Duration")]
+    [HideInInspector]
     public float cookingTimer = 0;
     [Tooltip("The time it takes to cook a soup.")]
     public float cookingDuration = 0;
@@ -38,7 +47,8 @@ public class CookingOrb
     public Transform soupOrb;
 
     // DONT SET THIS INSPECTOR //
-    [Tooltip("Please don't set this in inspector.")]
+    //[Tooltip("Please don't set this in inspector.")]
+    [HideInInspector]
     public Transform water;
 
     [Header("Soup Colour Things")]
@@ -56,6 +66,24 @@ public class CookingOrb
     public float spinningSpeed = 2;
 
 
+    // Reference to fire particles so I can turn them on/off at the right moment. //
+    public Transform fireParticles;
+
+
+    [Header("Cooking Orb Stat Display")]
+    public Canvas statCanvas;
+    public TextMeshProUGUI statTextbox;
+
+    private float calculatedSpicy;
+    private float calculatedChunky;
+    private float calculatedSweet;
+
+
+    [Header("Cooking Orb Base")]
+    public Transform cookingOrbBase;
+
+    //[Header("Cooking Orb Light Animation")]
+    private Material lightsMaterial; 
 
 
     float xRotation;
@@ -64,6 +92,8 @@ public class CookingOrb
     {
 
         gameManager = GameManager.GetInstance();
+        soundManager = gameManager.soundManager;
+
 
         currentIngredients = new List<Transform>();
         currentlyTrackedIngredients = new List<Transform>();
@@ -76,6 +106,12 @@ public class CookingOrb
 
 
         shrinkingIngredients = new List<Transform>();
+
+        // Turning off the fire particles. //
+        fireParticles.gameObject.SetActive(false);
+
+        // Initialising the lightsMaterial.
+        lightsMaterial = cookingOrbBase.GetComponent<Renderer>().material;
     }
 
     // Update is called once per frame
@@ -98,6 +134,17 @@ public class CookingOrb
             }
             if (cookingTimer >= cookingDuration)
             {
+                // De-activating the fire particles. //
+                fireParticles.gameObject.SetActive(false);
+
+
+                SoundManager.StopPlayingSound(soundManager.cookingOrbSource);
+                SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbSuccessSound, false);
+                SoundManager.PlaySound(soundManager.cookingOrbSource);
+
+                SoundManager.SetSound(soundManager.cookingOrbHatchSource, soundManager.hatchOpen, false);
+                SoundManager.PlaySound(soundManager.cookingOrbHatchSource);
+
                 MakeSoup();
 
                 // Resetting cookingTimer after cook. //
@@ -126,6 +173,9 @@ public class CookingOrb
 
         ShrinkIngredients();
 
+        // Displaying current calculated stats. //
+        DisplaySoupStats(calculatedSpicy, calculatedChunky, calculatedSweet);
+
     }
 
     public void ShrinkIngredients()
@@ -150,21 +200,34 @@ public class CookingOrb
         {
             case CookingOrbState.EMPTY:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                // Food_In
+                lightsMaterial.SetInt("Food_In", 0);
+                lightsMaterial.SetInt("Water_In", 0);
                 break;
             case CookingOrbState.EMPTY_WATER:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                lightsMaterial.SetInt("Food_In", 0);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
             case CookingOrbState.INGREDIENTS_AND_WATER:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                lightsMaterial.SetInt("Food_In", 1);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
             case CookingOrbState.INGREDIENTS_NOWATER:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                lightsMaterial.SetInt("Food_In", 1);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
             case CookingOrbState.OCCUPIED_SOUP:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                lightsMaterial.SetInt("Food_In", 1);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
             case CookingOrbState.COOKING:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                lightsMaterial.SetInt("Food_In", 1);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
         }
     }
@@ -181,6 +244,11 @@ public class CookingOrb
 
                 // Freeing the cooking orb. //
                 currentCookingOrbState = CookingOrbState.EMPTY;
+
+                // Clearing the calculated stats to be ready for the next soup.
+                calculatedSweet = 0;
+                calculatedSpicy = 0;
+                calculatedChunky = 0;
             }
             // ----------------------------------------------------------------------------------------------------------------------------- //
 
@@ -213,8 +281,16 @@ public class CookingOrb
     {
         for (int i = currentlyTrackedIngredients.Count - 1; i > -1; i--)
         {
+            // Calculating stats.
+            Ingredient actualIngredient = currentlyTrackedIngredients[i].GetComponent<Ingredient>();
+            calculatedSpicy += actualIngredient.spicyness;
+            calculatedChunky += actualIngredient.chunkyness;
+            calculatedSweet += actualIngredient.sweetness;
+
+
             currentIngredients.Add(currentlyTrackedIngredients[i]);
             currentlyTrackedIngredients.Remove(currentlyTrackedIngredients[i]);
+
         }
     }
     public void TrackIngredient(Transform ingredientToTrack)
@@ -240,24 +316,24 @@ public class CookingOrb
         currentlyTrackedIngredients.Remove(ingredientToTrack);
         Debug.Log("Ingredient stopped being tracked by cooking orb.");
     }
+
+    // This function actually isn't being used anymore. It has been replaced by AddTrackedIngredients()
     public void AddIngredient(Transform ingredient)
     {
-
-        
-
-
         currentIngredients.Add(ingredient);
         Debug.Log("Ingredient added to cooking orb.");
-
-
-
-
     }
 
     public void RemoveIngredient(Transform ingredient)
     {
         currentIngredients.Remove(ingredient);
         Debug.Log("Ingredient removed from cooking orb.");
+
+        // Calculating stats.
+        Ingredient actualIngredient = ingredient.GetComponent<Ingredient>();
+        calculatedSpicy -= actualIngredient.spicyness;
+        calculatedChunky -= actualIngredient.chunkyness;
+        calculatedSweet -= actualIngredient.sweetness;
     }
 
     public void CombineIngredient(Ingredient ingredient)
@@ -290,6 +366,8 @@ public class CookingOrb
         currentSpicy = 0;
         currentChunky = 0;
         currentSweet = 0;
+
+        
         
         //currentCookingOrbState = CookingOrbState.EMPTY;
 
@@ -347,6 +425,15 @@ public class CookingOrb
     {
         // Making the cooking orb state OCCUPIED. //
         currentCookingOrbState = CookingOrbState.COOKING;
+
+        // Activating the fire particles. //
+        fireParticles.gameObject.SetActive(true);
+
+        SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbCookingSound, true);
+        SoundManager.PlaySound(soundManager.cookingOrbSource);
+
+        SoundManager.SetSound(soundManager.cookingOrbHatchSource, soundManager.hatchOpen, false);
+        SoundManager.PlaySound(soundManager.cookingOrbHatchSource);
     }
     public void AddWater(Transform waterOrb)
     {
@@ -399,5 +486,10 @@ public class CookingOrb
         GameObject.Destroy(water.gameObject);
         water = null;
         isCentered = false;
+    }
+
+    private void DisplaySoupStats(float spicy, float chunky, float sweet)
+    {
+        statTextbox.text = "CH: " + chunky + "\n" + "SP: " + spicy + "\n" + "SW: " + sweet;
     }
 }

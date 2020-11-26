@@ -10,7 +10,8 @@ public enum CameraMode
     FPS_CONTROL,
     HAND_CONTROL,
     NEWMODE,
-    pauseMode
+    pauseMode,
+    ANIMATION
 }
 
 public enum PlayerState
@@ -136,7 +137,8 @@ public class MouseLook : MonoBehaviour
     Vector3 heldItemOriginalPos;
     Vector3 previousHandMovementDir;
     Vector3 previousHandPos;
-    bool isCentered = true;
+    [HideInInspector]
+    public bool isCentered = true;
 
     Vector3 handMovement;
     RaycastHit target;
@@ -190,6 +192,10 @@ public class MouseLook : MonoBehaviour
 
     private bool isHandReturning = false;
 
+    //[Header("Custom Player Animation")]
+    [HideInInspector]
+    public PlayerCustomAnimation customPlayerAnimator;
+
 
     // Start is called before the first frame update
     void Start()
@@ -206,6 +212,17 @@ public class MouseLook : MonoBehaviour
 
         // Setting the hand to the correct position. //
         hand.localPosition = handFPSPos;
+
+        // Hooking up the custom player animation script;
+        if (gameObject.transform.parent.GetComponent<PlayerCustomAnimation>() != null)
+        {
+            customPlayerAnimator = gameObject.transform.parent.GetComponent<PlayerCustomAnimation>();
+            Debug.Log("Found and hooked up PlayerCustomAnimation.");
+        }
+        else
+        {
+            Debug.Log("Failed to find PlayerCustomAnimation.");
+        }
     }
 
     // Update is called once per frame
@@ -222,7 +239,7 @@ public class MouseLook : MonoBehaviour
         
         CameraState(); // This is the old camera state swapping thing.
 
-        if (!isHoldingItem)
+        if (!isHoldingItem && gameManager.menuManager.currentState == MenuState.none)
         { 
             NewSelectObj();
         }
@@ -231,11 +248,12 @@ public class MouseLook : MonoBehaviour
         InputState();
  
    
+        // No longer centering camera in here, however we are in PlayerCustomAnimation.cs. //
 
-        if (!isCentered)
-        {
-            CentreCamera(heldItemOriginalPos);
-        }
+        //if (!isCentered)
+        //{
+        //    CentreCamera(heldItemOriginalPos);
+        //}
 
         // Acceleration timer counting. //
         accelerationTimer += Time.deltaTime;
@@ -246,9 +264,15 @@ public class MouseLook : MonoBehaviour
             gameManager.RestartGame();
         }
 
-        
+        //  Very sketchy restart system. //
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            customPlayerAnimator.StartAnimation();
+        }
 
-        if(!isHoldingItem)
+
+
+        if (!isHoldingItem)
         {
             // Do idle hand eye thingy. //
             currentThrowCharge = ThrowCharge.SUPER_WEAK;
@@ -256,8 +280,6 @@ public class MouseLook : MonoBehaviour
             eyesMaterial.SetInt("_Idle", 1);
             eyesMaterial.SetInt("_Throw", 0);
             eyesMaterial.SetInt("_Charge", 0);
-
-            Debug.Log("no threshold");
         }
     }
 
@@ -524,18 +546,23 @@ public class MouseLook : MonoBehaviour
                 CameraPause();
                 Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0;
-
+   
                 // Un freezing time on pause screen exit. //
                 if (Input.GetKey(KeyCode.Escape))
                 {
                     Time.timeScale = 1;
                 }      
                 break;
+            case CameraMode.ANIMATION:
+                previousHandPos = hand.position;
+
+
+                break;
         }
     }
 
     
-    void CentreCamera(Vector3 targetPos)
+    public void CentreCamera(Vector3 targetPos)
     {
         isCentered = false;
 
@@ -557,18 +584,31 @@ public class MouseLook : MonoBehaviour
 
 
         // Keeping hand in place //
-        hand.position = previousHandPos;
+        //hand.position = previousHandPos;
 
         // Breaking out of centering mechanic. //
 
-        float dot = Vector3.Dot(-direction.normalized, gameObject.transform.forward);
-        if (dot < 1 && dot > 0.99)
-        {
-            isCentered = true;
-            Debug.Log("Centre finished");
-        }
+
+        // I recently commented this out and it seems to still work so yeah...
+
+        //float dot = Vector3.Dot(-direction.normalized, gameObject.transform.forward);
+        //if (dot < 1 && dot > 0.99)
+        //{
+        //    isCentered = true;
+        //    Debug.Log("Centre finished");
+        //}
 
         
+    }
+
+    public void FinishCameraCenter(Vector3 positionOne, Vector3 positionTwo)
+    {
+        Vector3 test = positionOne - positionTwo;
+        if (Vector3.Dot(-test.normalized, gameObject.transform.forward) <= cameraCenteringDeadZone)
+        {
+            isCentered = false;
+        }
+
     }
     void CameraLook()
     {
@@ -625,10 +665,11 @@ public class MouseLook : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * handControlSensitivity * Time.deltaTime;
 
 
-        float rotMouseX = Input.GetAxis("Mouse X") * rotationSensitivity * Time.deltaTime;
-        float rotMouseY = Input.GetAxis("Mouse Y") * rotationSensitivity * Time.deltaTime;
+        // This used to be multiplied by deltaTime.
+        float rotMouseX = Input.GetAxis("Mouse X") * rotationSensitivity * 0.0167f;
+        float rotMouseY = Input.GetAxis("Mouse Y") * rotationSensitivity * 0.0167f;
 
-        
+
 
         xRotation -= rotMouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -905,14 +946,24 @@ public class MouseLook : MonoBehaviour
         // This is outside of the if statement because regardless of whether or not the item is an ingredient, whole or whatever, we stil want to make it's trigger true.
         currentObj.GetComponent<Collider>().isTrigger = false;
 
-        while (currentObj.parent != null)
+        while (currentObj.parent != null && currentObj.parent.tag == currentObj.tag)
         {
             currentObj = currentObj.parent;
         }
         //if (itemToPickUp.parent != null)
         //{
 
-
+        // Removing ingredient from cooking orb if you picked up from the orb.
+        if (currentObj.tag == "Ingredient")
+        {
+            for (int i = 0; i < theCookingManager.theOrb.currentIngredients.Count; i++)
+            {
+                if (currentObj.transform == theCookingManager.theOrb.currentIngredients[i])
+                {
+                    gameManager.cookingManager.theOrb.RemoveIngredient(currentObj.transform);
+                }
+            }
+        }
 
 
         heldItem = currentObj;

@@ -17,6 +17,10 @@ public enum AlienState
 [Serializable]
 public class AlienAnimation
 {
+
+    GameManager gameManager;
+    SoundManager soundManager;
+
     public AlienState currentState = AlienState.ORDERING;
     public Transform alien;
     [HideInInspector]
@@ -29,11 +33,18 @@ public class AlienAnimation
     public float waitTimer = 0;
 
 
+    // This bool is so I can check if the new order sound has played. //
+    public bool soundPlayed = false;
+
+
 
     [HideInInspector]
     public bool isOrderReady = false;
     public void CreateAlien(Transform alienTransform)
     {
+        gameManager = GameManager.GetInstance();
+        soundManager = gameManager.soundManager;
+
         alien = GameObject.Instantiate(alienTransform, alienTransform.transform.parent);
         alienAnimator = alien.GetComponent<Animator>();
     }
@@ -80,6 +91,12 @@ public class AlienAnimation
     {
         if (alienAnimator.GetCurrentAnimatorStateInfo(0).IsName("SpawnToOrder") && alienAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
+            if (!soundPlayed)
+            { 
+                SoundManager.PlaySound(soundManager.orderSource);
+                soundPlayed = true;
+            }
+
             isOrderReady = true;
             Debug.Log("Reaaaaaaaaaaady");
         }

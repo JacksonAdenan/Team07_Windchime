@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3372000236876067364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3372000236876067367}
+  - component: {fileID: 3372000236876067366}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3372000236876067367
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3372000236876067364}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3372000236876067366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3372000236876067364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bdd12e537b734e4899979119b6cb014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSounds: []
+  switchSounds: []
+  cookingOrbCookingSound: {fileID: 8300000, guid: 086751052fe26c24fa230608491c8d60,
+    type: 3}
+  cookingOrbSuccessSound: {fileID: 8300000, guid: 7a2330abef8c31249adeb215b24109c1,
+    type: 3}
+  hatchOpen: {fileID: 8300000, guid: a846ecb5ef5647245aee57f369b91458, type: 3}
+  cookingOrbSource: {fileID: 0}
+  cookingOrbHatchSource: {fileID: 0}
+  blendingSound: {fileID: 8300000, guid: 45aee2e8af1a14e4d9c7f56a7520cdf6, type: 3}
+  blendingLaunchSound: {fileID: 8300000, guid: b8926fcfc3deed04aaab65ec91815d3d, type: 3}
+  blendingPromptSound: {fileID: 8300000, guid: ebbb035a7e93335468e2f659a84f7603, type: 3}
+  blenderButtonSound: {fileID: 8300000, guid: 0c6d51bb36a6743469957dc9f6abe774, type: 3}
+  blenderSource: {fileID: 0}
+  blenderButtonSource: {fileID: 0}
+  catchingSound: {fileID: 8300000, guid: 6fe3227cc02729e4193666830e4e7629, type: 3}
+  catcherSource: {fileID: 0}
+  applanceSounds: []
+  UI_Interaction_1: {fileID: 8300000, guid: db818bcbe68e289488ae0909e2f63284, type: 3}
+  UI_Interaction_2: {fileID: 8300000, guid: f98165c4463c1b343afa0f780bbead1a, type: 3}
+  UI_Fail: {fileID: 8300000, guid: a990693f7d13f984fa0f8bd5e1e1f40a, type: 3}
+  newOrderMonitorSource: {fileID: 0}
+  itemFabMonitorSource: {fileID: 0}
+  currentOrderMonitorSource: {fileID: 0}
+  canonMonitorSource: {fileID: 0}
+  newOrderSound: {fileID: 8300000, guid: 2b3ca423c8f3bf341ab40517f70796f1, type: 3}
+  orderSource: {fileID: 0}
+  cannonShotSound: {fileID: 8300000, guid: 671436d1f4528b249989a181a48d6b13, type: 3}
+  canonIncinerationSound: {fileID: 8300000, guid: 51394669ff9e27d4e80fedced6c62c32,
+    type: 3}
+  canonButtonSound: {fileID: 8300000, guid: 0c6d51bb36a6743469957dc9f6abe774, type: 3}
+  canonButtonFailSound: {fileID: 8300000, guid: a990693f7d13f984fa0f8bd5e1e1f40a,
+    type: 3}
+  canonSource: {fileID: 0}
+  canonButtonSource: {fileID: 0}
+  otherSounds:
+  - {fileID: 0}

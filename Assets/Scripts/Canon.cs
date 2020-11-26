@@ -15,7 +15,7 @@ public class Canon
 {
     GameManager gameManager;
     OrderManager orderManager;
-
+    SoundManager soundManager;
 
     [Tooltip("This canon transform is for the animation.")]
     // Transform for animation. //
@@ -23,6 +23,7 @@ public class Canon
     // Canon stats and current things. //
     public CanonState currentCanonState = CanonState.EMPTY;
     //public static Soup loadedCapsule;
+    [HideInInspector]
     public bool isLoaded = false;
 
     // These transforms of capsules are just like a thing to show if the canon is loaded or not. They aren't really a part of the game. //
@@ -30,12 +31,26 @@ public class Canon
 
 
     // Reference to current SoupData in the canon. //
+    [HideInInspector]
     public SoupData currentSoup;
+
+
+    // Reference to the button so I can use it for a sound source. //
+    public Transform canonButton;
+
+
+    // Confetti particle stuff. //
+    public Transform canonParticles;
+    private float confetiiTimer = 0;
+    private bool displayParticles = false;
+
+
     // Start is called before the first frame update
     public void Start()
     {
         gameManager = GameManager.GetInstance();
         orderManager = gameManager.orderManager;
+        soundManager = gameManager.soundManager;
 
         // Giving the capsules soup data components because i'm gonna use them to store information. //
         if (canonCapsule.GetComponent<SoupData>() == null)
@@ -50,6 +65,10 @@ public class Canon
         // Canon updates //
         UpdateCanonState();
         UpdateCanonCapsule();
+
+
+        // Displaying confetii. //
+        DisplayConfetii();
     }
 
     void UpdateCanonCapsule()
@@ -100,10 +119,38 @@ public class Canon
         currentSoup = null;
     }
 
+    private void DisplayConfetii()
+    {
+        confetiiTimer += Time.deltaTime;
+        // Turning particles on.
+        if (!canonParticles.gameObject.activeSelf && displayParticles == true)
+        {
+            canonParticles.gameObject.SetActive(true);
+        }
+
+        // Turning particles off.
+        if (confetiiTimer >= 2)
+        {
+            displayParticles = false;
+            confetiiTimer = 0;
+            canonParticles.gameObject.SetActive(false);
+        }
+    }
+
     public void ShootCapsule()
     {
         if (orderManager.acceptedOrders.Count > 0 && isLoaded)
         {
+
+            // Launch sound. //
+            SoundManager.SetSound(soundManager.canonSource, soundManager.cannonShotSound, false);
+            SoundManager.PlaySound(soundManager.canonSource);
+
+            // Button press sound. //
+            SoundManager.SetSound(soundManager.canonButtonSource, soundManager.canonButtonSound, false);
+            SoundManager.PlaySound(soundManager.canonButtonSource);
+
+
             orderManager.CompleteOrder(canonCapsule.GetComponent<SoupData>().theSoup);
             canonCapsule.GetComponent<SoupData>().theSoup = null;
             isLoaded = false;
@@ -111,11 +158,47 @@ public class Canon
 
             // Display points
             MenuManager.DisplayOrderSubmittedText();
+
+
+            // Displaying confetti. //
+            displayParticles = true;
         }
         else
         {
+            // Button fail sound. //
+            SoundManager.SetSound(soundManager.canonButtonSource, soundManager.canonButtonFailSound, false);
+            SoundManager.PlaySound(soundManager.canonButtonSource);
+
             Debug.Log("Tried to submit soup but you do not currently have any orders.");
         }
 
+    }
+
+    public void IncinerateCapsule()
+    {
+        if (isLoaded)
+        {
+
+            // Launch sound. //
+            SoundManager.SetSound(soundManager.canonSource, soundManager.canonIncinerationSound, false);
+            SoundManager.PlaySound(soundManager.canonSource);
+
+            // Button press sound. //
+            SoundManager.SetSound(soundManager.canonButtonSource, soundManager.canonButtonSound, false);
+            SoundManager.PlaySound(soundManager.canonButtonSource);
+
+
+            canonCapsule.GetComponent<SoupData>().theSoup = null;
+            isLoaded = false;
+            Debug.Log("Canon incinerated capsule.");
+        }
+        else
+        {
+            // Button fail sound. //
+            SoundManager.SetSound(soundManager.canonButtonSource, soundManager.canonButtonFailSound, false);
+            SoundManager.PlaySound(soundManager.canonButtonSource);
+
+            Debug.Log("Tried to incinerate capsule but you do not currently have any capsules loaded.");
+        }
     }
 }

@@ -33,6 +33,9 @@ public class SoupCatcher
 
     public SkinnedMeshRenderer skinnedMesh;
 
+    [Header("Reference for sounds")]
+    public Transform catcherBody;
+
     // Start is called before the first frame update
     public void Start()
     {
