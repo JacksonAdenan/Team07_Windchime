@@ -595,7 +595,7 @@ MonoBehaviour:
   chunkyness: 1
   sweetness: 0
   isMeat: 0
-  colourTag: 6
+  colourTag: 4
   colour:
     name: 
     RGBValue:
@@ -11263,7 +11263,7 @@ MonoBehaviour:
   chunkyness: 0
   sweetness: 3
   isMeat: 0
-  colourTag: 5
+  colourTag: 8
   colour:
     name: 
     RGBValue:
@@ -12333,7 +12333,7 @@ MonoBehaviour:
   chunkyness: 1
   sweetness: 0
   isMeat: 0
-  colourTag: 4
+  colourTag: 2
   colour:
     name: 
     RGBValue:
@@ -16420,7 +16420,7 @@ MonoBehaviour:
   chunkyness: 3
   sweetness: 1
   isMeat: 1
-  colourTag: 1
+  colourTag: 5
   colour:
     name: 
     RGBValue:
@@ -21079,7 +21079,7 @@ MonoBehaviour:
   chunkyness: 3
   sweetness: 1
   isMeat: 1
-  colourTag: 2
+  colourTag: 0
   colour:
     name: 
     RGBValue:
@@ -36621,7 +36621,7 @@ MonoBehaviour:
   chunkyness: 2
   sweetness: 1
   isMeat: 1
-  colourTag: 3
+  colourTag: 7
   colour:
     name: 
     RGBValue:
@@ -47355,7 +47355,7 @@ MonoBehaviour:
   chunkyness: 2
   sweetness: 0
   isMeat: 0
-  colourTag: 2
+  colourTag: 9
   colour:
     name: 
     RGBValue:
@@ -47729,7 +47729,7 @@ MonoBehaviour:
   chunkyness: 0
   sweetness: 0
   isMeat: 1
-  colourTag: 2
+  colourTag: 10
   colour:
     name: 
     RGBValue:
@@ -51060,7 +51060,7 @@ MonoBehaviour:
   chunkyness: 2
   sweetness: 1
   isMeat: 0
-  colourTag: 0
+  colourTag: 6
   colour:
     name: 
     RGBValue:
@@ -59683,7 +59683,7 @@ MonoBehaviour:
   chunkyness: 3
   sweetness: 1
   isMeat: 1
-  colourTag: 5
+  colourTag: 3
   colour:
     name: 
     RGBValue:
@@ -60295,7 +60295,7 @@ MonoBehaviour:
   chunkyness: 1
   sweetness: 2
   isMeat: 0
-  colourTag: 3
+  colourTag: 11
   colour:
     name: 
     RGBValue:
