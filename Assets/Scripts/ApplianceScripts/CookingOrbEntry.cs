@@ -30,11 +30,11 @@ public class CookingOrbEntry : MonoBehaviour
         }
 
         if (realObj.tag == "Ingredient" && realObj.transform != MouseLook.heldItem)
-        {
-            
+        {   
             Debug.Log(realObj.name);
             gameManager.cookingManager.theOrb.TrackIngredient(realObj.transform);
         }
+
         if (obj.tag == "Water" && obj.transform != MouseLook.heldItem && (orb.currentCookingOrbState != CookingOrbState.EMPTY_WATER && orb.currentCookingOrbState != CookingOrbState.INGREDIENTS_AND_WATER && !orb.occupyingSoup))
         {
             gameManager.cookingManager.theOrb.AddWater(obj.transform);
@@ -58,7 +58,8 @@ public class CookingOrbEntry : MonoBehaviour
             }
             else if ((gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.EMPTY_WATER || gameManager.cookingManager.theOrb.currentCookingOrbState == CookingOrbState.INGREDIENTS_AND_WATER) && realObj.transform != MouseLook.heldItem)
             {
-                gameManager.cookingManager.theOrb.RemoveIngredient(realObj.transform);
+                //gameManager.cookingManager.theOrb.RemoveIngredient(realObj.transform);
+                Debug.Log("Removed Ingredient");
             }
         }
     }

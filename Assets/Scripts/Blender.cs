@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using TMPro;
 public enum Blend
 { 
     HALF,
@@ -103,6 +103,8 @@ public class Blender
 
     private Material blenderButtonSlider;
 
+    public TextMeshProUGUI blenderProgressText;
+
 
 
     public void BlenderStart()
@@ -151,6 +153,9 @@ public class Blender
 
         // Shrinking ingredients. //
         ShrinkIngredients();
+
+        // Blender Updating Progress Text //
+        blenderProgressText.text = currentBlenderButtonState.ToString();
 
     }
 

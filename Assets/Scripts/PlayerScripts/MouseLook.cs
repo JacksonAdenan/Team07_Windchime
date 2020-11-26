@@ -196,6 +196,9 @@ public class MouseLook : MonoBehaviour
     [HideInInspector]
     public PlayerCustomAnimation customPlayerAnimator;
 
+    private Camera camera;
+    private bool isLookingAtTarget = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -223,6 +226,10 @@ public class MouseLook : MonoBehaviour
         {
             Debug.Log("Failed to find PlayerCustomAnimation.");
         }
+
+
+        // Initialising camera.
+        camera = gameObject.GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -637,10 +644,17 @@ public class MouseLook : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-  
+
 
         // Old crosshair placement code. I'm gonna try implement a new way which will be smoother and wont break if the player isn't looking at anything.
-        crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
+        if (isLookingAtTarget)
+        {
+            crosshairImage.transform.position = camera.WorldToScreenPoint(target.point);
+        }
+        else
+        {   
+            crosshairImage.transform.position = camera.WorldToScreenPoint(Vector3.zero);
+        }
 
         //Vector3 crosshairDir = realHandCentre.position + realHandCentre.forward * (5);
         //Debug.DrawLine(realHandCentre.position, crosshairDir, Color.red, 1);
@@ -675,7 +689,16 @@ public class MouseLook : MonoBehaviour
     void CameraLookFPS()
     {
         // Old crosshair placement code. I'm gonna try implement a new way which will be smoother and wont break if the player isn't looking at anything.
-        crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
+        //crosshairImage.transform.position = gameObject.GetComponent<Camera>().WorldToScreenPoint(target.point);
+
+        if (isLookingAtTarget)
+        {
+            crosshairImage.transform.position = camera.WorldToScreenPoint(target.point);
+        }
+        else
+        {
+            crosshairImage.transform.localPosition = camera.ScreenToWorldPoint(Vector3.zero);
+        }
 
         float mouseX = Input.GetAxis("Mouse X") * handControlSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * handControlSensitivity * Time.deltaTime;
@@ -1557,7 +1580,14 @@ public class MouseLook : MonoBehaviour
         if (currentCameraMode == CameraMode.HAND_CONTROL)
         {
             // Doing raycast from hand //
-            Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2));
+            if (Physics.Raycast(realHandCentre.position, realHandCentre.transform.forward * 100, out target, 100, ~(1 << 2)))
+            {
+                isLookingAtTarget = true;
+            }
+            else
+            {
+                isLookingAtTarget = false;
+            }
             Debug.DrawRay(realHandCentre.transform.position, realHandCentre.transform.forward * 100, Color.blue);
 
             
@@ -1565,7 +1595,14 @@ public class MouseLook : MonoBehaviour
         else if (currentCameraMode == CameraMode.FPS_CONTROL)
         {
             // Doing raycast from screen //
-            Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~((1 << 2) | (1 << 9)));
+            if (Physics.Raycast(gameObject.transform.position, gameObject.transform.forward * 100, out target, 100, ~((1 << 2) | (1 << 9))))
+            {
+                isLookingAtTarget = true;
+            }
+            else
+            {
+                isLookingAtTarget = false;
+            }
             Debug.DrawRay(gameObject.transform.position, gameObject.transform.forward * 100, Color.blue);
         }
     }
