@@ -172,8 +172,8 @@ public class SwitchData : MonoBehaviour
                     break;
                 case SwitchType.MAIN_MENU_PLAY:
                     onCooldown = true;
-                    SoundManager.StopPlayingSound(soundManager.mainMenuSource);
-                    SoundManager.PlaySound(soundManager.mainMenuSource);
+                    SoundManager.StopPlayingSound(soundManager.mainMenuSpecialSource);
+                    SoundManager.PlaySound(soundManager.mainMenuSpecialSource);
                     gameManager.StartGame();
 
                     gameManager.playerController.selectedSwitch = null;

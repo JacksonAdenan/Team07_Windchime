@@ -1403,6 +1403,11 @@ PrefabInstance:
       propertyPath: objectCollisionSound
       value: 
       objectReference: {fileID: 8300000, guid: 8afe90d333903c94a9be8a61e5b7c936, type: 3}
+    - target: {fileID: 2659395663585256154, guid: ad3031fad952bd148816a255746a9e85,
+        type: 3}
+      propertyPath: specialMenuButtonSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0c6d51bb36a6743469957dc9f6abe774, type: 3}
     - target: {fileID: 2659395663681164064, guid: ad3031fad952bd148816a255746a9e85,
         type: 3}
       propertyPath: m_Name

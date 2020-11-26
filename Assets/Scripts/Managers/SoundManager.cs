@@ -12,9 +12,12 @@ public class SoundManager : MonoBehaviour
 
     [Header("Main Menu Sounds")]
     public AudioClip menuButtonSound;
+    public AudioClip specialMenuButtonSound;
 
     [HideInInspector]
     public AudioSource mainMenuSource;
+    [HideInInspector]
+    public AudioSource mainMenuSpecialSource;
 
     [Header("Player Sounds")]
     public List<AudioClip> playerSounds;
@@ -189,6 +192,13 @@ public class SoundManager : MonoBehaviour
 
         SetAudioSource(gameManager.monitorManager.mainMenuMonitor, out mainMenuSource);
         SetSound(mainMenuSource, menuButtonSound, false);
+
+        SetAudioSource(gameManager.monitorManager.mainMenuMonitor, out mainMenuSpecialSource);
+        SetSound(mainMenuSpecialSource, specialMenuButtonSound, false);
+
+        mainMenuSpecialSource.pitch = 0.70f;
+
+
         // ------------------------------------------------------------------------------------ //
 
         // ----------------------------- Order Sound Setup ----------------------------- //
