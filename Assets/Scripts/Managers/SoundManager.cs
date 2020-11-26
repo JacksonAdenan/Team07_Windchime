@@ -7,11 +7,17 @@ public class SoundManager : MonoBehaviour
 
     GameManager gameManager;
 
+
+    public float audioVolume = 50;
+
     [Header("Main Menu Sounds")]
     public AudioClip menuButtonSound;
+    public AudioClip specialMenuButtonSound;
 
     [HideInInspector]
     public AudioSource mainMenuSource;
+    [HideInInspector]
+    public AudioSource mainMenuSpecialSource;
 
     [Header("Player Sounds")]
     public List<AudioClip> playerSounds;
@@ -21,11 +27,14 @@ public class SoundManager : MonoBehaviour
 
     [Header("Cooking Orb Sounds")]
     public AudioClip cookingOrbCookingSound;
+    public AudioClip cookingOrbCookingSound2;
     public AudioClip cookingOrbSuccessSound;
     public AudioClip hatchOpen;
 
     [HideInInspector]
     public AudioSource cookingOrbSource;
+    [HideInInspector]
+    public AudioSource cookingOrbSource2;
     [HideInInspector]
     public AudioSource cookingOrbHatchSource;
 
@@ -89,6 +98,11 @@ public class SoundManager : MonoBehaviour
     [HideInInspector]
     public AudioSource playerSource;
 
+    [Header("Object Collision Sounds")]
+    public AudioClip ingredientCollisionSound;
+    public AudioClip waterCollisionSound;
+    public AudioClip objectCollisionSound;
+
 
 
     public static void PlaySound(AudioSource audioSource)
@@ -130,10 +144,12 @@ public class SoundManager : MonoBehaviour
             AudioSource[] audioSources;
             audioSources = obj.GetComponents<AudioSource>();
             sourceToHookUp = audioSources[audioSources.Length - 1];
+            sourceToHookUp.spatialBlend = 1;
         }
         else
         { 
             sourceToHookUp = obj.GetComponent<AudioSource>();
+            sourceToHookUp.spatialBlend = 1;
         }
 
     }
@@ -146,6 +162,8 @@ public class SoundManager : MonoBehaviour
         // ----------------------------- Cooking Orb Sound Setup ----------------------------- //
         SetAudioSource(gameManager.cookingManager.theOrb.cookingOrb, out cookingOrbSource);
         SetAudioSource(gameManager.cookingManager.theOrb.cookingOrb, out cookingOrbHatchSource);
+        SetAudioSource(gameManager.cookingManager.theOrb.cookingOrb, out cookingOrbSource2);
+
         // ------------------------------------------------------------------------------------ //
 
         // ----------------------------- Blender Sound Setup ----------------------------- //
@@ -174,6 +192,13 @@ public class SoundManager : MonoBehaviour
 
         SetAudioSource(gameManager.monitorManager.mainMenuMonitor, out mainMenuSource);
         SetSound(mainMenuSource, menuButtonSound, false);
+
+        SetAudioSource(gameManager.monitorManager.mainMenuMonitor, out mainMenuSpecialSource);
+        SetSound(mainMenuSpecialSource, specialMenuButtonSound, false);
+
+        mainMenuSpecialSource.pitch = 0.70f;
+
+
         // ------------------------------------------------------------------------------------ //
 
         // ----------------------------- Order Sound Setup ----------------------------- //
@@ -187,7 +212,7 @@ public class SoundManager : MonoBehaviour
         // ------------------------------------------------------------------------------------ //
 
         // ----------------------------- Capsule Vendor Sound Setup ----------------------------- //
-        SetAudioSource(gameManager.cookingManager.theCanon.canon, out capsuleVendorSource);
+        SetAudioSource(gameManager.cookingManager.theVendor.vendorBody, out capsuleVendorSource);
         SetSound(capsuleVendorSource, buttonPressSound, false);
         // ------------------------------------------------------------------------------------ //
 

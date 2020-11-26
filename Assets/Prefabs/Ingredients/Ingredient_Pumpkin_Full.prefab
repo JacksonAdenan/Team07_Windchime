@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -5848055033449625724}
   - component: {fileID: 5902822836819959748}
   - component: {fileID: -6715527983470502715}
+  - component: {fileID: -3289479754252844506}
   m_Layer: 8
   m_Name: Ingredient_Pumpkin_Full
   m_TagString: Ingredient
@@ -142,3 +143,15 @@ MonoBehaviour:
     type: 3}
   blendedPrefab: {fileID: 0}
   icon: {fileID: 0}
+--- !u!114 &-3289479754252844506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5578815747227292277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dba1624f48d2d44af43685e4e00cfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

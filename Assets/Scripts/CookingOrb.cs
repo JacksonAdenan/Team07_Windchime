@@ -139,8 +139,11 @@ public class CookingOrb
 
 
                 SoundManager.StopPlayingSound(soundManager.cookingOrbSource);
+                SoundManager.StopPlayingSound(soundManager.cookingOrbSource2);
+
                 SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbSuccessSound, false);
                 SoundManager.PlaySound(soundManager.cookingOrbSource);
+
 
                 SoundManager.SetSound(soundManager.cookingOrbHatchSource, soundManager.hatchOpen, false);
                 SoundManager.PlaySound(soundManager.cookingOrbHatchSource);
@@ -201,8 +204,16 @@ public class CookingOrb
             case CookingOrbState.EMPTY:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 // Food_In
-                lightsMaterial.SetInt("Food_In", 0);
+                
                 lightsMaterial.SetInt("Water_In", 0);
+                if (currentlyTrackedIngredients.Count > 0)
+                {
+                    lightsMaterial.SetInt("Food_In", 1);
+                }
+                else
+                {
+                    lightsMaterial.SetInt("Food_In", 0);
+                }
                 break;
             case CookingOrbState.EMPTY_WATER:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
@@ -217,7 +228,7 @@ public class CookingOrb
             case CookingOrbState.INGREDIENTS_NOWATER:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
                 lightsMaterial.SetInt("Food_In", 1);
-                lightsMaterial.SetInt("Water_In", 1);
+                lightsMaterial.SetInt("Water_In", 0);
                 break;
             case CookingOrbState.OCCUPIED_SOUP:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
@@ -283,14 +294,13 @@ public class CookingOrb
         {
             // Calculating stats.
             Ingredient actualIngredient = currentlyTrackedIngredients[i].GetComponent<Ingredient>();
+
             calculatedSpicy += actualIngredient.spicyness;
             calculatedChunky += actualIngredient.chunkyness;
             calculatedSweet += actualIngredient.sweetness;
 
-
-            currentIngredients.Add(currentlyTrackedIngredients[i]);
+            AddIngredient(currentlyTrackedIngredients[i]);
             currentlyTrackedIngredients.Remove(currentlyTrackedIngredients[i]);
-
         }
     }
     public void TrackIngredient(Transform ingredientToTrack)
@@ -322,6 +332,8 @@ public class CookingOrb
     {
         currentIngredients.Add(ingredient);
         Debug.Log("Ingredient added to cooking orb.");
+
+        
     }
 
     public void RemoveIngredient(Transform ingredient)
@@ -431,6 +443,9 @@ public class CookingOrb
 
         SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbCookingSound, true);
         SoundManager.PlaySound(soundManager.cookingOrbSource);
+
+        SoundManager.SetSound(soundManager.cookingOrbSource2, soundManager.cookingOrbCookingSound2, true);
+        SoundManager.PlaySound(soundManager.cookingOrbSource2);
 
         SoundManager.SetSound(soundManager.cookingOrbHatchSource, soundManager.hatchOpen, false);
         SoundManager.PlaySound(soundManager.cookingOrbHatchSource);
