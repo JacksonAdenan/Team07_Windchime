@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 5f58a987ed78acf4e90c79d3c71ffc45
 ModelImporter:
-  serializedVersion: 19300
+  serializedVersion: 19301
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
@@ -62,8 +62,18 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
-      transformMask: []
-      maskType: 3
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Pill_Vendor
+        weight: 1
+      - path: Pill_Vendor/Base
+        weight: 0
+      - path: Pill_Vendor/Button
+        weight: 0
+      - path: Pill_Vendor/Door
+        weight: 1
+      maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
@@ -91,8 +101,18 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
-      transformMask: []
-      maskType: 3
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Pill_Vendor
+        weight: 0
+      - path: Pill_Vendor/Base
+        weight: 0
+      - path: Pill_Vendor/Button
+        weight: 1
+      - path: Pill_Vendor/Door
+        weight: 0
+      maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     isReadable: 0
@@ -107,6 +127,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1

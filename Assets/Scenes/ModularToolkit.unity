@@ -1168,42 +1168,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1105869412}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &23829322 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5333891892208930030, guid: 5eb9f7ce9e483f04bbbfea4b3311cb79,
-    type: 3}
-  m_PrefabInstance: {fileID: 1973965754}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &23829326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23829322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8191ff5ba031f8e4e8641ef978a349cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 12
-  switchSpamCooldown: 0
-  switchCooldownTimer: 0
-  onCooldown: 0
---- !u!64 &23829327
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23829322}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5447036705194824928, guid: 5f58a987ed78acf4e90c79d3c71ffc45, type: 3}
 --- !u!1 &25659945
 GameObject:
   m_ObjectHideFlags: 0
@@ -39543,6 +39507,31 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1220576186}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1222584662 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3182767769047074739, guid: 5eb9f7ce9e483f04bbbfea4b3311cb79,
+    type: 3}
+  m_PrefabInstance: {fileID: 1973965754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1222584663
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222584662}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f23129cb337aadb4290d29554864fb51, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1223568170
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43572,7 +43561,7 @@ PrefabInstance:
     - target: {fileID: 4000996055713155448, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000996055713155449, guid: f94e74285cdd2ff4e9a3e09ed62a57e6,
         type: 3}
@@ -46133,7 +46122,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420159981}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 2.625, z: 12.75}
+  m_LocalPosition: {x: 0.25, y: 2.625, z: 12.239}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1453228597}
@@ -58639,7 +58628,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh19248
+  m_Name: pb_Mesh23830
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -63479,21 +63468,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Appliances_Pill_Vendor
-      objectReference: {fileID: 0}
-    - target: {fileID: 5333891892208930030, guid: 5eb9f7ce9e483f04bbbfea4b3311cb79,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 5333891892208930030, guid: 5eb9f7ce9e483f04bbbfea4b3311cb79,
-        type: 3}
-      propertyPath: m_TagString
-      value: Switch
-      objectReference: {fileID: 0}
-    - target: {fileID: 6784518983979529302, guid: 5eb9f7ce9e483f04bbbfea4b3311cb79,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5eb9f7ce9e483f04bbbfea4b3311cb79, type: 3}
