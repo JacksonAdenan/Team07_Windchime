@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -3649052686245544345}
   - component: {fileID: 1081746637623465723}
   - component: {fileID: -2145916931007530079}
+  - component: {fileID: -4306506235403882781}
   m_Layer: 8
   m_Name: Food_Carrot_Full
   m_TagString: Ingredient
@@ -142,3 +143,15 @@ MonoBehaviour:
     type: 3}
   blendedPrefab: {fileID: 0}
   icon: {fileID: 0}
+--- !u!114 &-4306506235403882781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6845811080885721079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dba1624f48d2d44af43685e4e00cfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

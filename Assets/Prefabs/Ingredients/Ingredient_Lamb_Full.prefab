@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1809795325817923915}
   - component: {fileID: -3119871855155188056}
   - component: {fileID: 4926120610914457830}
+  - component: {fileID: -5942550009759637988}
   m_Layer: 8
   m_Name: Ingredient_Lamb_Full
   m_TagString: Ingredient
@@ -142,3 +143,15 @@ MonoBehaviour:
     type: 3}
   blendedPrefab: {fileID: 0}
   icon: {fileID: 0}
+--- !u!114 &-5942550009759637988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5609892562252577244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dba1624f48d2d44af43685e4e00cfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

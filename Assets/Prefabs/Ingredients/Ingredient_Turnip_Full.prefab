@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -8852190806696942192}
   - component: {fileID: -1245480359529137812}
   - component: {fileID: -737130244302045693}
+  - component: {fileID: 5161424605491178743}
   m_Layer: 8
   m_Name: Ingredient_Turnip_Full
   m_TagString: Ingredient
@@ -142,3 +143,15 @@ MonoBehaviour:
     type: 3}
   blendedPrefab: {fileID: 0}
   icon: {fileID: 0}
+--- !u!114 &5161424605491178743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155511711910651562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58dba1624f48d2d44af43685e4e00cfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

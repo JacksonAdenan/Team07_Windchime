@@ -89,6 +89,11 @@ public class SoundManager : MonoBehaviour
     [HideInInspector]
     public AudioSource playerSource;
 
+    [Header("Object Collision Sounds")]
+    public AudioClip ingredientCollisionSound;
+    public AudioClip waterCollisionSound;
+    public AudioClip objectCollisionSound;
+
 
 
     public static void PlaySound(AudioSource audioSource)
@@ -130,10 +135,12 @@ public class SoundManager : MonoBehaviour
             AudioSource[] audioSources;
             audioSources = obj.GetComponents<AudioSource>();
             sourceToHookUp = audioSources[audioSources.Length - 1];
+            sourceToHookUp.spatialBlend = 1;
         }
         else
         { 
             sourceToHookUp = obj.GetComponent<AudioSource>();
+            sourceToHookUp.spatialBlend = 1;
         }
 
     }
