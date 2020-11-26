@@ -35,6 +35,7 @@ public class Blender
 
     GameManager gameManager;
     SoundManager soundManager;
+    ColourManager colourManager;
 
     public Transform blender;
 
@@ -95,6 +96,12 @@ public class Blender
     [Header("Blender Part Reference For Sound")]
     public Transform blenderButton;
 
+    [Header("Blender Particles")]
+    public Transform blenderParticles;
+
+
+    private Material blenderButtonSlider;
+
 
 
     public void BlenderStart()
@@ -102,10 +109,14 @@ public class Blender
 
         gameManager = GameManager.GetInstance();
         soundManager = gameManager.soundManager;
+        colourManager = gameManager.colourManager;
 
         currentBlenderIngredients = new List<Transform>();
 
         shrinkingIngredients = new List<Transform>();
+
+        // Initialising blenderButtonSlider material.
+        blenderButtonSlider = blenderButton.GetComponent<MeshRenderer>().materials[1];
 
     }
     public void BlenderUpdate()
@@ -359,12 +370,18 @@ public class Blender
     public void BlendProgress()
     {
         // Main tracking of blending progress. //
-        blendingDuration += Time.deltaTime;
-        if (blendingDuration >= 1)
-        {
-            blendProgress += 1;
-            blendingDuration = 0;
+        //blendingDuration += Time.deltaTime;
+        //if (blendingDuration >= 1)
+        //{
+
+        // We only want to blend if it's not beeping so we put this if statement here. 
+        if (!isHalfBlended && !isFullBlended)
+        { 
+            blendProgress += Time.deltaTime;
         }
+
+        //blendingDuration = 0;
+        //}
 
         // Timers for how long the player will be able to press the button to "continue" and "complete". //
         if (isHalfBlended)
@@ -392,10 +409,15 @@ public class Blender
             isFullBlended = true;
             isHalfBlended = false;
         }
+
+        blenderButtonSlider.SetFloat("BlendProgres", (blendProgress / 10));
     }
 
     public void StartBlending()
     {
+        
+        SetBlenderParticle(colourManager.ConvertColour(currentBlenderIngredients[currentBlenderIngredients.Count - 1].GetComponent<Ingredient>().colour));
+
         currentBlenderState = BlenderState.BLENDING;
         SoundManager.SetSound(soundManager.blenderSource, soundManager.blendingSound, true);
         SoundManager.PlaySound(soundManager.blenderSource);
@@ -479,6 +501,11 @@ public class Blender
                 blender.GetComponent<Animator>().SetBool("IsOpen", true);
                 break;
         }
+    }
+
+    private void SetBlenderParticle(Color colorToSet)
+    {
+        //blenderParticles.GetChild(0).GetComponent<Renderer>().sharedMaterial.
     }
 
 }

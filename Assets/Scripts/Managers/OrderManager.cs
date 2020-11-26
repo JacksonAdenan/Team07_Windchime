@@ -184,15 +184,10 @@ public class OrderManager : MonoBehaviour
                 selectedOrder = -1;
             }
 
-            Debug.Log("selected order is null");
-            Debug.Log("1accepted orders size: " + acceptedOrders.Count);
         }
         else if (acceptedOrders.Count > 0 && selectedOrder == -1)
         {
             selectedOrder = 0;
-            Debug.Log("ASSIGNED SELECTED ORDER");
-            
-            
         }
     }
     public void SwapSelectedOrder()

@@ -79,6 +79,12 @@ public class CookingOrb
     private float calculatedSweet;
 
 
+    [Header("Cooking Orb Base")]
+    public Transform cookingOrbBase;
+
+    //[Header("Cooking Orb Light Animation")]
+    private Material lightsMaterial; 
+
 
     float xRotation;
     // Start is called before the first frame update
@@ -103,6 +109,9 @@ public class CookingOrb
 
         // Turning off the fire particles. //
         fireParticles.gameObject.SetActive(false);
+
+        // Initialising the lightsMaterial.
+        lightsMaterial = cookingOrbBase.GetComponent<Renderer>().material;
     }
 
     // Update is called once per frame
@@ -191,21 +200,34 @@ public class CookingOrb
         {
             case CookingOrbState.EMPTY:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                // Food_In
+                lightsMaterial.SetInt("Food_In", 0);
+                lightsMaterial.SetInt("Water_In", 0);
                 break;
             case CookingOrbState.EMPTY_WATER:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                lightsMaterial.SetInt("Food_In", 0);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
             case CookingOrbState.INGREDIENTS_AND_WATER:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                lightsMaterial.SetInt("Food_In", 1);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
             case CookingOrbState.INGREDIENTS_NOWATER:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                lightsMaterial.SetInt("Food_In", 1);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
             case CookingOrbState.OCCUPIED_SOUP:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", true);
+                lightsMaterial.SetInt("Food_In", 1);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
             case CookingOrbState.COOKING:
                 cookingOrb.GetComponent<Animator>().SetBool("IsOpen", false);
+                lightsMaterial.SetInt("Food_In", 1);
+                lightsMaterial.SetInt("Water_In", 1);
                 break;
         }
     }
@@ -222,6 +244,11 @@ public class CookingOrb
 
                 // Freeing the cooking orb. //
                 currentCookingOrbState = CookingOrbState.EMPTY;
+
+                // Clearing the calculated stats to be ready for the next soup.
+                calculatedSweet = 0;
+                calculatedSpicy = 0;
+                calculatedChunky = 0;
             }
             // ----------------------------------------------------------------------------------------------------------------------------- //
 
@@ -340,9 +367,7 @@ public class CookingOrb
         currentChunky = 0;
         currentSweet = 0;
 
-        calculatedSweet = 0;
-        calculatedSpicy = 0;
-        calculatedChunky = 0;
+        
         
         //currentCookingOrbState = CookingOrbState.EMPTY;
 

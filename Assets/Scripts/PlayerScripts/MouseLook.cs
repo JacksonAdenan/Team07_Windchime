@@ -280,8 +280,6 @@ public class MouseLook : MonoBehaviour
             eyesMaterial.SetInt("_Idle", 1);
             eyesMaterial.SetInt("_Throw", 0);
             eyesMaterial.SetInt("_Charge", 0);
-
-            Debug.Log("no threshold");
         }
     }
 
