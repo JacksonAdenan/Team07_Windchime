@@ -9,6 +9,7 @@ public class GameOverUI : MonoBehaviour
   
     public Timer timer;
     public Canvas hud;
+    
 
     public string menuSceneName = "Menu Scene";
 
