@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public ScoreManager scoreManager;
     public MenuManager menuManager;
     public MouseLook playerController;
+    public PlayerMovement playerMovementController;
     public ColourManager colourManager;
     public SoundManager soundManager;
     public MonitorManager monitorManager;
@@ -95,5 +96,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game started.");
         currentGameState = GameState.PLAYING;
         playerController.customPlayerAnimator.StartAnimation();
+
+        playerMovementController.isFrozen = false;
+        
     }
 }

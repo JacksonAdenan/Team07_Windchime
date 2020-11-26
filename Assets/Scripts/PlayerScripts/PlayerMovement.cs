@@ -15,10 +15,16 @@ public class PlayerMovement : MonoBehaviour
 
     bool isGrounded;
     Vector3 velocity;
+
+
+    private Vector3 originalPosition;
+
+    public bool isFrozen = true;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        originalPosition = gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -43,9 +49,23 @@ public class PlayerMovement : MonoBehaviour
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+
+
+        // Freezing movement. //
+        if (isFrozen)
+        {
+            FreezeMovement();
+        }
         
     }
 
+
+    public void FreezeMovement()
+    {
+
+        gameObject.transform.position = originalPosition;
+
+    }
 
 
 }
