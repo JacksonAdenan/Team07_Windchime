@@ -139,8 +139,11 @@ public class CookingOrb
 
 
                 SoundManager.StopPlayingSound(soundManager.cookingOrbSource);
+                SoundManager.StopPlayingSound(soundManager.cookingOrbSource2);
+
                 SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbSuccessSound, false);
                 SoundManager.PlaySound(soundManager.cookingOrbSource);
+
 
                 SoundManager.SetSound(soundManager.cookingOrbHatchSource, soundManager.hatchOpen, false);
                 SoundManager.PlaySound(soundManager.cookingOrbHatchSource);
@@ -431,6 +434,9 @@ public class CookingOrb
 
         SoundManager.SetSound(soundManager.cookingOrbSource, soundManager.cookingOrbCookingSound, true);
         SoundManager.PlaySound(soundManager.cookingOrbSource);
+
+        SoundManager.SetSound(soundManager.cookingOrbSource2, soundManager.cookingOrbCookingSound2, true);
+        SoundManager.PlaySound(soundManager.cookingOrbSource2);
 
         SoundManager.SetSound(soundManager.cookingOrbHatchSource, soundManager.hatchOpen, false);
         SoundManager.PlaySound(soundManager.cookingOrbHatchSource);

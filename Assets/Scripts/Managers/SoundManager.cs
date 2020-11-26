@@ -7,6 +7,9 @@ public class SoundManager : MonoBehaviour
 
     GameManager gameManager;
 
+
+    public float audioVolume = 50;
+
     [Header("Main Menu Sounds")]
     public AudioClip menuButtonSound;
 
@@ -21,11 +24,14 @@ public class SoundManager : MonoBehaviour
 
     [Header("Cooking Orb Sounds")]
     public AudioClip cookingOrbCookingSound;
+    public AudioClip cookingOrbCookingSound2;
     public AudioClip cookingOrbSuccessSound;
     public AudioClip hatchOpen;
 
     [HideInInspector]
     public AudioSource cookingOrbSource;
+    [HideInInspector]
+    public AudioSource cookingOrbSource2;
     [HideInInspector]
     public AudioSource cookingOrbHatchSource;
 
@@ -153,6 +159,8 @@ public class SoundManager : MonoBehaviour
         // ----------------------------- Cooking Orb Sound Setup ----------------------------- //
         SetAudioSource(gameManager.cookingManager.theOrb.cookingOrb, out cookingOrbSource);
         SetAudioSource(gameManager.cookingManager.theOrb.cookingOrb, out cookingOrbHatchSource);
+        SetAudioSource(gameManager.cookingManager.theOrb.cookingOrb, out cookingOrbSource2);
+
         // ------------------------------------------------------------------------------------ //
 
         // ----------------------------- Blender Sound Setup ----------------------------- //
@@ -194,7 +202,7 @@ public class SoundManager : MonoBehaviour
         // ------------------------------------------------------------------------------------ //
 
         // ----------------------------- Capsule Vendor Sound Setup ----------------------------- //
-        SetAudioSource(gameManager.cookingManager.theCanon.canon, out capsuleVendorSource);
+        SetAudioSource(gameManager.cookingManager.theVendor.vendorBody, out capsuleVendorSource);
         SetSound(capsuleVendorSource, buttonPressSound, false);
         // ------------------------------------------------------------------------------------ //
 

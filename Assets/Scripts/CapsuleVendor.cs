@@ -9,6 +9,8 @@ public class CapsuleVendor
 
     public Transform capsule;
     public Transform capsuleSpawnLocation;
+    [Header("Appliance reference for sound")]
+    public Transform vendorBody;
     public void SpawnCapsule()
     {
         Transform newCapsule = GameObject.Instantiate(capsule, capsuleSpawnLocation.position, capsuleSpawnLocation.rotation);

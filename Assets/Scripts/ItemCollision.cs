@@ -18,6 +18,7 @@ public class ItemCollision : MonoBehaviour
         gameObject.AddComponent<AudioSource>();
         thisAudioSource = gameObject.GetComponent<AudioSource>();
         thisAudioSource.spatialBlend = 1;
+        thisAudioSource.volume = soundManager.audioVolume;
 
         AttachAppropriateSound();
     }
@@ -40,6 +41,9 @@ public class ItemCollision : MonoBehaviour
                 break;
             case "Water":
                 SoundManager.SetSound(thisAudioSource, soundManager.waterCollisionSound, false);
+                break;
+            case "Capsule":
+                SoundManager.SetSound(thisAudioSource, soundManager.objectCollisionSound, false);
                 break;
         }
     }

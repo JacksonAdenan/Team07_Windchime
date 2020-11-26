@@ -1365,6 +1365,21 @@ PrefabInstance:
       propertyPath: waterCollisionSound
       value: 
       objectReference: {fileID: 8300000, guid: 8d52a7e6901718c4f8678c18a175c641, type: 3}
+    - target: {fileID: 2659395663585256154, guid: ad3031fad952bd148816a255746a9e85,
+        type: 3}
+      propertyPath: audioVolume
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2659395663585256154, guid: ad3031fad952bd148816a255746a9e85,
+        type: 3}
+      propertyPath: cookingOrbCookingSound2
+      value: 
+      objectReference: {fileID: 8300000, guid: f6a772269d9fc364eb9cc58682aa9069, type: 3}
+    - target: {fileID: 2659395663585256154, guid: ad3031fad952bd148816a255746a9e85,
+        type: 3}
+      propertyPath: objectCollisionSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 8afe90d333903c94a9be8a61e5b7c936, type: 3}
     - target: {fileID: 2659395663681164064, guid: ad3031fad952bd148816a255746a9e85,
         type: 3}
       propertyPath: m_Name
@@ -1605,6 +1620,11 @@ PrefabInstance:
       propertyPath: theBlender.blenderParticles
       value: 
       objectReference: {fileID: 508877216}
+    - target: {fileID: 2659395664217631659, guid: ad3031fad952bd148816a255746a9e85,
+        type: 3}
+      propertyPath: theVendor.vendorBody
+      value: 
+      objectReference: {fileID: 1973965755}
     - target: {fileID: 4737363723868127732, guid: ad3031fad952bd148816a255746a9e85,
         type: 3}
       propertyPath: menuManager
@@ -2329,7 +2349,7 @@ Transform:
   m_LocalScale: {x: 0.4480625, y: 0.5909944, z: 0.4480625}
   m_Children: []
   m_Father: {fileID: 194187224}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &56842233
 MonoBehaviour:
@@ -6439,7 +6459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8191ff5ba031f8e4e8641ef978a349cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 3
+  type: 13
   switchSpamCooldown: 0
   switchCooldownTimer: 0
   onCooldown: 0
@@ -7319,7 +7339,7 @@ PrefabInstance:
     - target: {fileID: 950370352191556005, guid: f3c0aeb587c359242936a1655b772db2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1212161935656088280, guid: f3c0aeb587c359242936a1655b772db2,
         type: 3}
@@ -17129,7 +17149,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0c6d51bb36a6743469957dc9f6abe774, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -39480,7 +39500,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0c6d51bb36a6743469957dc9f6abe774, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -59232,7 +59252,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0c6d51bb36a6743469957dc9f6abe774, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0

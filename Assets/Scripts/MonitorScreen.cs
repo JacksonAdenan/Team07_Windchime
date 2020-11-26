@@ -10,6 +10,7 @@ public enum MonitorType
     NEW_ORDER_MONITOR,
     CURRENT_ORDER_MONITOR,
     CANON_MONITOR,
+    MAIN_MENU_MONITOR
 
 }
 public enum ScreenState

@@ -35,7 +35,7 @@ public class CookingOrbEntry : MonoBehaviour
             Debug.Log(realObj.name);
             gameManager.cookingManager.theOrb.TrackIngredient(realObj.transform);
         }
-        if (obj.tag == "Water" && obj.transform != MouseLook.heldItem && (orb.currentCookingOrbState != CookingOrbState.EMPTY_WATER && orb.currentCookingOrbState != CookingOrbState.INGREDIENTS_AND_WATER))
+        if (obj.tag == "Water" && obj.transform != MouseLook.heldItem && (orb.currentCookingOrbState != CookingOrbState.EMPTY_WATER && orb.currentCookingOrbState != CookingOrbState.INGREDIENTS_AND_WATER && !orb.occupyingSoup))
         {
             gameManager.cookingManager.theOrb.AddWater(obj.transform);
             Destroy(obj.gameObject);

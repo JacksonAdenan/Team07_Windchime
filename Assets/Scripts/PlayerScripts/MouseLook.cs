@@ -372,15 +372,24 @@ public class MouseLook : MonoBehaviour
                 }
                 break;
             case PlayerState.HOLDING_ITEM:
-                if (Input.GetMouseButton(1))
-                {
-                    // Charging up throw. //
-                    ThrowTimer();
-                }
-                if (Input.GetMouseButtonUp(0))
+                //if (Input.GetMouseButton(1))
+                //{
+                //    // Charging up throw. //
+                //    ThrowTimer();
+                //}
+                //if (Input.GetMouseButtonUp(0))
+                //{
+                //    ThrowItem(ThrowCharge.SUPER_WEAK);
+                //}
+
+
+                // Charging up throw. //
+                ThrowTimer();
+                if (Input.GetMouseButtonDown(1))
                 {
                     ThrowItem(ThrowCharge.SUPER_WEAK);
                 }
+
                 break;
 
             case PlayerState.LOOKING_AT_SWITCH:
@@ -537,10 +546,17 @@ public class MouseLook : MonoBehaviour
             case CameraMode.FPS_CONTROL:
                 CameraLookFPS();
                 CheckHandReturn();
-                if ((Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(0)) && isHoldingItem == true)
+
+                //if ((Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(0)) && isHoldingItem == true)
+                //{
+                //    ThrowItem(currentThrowCharge);
+                //}
+
+                if (Input.GetMouseButtonUp(0) && isHoldingItem == true)
                 {
                     ThrowItem(currentThrowCharge);
                 }
+
                 break;
             case CameraMode.pauseMode:
                 CameraPause();
