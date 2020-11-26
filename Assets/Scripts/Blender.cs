@@ -98,7 +98,8 @@ public class Blender
 
     [Header("Blender Particles")]
     public Transform blenderParticles;
-
+    private Material blenderParticleMaterial;
+    private Material blenderParticleMaterial2;
 
     private Material blenderButtonSlider;
 
@@ -117,6 +118,17 @@ public class Blender
 
         // Initialising blenderButtonSlider material.
         blenderButtonSlider = blenderButton.GetComponent<MeshRenderer>().materials[1];
+
+        blenderParticleMaterial = blenderParticles.GetChild(0).GetComponent<Renderer>().material;
+        blenderParticleMaterial2 = blenderParticles.GetChild(1).GetComponent<Renderer>().material;
+
+
+
+
+
+        // Hiding blended particles.
+        blenderParticles.gameObject.SetActive(false);
+
 
     }
     public void BlenderUpdate()
@@ -415,12 +427,25 @@ public class Blender
 
     public void StartBlending()
     {
-        
-        SetBlenderParticle(colourManager.ConvertColour(currentBlenderIngredients[currentBlenderIngredients.Count - 1].GetComponent<Ingredient>().colour));
+        // Getting the last ingredient in the blender. //
+        Transform lastIngredient = currentBlenderIngredients[currentBlenderIngredients.Count - 1];
+        Colour lastIngredientsColour = lastIngredient.GetComponent<Ingredient>().colour;
+
+        Color newColour = colourManager.ConvertColour(lastIngredientsColour, 255);
+
+        SetBlenderParticle(newColour);
+
+
+        //blenderParticleMaterial.SetColor("_BaseColor", Color.green);
+
 
         currentBlenderState = BlenderState.BLENDING;
         SoundManager.SetSound(soundManager.blenderSource, soundManager.blendingSound, true);
         SoundManager.PlaySound(soundManager.blenderSource);
+
+
+        // Activating the particles.
+        blenderParticles.gameObject.SetActive(true);
     }
     public void Blend(Blend type)
     {
@@ -441,6 +466,9 @@ public class Blender
 
         currentBlenderState = BlenderState.JAR;
         ResetBlendProgress();
+
+        // Hiding blender particles.
+        blenderParticles.gameObject.SetActive(false);
     }
     public void SpawnBlendedIngredient(Transform oldIngredient, Blend type)
     {
@@ -505,7 +533,8 @@ public class Blender
 
     private void SetBlenderParticle(Color colorToSet)
     {
-        //blenderParticles.GetChild(0).GetComponent<Renderer>().sharedMaterial.
+        blenderParticleMaterial.SetColor("_BaseColor", colorToSet);
+        blenderParticleMaterial2.SetColor("_BaseColor", colorToSet);
     }
 
 }

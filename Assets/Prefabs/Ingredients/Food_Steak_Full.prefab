@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8713613308494193835}
   - component: {fileID: 6087548309569856554}
   - component: {fileID: 8860292115461202690}
-  - component: {fileID: -36149104495248783}
   - component: {fileID: -2419773004049244373}
+  - component: {fileID: 1548427529154728976}
   m_Layer: 8
   m_Name: Food_Steak_Full
   m_TagString: Ingredient
@@ -98,19 +98,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &-36149104495248783
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4568760741368491432}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.3191486
-  m_Center: {x: -0.00086594373, y: 0, z: 0.0045954436}
 --- !u!114 &-2419773004049244373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,3 +129,16 @@ MonoBehaviour:
     type: 3}
   blendedPrefab: {fileID: 0}
   icon: {fileID: 0}
+--- !u!65 &1548427529154728976
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568760741368491432}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3384794, y: 0.04510761, z: 0.51510644}
+  m_Center: {x: -0.0006988123, y: 0, z: 0.0037085116}

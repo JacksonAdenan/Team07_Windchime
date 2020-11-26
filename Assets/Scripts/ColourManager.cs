@@ -75,6 +75,12 @@ public class ColourManager
         return unityColour; 
 
     }
+    public Color ConvertColour(Colour normalColour, float alpha)
+    {
+        Color unityColour = new Color32(normalColour.RGBValue.r, normalColour.RGBValue.g, normalColour.RGBValue.b, (byte)alpha);
+        return unityColour;
+
+    }
     public Colour ConvertColour(Colour_Tag colourTag)
     {
         switch (colourTag)
