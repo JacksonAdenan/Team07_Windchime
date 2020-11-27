@@ -87,6 +87,7 @@ public class CookingManager : MonoBehaviour
         theOrb.Start();
         theCatcher.Start();
         theCanon.Start();
+        theVendor.Start();
         // --------------------------------------------------------------- //
 
 
@@ -118,6 +119,7 @@ public class CookingManager : MonoBehaviour
         theOrb.Update();
         theCatcher.Update();
         theCanon.Update();
+        theVendor.Update();
         // ---------------------------------------------------------------- //
       
         // Ingredient spawner update. //

@@ -30,6 +30,16 @@ public class GameManager : MonoBehaviour
     float timer = 0;
 
 
+    [Header("Entrance Door")]
+    public Transform entranceDoor;
+
+    [HideInInspector]
+    public Animator entranceDoorAnimator;
+
+
+    public bool isClosed = true;
+
+
     public static GameManager GetInstance()
     {
         if (instance == null)
@@ -44,7 +54,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentGameState = GameState.WAITING;
-        
+
+        entranceDoorAnimator = entranceDoor.GetComponent<Animator>();
     }
 
     void Awake()
@@ -98,6 +109,19 @@ public class GameManager : MonoBehaviour
         playerController.customPlayerAnimator.StartAnimation();
 
         playerMovementController.isFrozen = false;
-        
+
+
+
+        SoundManager.PlaySound(soundManager.doorSource);
+        entranceDoorAnimator.SetBool("IsOpened", true);
+        isClosed = false;
+
+    }
+
+    public void CloseDoor()
+    {
+        isClosed = true;
+        SoundManager.PlaySound(soundManager.doorSource);
+        entranceDoorAnimator.SetBool("IsOpened", false);
     }
 }

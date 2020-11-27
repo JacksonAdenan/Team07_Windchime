@@ -103,6 +103,12 @@ public class SoundManager : MonoBehaviour
     public AudioClip waterCollisionSound;
     public AudioClip objectCollisionSound;
 
+    [Header("Entrance Door Opening Sound")]
+    public AudioClip doorOpeningSound;
+
+    [HideInInspector]
+    public AudioSource doorSource;
+
 
 
     public static void PlaySound(AudioSource audioSource)
@@ -218,6 +224,11 @@ public class SoundManager : MonoBehaviour
 
         // ----------------------------- Player Source Sound Setup ----------------------------- //
         SetAudioSource(gameManager.playerController.transform.parent, out playerSource);
+        // ------------------------------------------------------------------------------------ //
+
+        // ----------------------------- Door Source Sound Setup ----------------------------- //
+        SetAudioSource(gameManager.entranceDoor, out doorSource);
+        SetSound(doorSource, doorOpeningSound, false);
         // ------------------------------------------------------------------------------------ //
 
     }

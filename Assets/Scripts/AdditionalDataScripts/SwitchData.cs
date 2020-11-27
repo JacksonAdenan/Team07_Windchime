@@ -168,6 +168,7 @@ public class SwitchData : MonoBehaviour
                     onCooldown = true;
                     SoundManager.StopPlayingSound(soundManager.capsuleVendorSource);
                     SoundManager.PlaySound(soundManager.capsuleVendorSource);
+                    cookingManager.theVendor.vendorAnimator.SetBool("IsSpawned", true);
                     gameManager.cookingManager.theVendor.SpawnCapsule();
                     break;
                 case SwitchType.MAIN_MENU_PLAY:
